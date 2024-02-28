@@ -9,12 +9,12 @@ test_that("global missing reasons load properly", {
     d = col_character(),
   )
 
-  expected_col_types <- assign_in(
-    col_types,
-    "default",
-    col_factor(
-      levels = missing_levels
-    )
+  expected_col_types <- cols(
+    a = col_logical(),
+    b = col_integer(),
+    c = col_double(),
+    d = col_character(),
+    .default = col_factor(levels = missing_levels),
   )
 
   result <- read_interlaced_csv(

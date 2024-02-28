@@ -8,7 +8,7 @@ type_convert_interlaced <- function(
   col_spec <- as.col_spec(col_types)
 
   col_types <- set_names(names(df), names(df)) |>
-    map(\(n) col_spec$cols[[n]] %||% col_spec$default)
+    lapply(\(n) col_spec$cols[[n]] %||% col_spec$default)
 
   imap(col_types, function(col_type, col_name) {
     all_na_vals <- c(col_type$na, na)
