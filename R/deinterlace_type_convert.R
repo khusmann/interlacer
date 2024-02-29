@@ -1,14 +1,14 @@
 #' @export
 deinterlace_type_convert <- function(
-    df,
+    x,
     col_types = NULL,
     na = c("", "NA"),
     ...
 ) {
   col_spec <- as.col_spec(col_types)
 
-  lapply(names(df), function(value_name) {
-    curr_column <- df[[value_name]]
+  lapply(names(x), function(value_name) {
+    curr_column <- x[[value_name]]
 
     missing_name <- to_missing_name(value_name)
 

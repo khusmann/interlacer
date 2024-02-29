@@ -82,7 +82,7 @@ read_interlaced_tsv <- function(
 }
 
 read_interlaced_helper <- function(
-  df,
+  x,
   col_types,
   col_select,
   na
@@ -92,7 +92,7 @@ read_interlaced_helper <- function(
     col_select <- expr(everything())
   }
 
-  deinterlace_type_convert(df, col_types, na) |>
+  deinterlace_type_convert(x, col_types, na) |>
     select(!!col_select) |>
     as_interlaced_df()
 }

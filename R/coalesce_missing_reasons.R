@@ -1,7 +1,7 @@
 
 #' @export
 coalesce_missing_reasons <- function(
-  df,
+  x,
   keep = c("values", "missing"),
   default_reason = getOption("default_missing_reason")
 ) {
@@ -11,9 +11,9 @@ coalesce_missing_reasons <- function(
   default_reason <- if (is.character(default_reason))
     factor(default_reason) else default_reason
 
-  for (missing_name in missing_names(df)) {
+  for (missing_name in missing_names(x)) {
     value_name <- to_value_name(missing_name)
-    if (is.null(df[[value_name]])) {
+    if (is.null(x[[value_name]])) {
       cli_abort(
         glue(
           paste(
@@ -25,12 +25,12 @@ coalesce_missing_reasons <- function(
     }
   }
 
-  lapply(value_names(df), function(value_name) {
-    values <- df[[value_name]]
+  lapply(value_names(x), function(value_name) {
+    values <- x[[value_name]]
 
     missing_name <- to_missing_name(value_name)
 
-    missing_values <- df[[missing_name]] %||%
+    missing_values <- x[[missing_name]] %||%
       if_else(is.na(values), default_reason, NA)
 
     if (keep == "values") {
