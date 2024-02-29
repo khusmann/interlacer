@@ -1,37 +1,3 @@
-
-
-#' @export
-tbl_format_setup.interlaced_df <- function(x, width, ...) {
-  setup <- NextMethod()
-  setup$interlaced_probs <- interlaced_df_problems(x)
-  setup
-}
-
-#' @export
-tbl_format_header.interlaced_df <- function(x, setup, ...) {
-  pillar::style_subtle(
-    glue("# An interlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
-  )
-}
-
-#' @export
-tbl_format_footer.interlaced_df <- function(x, setup, ...) {
-  default_footer <- NextMethod()
-
-  if (length(setup$interlaced_probs) > 0) {
-    extra <- format_bullets_raw(
-      c(
-        "x" = glue("Warning: {setup$interlaced_probs[[1]]}"),
-        "i" = glue("Run `coalesce_missing_reasons()` to fix.")
-      )
-    )
-  } else {
-    extra <- NULL
-  }
-
-  c(default_footer, extra)
-}
-
 interlaced_df <- function(x) {
   if (inherits(x, "interlaced_df")) {
     x
@@ -121,4 +87,36 @@ drop_missing_reasons <- function(x) {
   x |>
     select(all_of(value_names(x))) |>
     as_tibble()
+}
+
+#' @export
+tbl_format_setup.interlaced_df <- function(x, width, ...) {
+  setup <- NextMethod()
+  setup$interlaced_probs <- interlaced_df_problems(x)
+  setup
+}
+
+#' @export
+tbl_format_header.interlaced_df <- function(x, setup, ...) {
+  pillar::style_subtle(
+    glue("# An interlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
+  )
+}
+
+#' @export
+tbl_format_footer.interlaced_df <- function(x, setup, ...) {
+  default_footer <- NextMethod()
+
+  if (length(setup$interlaced_probs) > 0) {
+    extra <- format_bullets_raw(
+      c(
+        "x" = glue("Warning: {setup$interlaced_probs[[1]]}"),
+        "i" = glue("Run `coalesce_missing_reasons()` to fix.")
+      )
+    )
+  } else {
+    extra <- NULL
+  }
+
+  c(default_footer, extra)
 }
