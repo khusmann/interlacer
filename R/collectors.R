@@ -31,12 +31,6 @@ icol_integer <- function(na) {
 
 #' @rdname icol_logical
 #' @export
-icol_big_integer <- function(na) {
-  interlaced_collector(col_big_integer(), na)
-}
-
-#' @rdname icol_logical
-#' @export
 icol_double <- function(na) {
   interlaced_collector(col_double(), na)
 }

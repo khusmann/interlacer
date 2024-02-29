@@ -3,7 +3,6 @@
 \name{icol_logical}
 \alias{icol_logical}
 \alias{icol_integer}
-\alias{icol_big_integer}
 \alias{icol_double}
 \alias{icol_character}
 \alias{icol_factor}
@@ -16,8 +15,6 @@
 icol_logical(na)
 
 icol_integer(na)
-
-icol_big_integer(na)
 
 icol_double(na)
 
