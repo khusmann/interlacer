@@ -41,7 +41,7 @@ read_interlaced_tsv(
 )
 }
 \arguments{
-\item{file}{Either a path to a file, a connection, or literal data (either
+\item{file}{Either a path0 to a file, a connection, or literal data (either
 a single string or a raw vector).}
 
 \item{delim}{Single character used to separate fields within a record.}
@@ -50,14 +50,18 @@ a single string or a raw vector).}
 addition to the `col_*` specifiers provided by `readr`, `icol_*()`
 specifiers may be used. See `vignette("interlacer")` for more details.}
 
+\item{col_select}{Columns to include in the results. As with
+[reader::read_delim], you can use the same mini-language as
+[dplyr::select()] to refer to the columns by name.}
+
 \item{na}{Character vector of strings to interpret as missing values. These
 values will become the factor levels of the missing reason column.}
 
 \item{...}{Additional parameters to pass to `read_delim`}
 }
 \value{
-A [tibble()].with separate columns for values and missing reasons
-for each variable.
+A deinterlaced [tibble()], that is, a tibble with separate columns
+for values and missing reasonskfor each variable.
 }
 \description{
 The `read_interlaced_*()`, family of functions extend `readr`'s

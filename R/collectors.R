@@ -17,6 +17,8 @@ is_interlaced_collector <- function(x) inherits(x, "interlaced_collector")
 #' @param na Character vector of strings to interpret as column-level missing
 #' values
 #'
+#' @inheritParams readr::col_factor
+#' @inheritParams readr::col_date
 #' @export
 icol_logical = function(na) {
   interlaced_collector(col_logical(), na)

@@ -9,18 +9,21 @@
 #' (e.g. missing reasons for "col_name" are read into a column named
 #' ".col_name.")
 #'
-#' @param file 	Either a path to a file, a connection, or literal data (either
+#' @param file 	Either a path0 to a file, a connection, or literal data (either
 #' a single string or a raw vector).
 #' @param delim Single character used to separate fields within a record.
 #' @param col_types One of `NULL`, a [readr::cols()] specification, or a string. In
 #' addition to the `col_*` specifiers provided by `readr`, `icol_*()`
 #' specifiers may be used. See `vignette("interlacer")` for more details.
+#' @param col_select Columns to include in the results. As with
+#' [reader::read_delim], you can use the same mini-language as
+#' [dplyr::select()] to refer to the columns by name.
 #' @param na Character vector of strings to interpret as missing values. These
 #' values will become the factor levels of the missing reason column.
 #' @param ... Additional parameters to pass to `read_delim`
 #'
-#' @return A [tibble()].with separate columns for values and missing reasons
-#' for each variable.
+#' @return A deinterlaced [tibble()], that is, a tibble with separate columns
+#' for values and missing reasonskfor each variable.
 #'
 #' @export
 #' @examples

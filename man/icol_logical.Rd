@@ -33,6 +33,19 @@ icol_number(na)
 \arguments{
 \item{na}{Character vector of strings to interpret as column-level missing
 values}
+
+\item{levels}{Character vector of the allowed levels. When \code{levels = NULL}
+(the default), \code{levels} are discovered from the unique values of \code{x}, in
+the order in which they appear in \code{x}.}
+
+\item{ordered}{Is it an ordered factor?}
+
+\item{format}{A format specification, as described below. If set to "",
+date times are parsed as ISO8601, dates and times used the date and
+time formats specified in the \code{\link[readr:locale]{locale()}}.
+
+Unlike \code{\link[=strptime]{strptime()}}, the format specification must match
+the complete string.}
 }
 \description{
 Interlaced collector extend `readr` collector types (e.g. `col_double()`) to
