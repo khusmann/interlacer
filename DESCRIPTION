@@ -11,9 +11,14 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Imports: 
+    rlang,
     dplyr,
     readr,
-    rlang
+    cli,
+    tibble,
+    pillar,
+    purrr,
+    glue
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
