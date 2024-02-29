@@ -85,11 +85,13 @@ interlaces values with three possible missing reasons: “REFUSED”,
 As you can see, each source variable is loaded into two columns: one for
 vaild values, and the other for missing reasons. Missing reason columns
 are denoted by column names surrounded by dots (e.g. `.age.` is the
-missing reason for the `age` column).
+missing reason for the `age` column). When a value is `NA`, it always
+has a reason in the missing reason column. Similarly, when a missing
+reason is `NA`, it always has a valid value in the value column.
 
 This allows us to separately reference values and missing reasons in a
-type-safe manner. For example, if I wanted to get a breakdown of the
-mean age of respondents missing a report of their favorite color,
+tidy and type-safe manner. For example, if I wanted to get a breakdown
+of the mean age of respondents missing a report of their favorite color,
 grouped by the missing reason, it would simply be:
 
 ``` r
