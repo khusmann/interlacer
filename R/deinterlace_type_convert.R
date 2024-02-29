@@ -18,7 +18,7 @@ deinterlace_type_convert <- function(
 
     value_collector <- col_spec$cols[[value_name]] %||% col_spec$default
 
-    all_na_values <- c(value_collector$na, na)
+    all_na_values <- unique(c(value_collector$na, na))
 
     values <- if_else(curr_column %in% all_na_values, NA, curr_column)
 
