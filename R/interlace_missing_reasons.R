@@ -41,7 +41,7 @@ abort_if_interlace_df_problems <- function(df, call = caller_call()) {
 
   if (length(df_problems) > 0) {
     cli_abort(
-      c(df_problems[[1]], "i" = "Try running `coalesce_missing_reasons()`."),
+      c(df_problems[[1]], "i" = "Run `coalesce_missing_reasons()` to fix."),
       call = call
     )
   }
