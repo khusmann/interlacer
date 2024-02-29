@@ -4,10 +4,10 @@ tbl_format_footer.interlaced_df <- function(x, setup, ...) {
   probs <- interlaced_df_problems(x)
 
   if (length(probs) > 0) {
-    style_subtle(
+    format_bullets_raw(
       c(
-        glue("{symbol$cross} Warning: {probs[[1]]}"),
-        glue("{symbol$info} Run `coalesce_missing_reasons()` to fix.")
+        "x" = glue("Warning: {probs[[1]]}"),
+        "i" = glue("Run `coalesce_missing_reasons()` to fix.")
       )
     )
   }
