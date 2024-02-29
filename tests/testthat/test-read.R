@@ -82,3 +82,38 @@ test_that("column-level missing reasons can be specified with icol_*", {
 
   expect_equal(result_raw, interlace_missing_reasons(result))
 })
+
+
+test_that("col_select correctly selects columns", {
+  missing_levels <- c("REASON_1", "REASON_2", "REASON_3")
+
+  col_types <- cols(
+    a = col_logical(),
+    b = col_integer(),
+    c = col_double(),
+    d = col_character(),
+  )
+
+  expected_col_types <- cols(
+    a = col_logical(),
+    .default = col_factor(levels = missing_levels),
+  )
+
+  result <- read_interlaced_csv(
+    test_path("basic-df.csv"),
+    na = missing_levels,
+    col_types = col_types,
+    col_select = a,
+  ) |>
+    as_tibble()
+
+  result_expected <- read_csv(
+    test_path("basic-df.expected.csv"),
+    na = "NA",
+    col_types = expected_col_types,
+    col_select = c(a, .a.),
+  )
+
+  expect_equal(result, result_expected)
+
+})
