@@ -1,12 +1,12 @@
 
 
 #' @export
-interlace_columns <- function(df) {
+interlace_missing_reasons <- function(df) {
   call = current_call()
 
   cli_abort_helper <- function(msg) {
     cli_abort(
-      c(msg, "i" = "Try running `collect_missing()`."), call = call
+      c(msg, "i" = "Try running `coalesce_missing_reasons()`."), call = call
     )
   }
 

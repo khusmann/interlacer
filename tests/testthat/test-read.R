@@ -30,6 +30,13 @@ test_that("global missing reasons load properly", {
   )
 
   expect_equal(result, result_expected)
+
+  result_raw <- read_csv(
+    test_path("basic-df.csv"),
+    col_types = cols(.default = "c")
+  )
+
+  expect_equal(result_raw, interlace_missing_reasons(result))
 })
 
 
@@ -71,5 +78,5 @@ test_that("column-level missing reasons can be specified with col_interlaced_*",
     col_types = cols(.default = "c")
   )
 
-  expect_equal(result_raw, interlace_columns(result))
+  expect_equal(result_raw, interlace_missing_reasons(result))
 })

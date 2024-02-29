@@ -3,7 +3,7 @@ test_that("nop if no changes are necessary", {
     a = c(1, NA),
     .a. = factor(c(NA, "UNKNOWN_REASON"))
   ) |>
-    collect_missing()
+    coalesce_missing_reasons()
 
   expect_equal(
     result, result
@@ -15,7 +15,7 @@ test_that("new missing value reasons make values disappear", {
     a = c(1, 2),
     .a. = factor(c(NA, "UNKNOWN_REASON"))
   ) |>
-    collect_missing()
+    coalesce_missing_reasons()
 
   expected <- tibble(
     a = c(1, NA),
@@ -30,7 +30,7 @@ test_that("missing (missing value) reasons result in default reason", {
     a = c(1, NA),
     .a. = factor(c(NA, NA))
   ) |>
-    collect_missing()
+    coalesce_missing_reasons()
 
   expected <- tibble(
     a = c(1, NA),

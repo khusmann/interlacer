@@ -1,10 +1,13 @@
 
 #' @export
-collect_missing <- function(
+coalesce_missing_reasons <- function(
   df,
   default_reason = getOption("default_missing_reason")
 ) {
-  default_reason <- default_reason %||% factor("UNKNOWN_REASON")
+  default_reason <- default_reason %||% "UNKNOWN_REASON"
+
+  default_reason <- if (is.character(default_reason))
+    factor(default_reason) else default_reason
 
   lapply(value_names(df), function(value_name) {
     values <- df[[value_name]]
