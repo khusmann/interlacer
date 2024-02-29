@@ -1,29 +1,31 @@
-Package: interlacer
 Type: Package
+Package: interlacer
 Title: Read Tabular Data With Interlaced Values And Missing Reasons
 Version: 0.1.0
-Author: Kyle D. Husmann <kdh38@psu.edu>
-Maintainer: Kyle D. Husmann <kdh38@psu.edu>
-Description: Tabular data sources often encode values and missing
-    reasons into the same textual column. This packages loads such data and
-    deinterlaces the tabular source into a dataframe with two columns per 
-    variable: one for values, and one for missing reasons. This representation
-    provides a tidy and typesafe interface for working with values and missing 
-    reasons in R.
+Authors@R: 
+    person("Kyle D.", "Husmann", , "kdh38@psu.edu", role = c("aut", "cre"))
+Description: Textual tabular data sources often encode values and missing
+    reasons into the same texkual column. This packages loads such data
+    and deinterlaces the tabular source into a dataframe with two columns
+    per variable: one for values, and one for missing reasons. This
+    representation provides a tidy and typesafe interface for working with
+    values and missing reasons in R.
 License: Apache License (>= 2)
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.2.3
+Depends:
+    R (>= 4.1.0)
 Imports: 
-    rlang,
-    dplyr,
-    readr,
     cli,
-    tibble,
+    dplyr,
+    glue,
     pillar,
     purrr,
-    glue,
+    readr,
+    rlang,
+    tibble,
     tidyselect
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
