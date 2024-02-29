@@ -59,8 +59,8 @@ family of functions:
 - `read_interlaced_delim()`
 
 The following example loads a sample file bundled with interlacer that
-interlaces values with three possible missing reasons: “REFUSED”,
-“OMITTED”, and “N/A”.
+interlaces values with three possible missing reasons: `REFUSED`,
+`OMITTED`, and `N/A`.
 
 ``` r
 (ex <- read_interlaced_csv(
