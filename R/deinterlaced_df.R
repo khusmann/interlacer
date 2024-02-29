@@ -80,13 +80,6 @@ abort_if_deinterlace_df_problems <- function(x, call = caller_call()) {
 }
 
 #' @export
-drop_missing_reasons <- function(x) {
-  x |>
-    select(all_of(value_names(x))) |>
-    as_tibble()
-}
-
-#' @export
 tbl_format_setup.deinterlaced_df <- function(x, width, ...) {
   setup <- NextMethod()
   setup$interlaced_probs <- deinterlaced_df_problems(x)

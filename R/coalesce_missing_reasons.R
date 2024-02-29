@@ -1,4 +1,29 @@
-
+#' Coalesce missing reasons in a dataframe
+#'
+#' @description
+#'
+#' Mutations of deinterlaced data frames can result in variables that either
+#' have both values and missing reasons, or no values and no missing reasons.
+#' `coalesce_missing_reasons()` takes care of both situations. In the case where
+#' there is both a value and missing reason, it will choose which to keep based
+#' on the `keep` paramter. In case where no value or missing reason exists, it
+#' will fill the missing reason with the `default_reason` parameter.
+#'
+#' Mutations can also create new value columns without companion missing reason
+#' columns. In that case, a new missing reason will be created and filled with
+#' `default_reason` wherever there are missing values in the value column. (
+#' This behavior can also be used to stub missing reason columns for value-only
+#' dataframes)
+#'
+#' @param x A dataframe
+#' @param keep When a variable has both a value and missing reason, choose which
+#' to keep. (A properly formed deinterlaced dataframe has values OR missing
+#' reasons)
+#' @param default_reason When a variable is missing a value and a missing
+#' reason, the default missing reason to fill in.
+#'
+#' @return A deinterlaced tibble.
+#'
 #' @export
 coalesce_missing_reasons <- function(
   x,
