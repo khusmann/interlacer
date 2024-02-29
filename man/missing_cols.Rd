@@ -3,7 +3,7 @@
 \name{missing_cols}
 \alias{missing_cols}
 \alias{value_cols}
-\title{Selection helpers for interlaced tibbles}
+\title{Selection helpers for deinterlaced dataframes}
 \usage{
 missing_cols(vars = NULL)
 
@@ -11,7 +11,7 @@ value_cols(vars = NULL)
 }
 \description{
 These tidy selection helpers match missing reason or value columns in an
-interlaced tibble
+deinterlaced dataframe
 
 * `missing_cols()` selects missing reason columns.
 

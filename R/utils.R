@@ -1,11 +1,11 @@
-#' The names of an interlaced tibble
+#' The names of an deinterlaced dataframe
 #'
 #' @description
 #'
 #' Functions to get the names of missing reason columns or value columns in
-#' an interlaced tibble
+#' an deinterlaced dataframe
 #'
-#' @param x an interlaced tibble
+#' @param x A deinterlaced dataframe
 #' @return A vector of missing reason or value column names.
 #'
 #' @export
@@ -19,12 +19,12 @@ value_names <- function(x) {
   names(x)[is_value_name(names(x))]
 }
 
-#' Selection helpers for interlaced tibbles
+#' Selection helpers for deinterlaced dataframes
 #'
 #' @description
 #'
 #' These tidy selection helpers match missing reason or value columns in an
-#' interlaced tibble
+#' deinterlaced dataframe
 #'
 #' * `missing_cols()` selects missing reason columns.
 #'

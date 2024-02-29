@@ -3,19 +3,19 @@
 \name{missing_names}
 \alias{missing_names}
 \alias{value_names}
-\title{The names of an interlaced tibble}
+\title{The names of an deinterlaced dataframe}
 \usage{
 missing_names(x)
 
 value_names(x)
 }
 \arguments{
-\item{x}{an interlaced tibble}
+\item{x}{A deinterlaced dataframe}
 }
 \value{
 A vector of missing reason or value column names.
 }
 \description{
 Functions to get the names of missing reason columns or value columns in
-an interlaced tibble
+an deinterlaced dataframe
 }
