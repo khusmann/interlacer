@@ -21,7 +21,7 @@ sources into two separate columns: One containing the variable’s values,
 the other containing its missing reasons. As it turns out, this form
 gives us an extremely powerful and expressive way to simultaneously work
 with values and missing reasons, as described in
-`vignette("interlacer")`G. (TLDR: It allows us to interact with the
+`vignette("interlacer")`. (TLDR: It allows us to interact with the
 variable as a type-safe [`Result`
 type](https://en.wikipedia.org/wiki/Result_type), an abstraction often
 found in functional programming)
