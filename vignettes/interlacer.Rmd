@@ -18,3 +18,9 @@ knitr::opts_chunk$set(
 library(interlacer)
 ```
 
+Unfortunately, when these are loaded into R with 
+functions like `readr::read_csv()` these all become `NA` values and lose the
+missing reason. If you want to create samples or calculate statistics connected
+to the *reasons* values are missing, you're forced to load your data as raw
+character columns and do a bunch of manual string operations to obtain the
+information you want.

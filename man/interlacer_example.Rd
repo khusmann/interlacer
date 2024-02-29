@@ -15,5 +15,5 @@ directory. This function make them easy to access
 }
 \examples{
 interlacer_example()
-interlacer_example("basic.csv")
+interlacer_example("colors.csv")
 }

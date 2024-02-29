@@ -7,7 +7,7 @@
 #' @export
 #' @examples
 #' interlacer_example()
-#' interlacer_example("basic.csv")
+#' interlacer_example("colors.csv")
 interlacer_example <- function(file = NULL) {
   if (is.null(file)) {
     dir(system.file("extdata", package = "interlacer"))
