@@ -66,10 +66,9 @@ interlaced_df_problems <- function(x) {
   })
 
   value_probs <- lapply(value_names(x), function(value_name) {
-    values <- x[[value_name]]
     missing_name <- to_missing_name(value_name)
 
-    if (is.null(x[[missing_name]])) {
+    if (!(missing_name %in% names(x))) {
       return(
         glue(
           paste(
@@ -80,9 +79,9 @@ interlaced_df_problems <- function(x) {
       )
     }
 
-    missing_values <- x[[missing_name]]
-
-    if (any(is.na(values) & is.na(missing_values))) {
+    # This check is surprisingly expensive!
+    # Consider writing a native function here to speed things up
+    if (any(is.na(x[[value_name]]) & is.na(x[[missing_name]]))) {
       return(
         glue(
           "Column `{value_name}` has rows without values or missing reasons"
@@ -90,7 +89,9 @@ interlaced_df_problems <- function(x) {
       )
     }
 
-    if (any(!is.na(values) & !is.na(missing_values))) {
+    # This check is surprisingly expensive!
+    # Consider writing a native function here to speed things up
+    if (any(!is.na(x[[value_name]]) & !is.na(x[[missing_name]]))) {
       return(
         glue(
           "Column `{value_name}` has rows with both values and missing reasons",
