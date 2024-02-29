@@ -18,7 +18,8 @@ Imports:
     tibble,
     pillar,
     purrr,
-    glue
+    glue,
+    tidyselect
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

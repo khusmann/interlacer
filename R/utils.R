@@ -30,3 +30,13 @@ missing_names <- function(df) {
 value_names <- function(df) {
   names(df)[is_value_name(names(df))]
 }
+
+#' @export
+missing_cols <- function(vars = peek_vars(fn = "missing_cols")) {
+  vars[is_missing_name(vars)]
+}
+
+#' @export
+value_cols <- function(vars = peek_vars(fn = "value_cols")) {
+  vars[is_value_name(vars)]
+}

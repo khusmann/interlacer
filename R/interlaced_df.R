@@ -21,7 +21,7 @@ tbl_format_footer.interlaced_df <- function(x, setup, ...) {
   if (length(setup$interlaced_probs) > 0) {
     extra <- format_bullets_raw(
       c(
-        "x" = glue("Warning: {interlaced_probs[[1]]}"),
+        "x" = glue("Warning: {setup$interlaced_probs[[1]]}"),
         "i" = glue("Run `coalesce_missing_reasons()` to fix.")
       )
     )

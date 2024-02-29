@@ -5,6 +5,10 @@ deinterlace_type_convert <- function(
     na = c("", "NA"),
     ...
 ) {
+  # I thought about adding an `na_labels` to this API, but decided against it
+  # because col_factor() doesn't provide `labels`. It's probably because it's
+  # considered better to explicitly `fct_recode` instead.
+
   col_spec <- as.col_spec(col_types)
 
   lapply(names(x), function(value_name) {
