@@ -13,7 +13,7 @@
 #'
 #' @export
 interlace_missing_reasons <- function(x) {
-  abort_if_interlace_df_problems(x)
+  abort_if_deinterlace_df_problems(x)
 
   # TODO: this is another function that would benefit from native speedup
 

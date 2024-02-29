@@ -1,22 +1,22 @@
-interlaced_df <- function(x) {
-  if (inherits(x, "interlaced_df")) {
+deinterlaced_df <- function(x) {
+  if (inherits(x, "deinterlaced_df")) {
     x
   }
 
-  result <- new_tibble(x, class = "interlaced_df")
+  result <- new_tibble(x, class = "deinterlaced_df")
 
   result
 }
 
-as_interlaced_df <- function(x) {
-  interlaced_df(x)
+as_deinterlaced_df <- function(x) {
+  deinterlaced_df(x)
 }
 
-is_interlaced_df <- function(x) {
-  inherits(x, "interlaced_df")
+is_deinterlaced_df <- function(x) {
+  inherits(x, "deinterlaced_df")
 }
 
-interlaced_df_problems <- function(x) {
+deinterlaced_df_problems <- function(x) {
   missing_probs <- lapply(missing_names(x), function(missing_name) {
     value_name <- to_value_name(missing_name)
     if (is.null(x[[value_name]])) {
@@ -71,8 +71,8 @@ interlaced_df_problems <- function(x) {
   probs[is_prob]
 }
 
-abort_if_interlace_df_problems <- function(x, call = caller_call()) {
-  df_problems <- interlaced_df_problems(x)
+abort_if_deinterlace_df_problems <- function(x, call = caller_call()) {
+  df_problems <- deinterlaced_df_problems(x)
 
   if (length(df_problems) > 0) {
     cli_abort(
@@ -90,21 +90,21 @@ drop_missing_reasons <- function(x) {
 }
 
 #' @export
-tbl_format_setup.interlaced_df <- function(x, width, ...) {
+tbl_format_setup.deinterlaced_df <- function(x, width, ...) {
   setup <- NextMethod()
-  setup$interlaced_probs <- interlaced_df_problems(x)
+  setup$interlaced_probs <- deinterlaced_df_problems(x)
   setup
 }
 
 #' @export
-tbl_format_header.interlaced_df <- function(x, setup, ...) {
+tbl_format_header.deinterlaced_df <- function(x, setup, ...) {
   pillar::style_subtle(
-    glue("# An interlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
+    glue("# An deinterlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
   )
 }
 
 #' @export
-tbl_format_footer.interlaced_df <- function(x, setup, ...) {
+tbl_format_footer.deinterlaced_df <- function(x, setup, ...) {
   default_footer <- NextMethod()
 
   if (length(setup$interlaced_probs) > 0) {

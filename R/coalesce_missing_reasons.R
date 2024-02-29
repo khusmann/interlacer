@@ -54,5 +54,5 @@ coalesce_missing_reasons <- function(
   }) |>
     list_flatten() |>
     bind_cols() |>
-    as_interlaced_df()
+    as_deinterlaced_df()
 }
