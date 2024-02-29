@@ -3,7 +3,7 @@ Package: interlacer
 Title: Read Tabular Data With Interlaced Values And Missing Reasons
 Version: 0.1.0
 Authors@R: 
-    person("Kyle D.", "Husmann", , "kdh38@psu.edu", role = c("aut", "cre"))
+    person("Kyle", "Husmann", , "kdh38@psu.edu", role = c("aut", "cre"))
 Description: Textual tabular data sources often encode values and missing
     reasons into the same texkual column. This packages loads such data
     and deinterlaces the tabular source into a dataframe with two columns
