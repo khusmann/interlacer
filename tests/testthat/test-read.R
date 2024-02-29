@@ -41,10 +41,10 @@ test_that("global missing reasons load properly", {
 })
 
 
-test_that("column-level missing reasons can be specified with col_interlaced_*", {
+test_that("column-level missing reasons can be specified with icol_*", {
   col_types <- cols(
-    a = col_interlaced_logical(na = "REASON_1"),
-    b = col_interlaced_integer(na = "REASON_2"),
+    a = icol_logical(na = "REASON_1"),
+    b = icol_integer(na = "REASON_2"),
     c = col_double(),
     d = col_character(),
   )
