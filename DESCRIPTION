@@ -1,11 +1,15 @@
 Package: interlacer
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Read Tabular Data With Interlaced Values And Missing Reasons
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Kyle D. Husmann <kdh38@psu.edu>
+Maintainer: Kyle D. Husmann <kdh38@psu.edu>
+Description: Tabular data sources often encode values and missing
+    reasons into the same textual column. This packages loads such data and
+    deinterlaces the tabular source into a dataframe with two columns per 
+    variable: one for values, and one for missing reasons. This representation
+    provides a tidy and typesafe interface for working with values and missing 
+    reasons in R.
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
