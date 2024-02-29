@@ -1,30 +1,17 @@
 
-
-#' @export
-interlace_missing_reasons <- function(df) {
-  call = current_call()
-
-  cli_abort_helper <- function(msg) {
-    cli_abort(
-      c(msg, "i" = "Try running `coalesce_missing_reasons()`."), call = call
-    )
-  }
-
-  lapply(value_names(df), function(value_name) {
+interlaced_df_problems <- function(df) {
+  probs <- lapply(value_names(df), function(value_name) {
     values <- df[[value_name]]
-
     missing_name <- to_missing_name(value_name)
 
     if (is.null(df[[missing_name]])) {
-      cli_abort_helper(
-        glue("Missing column `{missing_name}` does not exist.")
-      )
+      return(glue("Missing reason column `{missing_name}` does not exist."))
     }
 
     missing_values <- df[[missing_name]]
 
     if (any(is.na(values) & is.na(missing_values))) {
-      cli_abort_helper(
+      return(
         glue(
           paste(
             "Some missing values in column `{value_name}` do not have",
@@ -35,7 +22,7 @@ interlace_missing_reasons <- function(df) {
     }
 
     if (any(!is.na(values) & !is.na(missing_values))) {
-      cli_abort_helper(
+      return(
         glue(
           paste(
             "Some non-missing values in column `{value_name}` have missing",
@@ -44,6 +31,30 @@ interlace_missing_reasons <- function(df) {
         )
       )
     }
+  })
+  is_prob <- sapply(probs, \(x) !is.null(x))
+  probs[is_prob]
+}
+
+abort_if_interlace_df_problems <- function(df, call = caller_call()) {
+  df_problems <- interlaced_df_problems(df)
+
+  if (length(df_problems) > 0) {
+    cli_abort(
+      c(df_problems[[1]], "i" = "Try running `coalesce_missing_reasons()`."),
+      call = call
+    )
+  }
+}
+
+#' @export
+interlace_missing_reasons <- function(df) {
+  abort_if_interlace_df_problems(df)
+
+  lapply(value_names(df), function(value_name) {
+    values <- df[[value_name]]
+    missing_name <- to_missing_name(value_name)
+    missing_values <- df[[missing_name]]
 
     if_else(
       is.na(missing_values),
