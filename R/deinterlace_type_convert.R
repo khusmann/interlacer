@@ -1,3 +1,19 @@
+#' Convert character columns and deinterlace missing reasons in existing data
+#' frame
+#'
+#' @description
+#'
+#' This is a simple wrapper for `readr::type_convert()` that deinterlaces
+#' missing reasons in addition to parsing values.
+#'
+#' @param x A data frame
+#' @param col_types One of `NULL`, a [readr::cols()] specification, or a string.
+#' @param na Character vector of strings to interpret as missing values.
+#' @param ... additional parameters to pass to `readr::type_convert()`
+#'
+#' @return A [tibble()].with separate columns for values and missing reasons
+#' for each variable.
+#'
 #' @export
 deinterlace_type_convert <- function(
     x,

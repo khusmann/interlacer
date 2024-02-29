@@ -46,8 +46,8 @@ a single string or a raw vector).}
 
 \item{delim}{Single character used to separate fields within a record.}
 
-\item{col_types}{One of `NULL`, a [cols()] specification, or a string. In
-addition to the `col_*` specifiers provided by `readr`, `col_interlaced_*()`
+\item{col_types}{One of `NULL`, a [readr::cols()] specification, or a string. In
+addition to the `col_*` specifiers provided by `readr`, `icol_*()`
 specifiers may be used. See `vignette("interlacer")` for more details.}
 
 \item{na}{Character vector of strings to interpret as missing values. These
@@ -56,8 +56,8 @@ values will become the factor levels of the missing reason column.}
 \item{...}{Additional parameters to pass to `read_delim`}
 }
 \value{
-A [tibble()]. If there are parsing problems, a warning will alert you.
-  You can retrieve the full details by calling [problems()] on your dataset.
+A [tibble()].with separate columns for values and missing reasons
+for each variable.
 }
 \description{
 The `read_interlaced_*()`, family of functions extend `readr`'s

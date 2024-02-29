@@ -1,3 +1,16 @@
+#' Re-interlacce a deinterlaced dataframe
+#'
+#' @description
+#'
+#' This function will take a deinterlaced dataframe and re-interlace it by
+#' combining value and misisng reason column pairs into single character
+#' columns.
+#'
+#' @param x A deinterlaced dataframe
+#'
+#' @returns An interlaced dataframe, that is, a dataframe with character columns
+#' that contain both values and missing reasons.
+#'
 #' @export
 interlace_missing_reasons <- function(x) {
   abort_if_interlace_df_problems(x)
