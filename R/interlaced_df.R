@@ -54,10 +54,7 @@ interlaced_df_problems <- function(x) {
     if (any(is.na(values) & is.na(missing_values))) {
       return(
         glue(
-          paste(
-            "Some missing values in column `{value_name}` do not have",
-            "missing reasons in `{missing_name}`."
-          )
+          "Column `{value_name}` has rows without values or missing reasons"
         )
       )
     }
@@ -65,10 +62,7 @@ interlaced_df_problems <- function(x) {
     if (any(!is.na(values) & !is.na(missing_values))) {
       return(
         glue(
-          paste(
-            "Some non-missing values in column `{value_name}` have missing",
-            "reasons in `{missing_name}`."
-          )
+          "Column `{value_name}` has rows with both values and missing reasons",
         )
       )
     }
