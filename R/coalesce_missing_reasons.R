@@ -5,11 +5,8 @@ coalesce_missing_reasons <- function(
   keep = c("values", "missing"),
   default_reason = getOption("default_missing_reason")
 ) {
-  default_reason <- default_reason %||% "UNKNOWN_REASON"
+  default_reason <- factor(default_reason %||% "UNKNOWN_REASON")
   keep <- match.arg(keep)
-
-  default_reason <- if (is.character(default_reason))
-    factor(default_reason) else default_reason
 
   for (missing_name in missing_names(x)) {
     value_name <- to_value_name(missing_name)

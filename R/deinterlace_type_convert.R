@@ -22,11 +22,8 @@ deinterlace_type_convert <- function(
 
     converted_values <- type_convert_col(values, value_collector, ...)
 
-    if (is.numeric(all_na_values)) {
-      converted_missing_values <- as.numeric(missing_values)
-    } else {
-      converted_missing_values <- factor(missing_values, levels = all_na_values)
-    }
+    # TODO: handle encoded missing values with named na args?
+    converted_missing_values <- factor(missing_values, levels = all_na_values)
 
     set_names(
       list2(converted_values, converted_missing_values),
