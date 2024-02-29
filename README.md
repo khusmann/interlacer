@@ -67,7 +67,7 @@ interlaces values with three possible missing reasons: “REFUSED”,
   interlacer_example("colors.csv"),
   na = c("REFUSED", "OMITTED", "N/A")
 ))
-#> # An deinterlaced tibble: 10 × 6
+#> # An deinterlaced tibble: 11 × 6
 #>    person_id .person_id.   age .age.   favorite_color .favorite_color.
 #>        <dbl> <fct>       <dbl> <fct>   <chr>          <fct>           
 #>  1         1 <NA>           20 <NA>    BLUE           <NA>            
@@ -79,7 +79,8 @@ interlaces values with three possible missing reasons: “REFUSED”,
 #>  7         7 <NA>           50 <NA>    <NA>           OMITTED         
 #>  8         8 <NA>           30 <NA>    YELLOW         <NA>            
 #>  9         9 <NA>           NA REFUSED <NA>           REFUSED         
-#> 10        10 <NA>           NA OMITTED RED            <NA>
+#> 10        10 <NA>           NA OMITTED RED            <NA>            
+#> 11        11 <NA>           10 <NA>    <NA>           REFUSED
 ```
 
 As you can see, each source variable is loaded into two columns: one for
@@ -98,15 +99,16 @@ grouped by the missing reason, it would simply be:
 ex |>
   summarize(
     mean_age = mean(age, na.rm=T),
+    n = n(),
     .by = .favorite_color.
   )
-#> # A tibble: 4 × 2
-#>   .favorite_color. mean_age
-#>   <fct>               <dbl>
-#> 1 <NA>                   28
-#> 2 OMITTED                40
-#> 3 N/A                     1
-#> 4 REFUSED               NaN
+#> # A tibble: 4 × 3
+#>   .favorite_color. mean_age     n
+#>   <fct>               <dbl> <int>
+#> 1 <NA>                   28     6
+#> 2 OMITTED                40     2
+#> 3 N/A                     1     1
+#> 4 REFUSED                10     2
 ```
 
 (Note that the `<NA>` category in the result refers to the mean age of

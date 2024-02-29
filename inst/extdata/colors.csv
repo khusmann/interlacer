@@ -9,3 +9,4 @@ person_id,age,favorite_color
 8,30,YELLOW
 9,REFUSED,REFUSED
 10,OMITTED,RED
+11,10,REFUSED

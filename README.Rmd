@@ -95,6 +95,7 @@ favorite color, grouped by the missing reason, it would simply be:
 ex |>
   summarize(
     mean_age = mean(age, na.rm=T),
+    n = n(),
     .by = .favorite_color.
   )
 ```
