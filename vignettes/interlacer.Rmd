@@ -2,7 +2,7 @@
 title: "Introduction to interlacer"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{interlacer}
+  %\VignetteIndexEntry{Introduction to interlacer}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
