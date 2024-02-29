@@ -21,7 +21,8 @@ test_that("global missing reasons load properly", {
     test_path("basic-df.csv"),
     na = missing_levels,
     col_types = col_types,
-  )
+  ) |>
+    as_tibble()
 
   result_expected <- read_csv(
     test_path("basic-df.expected.csv"),
@@ -63,7 +64,8 @@ test_that("column-level missing reasons can be specified with col_interlaced_*",
     test_path("basic-df.csv"),
     na = c("REASON_3"),
     col_types = col_types,
-  )
+  ) |>
+    as_tibble()
 
   result_expected <- read_csv(
     test_path("basic-df.expected.csv"),

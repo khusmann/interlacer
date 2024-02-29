@@ -20,7 +20,8 @@ test_that("new missing value reasons make values disappear when keep=missing", {
   expected <- tibble(
     a = c(1, NA),
     .a. = factor(c(NA, "UNKNOWN_REASON"))
-  )
+  ) |>
+    as_interlaced_df()
 
   expect_equal(result, expected)
 })
@@ -35,7 +36,8 @@ test_that("new missing value reasons disappear if value available", {
   expected <- tibble(
     a = c(1, 2),
     .a. = factor(c(NA, NA), levels = "UNKNOWN_REASON")
-  )
+  ) |>
+    as_interlaced_df()
 
   expect_equal(result, expected)
 })
@@ -50,7 +52,8 @@ test_that("missing (missing value) reasons result in default reason", {
   expected <- tibble(
     a = c(1, NA),
     .a. = factor(c(NA, "UNKNOWN_REASON"))
-  )
+  ) |>
+    as_interlaced_df()
 
   expect_equal(result, expected)
 })

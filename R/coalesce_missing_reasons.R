@@ -42,5 +42,6 @@ coalesce_missing_reasons <- function(
     )
   }) |>
     list_flatten() |>
-    bind_cols()
+    bind_cols() |>
+    as_interlaced_df()
 }
