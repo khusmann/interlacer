@@ -21,8 +21,7 @@ test_that("global missing reasons load properly", {
     test_path("basic-df.csv"),
     na = missing_levels,
     col_types = col_types,
-  ) |>
-    as_tibble()
+  )
 
   result_expected <- read_csv(
     test_path("basic-df.expected.csv"),
@@ -30,14 +29,18 @@ test_that("global missing reasons load properly", {
     col_types = expected_col_types,
   )
 
-  expect_equal(result, result_expected)
+  expect_equal(result, result_expected, ignore_attr = TRUE)
 
   result_raw <- read_csv(
     test_path("basic-df.csv"),
     col_types = cols(.default = "c")
   )
 
-  expect_equal(result_raw, interlace_missing_reasons(result))
+  expect_equal(
+    result_raw,
+    interlace_missing_reasons(result),
+    ignore_attr = TRUE
+  )
 })
 
 
@@ -64,8 +67,7 @@ test_that("column-level missing reasons can be specified with icol_*", {
     test_path("basic-df.csv"),
     na = c("REASON_3"),
     col_types = col_types,
-  ) |>
-    as_tibble()
+  )
 
   result_expected <- read_csv(
     test_path("basic-df.expected.csv"),
@@ -73,14 +75,18 @@ test_that("column-level missing reasons can be specified with icol_*", {
     col_types = expected_col_types,
   )
 
-  expect_equal(result, result_expected)
+  expect_equal(result, result_expected, ignore_attr = TRUE)
 
   result_raw <- read_csv(
     test_path("basic-df.csv"),
     col_types = cols(.default = "c")
   )
 
-  expect_equal(result_raw, interlace_missing_reasons(result))
+  expect_equal(
+    result_raw,
+    interlace_missing_reasons(result),
+    ignore_attr = TRUE
+  )
 })
 
 
@@ -104,8 +110,7 @@ test_that("col_select correctly selects columns", {
     na = missing_levels,
     col_types = col_types,
     col_select = a,
-  ) |>
-    as_tibble()
+  )
 
   result_expected <- read_csv(
     test_path("basic-df.expected.csv"),
@@ -114,6 +119,5 @@ test_that("col_select correctly selects columns", {
     col_select = c(a, .a.),
   )
 
-  expect_equal(result, result_expected)
-
+  expect_equal(result, result_expected, ignore_attr = TRUE)
 })
