@@ -1,20 +1,28 @@
 
+#' @export
+tbl_format_footer.interlaced_df <- function(x, setup, ...) {
+  probs <- interlaced_df_problems(x)
+
+  if (length(probs) > 0) {
+    style_subtle(
+      c(
+        glue("{symbol$cross} Warning: {probs[[1]]}"),
+        glue("{symbol$info} Run `coalesce_missing_reasons()` to fix.")
+      )
+    )
+  }
+}
+
 interlaced_df <- function(x) {
   if (inherits(x, "interlaced_df")) {
     x
   }
 
-  if (!inherits(x, "tbl_df")) {
-    cli_abort(
-      "Interlaced tibbles can only be constructed from tibbles"
-    )
-  }
+  result <- new_tibble(x, class = "interlaced_df")
 
-  abort_if_interlace_df_problems(x)
+  abort_if_interlace_df_problems(result)
 
-  class(x) <- c("interlaced_df", class(x))
-
-  x
+  result
 }
 
 as_interlaced_df <- function(x) {
