@@ -2,9 +2,11 @@
 #' @export
 coalesce_missing_reasons <- function(
   df,
+  keep = c("values", "missing"),
   default_reason = getOption("default_missing_reason")
 ) {
   default_reason <- default_reason %||% "UNKNOWN_REASON"
+  keep <- match.arg(keep)
 
   default_reason <- if (is.character(default_reason))
     factor(default_reason) else default_reason
@@ -17,13 +19,22 @@ coalesce_missing_reasons <- function(
     missing_values <- df[[missing_name]] %||%
       if_else(is.na(values), default_reason, NA)
 
-    new_values <- if_else(
-      !is.na(values) & !is.na(missing_values), NA, values
-    )
+    if (keep == "values") {
+      new_values <- values
 
-    new_missing_values <- if_else(
-      is.na(values) & is.na(missing_values), default_reason, missing_values
-    )
+      new_missing_values <- case_when(
+        !is.na(values) ~ NA,
+        !is.na(missing_values) ~ missing_values,
+        T ~ default_reason
+      )
+    } else {
+      new_values <- if_else(
+        !is.na(values) & !is.na(missing_values), NA, values
+      )
+      new_missing_values <- if_else(
+        is.na(values) & is.na(missing_values), default_reason, missing_values
+      )
+    }
 
     set_names(
       list(new_values, new_missing_values),
