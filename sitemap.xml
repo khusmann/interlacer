@@ -7,6 +7,12 @@
     <loc>http://kylehusmann.com/interlacer/LICENSE.html</loc>
   </url>
   <url>
+    <loc>http://kylehusmann.com/interlacer/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>http://kylehusmann.com/interlacer/articles/interlacer.html</loc>
+  </url>
+  <url>
     <loc>http://kylehusmann.com/interlacer/authors.html</loc>
   </url>
   <url>
@@ -29,6 +35,9 @@
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/reference/interlace_missing_reasons.html</loc>
+  </url>
+  <url>
+    <loc>http://kylehusmann.com/interlacer/reference/interlacer_example.html</loc>
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/reference/missing_cols.html</loc>

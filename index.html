@@ -46,6 +46,9 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
+  <a class="nav-link" href="articles/interlacer.html">Get started</a>
+</li>
+<li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
       </ul>
@@ -63,7 +66,78 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="interlacer">interlacer<a class="anchor" aria-label="anchor" href="#interlacer"></a>
 </h1></div>
-<p>An R package for working with labelled missingness</p>
+<div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode these missing reasons as special values <em>interlaced</em> with the valid values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reason information is lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons has traditionally required loading all variables as character vectors and doing a bunch of string operations and type conversions to make sense of them.</p>
+<p>Interlacer was created based on the insight that values and missing reasons should be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this form gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>G. (TLDR: It allows us to interact with the variable as a type-safe <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
+<p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know what you think</a>!</p>
+</div>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># The easiest way to get interlacer is to install via devtools:</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># If devtools is not already installed</span></span>
+<span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"khusmann/interlacer"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
+<p>To use interlacer, load it into your current R session:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span></code></pre></div>
+<p>interlacer supports the following file formats with these <code>read_interlaced_*()</code> functions, which extend the <code>readr::read_*()</code> family of functions:</p>
+<ul>
+<li><code><a href="reference/read_interlaced_delim.html">read_interlaced_csv()</a></code></li>
+<li><code><a href="reference/read_interlaced_delim.html">read_interlaced_tsv()</a></code></li>
+<li><code><a href="reference/read_interlaced_delim.html">read_interlaced_csv2()</a></code></li>
+<li><code><a href="reference/read_interlaced_delim.html">read_interlaced_delim()</a></code></li>
+</ul>
+<p>The following example loads a sample file bundled with interlacer that interlaces values with three possible missing reasons: “REFUSED”, “OMITTED”, and “N/A”.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # An deinterlaced tibble: 10 × 6</span></span>
+<span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;        &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;          &lt;fct&gt;           </span></span>
+<span><span class="co">#&gt;  1         1 &lt;NA&gt;           20 &lt;NA&gt;    BLUE           &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  2         2 &lt;NA&gt;           NA REFUSED BLUE           &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  3         3 &lt;NA&gt;           21 &lt;NA&gt;    RED            &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  4         4 &lt;NA&gt;           30 &lt;NA&gt;    &lt;NA&gt;           OMITTED         </span></span>
+<span><span class="co">#&gt;  5         5 &lt;NA&gt;            1 &lt;NA&gt;    &lt;NA&gt;           N/A             </span></span>
+<span><span class="co">#&gt;  6         6 &lt;NA&gt;           41 &lt;NA&gt;    RED            &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  7         7 &lt;NA&gt;           50 &lt;NA&gt;    &lt;NA&gt;           OMITTED         </span></span>
+<span><span class="co">#&gt;  8         8 &lt;NA&gt;           30 &lt;NA&gt;    YELLOW         &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  9         9 &lt;NA&gt;           NA REFUSED &lt;NA&gt;           REFUSED         </span></span>
+<span><span class="co">#&gt; 10        10 &lt;NA&gt;           NA OMITTED RED            &lt;NA&gt;</span></span></code></pre></div>
+<p>As you can see, each source variable is loaded into two columns: one for vaild values, and the other for missing reasons. Missing reason columns are denoted by column names surrounded by dots (e.g. <code>.age.</code> is the missing reason for the <code>age</code> column).</p>
+<p>This allows us to separately reference values and missing reasons in a type-safe manner. For example, if I wanted to get a breakdown of the mean age of respondents missing a report of their favorite color, grouped by the missing reason, it would simply be:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">.favorite_color.</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 2</span></span>
+<span><span class="co">#&gt;   .favorite_color. mean_age</span></span>
+<span><span class="co">#&gt;   &lt;fct&gt;               &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 &lt;NA&gt;                   28</span></span>
+<span><span class="co">#&gt; 2 OMITTED                40</span></span>
+<span><span class="co">#&gt; 3 N/A                     1</span></span>
+<span><span class="co">#&gt; 4 REFUSED               NaN</span></span></code></pre></div>
+<p>(Note that the <code>&lt;NA&gt;</code> category in the result refers to the mean age of responses <em>without</em> missing color values, i.e. with valid favorite color responses).</p>
+<p>But this just scratches the surface of what can be done with interlacer… check out <code><a href="articles/interlacer.html">vignette("interlacer")</a></code> for a more complete overview!</p>
+</div>
+<div class="section level2">
+<h2 id="known-issues">Known Issues<a class="anchor" aria-label="anchor" href="#known-issues"></a>
+</h2>
+<p>Large dataframes (many columns &amp; rows) run slowly with interlacer! This is because the current implementation is written entirely in R. There are a few key places (noted in the source) that would extremely benefit from a native implementation, and make the library much more snappy. Before I invest the time in that though, I want to get enough feedback from users of this package to stabilize the current approach / API. (If you find this package useful, please <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know</a>!)</p>
+</div>
 </div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
@@ -84,7 +158,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Kyle D. Husmann <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Kyle Husmann <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
@@ -96,7 +170,7 @@
 
     <footer><div class="pkgdown-footer-left">
   <p></p>
-<p>Developed by Kyle D. Husmann.</p>
+<p>Developed by Kyle Husmann.</p>
 </div>
 
 <div class="pkgdown-footer-right">
