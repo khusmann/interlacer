@@ -5,9 +5,9 @@
 \alias{value_cols}
 \title{Selection helpers for interlaced tibbles}
 \usage{
-missing_cols(vars = peek_vars(fn = "missing_cols"))
+missing_cols(vars = NULL)
 
-value_cols(vars = peek_vars(fn = "value_cols"))
+value_cols(vars = NULL)
 }
 \description{
 These tidy selection helpers match missing reason or value columns in an
