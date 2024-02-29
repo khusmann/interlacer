@@ -30,6 +30,7 @@ value_names <- function(x) {
 #'
 #' * `value_cols()` selects value columns.
 #'
+#' @inheritParams tidyselect::starts_with
 #' @export
 missing_cols <- function(vars = NULL) {
   vars <- vars %||% peek_vars(fn = "missing_cols")

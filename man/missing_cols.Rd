@@ -9,6 +9,11 @@ missing_cols(vars = NULL)
 
 value_cols(vars = NULL)
 }
+\arguments{
+\item{vars}{A character vector of variable names. If not supplied,
+the variables are taken from the current selection context (as
+established by functions like \code{select()} or \code{pivot_longer()}).}
+}
 \description{
 These tidy selection helpers match missing reason or value columns in an
 deinterlaced dataframe
