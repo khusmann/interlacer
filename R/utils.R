@@ -1,3 +1,47 @@
+#' The names of an interlaced tibble
+#'
+#' @description
+#'
+#' Functions to get the names of missing reason columns or value columns in
+#' an interlaced tibble
+#'
+#' @param x an interlaced tibble
+#' @return A vector of missing reason or value column names.
+#'
+#' @export
+missing_names <- function(x) {
+  names(x)[is_missing_name(names(x))]
+}
+
+#' @rdname missing_names
+#' @export
+value_names <- function(x) {
+  names(x)[is_value_name(names(x))]
+}
+
+#' Selection helpers for interlaced tibbles
+#'
+#' @description
+#'
+#' These tidy selection helpers match missing reason or value columns in an
+#' interlaced tibble
+#'
+#' * `missing_cols()` selects missing reason columns.
+#'
+#' * `value_cols()` selects value columns.
+#'
+#' @export
+missing_cols <- function(vars = NULL) {
+  vars <- vars %||% peek_vars(fn = "missing_cols")
+  vars[is_missing_name(vars)]
+}
+
+#' @rdname missing_cols
+#' @export
+value_cols <- function(vars = NULL) {
+  vars <- vars %||% peek_vars(fn = "value_cols")
+  vars[is_value_name(vars)]
+}
 
 to_missing_name <- function(x) {
   if (!all(is_value_name(x))) {
@@ -21,22 +65,3 @@ is_value_name <- function(x) {
   !is_missing_name(x)
 }
 
-#' @export
-missing_names <- function(df) {
-  names(df)[is_missing_name(names(df))]
-}
-
-#' @export
-value_names <- function(df) {
-  names(df)[is_value_name(names(df))]
-}
-
-#' @export
-missing_cols <- function(vars = peek_vars(fn = "missing_cols")) {
-  vars[is_missing_name(vars)]
-}
-
-#' @export
-value_cols <- function(vars = peek_vars(fn = "value_cols")) {
-  vars[is_value_name(vars)]
-}

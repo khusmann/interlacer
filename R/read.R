@@ -8,6 +8,7 @@
 #' by taking the value column name and surrounding it by dots
 #' (e.g. missing reasons for "col_name" are read into a column named
 #' ".col_name.")
+#'
 #' @param file 	Either a path to a file, a connection, or literal data (either
 #' a single string or a raw vector).
 #' @param delim Single character used to separate fields within a record.
