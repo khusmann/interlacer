@@ -11,6 +11,20 @@ coalesce_missing_reasons <- function(
   default_reason <- if (is.character(default_reason))
     factor(default_reason) else default_reason
 
+  for (missing_name in missing_names(df)) {
+    value_name <- to_value_name(missing_name)
+    if (is.null(df[[value_name]])) {
+      cli_abort(
+        glue(
+          paste(
+            "Column `{missing_name}` implies `{value_name}` should exist, but",
+            "`{value_name}` not found."
+          )
+        )
+      )
+    }
+  }
+
   lapply(value_names(df), function(value_name) {
     values <- df[[value_name]]
 

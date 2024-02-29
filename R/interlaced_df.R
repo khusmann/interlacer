@@ -37,7 +37,14 @@ interlaced_df_problems <- function(x) {
   missing_probs <- lapply(missing_names(x), function(missing_name) {
     value_name <- to_value_name(missing_name)
     if (is.null(x[[value_name]])) {
-      return(glue("Value column `{value_name}` does not exist."))
+      return(
+        glue(
+          paste(
+            "Column `{missing_name}` implies `{value_name}` should exist, but",
+            "`{value_name}` not found."
+          )
+        )
+      )
     }
   })
 
@@ -46,7 +53,14 @@ interlaced_df_problems <- function(x) {
     missing_name <- to_missing_name(value_name)
 
     if (is.null(x[[missing_name]])) {
-      return(glue("Missing reason column `{missing_name}` does not exist."))
+      return(
+        glue(
+          paste(
+            "Column `{value_name}` implies `{missing_name}` should exist, but",
+            "`{missing_name}` not found."
+          )
+        )
+      )
     }
 
     missing_values <- x[[missing_name]]
