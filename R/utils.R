@@ -30,7 +30,3 @@ missing_names <- function(df) {
 value_names <- function(df) {
   names(df)[is_value_name(names(df))]
 }
-
-imap <- function(x, fn) {
-  lapply(seq_along(x), \(i) fn(x[[i]], names(x)[[i]]))
-}

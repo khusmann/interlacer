@@ -1,8 +1,14 @@
 
 #' @export
-collect_missing <- function(df, default = factor("UNSPECIFIED_REASON")) {
+collect_missing <- function(
+  df,
+  default_reason = getOption("default_missing_reason")
+) {
+  default_reason <- default_reason %||% factor("UNSPECIFIED_REASON")
+
   lapply(value_names(df), function(value_name) {
     values <- df[[value_name]]
+
     missing_name <- to_missing_name(value_name)
 
     missing_values <- df[[missing_name]] %||%

@@ -92,6 +92,6 @@ read_interlaced_helper <- function(
     col_select <- expr(everything())
   }
 
-  type_convert_interlaced(df, col_types, na) |>
+  interlaced_type_convert(df, col_types, na) |>
     select(!!col_select)
 }

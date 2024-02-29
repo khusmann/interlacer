@@ -1,5 +1,5 @@
 #' @export
-type_convert_interlaced <- function(
+interlaced_type_convert <- function(
     df,
     col_types = NULL,
     na = c("", "NA"),
@@ -7,44 +7,33 @@ type_convert_interlaced <- function(
 ) {
   col_spec <- as.col_spec(col_types)
 
-  col_types <- set_names(names(df), names(df)) |>
-    lapply(\(n) col_spec$cols[[n]] %||% col_spec$default)
+  lapply(names(df), function(value_name) {
+    curr_column <- df[[value_name]]
 
-  imap(col_types, function(col_type, col_name) {
-    all_na_vals <- c(col_type$na, na)
+    missing_name <- to_missing_name(value_name)
 
-    df_converted <- df |>
-      transmute(
-        across(
-          all_of(col_name),
-          \(x) if_else(x %in% all_na_vals, NA_character_, x)
-        )
-      ) %>%
-      type_convert(
-        col_types = set_names(list(col_type), col_name)
-      )
+    value_collector <- col_spec$cols[[value_name]] %||% col_spec$default
 
-    df_missing <- df |>
-      transmute(
-        across(
-          all_of(col_name),
-          \(x) if_else(x %in% all_na_vals, x, NA_character_)
-        ),
-        across(
-          all_of(col_name),
-          \(x) factor(x, levels = all_na_vals)
-        )
-      ) %>%
-      rename_with(
-        \(n) paste0(".", n, ".")
-      )
+    all_na_values <- c(value_collector$na, na)
 
-    bind_cols(
-      df_converted,
-      df_missing,
+    values <- if_else(curr_column %in% all_na_values, NA, curr_column)
+
+    missing_values <- if_else(curr_column %in% all_na_values, curr_column, NA)
+
+    set_names(
+      list2(
+        type_convert_col(values, value_collector),
+        factor(missing_values, levels = all_na_values),
+      ),
+      c(value_name, missing_name)
     )
   }) |>
+    list_flatten() |>
     bind_cols()
+}
+
+type_convert_col <- function(x, col, ...) {
+  type_convert(tibble(x), col_types = cols(x = col), ...)$x
 }
 
 #' @export
