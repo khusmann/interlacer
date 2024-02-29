@@ -2,10 +2,7 @@ deinterlaced_df <- function(x) {
   if (inherits(x, "deinterlaced_df")) {
     x
   }
-
-  result <- new_tibble(x, class = "deinterlaced_df")
-
-  result
+  new_tibble(x, class = "deinterlaced_df")
 }
 
 as_deinterlaced_df <- function(x) {
