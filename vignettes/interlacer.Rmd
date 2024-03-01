@@ -168,7 +168,7 @@ df_deinterlaced |>
 
 With separate columns, we can combine value conditions with missing reason
 conditions. For example, this will select everyone who `REFUSED` to give
-their favorite color, who were over 20 years old:
+their favorite color, and was over 20 years old:
 
 ```{r}
 df_deinterlaced |>
@@ -177,12 +177,12 @@ df_deinterlaced |>
 
 After we've created our sample, and are ready to start analyzing our data,
 we typically don't need to keep the missing reasons around anymore. Interlacer
-provides a convenient `drop_missing_reasons()` function to take care of this:
+provides a convenient `drop_missing_cols()` function to take care of this:
 
 ```{r}
 df_deinterlaced |>
   filter(.age. == "REFUSED") |>
-  drop_missing_reasons()
+  drop_missing_cols()
 ```
 
 ## Next steps

@@ -70,17 +70,25 @@ is_value_name <- function(x) {
 #'
 #' @description
 #'
-#' Drop the missing reason columns from a deinterlaced dataframe, turning it
-#' into a regular dataframe with unlabelled `NA` values.
+#' Drop the missing reason or value columns from a deinterlaced dataframe,
+#' turning it into a regular dataframe with unlabelled `NA` values.
 #'
 #' @param x A data frame
 #'
 #' @return A tibble without missing reason columns.
 #'
 #' @export
-drop_missing_reasons <- function(x) {
+drop_missing_cols <- function(x) {
   x |>
-    select(all_of(value_names(x))) |>
+    select(missing_cols()) |>
+    as_tibble()
+}
+
+#' @rdname drop_missing_cols
+#' @export
+drop_value_cols <- function(x) {
+  x |>
+    select(value_cols()) |>
     as_tibble()
 }
 
