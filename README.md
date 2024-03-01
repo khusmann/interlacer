@@ -6,23 +6,23 @@
 ## Overview
 
 When a value is missing in your data, sometimes you want to know *why*
-it is missing. Many textual tabular data sources will encode these
-missing reasons as special values *interlaced* with the valid values in
-a column (e.g. `N/A`, `REFUSED`, `-99`, etc.). Unfortunately, the
-missing reason information is lost when these values are all converted
-into a single `NA` type. Working with missing reasons has traditionally
-required loading all variables as character vectors and doing a bunch of
-string operations and type conversions to make sense of them.
+it is missing. Many textual tabular data sources will encode missing
+reasons as special values *interlaced* with the valid values in a column
+(e.g. `N/A`, `REFUSED`, `-99`, etc.). Unfortunately, the missing reason
+information is lost when these values are all converted into a single
+`NA` type. Working with missing reasons has traditionally required
+loading all variables as character vectors and doing a bunch of string
+operations and type conversions to make sense of them.
 
 Interlacer was created based on the insight that values and missing
 reasons should be handled as separate *channels* of the same variable.
 Interlacer provides functions that load variables from interlaced data
 sources into two separate columns: One containing the variable’s values,
-the other containing its missing reasons. As it turns out, this form
-gives us an extremely powerful and expressive way to simultaneously work
-with values and missing reasons, as described in
-`vignette("interlacer")`. (TLDR: It allows us to interact with the
-variable as a type-safe [`Result`
+the other containing its missing reasons. As it turns out, this
+structure gives us an extremely powerful and expressive way to
+simultaneously work with values and missing reasons in tidy pipelines,
+as described in `vignette("interlacer")`. (tldr: It allows us to
+interact with a variable as a [`Result`
 type](https://en.wikipedia.org/wiki/Result_type), an abstraction often
 found in functional programming)
 
@@ -91,7 +91,7 @@ has a reason in the missing reason column. Similarly, when a missing
 reason is `NA`, it always has a valid value in the value column.
 
 This allows us to separately reference values and missing reasons in a
-tidy and type-safe manner. For example, if I wanted to get a breakdown
+tidy and type-aware manner. For example, if I wanted to get a breakdown
 of the mean age of respondents missing a report of their favorite color,
 grouped by the missing reason, it would simply be:
 
