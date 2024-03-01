@@ -195,7 +195,7 @@ and filtering pipelines that can simultaneously consider a variable's value
 AND missing reasons.
 
 That's all well and good, but what happens when we want to make modifications
-to our dataframe? What if we want to add variables to our dataframe, replace
+to our data? What if we want to add variables to our dataframe, replace
 values with missing reasons, or missing reasons with values? Inevitably, we'll
 create situations where we simultaneously have a value and a missing reason,
 or neither a value nor a missing reason:
@@ -203,7 +203,9 @@ or neither a value nor a missing reason:
 ```{r}
 # Value and missing reason:
 df_deinterlaced |>
-  mutate(.age. = "REDACTED")
+  mutate(
+    .age. = "REDACTED"
+  )
 
 # No value, no missing reason:
 df_deinterlaced |>
@@ -216,5 +218,5 @@ These operations produce dataframes that don't conform to the rule of "one value
 OR missing reason per variable row". We could manually solve this by manually
 fixing the corresponding column, but as the above output hints,
 interlacer provides an easier way by way of the function
-`coalesce_missing_reasons()`. In the next vignette,
-`vignette("mutations")`, we will show how this works!
+`coalesce_missing_reasons()`. The next vignette,
+`vignette("mutations")`, will show how this works!
