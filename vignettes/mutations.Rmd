@@ -1,0 +1,28 @@
+---
+title: "Mutating Values and Missing Reasons"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Mutating Values and Missing Reasons}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(interlacer)
+```
+
+For
+for example, suppose we intended participants to choose between `RED` or
+`YELLOW` for their favorite color, and the only reason we got some `BLUE`
+responses was due to a technical error. In that case, we want to mark those
+cases as missing:
+
+But now we've created a problem: we have missing values for `favorite_color`
+that do not have corresponding `missing_reasons`! 
+
+interlacer's make it easy to load value and missing reasons from interlaced data
+sources as separate columns.
