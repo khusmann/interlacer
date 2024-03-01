@@ -15,7 +15,7 @@ variables as character vectors and doing a bunch of string operations
 and type conversions to make sense of them.
 
 Interlacer was created based on the insight that values and missing
-reasons should be handled as separate *channels* of the same variable.
+reasons can be handled as separate *channels* of the same variable.
 Interlacer provides functions that load variables from interlaced data
 sources into two separate columns: One containing the variable’s values,
 the other containing its missing reasons. As it turns out, this
@@ -120,7 +120,7 @@ check out `vignette("interlacer")` for a more complete overview!
 
 ## Known Issues
 
-Large dataframes (many columns & rows) run slowly with interlacer! This
+Large dataframes (many columns & rows) run slowly with interlacer. This
 is because the current implementation is written entirely in R. There
 are a few key places (noted in the source) that would extremely benefit
 from a native implementation, and make the library much more snappy.
