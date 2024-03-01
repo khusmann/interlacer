@@ -7,12 +7,12 @@
 
 When a value is missing in your data, sometimes you want to know *why*
 it is missing. Many textual tabular data sources will encode missing
-reasons as special values *interlaced* with the valid values in a column
-(e.g. `N/A`, `REFUSED`, `-99`, etc.). Unfortunately, the missing reasons
-are lost when these values are all converted into a single `NA` type.
-Working with missing reasons has traditionally required loading all
-variables as character vectors and doing a bunch of string operations
-and type conversions to make sense of them.
+reasons as special values *interlaced* with the regular values in a
+column (e.g. `N/A`, `REFUSED`, `-99`, etc.). Unfortunately, the missing
+reasons are lost when these values are all converted into a single `NA`
+type. Working with missing reasons has traditionally required loading
+all variables as character vectors and doing a bunch of string
+operations and type conversions to make sense of them.
 
 Interlacer was created based on the insight that values and missing
 reasons can be handled as separate *channels* of the same variable.
@@ -88,7 +88,7 @@ vaild values, and the other for missing reasons. Missing reason columns
 are denoted by column names surrounded by dots (e.g. `.age.` is the
 missing reason for the `age` column). When a value is `NA`, it always
 has a reason in the missing reason column. Similarly, when a missing
-reason is `NA`, it always has a valid value in the value column.
+reason is `NA`, it always has a value in the value column.
 
 This allows us to separately reference values and missing reasons in a
 tidy and type-aware manner. For example, if I wanted to get a breakdown
@@ -112,8 +112,8 @@ ex |>
 ```
 
 (Note that the `<NA>` category in the result refers to the mean age of
-responses *without* missing color values, i.e. with valid favorite color
-responses).
+responses *without* missing color values, i.e. with available favorite
+color responses).
 
 But this just scratches the surface of what can be done with interlacer…
 check out `vignette("interlacer")` for a more complete overview!
