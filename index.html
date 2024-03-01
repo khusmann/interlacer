@@ -12,6 +12,12 @@
     representation provides a tidy and typesafe interface for working with
     values and missing reasons in R.">
 <title>Read Tabular Data With Interlaced Values And Missing Reasons • interlacer</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -23,6 +29,7 @@
     per variable: one for values, and one for missing reasons. This
     representation provides a tidy and typesafe interface for working with
     values and missing reasons in R.">
+<meta property="og:image" content="http://kylehusmann.com/interlacer/logo.svg">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -64,13 +71,15 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="interlacer">interlacer<a class="anchor" aria-label="anchor" href="#interlacer"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.svg" class="logo" alt=""><h1 id="interlacer-">interlacer <a class="anchor" aria-label="anchor" href="#interlacer-"></a>
+</h1>
+</div>
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode these missing reasons as special values <em>interlaced</em> with the valid values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reason information is lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons has traditionally required loading all variables as character vectors and doing a bunch of string operations and type conversions to make sense of them.</p>
-<p>Interlacer was created based on the insight that values and missing reasons should be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this form gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (TLDR: It allows us to interact with the variable as a type-safe <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
+<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the valid values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons has traditionally required loading all variables as character vectors and doing a bunch of string operations and type conversions to make sense of them.</p>
+<p>Interlacer was created based on the insight that values and missing reasons should be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this structure gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons in tidy pipelines, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (tldr: It allows us to interact with a variable as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
 <p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know what you think</a>!</p>
 </div>
 <div class="section level2">
@@ -117,7 +126,7 @@
 <span><span class="co">#&gt; 10        10 &lt;NA&gt;           NA OMITTED RED            &lt;NA&gt;            </span></span>
 <span><span class="co">#&gt; 11        11 &lt;NA&gt;           10 &lt;NA&gt;    &lt;NA&gt;           REFUSED</span></span></code></pre></div>
 <p>As you can see, each source variable is loaded into two columns: one for vaild values, and the other for missing reasons. Missing reason columns are denoted by column names surrounded by dots (e.g. <code>.age.</code> is the missing reason for the <code>age</code> column). When a value is <code>NA</code>, it always has a reason in the missing reason column. Similarly, when a missing reason is <code>NA</code>, it always has a valid value in the value column.</p>
-<p>This allows us to separately reference values and missing reasons in a tidy and type-safe manner. For example, if I wanted to get a breakdown of the mean age of respondents missing a report of their favorite color, grouped by the missing reason, it would simply be:</p>
+<p>This allows us to separately reference values and missing reasons in a tidy and type-aware manner. For example, if I wanted to get a breakdown of the mean age of respondents missing a report of their favorite color, grouped by the missing reason, it would simply be:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">summarize</span><span class="op">(</span></span>
