@@ -78,7 +78,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the valid values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons has traditionally required loading all variables as character vectors and doing a bunch of string operations and type conversions to make sense of them.</p>
+<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the regular values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons has traditionally required loading all variables as character vectors and doing a bunch of string operations and type conversions to make sense of them.</p>
 <p>Interlacer was created based on the insight that values and missing reasons can be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this structure gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons in tidy pipelines, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (tldr: It allows us to interact with a variable as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
 <p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know what you think</a>!</p>
 </div>
@@ -125,7 +125,7 @@
 <span><span class="co">#&gt;  9         9 &lt;NA&gt;           NA REFUSED &lt;NA&gt;           REFUSED         </span></span>
 <span><span class="co">#&gt; 10        10 &lt;NA&gt;           NA OMITTED RED            &lt;NA&gt;            </span></span>
 <span><span class="co">#&gt; 11        11 &lt;NA&gt;           10 &lt;NA&gt;    &lt;NA&gt;           REFUSED</span></span></code></pre></div>
-<p>As you can see, each source variable is loaded into two columns: one for vaild values, and the other for missing reasons. Missing reason columns are denoted by column names surrounded by dots (e.g. <code>.age.</code> is the missing reason for the <code>age</code> column). When a value is <code>NA</code>, it always has a reason in the missing reason column. Similarly, when a missing reason is <code>NA</code>, it always has a valid value in the value column.</p>
+<p>As you can see, each source variable is loaded into two columns: one for vaild values, and the other for missing reasons. Missing reason columns are denoted by column names surrounded by dots (e.g. <code>.age.</code> is the missing reason for the <code>age</code> column). When a value is <code>NA</code>, it always has a reason in the missing reason column. Similarly, when a missing reason is <code>NA</code>, it always has a value in the value column.</p>
 <p>This allows us to separately reference values and missing reasons in a tidy and type-aware manner. For example, if I wanted to get a breakdown of the mean age of respondents missing a report of their favorite color, grouped by the missing reason, it would simply be:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
@@ -141,7 +141,7 @@
 <span><span class="co">#&gt; 2 OMITTED                40     2</span></span>
 <span><span class="co">#&gt; 3 N/A                     1     1</span></span>
 <span><span class="co">#&gt; 4 REFUSED                10     2</span></span></code></pre></div>
-<p>(Note that the <code>&lt;NA&gt;</code> category in the result refers to the mean age of responses <em>without</em> missing color values, i.e. with valid favorite color responses).</p>
+<p>(Note that the <code>&lt;NA&gt;</code> category in the result refers to the mean age of responses <em>without</em> missing color values, i.e. with available favorite color responses).</p>
 <p>But this just scratches the surface of what can be done with interlacer… check out <code><a href="articles/interlacer.html">vignette("interlacer")</a></code> for a more complete overview!</p>
 </div>
 <div class="section level2">
