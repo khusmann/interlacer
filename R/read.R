@@ -9,7 +9,7 @@
 #' (e.g. missing reasons for "col_name" are read into a column named
 #' ".col_name.")
 #'
-#' @param file 	Either a path0 to a file, a connection, or literal data (either
+#' @param file 	Either a path to a file, a connection, or literal data (either
 #' a single string or a raw vector).
 #' @param delim Single character used to separate fields within a record.
 #' @param col_types One of `NULL`, a [readr::cols()] specification, or a string. In

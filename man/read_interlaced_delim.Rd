@@ -41,7 +41,7 @@ read_interlaced_tsv(
 )
 }
 \arguments{
-\item{file}{Either a path0 to a file, a connection, or literal data (either
+\item{file}{Either a path to a file, a connection, or literal data (either
 a single string or a raw vector).}
 
 \item{delim}{Single character used to separate fields within a record.}

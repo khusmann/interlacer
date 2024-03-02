@@ -160,7 +160,7 @@ df |>
 
 ## Writing interlaced files
 
-After you've made made changes to your data, you probably want to save them!
+After you've made made changes to your data, you probably want to save them.
 Interlacer provides the `write_interlaced_*` family of functions for this:
 
 ```{r, eval = FALSE}
