@@ -15,14 +15,177 @@ knitr::opts_chunk$set(
 library(interlacer)
 ```
 
-For
-for example, suppose we intended participants to choose between `RED` or
-`YELLOW` for their favorite color, and the only reason we got some `BLUE`
-responses was due to a technical error. In that case, we want to mark those
-cases as missing:
+When working with a "deinterlaced dataframe", care must be taken to ensure that
+variables have a missing reason whenever a value is `NA`, and a 
+value whenever a missing reason is `NA`. When this rule is violated, it creates
+ambiguous states. For example if a variable has a values AND a missing reason,
+it's not clear which one represents the "correct" state of the variable.
+Similarly, if a variable is missing its value AND its missing reason, it's
+probably a sign we made a mistake somewhere.
 
-But now we've created a problem: we have missing values for `favorite_color`
-that do not have corresponding `missing_reasons`! 
+This means whenever we `mutate()` the values of a variable, the missing reasons
+are properly updated, and vice versa. To illustrate this, let's load some
+example data:
 
-interlacer's make it easy to load value and missing reasons from interlaced data
-sources as separate columns.
+```{r}
+(df <- read_interlaced_csv(
+  interlacer_example("colors.csv"),
+  na = c("REFUSED", "OMITTED", "N/A"),
+))
+```
+
+Say we wanted to redact the values in the `age` variable, by setting their
+missing reason to `REDACTED`:
+
+```{r}
+df |>
+  mutate(
+    .age. = "REDACTED"
+  )
+```
+
+As you can see by the warning message, we've created an ambigous situation:
+there are now rows where `age` and `.age.` both have values! We need to get rid
+of all the `age` values!
+
+```{r}
+df |>
+  mutate(
+    .age. = "REDACTED",
+    age = NA,
+  )
+```
+
+Let's look at another example. Say our study was supposed to only let
+participants choose between `RED` and `YELLOW` for their favorite colors --
+but for some reason `BLUE` was included as an option because of a technical
+glitch. In this situation, we'd want to set all responses that weren't `RED` and
+`YELLOW` to be considered missing:
+
+```{r}
+df |>
+  mutate(
+    favorite_color = if_else(
+      favorite_color %in% c("RED", "YELLOW"),
+      favorite_color,
+      NA
+    )
+  )
+```
+
+As you can see by the warning, we've created another invalid state, with some
+`favorite_color` responses having neither values nor missing reasons. To fix
+this, we need to make a corresponding mutation to the missing reason column:
+
+```{r}
+df |>
+  mutate(
+    favorite_color = if_else(
+      favorite_color %in% c("RED", "YELLOW"),
+      favorite_color,
+      NA
+    ),
+    .favorite_color. = if_else(
+      is.na(favorite_color) & is.na(.favorite_color.),
+      "TECHNICAL_ERROR",
+      .favorite_color.
+    )
+  )
+```
+
+To understand what's going on here, consider the mutation in two steps: First,
+where `favorite_color` is not `RED` or `YELLOW`, we set as a missing value.
+In doing this, we've created a bunch of rows where both the value and missing
+reason are absent. In next part of the mutation, we fill in the
+`TECHNICAL_ERROR` missing reason for these rows into `.favorite_color.`,
+resulting in a well-formed deinterlaced dataframe.
+
+## An easier way
+
+As you can imagine, manually fixing the value & missing reason structure
+of your dataframe for every mutation you do can get cumbersome! Luckily,
+interlacer provides an easier way via `coalesce_missing_reasons()`:
+
+```{r}
+df |>
+  mutate(
+    .age. = "REDACTED",
+  ) |>
+  coalesce_missing_reasons(keep = "missing")
+
+df |>
+  mutate(
+    favorite_color = if_else(
+      favorite_color %in% c("RED", "YELLOW"),
+      favorite_color,
+      NA
+    )
+  ) |>
+  coalesce_missing_reasons(default_reason = "TECHNICAL_ERROR")
+```
+
+`coalesce_missing_reasons()` should be run every time you mutate something in
+a deinterlaced dataframe. It accepts two arguments `keep`, and `default_reason`.
+With these paramters set, it fixes both possible problem cases as follows:
+
+Case 1: BOTH a value and a missing reason exists
+
+- Keep the value when `keep = 'value'`
+- Keep the missing reason when `keep = 'missing'`
+
+Case 2: NEITHER a value nor a missing reason exists
+
+- Fill in the missing reason with `default_reason`
+
+These rules allow us to mutate our deinterlaced variables without needing to
+specify BOTH the values and missing reason actions -- we only need to think
+about our operation one channel, and then a call to `coalesce_missing_reasons()`
+takes care of the other.
+
+## Creating New Columns
+
+`coalesce_missing_reasons()` will also automatically create missing reason
+columns if they don't automatically exist. This is useful for adding new
+variables to your dataframe:
+
+```{r}
+df |>
+  mutate(
+    person_type = if_else(age < 18, "CHILD", "ADULT"),
+  ) %>%
+    coalesce_missing_reasons(default_reason = "AGE_UNAVAILABLE")
+```
+
+## Writing interlaced files
+
+After you've made made changes to your data, you probably want to save them!
+Interlacer provides the `write_interlaced_*` family of functions for this:
+
+```{r, eval = FALSE}
+write_interlaced_csv(df, "interlaced_output.csv")
+```
+
+This will combine the value and missing reasons into interlaced character
+columns, and write the result as a csv. Alternatively, if you want to
+re-interlace the columns without writing to a file for more control in the
+writing process, you can use `interlace_missing_reasons()`:
+
+```{r}
+interlace_missing_reasons(df)
+```
+
+## Final note: Setting the global default reason
+
+By default, `coalesce_missing_reasons()` will use `UNKNOWN_REASON` as the
+default missing reason. Sometimes you want to use a different default value,
+to act as the "catch-all" missing reason, so you don't have to constantly
+specify it. To do this, set the global `default_missing_reason` option:
+
+```{r}
+options(default_missing_reason = -99)
+
+tibble(
+  a = c(1,2,3, NA, 5)
+) |>
+  coalesce_missing_reasons()
+```
