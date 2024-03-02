@@ -47,7 +47,7 @@ df |>
 
 As you can see by the warning message, we've created an ambigous situation:
 there are now rows where `age` and `.age.` both have values! We need to get rid
-of all the `age` values!
+of all the `age` values:
 
 ```{r}
 df |>
