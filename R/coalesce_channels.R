@@ -4,7 +4,7 @@
 #'
 #' Mutations of deinterlaced data frames can result in variables that either
 #' have both values and missing reasons, or no values and no missing reasons.
-#' `coalesce_missing_reasons()` takes care of both situations. In the case where
+#' `coalesce_channels()` takes care of both situations. In the case where
 #' there is both a value and missing reason, it will choose which to keep based
 #' on the `keep` paramter. In case where no value or missing reason exists, it
 #' will fill the missing reason with the `default_reason` parameter.
@@ -25,10 +25,10 @@
 #' @return A deinterlaced tibble.
 #'
 #' @export
-coalesce_missing_reasons <- function(
+coalesce_channels <- function(
   x,
-  keep = c("values", "missing"),
-  default_reason = getOption("default_missing_reason")
+  default_reason = getOption("default_missing_reason"),
+  keep = c("values", "missing")
 ) {
   default_reason <- factor(default_reason %||% "UNKNOWN_REASON")
   keep <- match.arg(keep)

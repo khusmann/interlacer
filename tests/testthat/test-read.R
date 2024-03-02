@@ -38,7 +38,7 @@ test_that("global missing reasons load properly", {
 
   expect_equal(
     result_raw,
-    interlace_missing_reasons(result),
+    interlace_channels(result),
     ignore_attr = TRUE
   )
 })
@@ -84,7 +84,7 @@ test_that("column-level missing reasons can be specified with icol_*", {
 
   expect_equal(
     result_raw,
-    interlace_missing_reasons(result),
+    interlace_channels(result),
     ignore_attr = TRUE
   )
 })

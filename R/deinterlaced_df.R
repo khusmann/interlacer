@@ -73,7 +73,7 @@ abort_if_deinterlace_df_problems <- function(x, call = caller_call()) {
 
   if (length(df_problems) > 0) {
     cli_abort(
-      c(df_problems[[1]], "i" = "Run `coalesce_missing_reasons()` to fix."),
+      c(df_problems[[1]], "i" = "Run `coalesce_channels()` to fix."),
       call = call
     )
   }
@@ -101,7 +101,7 @@ tbl_format_footer.deinterlaced_df <- function(x, setup, ...) {
     extra <- format_bullets_raw(
       c(
         "x" = glue("Warning: {setup$interlaced_probs[[1]]}"),
-        "i" = glue("Run `coalesce_missing_reasons()` to fix.")
+        "i" = glue("Run `coalesce_channels()` to fix.")
       )
     )
   } else {

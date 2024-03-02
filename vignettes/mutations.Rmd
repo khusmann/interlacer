@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(dplyr)
 library(interlacer)
 ```
 
@@ -24,7 +25,7 @@ Similarly, if a variable is missing its value AND its missing reason, it's
 probably a sign we made a mistake somewhere.
 
 This means whenever we `mutate()` the values of a variable, the missing reasons
-are properly updated, and vice versa. To illustrate this, let's load some
+must also be updated, and vice versa. To illustrate this, let's load some
 example data:
 
 ```{r}
@@ -100,18 +101,18 @@ reason are absent. In next part of the mutation, we fill in the
 `TECHNICAL_ERROR` missing reason for these rows into `.favorite_color.`,
 resulting in a well-formed deinterlaced dataframe.
 
-## An easier way
+## An easier way with `coalesce_channels()`
 
 As you can imagine, manually fixing the value & missing reason structure
 of your dataframe for every mutation you do can get cumbersome! Luckily,
-interlacer provides an easier way via `coalesce_missing_reasons()`:
+interlacer provides an easier way via `coalesce_channels()`:
 
 ```{r}
 df |>
   mutate(
     .age. = "REDACTED",
   ) |>
-  coalesce_missing_reasons(keep = "missing")
+  coalesce_channels(keep = "missing")
 
 df |>
   mutate(
@@ -121,10 +122,10 @@ df |>
       NA
     )
   ) |>
-  coalesce_missing_reasons(default_reason = "TECHNICAL_ERROR")
+  coalesce_channels(default_reason = "TECHNICAL_ERROR")
 ```
 
-`coalesce_missing_reasons()` should be run every time you mutate something in
+`coalesce_channels()` should be run every time you mutate something in
 a deinterlaced dataframe. It accepts two arguments `keep`, and `default_reason`.
 With these paramters set, it fixes both possible problem cases as follows:
 
@@ -139,12 +140,12 @@ Case 2: NEITHER a value nor a missing reason exists
 
 These rules allow us to mutate our deinterlaced variables without needing to
 specify BOTH the values and missing reason actions -- we only need to think
-about our operation one channel, and then a call to `coalesce_missing_reasons()`
+about our operation one channel, and then a call to `coalesce_channels()`
 takes care of the other.
 
 ## Creating New Columns
 
-`coalesce_missing_reasons()` will also automatically create missing reason
+`coalesce_channels()` will also automatically create missing reason
 columns if they don't automatically exist. This is useful for adding new
 variables to your dataframe:
 
@@ -152,8 +153,9 @@ variables to your dataframe:
 df |>
   mutate(
     person_type = if_else(age < 18, "CHILD", "ADULT"),
+    .after = person_id
   ) %>%
-    coalesce_missing_reasons(default_reason = "AGE_UNAVAILABLE")
+    coalesce_channels(default_reason = "AGE_UNAVAILABLE")
 ```
 
 ## Writing interlaced files
@@ -168,15 +170,15 @@ write_interlaced_csv(df, "interlaced_output.csv")
 This will combine the value and missing reasons into interlaced character
 columns, and write the result as a csv. Alternatively, if you want to
 re-interlace the columns without writing to a file for more control in the
-writing process, you can use `interlace_missing_reasons()`:
+writing process, you can use `interlace_channels()`:
 
 ```{r}
-interlace_missing_reasons(df)
+interlace_channels(df)
 ```
 
 ## Final note: Setting the global default reason
 
-By default, `coalesce_missing_reasons()` will use `UNKNOWN_REASON` as the
+By default, `coalesce_channels()` will use `UNKNOWN_REASON` as the
 default missing reason. Sometimes you want to use a different default value,
 to act as the "catch-all" missing reason, so you don't have to constantly
 specify it. To do this, set the global `default_missing_reason` option:
@@ -187,5 +189,5 @@ options(default_missing_reason = -99)
 tibble(
   a = c(1,2,3, NA, 5)
 ) |>
-  coalesce_missing_reasons()
+  coalesce_channels()
 ```

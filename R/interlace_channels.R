@@ -12,7 +12,7 @@
 #' that contain both values and missing reasons.
 #'
 #' @export
-interlace_missing_reasons <- function(x) {
+interlace_channels <- function(x) {
   abort_if_deinterlace_df_problems(x)
 
   # TODO: this is another function that would benefit from native speedup
