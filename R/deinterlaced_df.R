@@ -57,7 +57,7 @@ deinterlaced_df_problems <- function(x) {
     if (any(!is.na(x[[value_name]]) & !is.na(x[[missing_name]]))) {
       return(
         glue(
-          "Column `{value_name}` has rows with both values and missing reasons",
+          "Column `{value_name}` has rows with both values and missing reasons"
         )
       )
     }
