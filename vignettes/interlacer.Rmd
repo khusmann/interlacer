@@ -218,5 +218,5 @@ These operations produce dataframes that don't conform to the rule of "one value
 OR missing reason per variable row". We could manually solve this by manually
 fixing the corresponding column, but as the above output hints,
 interlacer provides an easier way by way of the function
-`coalesce_missing_reasons()`. The next vignette,
+`coalesce_channels()`. The next vignette,
 `vignette("mutations")`, will show how this works!
