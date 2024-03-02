@@ -335,10 +335,10 @@ for adding new variables to your dataframe:</p>
 <h2 id="writing-interlaced-files">Writing interlaced files<a class="anchor" aria-label="anchor" href="#writing-interlaced-files"></a>
 </h2>
 <p>After you’ve made made changes to your data, you probably want to
-save them! Interlacer provides the <code>write_interlaced_*</code>
+save them. Interlacer provides the <code>write_interlaced_*</code>
 family of functions for this:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">write_interlaced_csv</span><span class="op">(</span><span class="va">df</span>, <span class="st">"interlaced_output.csv"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/write_interlaced_delim.html">write_interlaced_csv</a></span><span class="op">(</span><span class="va">df</span>, <span class="st">"interlaced_output.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>This will combine the value and missing reasons into interlaced
 character columns, and write the result as a csv. Alternatively, if you
 want to re-interlace the columns without writing to a file for more
