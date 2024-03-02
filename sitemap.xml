@@ -7,10 +7,19 @@
     <loc>http://kylehusmann.com/interlacer/LICENSE.html</loc>
   </url>
   <url>
+    <loc>http://kylehusmann.com/interlacer/articles/collectors.html</loc>
+  </url>
+  <url>
     <loc>http://kylehusmann.com/interlacer/articles/index.html</loc>
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/articles/interlacer.html</loc>
+  </url>
+  <url>
+    <loc>http://kylehusmann.com/interlacer/articles/mutations.html</loc>
+  </url>
+  <url>
+    <loc>http://kylehusmann.com/interlacer/articles/recipes.html</loc>
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/authors.html</loc>
@@ -19,13 +28,13 @@
     <loc>http://kylehusmann.com/interlacer/index.html</loc>
   </url>
   <url>
-    <loc>http://kylehusmann.com/interlacer/reference/coalesce_missing_reasons.html</loc>
+    <loc>http://kylehusmann.com/interlacer/reference/coalesce_channels.html</loc>
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/reference/deinterlace_type_convert.html</loc>
   </url>
   <url>
-    <loc>http://kylehusmann.com/interlacer/reference/drop_missing_reasons.html</loc>
+    <loc>http://kylehusmann.com/interlacer/reference/drop_missing_cols.html</loc>
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/reference/icol_logical.html</loc>
@@ -34,7 +43,7 @@
     <loc>http://kylehusmann.com/interlacer/reference/index.html</loc>
   </url>
   <url>
-    <loc>http://kylehusmann.com/interlacer/reference/interlace_missing_reasons.html</loc>
+    <loc>http://kylehusmann.com/interlacer/reference/interlace_channels.html</loc>
   </url>
   <url>
     <loc>http://kylehusmann.com/interlacer/reference/interlacer_example.html</loc>

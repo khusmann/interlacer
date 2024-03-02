@@ -58,6 +58,14 @@
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="articles/mutations.html">Mutating Values and Missing Reasons</a>
+    <a class="dropdown-item" href="articles/collectors.html">Interlaced Collectors</a>
+    <a class="dropdown-item" href="articles/recipes.html">Recipes</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -78,7 +86,7 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the regular values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons has traditionally required loading all variables as character vectors and doing a bunch of string operations and type conversions to make sense of them.</p>
+<p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the regular values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons in R traditionally has required loading all variables as character vectors and doing a bunch of string comparisons and type conversions to make sense of them.</p>
 <p>Interlacer was created based on the insight that values and missing reasons can be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this structure gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons in tidy pipelines, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (tldr: It allows us to interact with a variable as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
 <p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know what you think</a>!</p>
 </div>
@@ -116,7 +124,7 @@
 <span><span class="co">#&gt;        &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;          &lt;fct&gt;           </span></span>
 <span><span class="co">#&gt;  1         1 &lt;NA&gt;           20 &lt;NA&gt;    BLUE           &lt;NA&gt;            </span></span>
 <span><span class="co">#&gt;  2         2 &lt;NA&gt;           NA REFUSED BLUE           &lt;NA&gt;            </span></span>
-<span><span class="co">#&gt;  3         3 &lt;NA&gt;           21 &lt;NA&gt;    RED            &lt;NA&gt;            </span></span>
+<span><span class="co">#&gt;  3         3 &lt;NA&gt;           21 &lt;NA&gt;    &lt;NA&gt;           REFUSED         </span></span>
 <span><span class="co">#&gt;  4         4 &lt;NA&gt;           30 &lt;NA&gt;    &lt;NA&gt;           OMITTED         </span></span>
 <span><span class="co">#&gt;  5         5 &lt;NA&gt;            1 &lt;NA&gt;    &lt;NA&gt;           N/A             </span></span>
 <span><span class="co">#&gt;  6         6 &lt;NA&gt;           41 &lt;NA&gt;    RED            &lt;NA&gt;            </span></span>
@@ -137,10 +145,10 @@
 <span><span class="co">#&gt; # A tibble: 4 × 3</span></span>
 <span><span class="co">#&gt;   .favorite_color. mean_age     n</span></span>
 <span><span class="co">#&gt;   &lt;fct&gt;               &lt;dbl&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 &lt;NA&gt;                   28     6</span></span>
-<span><span class="co">#&gt; 2 OMITTED                40     2</span></span>
-<span><span class="co">#&gt; 3 N/A                     1     1</span></span>
-<span><span class="co">#&gt; 4 REFUSED                10     2</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 &lt;NA&gt;                 30.3     5</span></span>
+<span><span class="co">#&gt; 2 REFUSED              15.5     3</span></span>
+<span><span class="co">#&gt; 3 OMITTED              40       2</span></span>
+<span><span class="co">#&gt; 4 N/A                   1       1</span></span></code></pre></div>
 <p>(Note that the <code>&lt;NA&gt;</code> category in the result refers to the mean age of responses <em>without</em> missing color values, i.e. with available favorite color responses).</p>
 <p>But this just scratches the surface of what can be done with interlacer… check out <code><a href="articles/interlacer.html">vignette("interlacer")</a></code> for a more complete overview!</p>
 </div>

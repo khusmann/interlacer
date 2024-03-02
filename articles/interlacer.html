@@ -48,6 +48,14 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/mutations.html">Mutating Values and Missing Reasons</a>
+    <a class="dropdown-item" href="../articles/collectors.html">Interlaced Collectors</a>
+    <a class="dropdown-item" href="../articles/recipes.html">Recipes</a>
+  </div>
+</li>
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -74,15 +82,319 @@
 
     
     
+<p>In many datasets, reasons for missing values are interlaced with data
+as special values or codes. For example, consider the following CSV:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span></code></pre></div>
-<p>Unfortunately, when these are loaded into R with functions like
-<code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_csv()</a></code> these all become <code>NA</code> values
-and lose the missing reason. If you want to create samples or calculate
-statistics connected to the <em>reasons</em> values are missing, you’re
-forced to load your data as raw character columns and do a bunch of
-manual string operations to obtain the information you want.</p>
-  </main>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">read_file</span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; person_id,age,favorite_color</span></span>
+<span><span class="co">#&gt; 1,20,BLUE</span></span>
+<span><span class="co">#&gt; 2,REFUSED,BLUE</span></span>
+<span><span class="co">#&gt; 3,21,REFUSED</span></span>
+<span><span class="co">#&gt; 4,30,OMITTED</span></span>
+<span><span class="co">#&gt; 5,1,N/A</span></span>
+<span><span class="co">#&gt; 6,41,RED</span></span>
+<span><span class="co">#&gt; 7,50,OMITTED</span></span>
+<span><span class="co">#&gt; 8,30,YELLOW</span></span>
+<span><span class="co">#&gt; 9,REFUSED,REFUSED</span></span>
+<span><span class="co">#&gt; 10,OMITTED,RED</span></span>
+<span><span class="co">#&gt; 11,10,REFUSED</span></span></code></pre></div>
+<p>As you can see, this data source has three variables:
+<code>person_id</code> and <code>age</code>, both numeric variables and
+<code>favorite_color</code>, a character or factor variable. Interlaced
+in their values are three possible missing reasons:
+<code>REFUSED</code>, <code>OMITTED</code>, and <code>N/A</code>.</p>
+<p>To load the values of this data source, it is an easy call to the
+venerable <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_csv()</a></code>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">11</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">chr</span> (1): favorite_color</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">dbl</span> (2): person_id, age</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
+<span><span class="co">#&gt;    person_id   age favorite_color</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1    20 BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2    <span style="color: #BB0000;">NA</span> BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3    21 <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4    30 <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5     1 <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6    41 RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7    50 <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8    30 YELLOW        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9    <span style="color: #BB0000;">NA</span> <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10    <span style="color: #BB0000;">NA</span> RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11    10 <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+<p>As you can see, the data were loaded into a dataframe with three
+columns, and all of the missing reasons were replaced with
+<code>NA</code> values.</p>
+<div class="section level2">
+<h2 id="aggregations-with-missing-reasons">Aggregations with missing reasons<a class="anchor" aria-label="anchor" href="#aggregations-with-missing-reasons"></a>
+</h2>
+<p>Now, if we were only interested in the <em>values</em> of our source
+data, this functionality is all we need. But what if we wanted to know
+<em>why</em> some values were <code>NA</code>? Although that information
+was encoded in our source data, it was lost when all of the missing
+reasons were converted into <code>NA</code> values.</p>
+<p>For example, consider the <code>favorite_color</code> column. How
+many respondents <code>REFUSED</code> to give their favorite color? How
+many people just <code>OMITTED</code> their answer? Was the question
+<code>N/A</code> for some respondents (e.g. wasn’t on their survey
+form)? What was the mean respondent age for each of these groups?</p>
+<p>Our current dataframe only gets us part way:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    favorite_color_missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color_missing</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt;   favorite_color_missing mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> FALSE                      30.3     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> TRUE                       22.4     6</span></span></code></pre></div>
+<p>As you can see, because we converted all our missing reasons into a
+single <code>NA</code>, we can only answer these questions about
+missingness in general, rather than work with the specific reasons
+stored in our source data.</p>
+<p>Unfortunately, if we try load our data with the missing reasons
+intact, we lose something else: the type information of the values.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df_with_missing</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
+<span>  col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span>.default <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
+<span><span class="co">#&gt;    person_id age     favorite_color</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 1         20      BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2         REFUSED BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 3         21      REFUSED       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 4         30      OMITTED       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 5         1       N/A           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 6         41      RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 7         50      OMITTED       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 8         30      YELLOW        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 9         REFUSED REFUSED       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 10        OMITTED RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 11        10      REFUSED</span></span></code></pre></div>
+<p>Now we have access to our missing reasons, but all the columns are
+character vectors. This means that in order to do anything with our
+values, we always have to filter out the missing reasons, and cast the
+remaining values to our desired type:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reasons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_with_missing</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    age_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">if_else</span><span class="op">(</span><span class="va">age</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">reasons</span>, <span class="cn">NA</span>, <span class="va">age</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    favorite_color_missing_reasons <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>      <span class="va">favorite_color</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">reasons</span>,</span>
+<span>      <span class="va">favorite_color</span>,</span>
+<span>      <span class="cn">NA</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age_values</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   favorite_color_missing_reasons mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>                                 30.3     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> REFUSED                            15.5     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> OMITTED                            40       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N/A                                 1       1</span></span></code></pre></div>
+<p>This gives us the information we want, but it is cumbersome and
+starts to get really complex when different columns have different sets
+of possible missing reasons. It means you have to do a lot of type
+conversion gymnastics to switch between value types and missing
+types.</p>
+<div class="section level3">
+<h3 id="the-interlacer-approach">The interlacer approach<a class="anchor" aria-label="anchor" href="#the-interlacer-approach"></a>
+</h3>
+<p>Interlacer was built based on the insight that everything becomes
+much more tidy, simple, and expressive when we explicitly work with
+values and missing reasons as separate <em>channels</em> of the same
+variable. The functions the <code>read_interlaced_*</code> functions in
+interlacer do this for you: they <em>deinterlace</em> variables from
+interlaced data sources into two columns per variable: one for holding
+values, one for holding missing reasons.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df_deinterlaced</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3 <span style="color: #BB0000;">NA</span>             21 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4 <span style="color: #BB0000;">NA</span>             30 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             OMITTED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5 <span style="color: #BB0000;">NA</span>              1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             N/A             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6 <span style="color: #BB0000;">NA</span>             41 <span style="color: #BB0000;">NA</span>      RED            <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7 <span style="color: #BB0000;">NA</span>             50 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             OMITTED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>             30 <span style="color: #BB0000;">NA</span>      YELLOW         <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> OMITTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
+<p>As you can see, missing reasons columns are denoted by names
+surrounded by dots: the <code>.age.</code> column holds the missing
+reasons for the <code>age</code> variable, and so on.</p>
+<p>Now, all the missing reason information you need is right at your
+fingertips, AND the value types are preserved. To make the same report
+as we did before, we would run:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">.favorite_color.</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   .favorite_color. mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>                   30.3     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> REFUSED              15.5     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> OMITTED              40       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N/A                   1       1</span></span></code></pre></div>
+<p>We get the same results as before but without needing to do any type
+gymnastics!</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="filtering-based-on-missing-reasons">Filtering based on missing reasons<a class="anchor" aria-label="anchor" href="#filtering-based-on-missing-reasons"></a>
+</h2>
+<p>Having separate columns for values and missing reasons also helpful
+for creating samples with inclusion / exclusion criteria based on
+missing reasons. For example, using our example data, say we wanted to
+create a sample of respondents that <code>REFUSED</code> to give their
+age?</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span>  </span>
+<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 2 × 6</span></span></span>
+<span><span class="co">#&gt;   person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         2 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
+<p>How about people who <code>REFUSED</code> to report their age AND
+favorite color?</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt;   person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
+<p>With separate columns, we can combine value conditions with missing
+reason conditions. For example, this will select everyone who
+<code>REFUSED</code> to give their favorite color, and was over 20 years
+old:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">20</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt;   person_id .person_id.   age .age. favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         3 <span style="color: #BB0000;">NA</span>             21 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
+<p>After we’ve created our sample, and are ready to start analyzing our
+data, we typically don’t need to keep the missing reasons around
+anymore. Interlacer provides a convenient
+<code><a href="../reference/drop_missing_cols.html">drop_missing_cols()</a></code> function to take care of this:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/drop_missing_cols.html">drop_missing_cols</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt;   .person_id. .age.   .favorite_color.</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>          REFUSED <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> <span style="color: #BB0000;">NA</span>          REFUSED REFUSED</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h2>
+<p>So far, we’ve covered how interlacer’s <code>read_interlaced_*</code>
+family of functions enabled us to deinterlace value and missing reason
+channels from interlaced data sources into separate dataframe columns.
+Separate value and missing reason columns enable us to create tidy and
+type-aware aggregation and filtering pipelines that can simultaneously
+consider a variable’s value AND missing reasons.</p>
+<p>That’s all well and good, but what happens when we want to make
+modifications to our data? What if we want to add variables to our
+dataframe, replace values with missing reasons, or missing reasons with
+values? Inevitably, we’ll create situations where we simultaneously have
+a value and a missing reason, or neither a value nor a missing
+reason:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Value and missing reason:</span></span>
+<span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt;    person_id .person_id.   age .age.    favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 REDACTED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3 <span style="color: #BB0000;">NA</span>             21 REDACTED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4 <span style="color: #BB0000;">NA</span>             30 REDACTED <span style="color: #BB0000;">NA</span>             OMITTED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5 <span style="color: #BB0000;">NA</span>              1 REDACTED <span style="color: #BB0000;">NA</span>             N/A             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6 <span style="color: #BB0000;">NA</span>             41 REDACTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7 <span style="color: #BB0000;">NA</span>             50 REDACTED <span style="color: #BB0000;">NA</span>             OMITTED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>             30 REDACTED YELLOW         <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 REDACTED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Warning: Column `age` has rows with both values and missing reasons</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
+<span></span>
+<span><span class="co"># No value, no missing reason:</span></span>
+<span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu">na_if</span><span class="op">(</span><span class="va">favorite_color</span>, <span class="st">"BLUE"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3 <span style="color: #BB0000;">NA</span>             21 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4 <span style="color: #BB0000;">NA</span>             30 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             OMITTED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5 <span style="color: #BB0000;">NA</span>              1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             N/A             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6 <span style="color: #BB0000;">NA</span>             41 <span style="color: #BB0000;">NA</span>      RED            <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7 <span style="color: #BB0000;">NA</span>             50 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             OMITTED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>             30 <span style="color: #BB0000;">NA</span>      YELLOW         <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> OMITTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
+<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Warning: Column `favorite_color` has rows without values or missing reasons</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span></code></pre></div>
+<p>These operations produce dataframes that don’t conform to the rule of
+“one value OR missing reason per variable row”. We could manually solve
+this by manually fixing the corresponding column, but as the above
+output hints, interlacer provides an easier way by way of the function
+<code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>. The next vignette,
+<code><a href="../articles/mutations.html">vignette("mutations")</a></code>, will show how this works!</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
