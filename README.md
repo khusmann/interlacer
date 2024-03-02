@@ -120,7 +120,7 @@ check out `vignette("interlacer")` for a more complete overview!
 
 ## Known Issues
 
-Large dataframes (many columns & rows) run slowly with interlacer. This
+Large data frames (many columns & rows) run slowly with interlacer. This
 is because the current implementation is written entirely in R. There
 are a few key places (noted in the source) that would extremely benefit
 from a native implementation, and make the library much more snappy.

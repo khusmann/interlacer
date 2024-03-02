@@ -1,14 +1,14 @@
-#' Re-interlacce a deinterlaced dataframe
+#' Re-interlacce a deinterlaced data frame
 #'
 #' @description
 #'
-#' This function will take a deinterlaced dataframe and re-interlace it by
+#' This function will take a deinterlaced data frame and re-interlace it by
 #' combining value and misisng reason column pairs into single character
 #' columns.
 #'
-#' @param x A deinterlaced dataframe
+#' @param x A deinterlaced data frame
 #'
-#' @returns An interlaced dataframe, that is, a dataframe with character columns
+#' @returns An interlaced data frame, that is, a data frame with character columns
 #' that contain both values and missing reasons.
 #'
 #' @export

@@ -1,11 +1,11 @@
-#' The names of an deinterlaced dataframe
+#' The names of an deinterlaced data frame
 #'
 #' @description
 #'
 #' Functions to get the names of missing reason columns or value columns in
-#' an deinterlaced dataframe
+#' an deinterlaced data frame
 #'
-#' @param x A deinterlaced dataframe
+#' @param x A deinterlaced data frame
 #' @return A vector of missing reason or value column names.
 #'
 #' @export
@@ -19,12 +19,12 @@ value_names <- function(x) {
   names(x)[is_value_name(names(x))]
 }
 
-#' Selection helpers for deinterlaced dataframes
+#' Selection helpers for deinterlaced data frames
 #'
 #' @description
 #'
 #' These tidy selection helpers match missing reason or value columns in an
-#' deinterlaced dataframe
+#' deinterlaced data frame
 #'
 #' * `missing_cols()` selects missing reason columns.
 #'
@@ -66,12 +66,12 @@ is_value_name <- function(x) {
   !is_missing_name(x)
 }
 
-#' Drop missing reasons from a deinterlaced dataframe
+#' Drop missing reasons from a deinterlaced data frame
 #'
 #' @description
 #'
-#' Drop the missing reason or value columns from a deinterlaced dataframe,
-#' turning it into a regular dataframe with unlabelled `NA` values.
+#' Drop the missing reason or value columns from a deinterlaced data frame,
+#' turning it into a regular data frame with unlabelled `NA` values.
 #'
 #' @param x A data frame
 #'

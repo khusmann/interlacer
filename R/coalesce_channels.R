@@ -1,4 +1,4 @@
-#' Coalesce missing reasons in a dataframe
+#' Coalesce missing reasons in a data frame
 #'
 #' @description
 #'
@@ -13,11 +13,11 @@
 #' columns. In that case, a new missing reason will be created and filled with
 #' `default_reason` wherever there are missing values in the value column. (
 #' This behavior can also be used to stub missing reason columns for value-only
-#' dataframes)
+#' data frames)
 #'
-#' @param x A dataframe
+#' @param x A data frame
 #' @param keep When a variable has both a value and missing reason, choose which
-#' to keep. (A properly formed deinterlaced dataframe has values OR missing
+#' to keep. (A properly formed deinterlaced data frame has values OR missing
 #' reasons)
 #' @param default_reason When a variable is missing a value and a missing
 #' reason, the default missing reason to fill in.
