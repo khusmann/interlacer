@@ -55,6 +55,11 @@ coalesce_missing_reasons <- function(
     missing_values <- x[[missing_name]] %||%
       if_else(is.na(values), default_reason, NA)
 
+    # Ensure missing reason column is always a factor
+    if (!is.factor((missing_values))) {
+      missing_values <- factor(missing_values)
+    }
+
     if (keep == "values") {
       new_values <- values
 
