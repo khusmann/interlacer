@@ -80,7 +80,7 @@ is_value_name <- function(x) {
 #' @export
 drop_missing_cols <- function(x) {
   x |>
-    select(missing_cols()) |>
+    select(value_cols()) |>
     as_tibble()
 }
 
@@ -88,7 +88,7 @@ drop_missing_cols <- function(x) {
 #' @export
 drop_value_cols <- function(x) {
   x |>
-    select(value_cols()) |>
+    select(missing_cols()) |>
     as_tibble()
 }
 
