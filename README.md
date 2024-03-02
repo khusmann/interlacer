@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# interlacer <img src="man/figures/logo.svg" align="right" />
+# interlacer <img src="man/figures/logo.svg" align="right" height="140" />
 
 ## Overview
 
@@ -10,9 +10,9 @@ it is missing. Many textual tabular data sources will encode missing
 reasons as special values *interlaced* with the regular values in a
 column (e.g. `N/A`, `REFUSED`, `-99`, etc.). Unfortunately, the missing
 reasons are lost when these values are all converted into a single `NA`
-type. Working with missing reasons has traditionally required loading
-all variables as character vectors and doing a bunch of string
-operations and type conversions to make sense of them.
+type. Working with missing reasons in R traditionally has required
+loading all variables as character vectors and doing a bunch of string
+comparisons and type conversions to make sense of them.
 
 Interlacer was created based on the insight that values and missing
 reasons can be handled as separate *channels* of the same variable.
@@ -72,7 +72,7 @@ interlaces values with three possible missing reasons: `REFUSED`,
 #>        <dbl> <fct>       <dbl> <fct>   <chr>          <fct>           
 #>  1         1 <NA>           20 <NA>    BLUE           <NA>            
 #>  2         2 <NA>           NA REFUSED BLUE           <NA>            
-#>  3         3 <NA>           21 <NA>    RED            <NA>            
+#>  3         3 <NA>           21 <NA>    <NA>           REFUSED         
 #>  4         4 <NA>           30 <NA>    <NA>           OMITTED         
 #>  5         5 <NA>            1 <NA>    <NA>           N/A             
 #>  6         6 <NA>           41 <NA>    RED            <NA>            
@@ -105,10 +105,10 @@ ex |>
 #> # A tibble: 4 × 3
 #>   .favorite_color. mean_age     n
 #>   <fct>               <dbl> <int>
-#> 1 <NA>                   28     6
-#> 2 OMITTED                40     2
-#> 3 N/A                     1     1
-#> 4 REFUSED                10     2
+#> 1 <NA>                 30.3     5
+#> 2 REFUSED              15.5     3
+#> 3 OMITTED              40       2
+#> 4 N/A                   1       1
 ```
 
 (Note that the `<NA>` category in the result refers to the mean age of
