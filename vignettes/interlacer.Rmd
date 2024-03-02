@@ -21,8 +21,7 @@ In many datasets, reasons for missing values are interlaced with data as special
 values or codes. For example, consider the following CSV:
 
 ```{r}
-interlacer_example("colors.csv") |>
-  read_file() |>
+read_file(interlacer_example("colors.csv")) |>
   cat()
 ```
 
