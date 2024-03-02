@@ -94,10 +94,10 @@ df |>
   )
 ```
 
-To understand what's going on here, consider the mutation in two steps: First,
-where `favorite_color` is not `RED` or `YELLOW`, we set as a missing value.
-In doing this, we've created a bunch of rows where both the value and missing
-reason are absent. In next part of the mutation, we fill in the
+To understand what's going on here, let's look at the mutation step by step:
+First, where `favorite_color` is not `RED` or `YELLOW`, we set as a missing
+value. In doing this, we've created a bunch of rows where both the value and
+missing reason are absent. In next part of the mutation, we fill in the
 `TECHNICAL_ERROR` missing reason for these rows into `.favorite_color.`,
 resulting in a well-formed deinterlaced dataframe.
 
