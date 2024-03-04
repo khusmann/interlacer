@@ -1,0 +1,27 @@
+---
+title: "Other Approaches"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Other Approaches}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(interlacer)
+```
+
+
+
+## Negative numeric codes
+
+## String types in numeric fields
+
+## Labelled missing values
+
+## "Tagged" missing values
+
