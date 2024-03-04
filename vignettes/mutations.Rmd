@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-When working with a "deinterlaced dataframe", care must be taken to ensure that
+When working with a "deinterlaced data frame", care must be taken to ensure that
 variables have a missing reason whenever a value is `NA`, and a 
 value whenever a missing reason is `NA`. When this rule is violated, it creates
 ambiguous states. For example if a variable has a values AND a missing reason,
@@ -101,13 +101,34 @@ First, where `favorite_color` is not `RED` or `YELLOW`, we set as a missing
 value. In doing this, we've created a bunch of rows where both the value and
 missing reason are absent. In next part of the mutation, we fill in the
 `TECHNICAL_ERROR` missing reason for these rows into `.favorite_color.`,
-resulting in a well-formed deinterlaced dataframe.
+resulting in a well-formed deinterlaced data frame.
 
 ## An easier way with `coalesce_channels()`
 
 As you can imagine, manually fixing the value & missing reason structure
-of your dataframe for every mutation you do can get cumbersome! Luckily,
+of your data frame for every mutation you do can get cumbersome! Luckily,
 interlacer provides an easier way via `coalesce_channels()`:
+
+`coalesce_channels()` should be run every time you mutate something in
+a deinterlaced data frame. It accepts two arguments `keep`, and
+`default_reason`. It fixes both possible problem cases as follows:
+
+Case 1: BOTH a value and a missing reason exists
+
+- Keep the value when `keep = 'value'`
+- Keep the missing reason when `keep = 'missing'`
+
+Case 2: NEITHER a value nor a missing reason exists
+
+- Fill in the missing reason with `default_reason`
+
+These rules allow us to mutate our deinterlaced variables without needing to
+specify BOTH the values and missing reason actions -- we only need to think
+about our intended operation in the context of one channel, and then a call to
+`coalesce_channels()` can take care of the other for us.
+
+Here's how we'd use `coalesce_channels()` in the two examples from the previous
+section:
 
 ```{r}
 df |>
@@ -127,36 +148,19 @@ df |>
   coalesce_channels(default_reason = "TECHNICAL_ERROR")
 ```
 
-`coalesce_channels()` should be run every time you mutate something in
-a deinterlaced dataframe. It accepts two arguments `keep`, and `default_reason`.
-With these paramters set, it fixes both possible problem cases as follows:
-
-Case 1: BOTH a value and a missing reason exists
-
-- Keep the value when `keep = 'value'`
-- Keep the missing reason when `keep = 'missing'`
-
-Case 2: NEITHER a value nor a missing reason exists
-
-- Fill in the missing reason with `default_reason`
-
-These rules allow us to mutate our deinterlaced variables without needing to
-specify BOTH the values and missing reason actions -- we only need to think
-about our operation one channel, and then a call to `coalesce_channels()`
-takes care of the other.
 
 ## Creating New Columns
 
 `coalesce_channels()` will also automatically create missing reason
 columns if they don't automatically exist. This is useful for adding new
-variables to your dataframe:
+variables to your data frame:
 
 ```{r}
 df |>
   mutate(
     person_type = if_else(age < 18, "CHILD", "ADULT"),
     .after = person_id
-  ) %>%
+  ) |>
     coalesce_channels(default_reason = "AGE_UNAVAILABLE")
 ```
 
