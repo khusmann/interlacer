@@ -82,7 +82,7 @@
 
     
     
-<p>When working with a “deinterlaced dataframe”, care must be taken to
+<p>When working with a “deinterlaced data frame”, care must be taken to
 ensure that variables have a missing reason whenever a value is
 <code>NA</code>, and a value whenever a missing reason is
 <code>NA</code>. When this rule is violated, it creates ambiguous
@@ -241,14 +241,37 @@ doing this, we’ve created a bunch of rows where both the value and
 missing reason are absent. In next part of the mutation, we fill in the
 <code>TECHNICAL_ERROR</code> missing reason for these rows into
 <code>.favorite_color.</code>, resulting in a well-formed deinterlaced
-dataframe.</p>
+data frame.</p>
 <div class="section level2">
 <h2 id="an-easier-way-with-coalesce_channels">An easier way with <code>coalesce_channels()</code><a class="anchor" aria-label="anchor" href="#an-easier-way-with-coalesce_channels"></a>
 </h2>
 <p>As you can imagine, manually fixing the value &amp; missing reason
-structure of your dataframe for every mutation you do can get
+structure of your data frame for every mutation you do can get
 cumbersome! Luckily, interlacer provides an easier way via
 <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>:</p>
+<p><code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> should be run every time you mutate
+something in a deinterlaced data frame. It accepts two arguments
+<code>keep</code>, and <code>default_reason</code>. It fixes both
+possible problem cases as follows:</p>
+<p>Case 1: BOTH a value and a missing reason exists</p>
+<ul>
+<li>Keep the value when <code>keep = 'value'</code>
+</li>
+<li>Keep the missing reason when <code>keep = 'missing'</code>
+</li>
+</ul>
+<p>Case 2: NEITHER a value nor a missing reason exists</p>
+<ul>
+<li>Fill in the missing reason with <code>default_reason</code>
+</li>
+</ul>
+<p>These rules allow us to mutate our deinterlaced variables without
+needing to specify BOTH the values and missing reason actions – we only
+need to think about our intended operation in the context of one
+channel, and then a call to <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> can take
+care of the other for us.</p>
+<p>Here’s how we’d use <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> in the two
+examples from the previous section:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -293,39 +316,19 @@ cumbersome! Luckily, interlacer provides an easier way via
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> OMITTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
-<p><code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> should be run every time you mutate
-something in a deinterlaced dataframe. It accepts two arguments
-<code>keep</code>, and <code>default_reason</code>. With these paramters
-set, it fixes both possible problem cases as follows:</p>
-<p>Case 1: BOTH a value and a missing reason exists</p>
-<ul>
-<li>Keep the value when <code>keep = 'value'</code>
-</li>
-<li>Keep the missing reason when <code>keep = 'missing'</code>
-</li>
-</ul>
-<p>Case 2: NEITHER a value nor a missing reason exists</p>
-<ul>
-<li>Fill in the missing reason with <code>default_reason</code>
-</li>
-</ul>
-<p>These rules allow us to mutate our deinterlaced variables without
-needing to specify BOTH the values and missing reason actions – we only
-need to think about our operation one channel, and then a call to
-<code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> takes care of the other.</p>
 </div>
 <div class="section level2">
 <h2 id="creating-new-columns">Creating New Columns<a class="anchor" aria-label="anchor" href="#creating-new-columns"></a>
 </h2>
 <p><code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> will also automatically create
 missing reason columns if they don’t automatically exist. This is useful
-for adding new variables to your dataframe:</p>
+for adding new variables to your data frame:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    person_type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span>, <span class="st">"CHILD"</span>, <span class="st">"ADULT"</span><span class="op">)</span>,</span>
 <span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>default_reason <span class="op">=</span> <span class="st">"AGE_UNAVAILABLE"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 8</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id. person_type .person_type.     age .age.  favorite_color</span></span>
