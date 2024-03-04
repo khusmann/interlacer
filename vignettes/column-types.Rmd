@@ -72,8 +72,8 @@ As you can see, both items have two selection choices that should be mapped to
 missing reasons. To specify missing reasons at the variable level, the 
 `icol_*()` family
 of column specification types can be used. These extend all of readr's
-`col_*()` column types by adding a param for specifying missing values unique
-to that particular variable:
+`col_*()` column types by adding a parameter for specifying missing values
+unique to that particular variable:
 
 ```{r}
 (df_stress <- read_interlaced_csv(
