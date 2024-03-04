@@ -40,7 +40,7 @@ deinterlace_type_convert <- function(
 
     missing_values <- if_else(curr_column %in% all_na_values, curr_column, NA)
 
-    converted_values <- type_convert_col(values, value_collector, ...)
+    converted_values <- type_convert_col(values, value_collector, na, ...)
 
     converted_missing_values <- factor(missing_values, levels = all_na_values)
 
@@ -53,7 +53,7 @@ deinterlace_type_convert <- function(
     bind_cols()
 }
 
-type_convert_col <- function(x, col, ...) {
-  type_convert(tibble(x), col_types = cols(x = col), ...)$x
+type_convert_col <- function(x, col, na, ...) {
+  type_convert(tibble(x), col_types = cols(x = col), na, ...)$x
 }
 

@@ -1,4 +1,13 @@
 
+test_that("default missing reasons are overrided", {
+  result <- tibble(a = "NA") |>
+    deinterlace_type_convert(na = "FOO")
+
+  expect_equal(
+    result, tibble(a = "NA", .a. = factor(NA, levels = "FOO"))
+  )
+})
+
 test_that("global missing reasons load properly", {
   missing_levels <- c("REASON_1", "REASON_2", "REASON_3")
 
