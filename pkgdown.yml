@@ -5,8 +5,9 @@ articles:
   column-types: column-types.html
   interlacer: interlacer.html
   mutations: mutations.html
+  other-approaches: other-approaches.html
   recipes: recipes.html
-last_built: 2024-03-04T20:31Z
+last_built: 2024-03-04T20:53Z
 urls:
   reference: http://kylehusmann.com/interlacer/reference
   article: http://kylehusmann.com/interlacer/articles

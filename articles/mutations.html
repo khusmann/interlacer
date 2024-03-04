@@ -54,6 +54,7 @@
     <a class="dropdown-item" href="../articles/mutations.html">Mutating Values and Missing Reasons</a>
     <a class="dropdown-item" href="../articles/column-types.html">Interlaced Column Types</a>
     <a class="dropdown-item" href="../articles/recipes.html">Recipes</a>
+    <a class="dropdown-item" href="../articles/other-approaches.html">Other Approaches</a>
   </div>
 </li>
       </ul>
@@ -123,6 +124,8 @@ by setting their missing reason to <code>REDACTED</code>:</p>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Column `age` has rows with both values and missing reasons</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.    favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
@@ -136,9 +139,7 @@ by setting their missing reason to <code>REDACTED</code>:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>             30 REDACTED YELLOW         <span style="color: #BB0000;">NA</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 REDACTED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Warning: Column `age` has rows with both values and missing reasons</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 REDACTED <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
 <p>As you can see by the warning message, we’ve created an ambigous
 situation: there are now rows where <code>age</code> and
 <code>.age.</code> both have values! We need to get rid of all the
@@ -178,6 +179,8 @@ we’d want to set all responses that weren’t <code>RED</code> and
 <span>      <span class="cn">NA</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Column `favorite_color` has rows without values or missing reasons</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
@@ -191,9 +194,7 @@ we’d want to set all responses that weren’t <code>RED</code> and
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>             30 <span style="color: #BB0000;">NA</span>      YELLOW         <span style="color: #BB0000;">NA</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> OMITTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> Warning: Column `favorite_color` has rows without values or missing reasons</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
 <p>As you can see by the warning, we’ve created another invalid state,
 with some <code>favorite_color</code> responses having neither values
 nor missing reasons. To fix this, we need to make a corresponding
