@@ -67,10 +67,29 @@ functions, which extend the `readr::read_*()` family of functions:
 * `read_interlaced_tsv()`
 * `read_interlaced_csv2()`
 * `read_interlaced_delim()`
-   
-The following example loads a sample file bundled with interlacer that
-interlaces values with three possible missing reasons: `REFUSED`, `OMITTED`, and
-`N/A`.
+
+As a quick demo, consider the following example file bundled with interlacer:
+
+```{r}
+library(readr)
+
+read_file(interlacer_example("colors.csv")) |>
+  cat()
+```
+
+As you can see, values are interlaced with three possible missing reasons:
+`REFUSED`, `OMITTED`, and `N/A`.
+
+With `readr`, loading these data would result in a data frame like this:
+
+```{r}
+read_csv(
+  interlacer_example("colors.csv"),
+  na = c("REFUSED", "OMITTED", "N/A")
+)
+```
+
+With interlacer, we get this instead:
 
 ```{r}
 (ex <- read_interlaced_csv(
@@ -79,8 +98,9 @@ interlaces values with three possible missing reasons: `REFUSED`, `OMITTED`, and
 ))
 ```
 
-As you can see, each source variable is loaded into two columns: one for vaild
-values, and the other for missing reasons. Missing reason columns are denoted
+As you can see, each source variable is loaded into a "deinterlaced data frame".
+Deinterlaced data frames have two columns for each variable: one for
+values, and another for missing reasons. Missing reason columns are denoted
 by column names surrounded by dots (e.g. `.age.` is the missing reason for the
 `age` column). When a value is `NA`, it always has a reason in the missing
 reason column. Similarly, when a missing reason is `NA`, it always has a

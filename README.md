@@ -57,9 +57,64 @@ family of functions:
 - `read_interlaced_csv2()`
 - `read_interlaced_delim()`
 
-The following example loads a sample file bundled with interlacer that
-interlaces values with three possible missing reasons: `REFUSED`,
-`OMITTED`, and `N/A`.
+As a quick demo, consider the following example file bundled with
+interlacer:
+
+``` r
+library(readr)
+#> Warning: package 'readr' was built under R version 4.2.3
+
+read_file(interlacer_example("colors.csv")) |>
+  cat()
+#> person_id,age,favorite_color
+#> 1,20,BLUE
+#> 2,REFUSED,BLUE
+#> 3,21,REFUSED
+#> 4,30,OMITTED
+#> 5,1,N/A
+#> 6,41,RED
+#> 7,50,OMITTED
+#> 8,30,YELLOW
+#> 9,REFUSED,REFUSED
+#> 10,OMITTED,RED
+#> 11,10,REFUSED
+```
+
+As you can see, values are interlaced with three possible missing
+reasons: `REFUSED`, `OMITTED`, and `N/A`.
+
+With `readr`, loading these data would result in a data frame like this:
+
+``` r
+read_csv(
+  interlacer_example("colors.csv"),
+  na = c("REFUSED", "OMITTED", "N/A")
+)
+#> Rows: 11 Columns: 3
+#> ── Column specification ────────────────────────────────────────────────────────
+#> Delimiter: ","
+#> chr (1): favorite_color
+#> dbl (2): person_id, age
+#> 
+#> ℹ Use `spec()` to retrieve the full column specification for this data.
+#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+#> # A tibble: 11 × 3
+#>    person_id   age favorite_color
+#>        <dbl> <dbl> <chr>         
+#>  1         1    20 BLUE          
+#>  2         2    NA BLUE          
+#>  3         3    21 <NA>          
+#>  4         4    30 <NA>          
+#>  5         5     1 <NA>          
+#>  6         6    41 RED           
+#>  7         7    50 <NA>          
+#>  8         8    30 YELLOW        
+#>  9         9    NA <NA>          
+#> 10        10    NA RED           
+#> 11        11    10 <NA>
+```
+
+With interlacer, we get this instead:
 
 ``` r
 (ex <- read_interlaced_csv(
@@ -82,12 +137,13 @@ interlaces values with three possible missing reasons: `REFUSED`,
 #> 11        11 <NA>           10 <NA>    <NA>           REFUSED
 ```
 
-As you can see, each source variable is loaded into two columns: one for
-vaild values, and the other for missing reasons. Missing reason columns
-are denoted by column names surrounded by dots (e.g. `.age.` is the
-missing reason for the `age` column). When a value is `NA`, it always
-has a reason in the missing reason column. Similarly, when a missing
-reason is `NA`, it always has a value in the value column.
+As you can see, each source variable is loaded into a “deinterlaced data
+frame”. Deinterlaced data frames have two columns for each variable: one
+for values, and another for missing reasons. Missing reason columns are
+denoted by column names surrounded by dots (e.g. `.age.` is the missing
+reason for the `age` column). When a value is `NA`, it always has a
+reason in the missing reason column. Similarly, when a missing reason is
+`NA`, it always has a value in the value column.
 
 This allows us to separately reference values and missing reasons in a
 tidy and type-aware manner. For example, if I wanted to get a breakdown
