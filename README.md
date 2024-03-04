@@ -28,8 +28,7 @@ found in functional programming)
 
 This library is currently in its experimental stages, so be aware that
 its interface is likely to change in the future. In the meantime, please
-try it out and [let me know what you
-think](https://github.com/khusmann/interlacer/discussions)!
+try it out and [let me know what you think](mailto:kdh38@psu.edu)!
 
 ## Installation
 
@@ -120,11 +119,12 @@ check out `vignette("interlacer")` for a more complete overview!
 
 ## Known Issues
 
-Large data frames (many columns & rows) run slowly with interlacer. This
-is because the current implementation is written entirely in R. There
-are a few key places (noted in the source) that would extremely benefit
-from a native implementation, and make the library much more snappy.
-Before I invest the time in that though, I want to get enough feedback
-from users of this package to stabilize the current approach / API. (If
-you find this package useful, please [let me
-know](https://github.com/khusmann/interlacer/discussions)!)
+Large data frames (many columns & rows) are slow to run and print with
+interlacer. Deinterlaced data frames are validated to check that they
+conform to the rule of “one value OR missing reason per row”, and this
+check is done completely in R. There are a few key places (noted in the
+source) that would extremely benefit from a native implementation, and
+make the library much more snappy. Before I invest the time in that
+though, I want to get enough feedback from users of this package to
+stabilize the current approach / API. (If you find this package useful,
+please [let me know](mailto:kdh38@psu.edu)!)
