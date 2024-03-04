@@ -82,7 +82,20 @@ abort_if_deinterlace_df_problems <- function(x, call = caller_call()) {
 #' @export
 tbl_format_setup.deinterlaced_df <- function(x, width, ...) {
   setup <- NextMethod()
-  setup$interlaced_probs <- deinterlaced_df_problems(x)
+
+  interlaced_probs <- deinterlaced_df_problems(x)
+
+  if (length(interlaced_probs) > 0) {
+    cli_warn(
+      format_bullets_raw(
+        c(
+          glue("{interlaced_probs[[1]]}"),
+          "i" = glue("Run `coalesce_channels()` to fix.")
+        )
+      )
+    )
+  }
+
   setup
 }
 
@@ -91,22 +104,4 @@ tbl_format_header.deinterlaced_df <- function(x, setup, ...) {
   pillar::style_subtle(
     glue("# An deinterlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
   )
-}
-
-#' @export
-tbl_format_footer.deinterlaced_df <- function(x, setup, ...) {
-  default_footer <- NextMethod()
-
-  if (length(setup$interlaced_probs) > 0) {
-    extra <- format_bullets_raw(
-      c(
-        "x" = glue("Warning: {setup$interlaced_probs[[1]]}"),
-        "i" = glue("Run `coalesce_channels()` to fix.")
-      )
-    )
-  } else {
-    extra <- NULL
-  }
-
-  c(default_footer, extra)
 }
