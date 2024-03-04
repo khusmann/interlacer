@@ -90,11 +90,13 @@ states. For example if a variable has a values AND a missing reason,
 it’s not clear which one represents the “correct” state of the variable.
 Similarly, if a variable is missing its value AND its missing reason,
 it’s probably a sign we made a mistake somewhere.</p>
-<p>This means whenever we <code>mutate()</code> the values of a
+<p>This means whenever we <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> the values of a
 variable, the missing reasons must also be updated, and vice versa. To
 illustrate this, let’s load some example data:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
 <span><span class="op">)</span><span class="op">)</span></span>
@@ -115,8 +117,18 @@ illustrate this, let’s load some example data:</p>
 <p>Say we wanted to redact the values in the <code>age</code> variable,
 by setting their missing reason to <code>REDACTED</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
@@ -141,7 +153,7 @@ situation: there are now rows where <code>age</code> and
 <code>age</code> values:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span>,</span>
 <span>    age <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="op">)</span></span>
@@ -167,8 +179,8 @@ we’d want to set all responses that weren’t <code>RED</code> and
 <code>YELLOW</code> to be considered missing:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    favorite_color <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
 <span>      <span class="va">favorite_color</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RED"</span>, <span class="st">"YELLOW"</span><span class="op">)</span>,</span>
 <span>      <span class="va">favorite_color</span>,</span>
 <span>      <span class="cn">NA</span></span>
@@ -196,13 +208,13 @@ nor missing reasons. To fix this, we need to make a corresponding
 mutation to the missing reason column:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    favorite_color <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
 <span>      <span class="va">favorite_color</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RED"</span>, <span class="st">"YELLOW"</span><span class="op">)</span>,</span>
 <span>      <span class="va">favorite_color</span>,</span>
 <span>      <span class="cn">NA</span></span>
 <span>    <span class="op">)</span>,</span>
-<span>    .favorite_color. <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>    .favorite_color. <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">.favorite_color.</span><span class="op">)</span>,</span>
 <span>      <span class="st">"TECHNICAL_ERROR"</span>,</span>
 <span>      <span class="va">.favorite_color.</span></span>
@@ -239,7 +251,7 @@ cumbersome! Luckily, interlacer provides an easier way via
 <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span>,</span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="st">"missing"</span><span class="op">)</span></span>
@@ -259,8 +271,8 @@ cumbersome! Luckily, interlacer provides an easier way via
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED <span style="color: #BB0000;">NA</span>             REFUSED</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    favorite_color <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
 <span>      <span class="va">favorite_color</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RED"</span>, <span class="st">"YELLOW"</span><span class="op">)</span>,</span>
 <span>      <span class="va">favorite_color</span>,</span>
 <span>      <span class="cn">NA</span></span>
@@ -310,10 +322,10 @@ missing reason columns if they don’t automatically exist. This is useful
 for adding new variables to your dataframe:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    person_type <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span>, <span class="st">"CHILD"</span>, <span class="st">"ADULT"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    person_type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span>, <span class="st">"CHILD"</span>, <span class="st">"ADULT"</span><span class="op">)</span>,</span>
 <span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
-<span>  <span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>    <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>default_reason <span class="op">=</span> <span class="st">"AGE_UNAVAILABLE"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 8</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id. person_type .person_type.     age .age.  favorite_color</span></span>
@@ -372,7 +384,7 @@ global <code>default_missing_reason</code> option:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>default_missing_reason <span class="op">=</span> <span class="op">-</span><span class="fl">99</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tibble</span><span class="op">(</span></span>
+<span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>, <span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span><span class="op">)</span></span>

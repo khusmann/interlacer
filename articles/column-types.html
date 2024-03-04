@@ -86,7 +86,9 @@
 <code>read_interlaced_*()</code> will automatically guess column types
 by default:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
 <span><span class="op">)</span><span class="op">)</span></span>
@@ -104,16 +106,19 @@ by default:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> OMITTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
-<p>As with readr, these column type guess can be overriden using the
-<code>col_types</code> paramter:</p>
+<p>As with readr, these column type guess can be overridden using the
+<code>col_types</code>, using readr’s <code>readr::col_*()</code> column
+specifiers:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
-<span>  col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span></span>
-<span>    person_id <span class="op">=</span> <span class="fu">col_integer</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    age <span class="op">=</span> <span class="fu">col_number</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    favorite_color <span class="op">=</span> <span class="fu">col_factor</span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BLUE"</span>, <span class="st">"RED"</span>, <span class="st">"YELLOW"</span>, <span class="st">"GREEN"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html" class="external-link">cols</a></span><span class="op">(</span></span>
+<span>    person_id <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">col_integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    age <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_number.html" class="external-link">col_number</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_factor.html" class="external-link">col_factor</a></span><span class="op">(</span>levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"BLUE"</span>, <span class="st">"RED"</span>, <span class="st">"YELLOW"</span>, <span class="st">"GREEN"</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
@@ -173,8 +178,8 @@ particular variable:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">df_stress</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"stress.csv"</span><span class="op">)</span>,</span>
-<span>  col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span></span>
-<span>    person_id <span class="op">=</span> <span class="fu">col_integer</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html" class="external-link">cols</a></span><span class="op">(</span></span>
+<span>    person_id <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">col_integer</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    current_stress <span class="op">=</span> <span class="fu"><a href="../reference/icol_logical.html">icol_factor</a></span><span class="op">(</span></span>
 <span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LOW"</span>, <span class="st">"MODERATE"</span>, <span class="st">"HIGH"</span><span class="op">)</span>,</span>
 <span>      na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DONT_KNOW"</span>, <span class="st">"DONT_UNDERSTAND"</span><span class="op">)</span></span>

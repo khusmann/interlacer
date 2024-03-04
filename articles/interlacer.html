@@ -85,7 +85,10 @@
 <p>In many datasets, reasons for missing values are interlaced with data
 as special values or codes. For example, consider the following CSV:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">read_file</span><span class="op">(</span><span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html" class="external-link">read_file</a></span><span class="op">(</span><span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; person_id,age,favorite_color</span></span>
 <span><span class="co">#&gt; 1,20,BLUE</span></span>
@@ -107,7 +110,7 @@ in their values are three possible missing reasons:
 <p>To load the values of this data source, it is an easy call to the
 venerable <code><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">readr::read_csv()</a></code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
 <span><span class="op">)</span><span class="op">)</span></span>
@@ -151,13 +154,23 @@ many people just <code>OMITTED</code> their answer? Was the question
 form)? What was the mean respondent age for each of these groups?</p>
 <p>Our current dataframe only gets us part way:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    favorite_color_missing <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
 <span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>,</span>
-<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color_missing</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
@@ -172,9 +185,9 @@ stored in our source data.</p>
 <p>Unfortunately, if we try load our data with the missing reasons
 intact, we lose something else: the type information of the values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">(</span><span class="va">df_with_missing</span> <span class="op">&lt;-</span> <span class="fu">read_csv</span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df_with_missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
-<span>  col_types <span class="op">=</span> <span class="fu">cols</span><span class="op">(</span>.default <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span>
+<span>  col_types <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/cols.html" class="external-link">cols</a></span><span class="op">(</span>.default <span class="op">=</span> <span class="st">"c"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">#&gt;    person_id age     favorite_color</span></span>
@@ -198,17 +211,17 @@ remaining values to our desired type:</p>
 <code class="sourceCode R"><span><span class="va">reasons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df_with_missing</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    age_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu">if_else</span><span class="op">(</span><span class="va">age</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">reasons</span>, <span class="cn">NA</span>, <span class="va">age</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    favorite_color_missing_reasons <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">age</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">reasons</span>, <span class="cn">NA</span>, <span class="va">age</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    favorite_color_missing_reasons <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
 <span>      <span class="va">favorite_color</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">reasons</span>,</span>
 <span>      <span class="va">favorite_color</span>,</span>
 <span>      <span class="cn">NA</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
 <span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age_values</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
-<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
@@ -260,9 +273,9 @@ fingertips, AND the value types are preserved. To make the same report
 as we did before, we would run:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
 <span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
-<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">.favorite_color.</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
@@ -286,7 +299,7 @@ create a sample of respondents that <code>REFUSED</code> to give their
 age?</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span>  </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span>  </span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
@@ -296,7 +309,7 @@ age?</p>
 favorite color?</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 1 × 6</span></span></span>
 <span><span class="co">#&gt;   person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
@@ -307,7 +320,7 @@ reason conditions. For example, this will select everyone who
 old:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">20</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">20</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 1 × 6</span></span></span>
 <span><span class="co">#&gt;   person_id .person_id.   age .age. favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
@@ -318,7 +331,7 @@ anymore. Interlacer provides a convenient
 <code><a href="../reference/drop_missing_cols.html">drop_missing_cols()</a></code> function to take care of this:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/drop_missing_cols.html">drop_missing_cols</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
 <span><span class="co">#&gt;   person_id   age favorite_color</span></span>
@@ -344,7 +357,7 @@ reason:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Value and missing reason:</span></span>
 <span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
@@ -366,8 +379,8 @@ reason:</p>
 <span></span>
 <span><span class="co"># No value, no missing reason:</span></span>
 <span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    favorite_color <span class="op">=</span> <span class="fu">na_if</span><span class="op">(</span><span class="va">favorite_color</span>, <span class="st">"BLUE"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/na_if.html" class="external-link">na_if</a></span><span class="op">(</span><span class="va">favorite_color</span>, <span class="st">"BLUE"</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
