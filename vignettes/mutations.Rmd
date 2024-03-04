@@ -39,7 +39,7 @@ Say we wanted to redact the values in the `age` variable, by setting their
 missing reason to `REDACTED`:
 
 ```{r}
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 
 df |>
   mutate(

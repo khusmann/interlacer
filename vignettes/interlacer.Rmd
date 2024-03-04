@@ -58,7 +58,7 @@ survey form)? What was the mean respondent age for each of these groups?
 Our current dataframe only gets us part way:
 
 ```{r}
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 
 df |>
   mutate(
