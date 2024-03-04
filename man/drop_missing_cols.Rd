@@ -3,7 +3,7 @@
 \name{drop_missing_cols}
 \alias{drop_missing_cols}
 \alias{drop_value_cols}
-\title{Drop missing reasons from a deinterlaced dataframe}
+\title{Drop missing reasons from a deinterlaced data frame}
 \usage{
 drop_missing_cols(x)
 
@@ -16,6 +16,6 @@ drop_value_cols(x)
 A tibble without missing reason columns.
 }
 \description{
-Drop the missing reason or value columns from a deinterlaced dataframe,
-turning it into a regular dataframe with unlabelled `NA` values.
+Drop the missing reason or value columns from a deinterlaced data frame,
+turning it into a regular data frame with unlabelled `NA` values.
 }

@@ -28,7 +28,7 @@ write_interlaced_tsv(x, file, ...)
 
 \item{delim}{Delimiter used to separate values. Defaults to " " for
 `write_interlaced_delim()`, "," for `write_interlaced_excel_csv()` and ";"
-for `write_excel_csv2()`. Must be a single character.}
+for `write_interlaced_excel_csv2()`. Must be a single character.}
 
 \item{...}{Additional parameters to pass to [readr]}
 }
