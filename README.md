@@ -10,9 +10,9 @@ it is missing. Many textual tabular data sources will encode missing
 reasons as special values *interlaced* with the regular values in a
 column (e.g. `N/A`, `REFUSED`, `-99`, etc.). Unfortunately, the missing
 reasons are lost when these values are all converted into a single `NA`
-type. Working with missing reasons in R traditionally has required
-loading all variables as character vectors and doing a bunch of string
-comparisons and type conversions to make sense of them.
+type. Working with missing reasons in R traditionally requires loading
+variables from interlaced data sources as character vectors and doing a
+bunch of string comparisons and type conversions to make sense of them.
 
 Interlacer was created based on the insight that values and missing
 reasons can be handled as separate *channels* of the same variable.
