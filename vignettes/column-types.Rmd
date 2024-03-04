@@ -112,7 +112,9 @@ levels(df_stress$.time_management.)
 ```
 
 For comparison, if we loaded all of these variable-level missing reasons as
-file-level level missing reasons, we would have:
+file-level level missing reasons, each variable would have ALL missing
+reasons as possible levels, even if they didn't apply to that particular
+variable:
 
 ```{r}
 df_stress_file <- read_interlaced_csv(
