@@ -80,7 +80,7 @@ read_file(interlacer_example("colors.csv")) |>
 #> 11,10,REFUSED
 ```
 
-As you can see, values are interlaced with three possible missing
+In this csv file, values are interlaced with three possible missing
 reasons: `REFUSED`, `OMITTED`, and `N/A`.
 
 With `readr`, loading these data would result in a data frame like this:
