@@ -7,5 +7,5 @@ articles:
   navbar: ~
   contents:
   - mutations
-  - collectors
+  - column-types
   - recipes

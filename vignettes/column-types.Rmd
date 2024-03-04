@@ -1,0 +1,133 @@
+---
+title: "Interlaced Column Types"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Interlaced Column Types}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+library(readr)
+library(interlacer)
+```
+
+Like the `readr::read_*()` family of functions, `read_interlaced_*()` will
+automatically guess column types by default:
+
+```{r}
+(read_interlaced_csv(
+  interlacer_example("colors.csv"),
+  na = c("REFUSED", "OMITTED", "N/A"),
+))
+```
+
+As with readr, these column type guess can be overriden using the `col_types`
+paramter:
+
+```{r}
+(read_interlaced_csv(
+  interlacer_example("colors.csv"),
+  na = c("REFUSED", "OMITTED", "N/A"),
+  col_types = cols(
+    person_id = col_integer(),
+    age = col_number(),
+    favorite_color = col_factor(levels = c("BLUE", "RED", "YELLOW", "GREEN"))
+  )
+))
+```
+
+## Interlaced Column Types
+
+In addition to the standard `readr::col_*` column specification types, 
+interlacer provides *interlaced* column types that enable you to specify missing
+reasons at the column level.
+
+This is useful when you have missing reasons that only apply to particular items
+as opposed to the file as a whole. For example, say we had a measure with the
+following two items:
+
+> 1. What is your current stress level?
+> a. Low
+> b. Moderate
+> c. High
+> d. I don't know
+> e. I don't understand the question
+> 
+> 2. How well do you feel you manage your time and responsibilities today?
+> a. Poorly
+> b. Fairly well
+> c. Well
+> d. Very well
+> e. Does not apply (Today was a vacation day)
+> f. Does not apply (Other reason)
+
+As you can see, both items have two selection choices that should be mapped to
+missing reasons. To specify missing reasons at the variable level, the 
+`icol_*()` family
+of column specification types can be used. These extend all of readr's
+`col_*()` column types by adding a param for specifying missing values unique
+to that particular variable:
+
+```{r}
+(df_stress <- read_interlaced_csv(
+  interlacer_example("stress.csv"),
+  col_types = cols(
+    person_id = col_integer(),
+    current_stress = icol_factor(
+      levels = c("LOW", "MODERATE", "HIGH"),
+      na = c("DONT_KNOW", "DONT_UNDERSTAND")
+    ),
+    time_management = icol_factor(
+      levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL"),
+      na = c("NA_VACATION", "NA_OTHER")
+    )
+  ),
+  na = c(
+    "REFUSED",
+    "OMITTED",
+    "N/A"
+  )
+))
+
+```
+
+As you can see, the `icol_factor()` column spec works just like
+`readr::col_factor()`, but additionally accepts an `na` argument for specifying
+missing values at the variable level. When you specify missing
+reasons at the variable-level like this, the available levels in the resulting
+missing reason column correctly show only the possible missing reasons for
+that variable:
+
+```{r}
+levels(df_stress$.person_id.)
+levels(df_stress$.current_stress.)
+levels(df_stress$.time_management.)
+```
+
+For comparison, if we loaded all of these variable-level missing reasons as
+file-level level missing reasons, we would have:
+
+```{r}
+df_stress_file <- read_interlaced_csv(
+  interlacer_example("stress.csv"),
+  na = c(
+    "REFUSED",
+    "OMITTED",
+    "N/A",
+    "DONT_KNOW",
+    "DONT_UNDERSTAND",
+    "NA_VACATION",
+    "NA_OTHER"
+  )
+)
+
+levels(df_stress_file$.person_id.)
+levels(df_stress_file$.current_stress.)
+levels(df_stress_file$.time_management.)
+```
