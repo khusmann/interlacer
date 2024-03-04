@@ -391,12 +391,13 @@ reason:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> OMITTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
-<p>These operations produce dataframes that don’t conform to the rule of
-“one value OR missing reason per variable row”. We could manually solve
-this by manually fixing the corresponding column, but as the above
-output hints, interlacer provides an easier way by way of the function
-<code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>. The next vignette,
-<code><a href="../articles/mutations.html">vignette("mutations")</a></code>, will show how this works!</p>
+<p>Notice the warnings! These operations produce dataframes that don’t
+conform to the rule of “one value OR missing reason per variable row”.
+We could manually solve this by manually fixing the corresponding
+column, but as the above output hints, interlacer provides an easier way
+by way of the function <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>. The next
+vignette, <code><a href="../articles/mutations.html">vignette("mutations")</a></code>, will show how this
+works!</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
