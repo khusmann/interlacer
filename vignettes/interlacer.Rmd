@@ -25,7 +25,7 @@ read_file(interlacer_example("colors.csv")) |>
   cat()
 ```
 
-As you can see, this data source has three variables: `person_id` and `age`,
+This csv data source has three variables: `person_id` and `age`,
 both numeric variables and `favorite_color`, a character or factor variable.
 Interlaced in their values are three possible missing reasons: `REFUSED`,
 `OMITTED`, and `N/A`.
