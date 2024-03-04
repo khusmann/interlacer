@@ -12,15 +12,15 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(interlacer)
-library(readr)
-library(dplyr)
 ```
 
 In many datasets, reasons for missing values are interlaced with data as special
 values or codes. For example, consider the following CSV:
 
 ```{r}
+library(readr)
+library(interlacer)
+
 read_file(interlacer_example("colors.csv")) |>
   cat()
 ```
@@ -58,6 +58,8 @@ survey form)? What was the mean respondent age for each of these groups?
 Our current dataframe only gets us part way:
 
 ```{r}
+library(dplyr)
+
 df |>
   mutate(
     favorite_color_missing = is.na(favorite_color)

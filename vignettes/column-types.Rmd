@@ -12,25 +12,26 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-
-library(readr)
-library(interlacer)
 ```
 
 Like the `readr::read_*()` family of functions, `read_interlaced_*()` will
 automatically guess column types by default:
 
 ```{r}
+library(interlacer)
+
 (read_interlaced_csv(
   interlacer_example("colors.csv"),
   na = c("REFUSED", "OMITTED", "N/A"),
 ))
 ```
 
-As with readr, these column type guess can be overriden using the `col_types`
-paramter:
+As with readr, these column type guess can be overridden using the `col_types`,
+using readr's `readr::col_*()` column specifiers:
 
 ```{r}
+library(readr)
+
 (read_interlaced_csv(
   interlacer_example("colors.csv"),
   na = c("REFUSED", "OMITTED", "N/A"),

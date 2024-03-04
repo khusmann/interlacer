@@ -12,8 +12,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(dplyr)
-library(interlacer)
 ```
 
 When working with a "deinterlaced dataframe", care must be taken to ensure that
@@ -29,6 +27,8 @@ must also be updated, and vice versa. To illustrate this, let's load some
 example data:
 
 ```{r}
+library(interlacer)
+
 (df <- read_interlaced_csv(
   interlacer_example("colors.csv"),
   na = c("REFUSED", "OMITTED", "N/A"),
@@ -39,6 +39,8 @@ Say we wanted to redact the values in the `age` variable, by setting their
 missing reason to `REDACTED`:
 
 ```{r}
+library(dplyr)
+
 df |>
   mutate(
     .age. = "REDACTED"
