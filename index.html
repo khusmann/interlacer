@@ -88,7 +88,7 @@
 </h2>
 <p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the regular values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons in R traditionally requires loading variables as character vectors and doing a bunch of string comparisons and type conversions to make sense of them.</p>
 <p>Interlacer was created based on the insight that values and missing reasons can be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this structure gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons in tidy pipelines, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (tldr: It allows us to interact with a variable as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
-<p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know what you think</a>!</p>
+<p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="mailto:kdh38@psu.edu">let me know what you think</a>!</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -155,7 +155,7 @@
 <div class="section level2">
 <h2 id="known-issues">Known Issues<a class="anchor" aria-label="anchor" href="#known-issues"></a>
 </h2>
-<p>Large data frames (many columns &amp; rows) run slowly with interlacer. This is because the current implementation is written entirely in R. There are a few key places (noted in the source) that would extremely benefit from a native implementation, and make the library much more snappy. Before I invest the time in that though, I want to get enough feedback from users of this package to stabilize the current approach / API. (If you find this package useful, please <a href="https://github.com/khusmann/interlacer/discussions" class="external-link">let me know</a>!)</p>
+<p>Large data frames (many columns &amp; rows) are slow to run and print with interlacer. Deinterlaced data frames are validated to check that they conform to the rule of “one value OR missing reason per row”, and this check is done completely in R. There are a few key places (noted in the source) that would extremely benefit from a native implementation, and make the library much more snappy. Before I invest the time in that though, I want to get enough feedback from users of this package to stabilize the current approach / API. (If you find this package useful, please <a href="mailto:kdh38@psu.edu">let me know</a>!)</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
