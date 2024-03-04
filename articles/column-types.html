@@ -222,7 +222,9 @@ show only the possible missing reasons for that variable:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/levels.html" class="external-link">levels</a></span><span class="op">(</span><span class="va">df_stress</span><span class="op">$</span><span class="va">.time_management.</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "NA_VACATION" "NA_OTHER"    "REFUSED"     "OMITTED"     "N/A"</span></span></code></pre></div>
 <p>For comparison, if we loaded all of these variable-level missing
-reasons as file-level level missing reasons, we would have:</p>
+reasons as file-level level missing reasons, each variable would have
+ALL missing reasons as possible levels, even if they didn’t apply to
+that particular variable:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_stress_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"stress.csv"</span><span class="op">)</span>,</span>
