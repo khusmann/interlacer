@@ -14,8 +14,32 @@ knitr::opts_chunk$set(
 )
 ```
 
+The [haven](https://haven.tidyverse.org/) package has functions for loading
+native SPSS, SAS, and Stata native file formats into
+special data frames that use column attributes and special values to keep track
+of interlaces values and missing reasons. In this section I discuss the
+advantages and disadvantages of these approaches, and how they compare with
+interlacer. In the final section, I describe what I think would be an "ideal"
+way to work with missingness in R, and the technical challenges we'd have to
+overcome in order to implement it.
 
-## Labelled missing values
+(Note: Future versions of interlacer could have the ability to convert haven
+data frames to and from deinterlaced data frames, but I want to gauge interest
+for this feature before I invest the time to implement it. If this is a
+feature you'd use, [please let me know](mailto:kdh38@psu.edu)!)
+
+## "Labelled" missing values
+
+When SPSS *.sav files are loaded with haven via `haven::read_spss()`, values
+and missing reasons are loaded into a single interlaced numeric vector:
+
+```{r}
+library(haven)
+
+df_spss <- read_spss(
+  interlacer_example("colors.sav")
+)
+```
 
 ## "Tagged" missing values
 
