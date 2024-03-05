@@ -83,18 +83,318 @@
 
     
     
+<p>The <a href="https://haven.tidyverse.org/" class="external-link">haven</a> package has
+functions for loading native SPSS, SAS, and Stata native file formats
+into special data frames that use column attributes and special values
+to keep track of interlaces values and missing reasons. In this section
+I discuss the advantages and disadvantages of these approaches, and how
+they compare with interlacer. In the final section, I describe what I
+think would be an “ideal” way to work with missingness in R, and the
+technical challenges we’d have to overcome in order to implement it.</p>
+<p>(Note: Future versions of interlacer could have the ability to
+convert haven data frames to and from deinterlaced data frames, but I
+want to gauge interest for this feature before I invest the time to
+implement it. If this is a feature you’d use, <a href="mailto:kdh38@psu.edu">please let me know</a>!)</p>
 <div class="section level2">
-<h2 id="labelled-missing-values">Labelled missing values<a class="anchor" aria-label="anchor" href="#labelled-missing-values"></a>
+<h2 id="labelled-missing-values">“Labelled” missing values<a class="anchor" aria-label="anchor" href="#labelled-missing-values"></a>
 </h2>
+<p>When SPSS *.sav files are loaded with haven via
+<code><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">haven::read_spss()</a></code>, values and missing reasons are loaded
+into a single interlaced numeric vector:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://haven.tidyverse.org" class="external-link">haven</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">df_spss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">read_spss</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.sav"</span><span class="op">)</span>, user_na <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
+<span><span class="co">#&gt;    person_id age                favorite_color    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  1         20                  1<span style="color: #949494;"> [BLUE]</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2        -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>   1<span style="color: #949494;"> [BLUE]</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  3         21                -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  4         30                -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  5          1                -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  6         41                  2<span style="color: #949494;"> [RED]</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  7         50                -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  8         30                  3<span style="color: #949494;"> [YELLOW]</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  9        -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 10        -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>   2<span style="color: #949494;"> [RED]</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 11         10                -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span></code></pre></div>
+<p>Not just any numeric vector though, a
+<code><a href="https://haven.tidyverse.org/reference/labelled_spss.html" class="external-link">haven::labelled_spss()</a></code> numeric vector, with attributes
+describing its value and missing value codes:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">df_spss</span><span class="op">$</span><span class="va">favorite_color</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $label</span></span>
+<span><span class="co">#&gt; [1] "Favorite color"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $na_range</span></span>
+<span><span class="co">#&gt; [1] -Inf    0</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $class</span></span>
+<span><span class="co">#&gt; [1] "haven_labelled_spss" "haven_labelled"      "vctrs_vctr"         </span></span>
+<span><span class="co">#&gt; [4] "double"             </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $format.spss</span></span>
+<span><span class="co">#&gt; [1] "F8.2"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $labels</span></span>
+<span><span class="co">#&gt;    BLUE     RED  YELLOW     N/A REFUSED OMITTED </span></span>
+<span><span class="co">#&gt;       1       2       3     -99     -98     -97</span></span></code></pre></div>
+<p>These attributes adjust the behavior of functions like
+<code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">df_spss</span><span class="op">$</span><span class="va">favorite_color</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE</span></span></code></pre></div>
+<p>So you still have to do the usual gymnastics in pipelines:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_spss</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_values <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>, <span class="cn">NA</span>, <span class="va">age</span><span class="op">)</span>,</span>
+<span>    favorite_color_missing_reasons <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span>, <span class="va">favorite_color</span>, <span class="cn">NA</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age_values</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   favorite_color_missing_reasons mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="color: #BB0000;">NA</span>                                30.3     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>                 15.5     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>                 40       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>                      1       1</span></span></code></pre></div>
+<p>It’s a little bit of an improvement to working with raw coded values,
+because you can use <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>, and your codes get labels, so
+you don’t have be constantly looking up codes in your codebook. But it
+still falls short of the interlacer approach for two key reasons.</p>
+<p>Reason 1: With the interlacer approach of having separate columns for
+values and missing reasons, your value column can be whatever type you
+want: numeric, character, factor, etc. With labelled, values and missing
+reasons need to be the same type, usually numeric codes. This creates a
+lot more type gymnastics and potential errors when you’re manipulating
+them.</p>
+<p>Reason 2: Keeping interlaced columns, even when the missing values
+are labelled, means aggregations are not protected. If you forget to
+take out your missing values, you get incorrect results:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_spss</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color_missing_reasons <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span>, <span class="va">favorite_color</span>, <span class="cn">NA</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   favorite_color_missing_reasons mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="color: #BB0000;">NA</span>                               -<span style="color: #BB0000;">20.8</span>     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>                -<span style="color: #BB0000;">22.3</span>     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>                 40       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>                      1       1</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="tagged-missing-values">“Tagged” missing values<a class="anchor" aria-label="anchor" href="#tagged-missing-values"></a>
 </h2>
+<p>For loading Stata and SAS files, haven uses a “tagged missingness”
+approach to mirror how these values are handled in Stata and SAS:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">df_stata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://haven.tidyverse.org/reference/read_dta.html" class="external-link">read_stata</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.dta"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
+<span><span class="co">#&gt;    person_id age             favorite_color </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  1           20               1<span style="color: #949494;"> [BLUE]</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2        <span style="color: #BB0000;">NA(a)</span><span style="color: #949494;"> [REFUSED]</span>     1<span style="color: #949494;"> [BLUE]</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  3           21           <span style="color: #BB0000;">NA(a)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  4           30           <span style="color: #BB0000;">NA(b)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  5            1              <span style="color: #BB0000;">NA</span>          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  6           41               2<span style="color: #949494;"> [RED]</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  7           50           <span style="color: #BB0000;">NA(b)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  8           30               3<span style="color: #949494;"> [YELLOW]</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  9        <span style="color: #BB0000;">NA(a)</span><span style="color: #949494;"> [REFUSED]</span> <span style="color: #BB0000;">NA(a)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 10        <span style="color: #BB0000;">NA(b)</span><span style="color: #949494;"> [OMITTED]</span>     2<span style="color: #949494;"> [RED]</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 11           10           <span style="color: #BB0000;">NA(a)</span><span style="color: #949494;"> [REFUSED]</span></span></span></code></pre></div>
+<p>This approach is deviously clever. It takes advantage of the way
+<code>NaN</code> floating point values are stored in memory, to make it
+possible to have different “flavors” of <code>NA</code> values. (For
+more info on how this is done, check out <a href="https://github.com/tidyverse/haven/blob/main/src/tagged_na.c" class="external-link">tagged_na.c</a>
+in the source code for haven)</p>
+<p>They still all act like regular <code>NA</code> values… but now they
+can include a single character “tag” (usually a letter from a-z). This
+means that they work with <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code> AND will not include
+missing reason codes in aggregations!</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">df_stata</span><span class="op">$</span><span class="va">age</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">df_stata</span><span class="op">$</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 25.375</span></span></code></pre></div>
+<p>Unfortunately, you can’t group by them, because
+<code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> is not missing tag-aware :(</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_stata</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color_missing_reasons <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span>, <span class="va">favorite_color</span>, <span class="cn">NA</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
+<span><span class="co">#&gt;   favorite_color_missing_reasons mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>                                 25.4    11</span></span></code></pre></div>
+<p>Another limitation of this approach is that it requires values types
+to be numeric, because the trick of “tagging” the <code>NA</code> values
+depends on the peculiarities of how floating point values are stored in
+memory. Again, keeping separate columns for values and missing reasons
+solves all these issues.</p>
 </div>
 <div class="section level2">
 <h2 id="the-ideal-approach">The “ideal” approach<a class="anchor" aria-label="anchor" href="#the-ideal-approach"></a>
 </h2>
-<p>An “ideal” missing value API would make use of truly typed</p>
+<p>The biggest downside of keeping separate columns for values and
+missing reasons are the invalid states that come up when you start
+trying to mutate your data frames. <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>
+helps a lot, but it’s a pragmatic solution, not an ideal one.</p>
+<p>I think the ideal way to handle missing reasons would be to implement
+a proper generic <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code>
+type</a> natively into R’s type system. A real <code>Result</code> type
+would act similar to haven’s <code><a href="https://haven.tidyverse.org/reference/tagged_na.html" class="external-link">haven::tagged_na()</a></code>, but be a
+container for any type of value, not only missing values.</p>
+<p>In an early attempt of this library, I tried using nested data frames
+for this effect:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_interlaced</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="op">(</span><span class="va">df_nested</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  person_id <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    v <span class="op">=</span> <span class="va">df_interlaced</span><span class="op">$</span><span class="va">person_id</span>,</span>
+<span>    m <span class="op">=</span> <span class="va">df_interlaced</span><span class="op">$</span><span class="va">.person_id.</span>,</span>
+<span>  <span class="op">)</span>,</span>
+<span>  age <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    v <span class="op">=</span> <span class="va">df_interlaced</span><span class="op">$</span><span class="va">age</span>,</span>
+<span>    m <span class="op">=</span> <span class="va">df_interlaced</span><span class="op">$</span><span class="va">.age.</span>,</span>
+<span>  <span class="op">)</span>,</span>
+<span>  favorite_color <span class="op">=</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    v <span class="op">=</span> <span class="va">df_interlaced</span><span class="op">$</span><span class="va">favorite_color</span>,</span>
+<span>    m <span class="op">=</span> <span class="va">df_interlaced</span><span class="op">$</span><span class="va">.favorite_color.</span>,</span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
+<span><span class="co">#&gt;    person_id$v $m    age$v $m      favorite_color$v $m     </span></span>
+<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>           1 <span style="color: #BB0000;">NA</span>       20 <span style="color: #BB0000;">NA</span>      BLUE             <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>           2 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span> REFUSED BLUE             <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>           3 <span style="color: #BB0000;">NA</span>       21 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               REFUSED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>           4 <span style="color: #BB0000;">NA</span>       30 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               OMITTED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>           5 <span style="color: #BB0000;">NA</span>        1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               N/A    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>           6 <span style="color: #BB0000;">NA</span>       41 <span style="color: #BB0000;">NA</span>      RED              <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>           7 <span style="color: #BB0000;">NA</span>       50 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               OMITTED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>           8 <span style="color: #BB0000;">NA</span>       30 <span style="color: #BB0000;">NA</span>      YELLOW           <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>           9 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>               REFUSED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>          10 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span> OMITTED RED              <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>          11 <span style="color: #BB0000;">NA</span>       10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               REFUSED</span></span></code></pre></div>
+<p>This sort of works, because we can use <code>$v</code> and
+<code>$m</code> to reference separate channels of the data frame.
+Unfortunately it requires creating separate columns when grouping:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_nested</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color_missing <span class="op">=</span> <span class="va">favorite_color</span><span class="op">$</span><span class="va">m</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span><span class="op">$</span><span class="va">v</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color_missing</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
+<span><span class="co">#&gt;   favorite_color_missing mean_age     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>                         30.3     5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> REFUSED                    15.5     3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> OMITTED                    40       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N/A                         1       1</span></span></code></pre></div>
+<p>And mutations get ugly, even though they’re more “correct” from a
+strongly-typed functional programming perspective…</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_nested</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>      <span class="va">favorite_color</span><span class="op">$</span><span class="va">v</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RED"</span>, <span class="st">"YELLOW"</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">favorite_color</span><span class="op">$</span><span class="va">v</span>, m <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>v <span class="op">=</span> <span class="cn">NA</span>, m <span class="op">=</span> <span class="st">"TECHNICAL_ERROR"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
+<span><span class="co">#&gt;    person_id$v $m    age$v $m      favorite_color$v $m             </span></span>
+<span><span class="co">#&gt;          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>           1 <span style="color: #BB0000;">NA</span>       20 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>           2 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>           3 <span style="color: #BB0000;">NA</span>       21 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>           4 <span style="color: #BB0000;">NA</span>       30 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>           5 <span style="color: #BB0000;">NA</span>        1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>           6 <span style="color: #BB0000;">NA</span>       41 <span style="color: #BB0000;">NA</span>      RED              <span style="color: #BB0000;">NA</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>           7 <span style="color: #BB0000;">NA</span>       50 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>           8 <span style="color: #BB0000;">NA</span>       30 <span style="color: #BB0000;">NA</span>      YELLOW           <span style="color: #BB0000;">NA</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>           9 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>          10 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span> OMITTED RED              <span style="color: #BB0000;">NA</span>             </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>          11 <span style="color: #BB0000;">NA</span>       10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span></code></pre></div>
+<p>If we were to implement this somehow as a custom native type in R,
+I’d want syntax something like this instead:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>df_mutated <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="at">favorite_color =</span> <span class="fu">if_else</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>      favorite_color <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"RED"</span>, <span class="st">"YELLOW"</span>),</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>      favorite_color,</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>      <span class="fu">missing_reason</span>(<span class="st">"TECHNICAL_ERROR"</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    )</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  </span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>df_mutated <span class="sc">|&gt;</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm=</span>T),</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">missing_reason</span>(favorite_color)</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>  )</span></code></pre></div>
+<p>This would be “ideal” in my book: we can use values as usual, but
+anytime we want to access the “missing reason” channel, we can wrap it
+in a <code>missing_reason()</code> (similar to how
+<code><a href="https://haven.tidyverse.org/reference/tagged_na.html" class="external-link">haven::tagged_na()</a></code> works). It’s type safe and super
+ergonomic. But implementing this would be a major headache and involve
+very intimate knowledge of R internals… (<span class="citation">@Hadley</span> Wickham if by some miracle you’re
+reading this, could we talk sometime??)</p>
+<p>So this is why I’m using the present current “deinterlaced data
+frame” approach. It is easy to understand and use, even though it’s not
+“perfect” from a strongly typed functional programming perspective. If
+there’s enough demand for missing-reason-aware tooling in R though, it
+might convince me to go down the “generic tagged type” rabbit hole… <a href="mailto:kdh38@psu.edu">Please drop me a line</a> to let me know
+what you think!</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
