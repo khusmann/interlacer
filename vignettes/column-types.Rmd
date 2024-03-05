@@ -98,7 +98,7 @@ unique to that particular variable:
 
 ```
 
-As you can see, the `icol_factor()` column spec works just like
+The `icol_factor()` column spec works just like
 `readr::col_factor()`, but additionally accepts an `na` argument for specifying
 missing values at the variable level. When you specify missing
 reasons at the variable-level like this, the available levels in the resulting
