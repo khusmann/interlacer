@@ -31,7 +31,7 @@ deinterlaced to make them easier to work with in R.
 ## Numeric codes with negative missing reasons (SPSS)
 
 It's extremely common to find data sources that encode all categorical responses
-as numeric values, with negative values representing missing values codes. SPSS
+as numeric values, with negative values representing missing reason codes. SPSS
 is one such example. Here's an SPSS-formatted version of the `colors.csv`
 example:
 
@@ -45,7 +45,7 @@ read_file(
   cat()
 ```
 
-Where missing values are:
+Where missing reasons are:
 
 > -99: N/A
 >
@@ -92,8 +92,8 @@ missing reasons become codes you have to remember and 2) it's really easy to
 make mistakes.
 
 What sort of mistakes? Well, because everything is numeric, there's nothing
-stopping us from treating missing values as if they are regular values...
-If you forget to remove your missing values, R will still happily
+stopping us from treating missing reason codes as if they are regular values...
+If you forget to remove your missing reason codes, R will still happily
 compute aggregations using the negative numbers!
 
 ```{r}
