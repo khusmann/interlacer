@@ -164,12 +164,13 @@ situation: there are now rows where <code>age</code> and
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>    REDACTED <span style="color: #BB0000;">NA</span>             REFUSED         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>    REDACTED RED            <span style="color: #BB0000;">NA</span>              </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>    REDACTED <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
-<p>Let’s look at another example. Say our study was supposed to only let
-participants choose between <code>RED</code> and <code>YELLOW</code> for
-their favorite colors – but for some reason <code>BLUE</code> was
-included as an option because of a technical glitch. In this situation,
-we’d want to set all responses that weren’t <code>RED</code> and
-<code>YELLOW</code> to be considered missing:</p>
+<p>Before I reveal a better way to go about this, let’s look at another
+motivating example. Say our study was supposed to only let participants
+choose between <code>RED</code> and <code>YELLOW</code> for their
+favorite colors – but for some reason <code>BLUE</code> was included as
+an option because of a technical glitch. In this situation, we’d want to
+set all responses that weren’t <code>RED</code> and <code>YELLOW</code>
+to be considered missing:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
