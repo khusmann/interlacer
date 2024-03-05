@@ -158,7 +158,8 @@ keeping separate columns for values and missing reasons solves all these issues.
 
 The biggest downside of keeping separate columns for values and missing reasons
 are the invalid states that come up when you start trying to mutate your data
-frames. `coalesce_channels()` helps a lot, but it's not ideal.
+frames. `coalesce_channels()` helps a lot, but it's a pragmatic solution,
+not an ideal one.
 
 I think the ideal way to handle missing reasons would be to implement a proper
 generic [`Result` type](https://en.wikipedia.org/wiki/Result_type) natively
