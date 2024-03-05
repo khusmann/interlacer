@@ -270,5 +270,5 @@ compares to interlacer's approach, see `vignette("other-approaches")`.
 
 Future versions of interlacer could have the ability to convert haven data
 frames to and from deinterlaced data frames, but I want to gauge interest for
-this feature before I invested the time to implement. If this is a a feature
+this feature before I invest the time to implement it. If this is a a feature
 you'd use, [please let me know](mailto:kdh38@psu.edu)!
