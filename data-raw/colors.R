@@ -8,6 +8,12 @@ missing_labels <- c(
   OMITTED = -97
 )
 
+missing_tags <- c(
+  `N/A` = tagged_na(""),
+  REFUSED = tagged_na("a"),
+  OMITTED = tagged_na("b")
+)
+
 color_labels <- c(
   BLUE = 1,
   RED = 2,
@@ -54,15 +60,17 @@ df_stata <- read_csv(
         suppressWarnings(as.double(x))
       )
     ),
-    person_id = labelled(person_id, label = "Person ID"),
-    age = labelled(age, label = "Age"),
+    person_id = labelled(person_id, labels = missing_tags, label = "Person ID"),
+    age = labelled(age, labels = missing_tags, label = "Age"),
     favorite_color = labelled(
-      favorite_color, labels = color_labels, label = "Favorite color"
+      favorite_color,
+      labels = c(missing_tags, color_labels),
+      label = "Favorite color"
     )
   )
 
 # Interesting. write_dta does not save veriable label if there are no value
-# labels? When this file is read, neither person_id and age have variable
+# labels? When this file is read, person_id doesn't have variable
 # labels...
 
 write_dta(df_stata, "inst/extdata/colors.dta")

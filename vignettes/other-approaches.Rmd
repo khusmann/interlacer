@@ -105,6 +105,150 @@ df_spss |>
 
 ## "Tagged" missing values
 
+For loading Stata and SAS files, haven uses a "tagged missingness" approach to
+mirror how these values are handled in Stata and SAS:
+
+```{r}
+(df_stata <- read_stata(
+  interlacer_example("colors.dta")
+))
+```
+
+This approach is deviously clever. It takes advantage of the way `NaN` floating
+point values are stored in memory, to make it possible to have different
+"flavors" of `NA` values. (For more info on how this is done, check out
+[tagged_na.c](https://github.com/tidyverse/haven/blob/main/src/tagged_na.c) in
+the source code for haven)
+
+They still all act like regular `NA` values... but now they can include a single
+character "tag" (usually a letter from a-z). This means that they work with
+`is.na()` AND will not include missing reason codes in aggregations!
+
+```{r}
+is.na(df_stata$age)
+
+mean(df_stata$age, na.rm=TRUE)
+```
+
+Unfortunately, you can't group by them, because `dplyr::group_by()` is not
+missing tag-aware :(
+
+```{r}
+df_stata |>
+  mutate(
+    favorite_color_missing_reasons = if_else(
+      is.na(favorite_color), favorite_color, NA
+    )
+  ) |>
+  summarize(
+    mean_age = mean(age, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing_reasons
+  )
+```
+
+Another limitation of this approach is that it requires values types to be
+numeric, because the trick of "tagging" the `NA` values depends on the
+peculiarities of how floating point values are stored in memory. Again,
+keeping separate columns for values and missing reasons solves all these issues.
+
 ## The "ideal" approach
 
-An "ideal" missing value API would make use of truly typed 
+The biggest downside of keeping separate columns for values and missing reasons
+are the invalid states that come up when you start trying to mutate your data
+frames. `coalesce_channels()` helps a lot, but it's not ideal.
+
+I think the ideal way to handle missing reasons would be to implement a proper
+generic [`Result` type](https://en.wikipedia.org/wiki/Result_type) natively
+into R's type system. A real `Result` type would act similar to haven's
+`haven::tagged_na()`, but be a container for any type of value, not only
+missing values.
+
+In an early attempt of this library, I tried using nested data frames for this
+effect:
+
+```{r}
+df_interlaced <- read_interlaced_csv(
+  interlacer_example("colors.csv"),
+  na = c("REFUSED", "OMITTED", "N/A")
+)
+
+(df_nested <- tibble(
+  person_id = tibble(
+    v = df_interlaced$person_id,
+    m = df_interlaced$.person_id.,
+  ),
+  age = tibble(
+    v = df_interlaced$age,
+    m = df_interlaced$.age.,
+  ),
+  favorite_color = tibble(
+    v = df_interlaced$favorite_color,
+    m = df_interlaced$.favorite_color.,
+  )
+))
+```
+
+This sort of works, because we can use `$v` and `$m` to reference separate
+channels of the data frame. Unfortunately it requires creating separate columns
+when grouping:
+
+```{r}
+df_nested |>
+  mutate(
+    favorite_color_missing = favorite_color$m
+  ) |> 
+  summarize(
+    mean_age = mean(age$v, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing
+  )
+```
+
+And mutations get ugly... (There's probably a way to tickle this back to a
+nicely displayed data frame, but I couldn't find it)
+
+```{r}
+df_nested |>
+  mutate(
+    favorite_color = if_else(
+      favorite_color$v %in% c("RED", "YELLOW"),
+      tibble(v = favorite_color$v, m = NA),
+      tibble(v = NA, m = "TECHNICAL_ERROR")
+    )
+  )
+```
+
+If we were to implement this somehow as a custom native type in R, I'd want
+syntax something like this instead:
+
+```{r, eval = FALSE}
+df_mutated <- df |>
+  mutate(
+    favorite_color = if_else(
+      favorite_color %in% c("RED", "YELLOW"),
+      favorite_color,
+      missing_reason("TECHNICAL_ERROR")
+    )
+  
+df_mutated |>
+  summarize(
+    mean_age = mean(age, na.rm=T),
+    n = n(),
+    .by = missing_reason(favorite_color)
+  )
+```
+
+This would be "ideal" in my book: we can use values as usual, but anytime
+we want to access the "missing reason" channel, we can wrap it in a
+`missing_reason()` (similar to how `haven::tagged_na()` works). It's type safe
+and super ergonomic. But implementing this would be a major headache and
+involve very intimate knowledge of R internals... (@Hadley Wickham if by some
+miracle you're reading this, could we talk sometime??)
+
+So this is why I'm using the present current "deinterlaced data frame"
+approach. It is easy to understand and use, even though it's not "perfect"
+from a strongly typed functional programming perspective. If there's enough
+demand for missing-reason-aware tooling in R though, it might convince me
+to go down the "generic tagged type" rabbit hole...
+[Please drop me a line](mailto:kdh38@psu.edu) to let me know what you think!
