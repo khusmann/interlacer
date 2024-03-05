@@ -368,20 +368,22 @@ strongly-typed functional programming perspective…</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>          11 <span style="color: #BB0000;">NA</span>       10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>               TECHNICAL_ERROR</span></span></code></pre></div>
 <p>If we were to implement this somehow as a custom native type in R,
 I’d want syntax something like this instead:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>df_mutated <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="at">favorite_color =</span> <span class="fu">if_else</span>(</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>      favorite_color <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"RED"</span>, <span class="st">"YELLOW"</span>),</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>      favorite_color,</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>      <span class="fu">missing_reason</span>(<span class="st">"TECHNICAL_ERROR"</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>    )</span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  </span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>df_mutated <span class="sc">|&gt;</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age, <span class="at">na.rm=</span>T),</span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    <span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>    <span class="at">.by =</span> <span class="fu">missing_reason</span>(favorite_color)</span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_mutated</span> <span class="op">&lt;-</span> <span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>      <span class="va">favorite_color</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RED"</span>, <span class="st">"YELLOW"</span><span class="op">)</span>,</span>
+<span>      <span class="va">favorite_color</span>,</span>
+<span>      <span class="fu">missing_reason</span><span class="op">(</span><span class="st">"TECHNICAL_ERROR"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">df_mutated</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="fu">missing_reason</span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 <p>This would be “ideal” in my book: we can use values as usual, but
 anytime we want to access the “missing reason” channel, we can wrap it
 in a <code>missing_reason()</code> (similar to how
