@@ -233,6 +233,7 @@ df_mutated <- df |>
       favorite_color,
       missing_reason("TECHNICAL_ERROR")
     )
+  )
   
 df_mutated |>
   summarize(
