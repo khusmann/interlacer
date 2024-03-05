@@ -89,7 +89,7 @@ read_csv(
 )
 ```
 
-With interlacer, we get this instead:
+With interlacer, we get a "deinterlaced data frame" instead:
 
 ```{r}
 (ex <- read_interlaced_csv(
@@ -98,7 +98,6 @@ With interlacer, we get this instead:
 ))
 ```
 
-As you can see, each source variable is loaded into a "deinterlaced data frame".
 Deinterlaced data frames have two columns for each variable: one for
 values, and another for missing reasons. Missing reason columns are denoted
 by column names surrounded by dots (e.g. `.age.` is the missing reason for the

@@ -114,7 +114,7 @@ read_csv(
 #> 11        11    10 <NA>
 ```
 
-With interlacer, we get this instead:
+With interlacer, we get a “deinterlaced data frame” instead:
 
 ``` r
 (ex <- read_interlaced_csv(
@@ -137,9 +137,8 @@ With interlacer, we get this instead:
 #> 11        11 <NA>           10 <NA>    <NA>           REFUSED
 ```
 
-As you can see, each source variable is loaded into a “deinterlaced data
-frame”. Deinterlaced data frames have two columns for each variable: one
-for values, and another for missing reasons. Missing reason columns are
+Deinterlaced data frames have two columns for each variable: one for
+values, and another for missing reasons. Missing reason columns are
 denoted by column names surrounded by dots (e.g. `.age.` is the missing
 reason for the `age` column). When a value is `NA`, it always has a
 reason in the missing reason column. Similarly, when a missing reason is
