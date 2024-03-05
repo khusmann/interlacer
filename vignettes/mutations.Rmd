@@ -59,7 +59,8 @@ df |>
   )
 ```
 
-Let's look at another example. Say our study was supposed to only let
+Before I reveal a better way to go about this, let's look at another motivating
+example. Say our study was supposed to only let
 participants choose between `RED` and `YELLOW` for their favorite colors --
 but for some reason `BLUE` was included as an option because of a technical
 glitch. In this situation, we'd want to set all responses that weren't `RED` and
