@@ -12,27 +12,13 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-library(interlacer)
 ```
 
-Why don't data
 
-Values and missing reasons 
+## Labelled missing values
 
-## Negative numeric codes
-
-## String types in numeric fields
-
-## haven
-
-```{r}
-library(haven)
-```
-
-### Labelled missing values
-
-### "Tagged" missing values
+## "Tagged" missing values
 
 ## The "ideal" approach
 
-
+An "ideal" missing value API would make use of truly typed 
