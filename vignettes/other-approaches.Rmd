@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 The [haven](https://haven.tidyverse.org/) package has functions for loading
-native SPSS, SAS, and Stata native file formats into
+native SPSS, SAS, and Stata file formats into
 special data frames that use column attributes and special values to keep track
 of interlaces values and missing reasons. In this section I discuss the
 advantages and disadvantages of these approaches, and how they compare with
