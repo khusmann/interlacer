@@ -34,7 +34,9 @@ When SPSS *.sav files are loaded with haven via `haven::read_spss()`, values
 and missing reasons are loaded into a single interlaced numeric vector:
 
 ```{r}
+library(interlacer)
 library(haven)
+library(dplyr)
 
 (df_spss <- read_spss(
   interlacer_example("colors.sav"), user_na = TRUE
@@ -205,8 +207,8 @@ df_nested |>
   )
 ```
 
-And mutations get ugly... (There's probably a way to tickle this back to a
-nicely displayed data frame, but I couldn't find it)
+And mutations get ugly, even though they're more "correct" from a strongly-typed
+functional programming perspective... 
 
 ```{r}
 df_nested |>
