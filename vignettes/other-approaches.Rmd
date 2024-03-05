@@ -36,10 +36,72 @@ and missing reasons are loaded into a single interlaced numeric vector:
 ```{r}
 library(haven)
 
-df_spss <- read_spss(
-  interlacer_example("colors.sav")
-)
+(df_spss <- read_spss(
+  interlacer_example("colors.sav"), user_na = TRUE
+))
 ```
+
+Not just any numeric vector though, a `haven::labelled_spss()` numeric vector,
+with attributes describing its value and missing value codes:
+
+```{r}
+attributes(df_spss$favorite_color)
+```
+
+These attributes adjust the behavior of functions like `is.na()`:
+
+```{r}
+is.na(df_spss$favorite_color)
+```
+
+
+So you still have to do the usual gymnastics in pipelines:
+
+```{r}
+df_spss |>
+  mutate(
+    age_values = if_else(is.na(age), NA, age),
+    favorite_color_missing_reasons = if_else(
+      is.na(favorite_color), favorite_color, NA
+    )
+  ) |>
+  summarize(
+    mean_age = mean(age_values, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing_reasons
+  )
+```
+
+It's a little bit of an improvement to working with raw coded values, because
+you can use `is.na()`, and your codes get labels, so you don't have be
+constantly looking up codes in your codebook. But it still falls short of the
+interlacer approach for two key reasons.
+
+Reason 1: With the interlacer approach
+of having separate columns for values and missing reasons, your value column
+can be whatever type you want: numeric, character, factor, etc. With labelled,
+values and missing reasons need to be the same type, usually numeric codes.
+This creates a lot more type gymnastics and potential errors when you're
+manipulating them.
+
+Reason 2: Keeping interlaced columns, even when the missing values are labelled,
+means aggregations are not protected. If you forget to take out your missing
+values, you get incorrect results:
+
+```{r}
+df_spss |>
+  mutate(
+    favorite_color_missing_reasons = if_else(
+      is.na(favorite_color), favorite_color, NA
+    )
+  ) |>
+  summarize(
+    mean_age = mean(age, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing_reasons
+  )
+```
+
 
 ## "Tagged" missing values
 
