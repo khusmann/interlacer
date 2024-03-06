@@ -109,6 +109,26 @@ df_coded |>
   )
 ```
 
+In fact, ANY math you do without filtering for missing codes potentially ruins
+the integrity of your data:
+
+```{r}
+# This will add 1 to the age values, but ALSO add one to all of the missing
+# reason codes, resulting in corrupted data!
+df_coded |>
+  mutate(
+    age_next_year = age + 1,
+    .after = person_id
+  )
+
+# This will give you your intended result, but it's easy to forget
+df_coded |>
+  mutate(
+    age_next_year = if_else(age < 0, age, age + 1),
+    .after = person_id
+  )
+```
+
 Have you ever thought you had a significant result, only to find that it's
 only because there are some stray missing reason codes still interlaced with
 your values? It's a bad time.
@@ -152,6 +172,19 @@ df_decoded_deinterlaced |>
     .by = .favorite_color.
   )
 ```
+
+Other operations work with similar ease:
+
+```{r}
+df_decoded_deinterlaced |>
+  mutate(
+    age_next_year = age + 1,
+    .after = person_id
+  ) |>
+  coalesce_channels(default_reason = "AGE_UNAVAILABLE")
+```
+
+
 
 ## Numeric codes with character missing reasons (SAS, Stata)
 

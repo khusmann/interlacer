@@ -165,7 +165,7 @@ df |>
     coalesce_channels(default_reason = "AGE_UNAVAILABLE")
 ```
 
-## Column joins
+## Joining columns
 
 `coalesce_channels()` should also be used when joining new columns onto
 an interlaced data frame, to fill in missing reasons when no matches are found:
