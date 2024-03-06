@@ -188,7 +188,8 @@ interlace_channels(df)
 By default, `coalesce_channels()` will use `UNKNOWN_REASON` as the
 default missing reason. Sometimes you want to use a different default value,
 to act as the "catch-all" missing reason, so you don't have to constantly
-specify it. To do this, set the global `default_missing_reason` option:
+specify it. To do this, set the global `interlacer.default_missing_reason`
+option:
 
 ```{r}
 options(interlacer.default_missing_reason = -99)
