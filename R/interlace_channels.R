@@ -1,15 +1,15 @@
-#' Re-interlacce a deinterlaced data frame
+#' Re-interlace a deinterlaced data frame
 #'
 #' @description
 #'
 #' This function will take a deinterlaced data frame and re-interlace it by
-#' combining value and misisng reason column pairs into single character
+#' combining value and missing reason column pairs into single character
 #' columns.
 #'
 #' @param x A deinterlaced data frame
 #'
-#' @returns An interlaced data frame, that is, a data frame with character columns
-#' that contain both values and missing reasons.
+#' @returns An interlaced data frame, that is, a data frame with character
+#' columns that contain both values and missing reasons.
 #'
 #' @export
 interlace_channels <- function(x) {

@@ -14,7 +14,7 @@ coalesce_channels(
 \item{x}{A data frame}
 
 \item{missing_reason}{When a variable is missing a value and a missing
-reason, the default missing reason to fill in.}
+reason, the missing reason to fill in.}
 
 \item{keep}{When a variable has both a value and missing reason, choose which
 to keep. (A properly formed deinterlaced data frame has values OR missing
@@ -29,11 +29,11 @@ have both values and missing reasons, or no values and no missing reasons.
 `coalesce_channels()` takes care of both situations. In the case where
 there is both a value and missing reason, it will choose which to keep based
 on the `keep` paramter. In case where no value or missing reason exists, it
-will fill the missing reason with the `default_reason` parameter.
+will fill the missing reason with the `missing_reason` parameter.
 
 Mutations can also create new value columns without companion missing reason
 columns. In that case, a new missing reason will be created and filled with
-`default_reason` wherever there are missing values in the value column. (
+`missing_reason` wherever there are missing values in the value column. (
 This behavior can also be used to stub missing reason columns for value-only
 data frames)
 }

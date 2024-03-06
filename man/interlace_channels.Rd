@@ -2,7 +2,7 @@
 % Please edit documentation in R/interlace_channels.R
 \name{interlace_channels}
 \alias{interlace_channels}
-\title{Re-interlacce a deinterlaced data frame}
+\title{Re-interlace a deinterlaced data frame}
 \usage{
 interlace_channels(x)
 }
@@ -10,11 +10,11 @@ interlace_channels(x)
 \item{x}{A deinterlaced data frame}
 }
 \value{
-An interlaced data frame, that is, a data frame with character columns
-that contain both values and missing reasons.
+An interlaced data frame, that is, a data frame with character
+columns that contain both values and missing reasons.
 }
 \description{
 This function will take a deinterlaced data frame and re-interlace it by
-combining value and misisng reason column pairs into single character
+combining value and missing reason column pairs into single character
 columns.
 }
