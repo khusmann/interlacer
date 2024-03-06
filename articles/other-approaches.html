@@ -157,7 +157,9 @@ describing its value and missing value codes:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">df_spss</span><span class="op">$</span><span class="va">favorite_color</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  [1] FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE FALSE  TRUE FALSE  TRUE</span></span></code></pre></div>
-<p>So you still have to do the usual gymnastics in pipelines:</p>
+<p>This makes it easy to check if a value is a missing reason, but you
+still have to filter out missing reasons before you do any
+aggregations:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_spss</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -181,13 +183,13 @@ describing its value and missing value codes:</p>
 <p>It’s a little bit of an improvement to working with raw coded values,
 because you can use <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>, and your codes get labels, so
 you don’t have be constantly looking up codes in your codebook. But it
-still falls short of the interlacer approach for two key reasons.</p>
+still falls short of the interlacer approach for two key reasons:</p>
 <p>Reason 1: With the interlacer approach of having separate columns for
 values and missing reasons, your value column can be whatever type you
-want: numeric, character, factor, etc. With labelled, values and missing
-reasons need to be the same type, usually numeric codes. This creates a
-lot more type gymnastics and potential errors when you’re manipulating
-them.</p>
+want: numeric, character, factor, etc. With labelled missing reasons,
+values and missing reasons need to be the same type, usually numeric
+codes. This creates a lot more type gymnastics and potential errors when
+you’re manipulating them.</p>
 <p>Reason 2: Keeping interlaced columns, even when the missing values
 are labelled, means aggregations are not protected. If you forget to
 take out your missing values, you get incorrect results:</p>
