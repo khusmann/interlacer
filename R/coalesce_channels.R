@@ -27,7 +27,7 @@
 #' @export
 coalesce_channels <- function(
   x,
-  default_reason = getOption("default_missing_reason"),
+  default_reason = getOption("interlacer.default_missing_reason"),
   keep = c("values", "missing")
 ) {
   default_reason <- factor(default_reason %||% "UNKNOWN_REASON")

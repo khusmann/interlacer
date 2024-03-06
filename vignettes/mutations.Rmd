@@ -191,7 +191,7 @@ to act as the "catch-all" missing reason, so you don't have to constantly
 specify it. To do this, set the global `default_missing_reason` option:
 
 ```{r}
-options(default_missing_reason = -99)
+options(interlacer.default_missing_reason = -99)
 
 tibble(
   a = c(1,2,3, NA, 5)
