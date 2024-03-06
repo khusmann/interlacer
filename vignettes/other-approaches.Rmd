@@ -73,6 +73,12 @@ df_spss |>
     n = n(),
     .by = favorite_color_missing_reasons
   )
+
+df_spss |>
+  mutate(
+    age_next_year = if_else(is.na(age), NA, age + 1),
+    .after = person_id
+  )
 ```
 
 It's a little bit of an improvement to working with raw coded values, because
@@ -89,8 +95,8 @@ This creates a lot more type gymnastics and potential errors when you're
 manipulating them.
 
 Reason 2: Keeping interlaced columns, even when the missing values are labelled,
-means aggregations are not protected. If you forget to take out your missing
-values, you get incorrect results:
+means aggregations and other math operatiosn are not protected. If you forget
+to take out your missing values, you get incorrect results / corrupted data:
 
 ```{r}
 df_spss |>
@@ -103,6 +109,12 @@ df_spss |>
     mean_age = mean(age, na.rm=T),
     n = n(),
     .by = favorite_color_missing_reasons
+  )
+
+df_spss |>
+  mutate(
+    age_next_year = age + 1,
+    .after = person_id
   )
 ```
 

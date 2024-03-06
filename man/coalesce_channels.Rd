@@ -6,14 +6,14 @@
 \usage{
 coalesce_channels(
   x,
-  default_reason = getOption("default_missing_reason"),
+  missing_reason = getOption("interlacer.default_missing_reason"),
   keep = c("values", "missing")
 )
 }
 \arguments{
 \item{x}{A data frame}
 
-\item{default_reason}{When a variable is missing a value and a missing
+\item{missing_reason}{When a variable is missing a value and a missing
 reason, the default missing reason to fill in.}
 
 \item{keep}{When a variable has both a value and missing reason, choose which

@@ -7,11 +7,11 @@
 #' `coalesce_channels()` takes care of both situations. In the case where
 #' there is both a value and missing reason, it will choose which to keep based
 #' on the `keep` paramter. In case where no value or missing reason exists, it
-#' will fill the missing reason with the `default_reason` parameter.
+#' will fill the missing reason with the `missing_reason` parameter.
 #'
 #' Mutations can also create new value columns without companion missing reason
 #' columns. In that case, a new missing reason will be created and filled with
-#' `default_reason` wherever there are missing values in the value column. (
+#' `missing_reason` wherever there are missing values in the value column. (
 #' This behavior can also be used to stub missing reason columns for value-only
 #' data frames)
 #'
@@ -19,18 +19,18 @@
 #' @param keep When a variable has both a value and missing reason, choose which
 #' to keep. (A properly formed deinterlaced data frame has values OR missing
 #' reasons)
-#' @param default_reason When a variable is missing a value and a missing
-#' reason, the default missing reason to fill in.
+#' @param missing_reason When a variable is missing a value and a missing
+#' reason, the missing reason to fill in.
 #'
 #' @return A deinterlaced tibble.
 #'
 #' @export
 coalesce_channels <- function(
   x,
-  default_reason = getOption("interlacer.default_missing_reason"),
+  missing_reason = getOption("interlacer.default_missing_reason"),
   keep = c("values", "missing")
 ) {
-  default_reason <- factor(default_reason %||% "UNKNOWN_REASON")
+  missing_reason <- factor(missing_reason %||% "UNKNOWN_REASON")
   keep <- match.arg(keep)
 
   for (missing_name in missing_names(x)) {
@@ -53,7 +53,7 @@ coalesce_channels <- function(
     missing_name <- to_missing_name(value_name)
 
     missing_values <- x[[missing_name]] %||%
-      if_else(is.na(values), default_reason, NA)
+      if_else(is.na(values), missing_reason, NA)
 
     # Ensure missing reason column is always a factor
     if (!is.factor((missing_values))) {
@@ -66,14 +66,14 @@ coalesce_channels <- function(
       new_missing_values <- case_when(
         !is.na(values) ~ NA,
         !is.na(missing_values) ~ missing_values,
-        T ~ default_reason
+        T ~ missing_reason
       )
     } else {
       new_values <- if_else(
         !is.na(values) & !is.na(missing_values), NA, values
       )
       new_missing_values <- if_else(
-        is.na(values) & is.na(missing_values), default_reason, missing_values
+        is.na(values) & is.na(missing_values), missing_reason, missing_values
       )
     }
 

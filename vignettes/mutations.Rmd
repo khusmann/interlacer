@@ -112,7 +112,7 @@ interlacer provides an easier way via `coalesce_channels()`:
 
 `coalesce_channels()` should be run every time you mutate something in
 a deinterlaced data frame. It accepts two arguments `keep`, and
-`default_reason`. It fixes both possible problem cases as follows:
+`missing_reason`. It fixes both possible problem cases as follows:
 
 Case 1: BOTH a value and a missing reason exists
 
@@ -121,7 +121,7 @@ Case 1: BOTH a value and a missing reason exists
 
 Case 2: NEITHER a value nor a missing reason exists
 
-- Fill in the missing reason with `default_reason`
+- Fill in the missing reason with `missing_reason`
 
 These rules allow us to mutate our deinterlaced variables without needing to
 specify BOTH the values and missing reason actions -- we only need to think
@@ -146,7 +146,7 @@ df |>
       NA
     )
   ) |>
-  coalesce_channels(default_reason = "TECHNICAL_ERROR")
+  coalesce_channels(missing_reason = "TECHNICAL_ERROR")
 ```
 
 
@@ -162,7 +162,7 @@ df |>
     person_type = if_else(age < 18, "CHILD", "ADULT"),
     .after = person_id
   ) |>
-    coalesce_channels(default_reason = "AGE_UNAVAILABLE")
+    coalesce_channels(missing_reason = "AGE_UNAVAILABLE")
 ```
 
 ## Joining columns
@@ -183,7 +183,7 @@ conditions <- tribble(
 df |>
   left_join(conditions, by = join_by(person_id)) |>
   relocate(condition, .after = person_id) |>
-  coalesce_channels(default_reason = "LEFT_STUDY")
+  coalesce_channels(missing_reason = "LEFT_STUDY")
 ```
 
 Deinterlaced data frames can be joined as well, but you need to include
@@ -202,7 +202,7 @@ conditions <- tribble(
 df |>
   left_join(conditions, by = join_by(person_id, .person_id.)) |>
   relocate(condition, .after = person_id) |>
-  coalesce_channels(default_reason = "LEFT_STUDY")
+  coalesce_channels(missing_reason = "LEFT_STUDY")
 ```
 
 Use caution when your keys have missing reasons though:
@@ -228,10 +228,10 @@ df_right <- tribble(
 )
 
 left_join(df_left, df_right, by = join_by(a, .a.)) |>
-  coalesce_channels(default_reason = "REASON_3")
+  coalesce_channels(missing_reason = "REASON_3")
 ```
 
-When keys when missing reasons, it will join on missing reasons as well as
+When keys have missing reasons, missing reasons will be matched as well as
 values! Before you get mad at interlacer though, note how this situation echoes
 a similar situation with missing values in regular data frames:
 

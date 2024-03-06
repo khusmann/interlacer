@@ -181,7 +181,7 @@ df_decoded_deinterlaced |>
     age_next_year = age + 1,
     .after = person_id
   ) |>
-  coalesce_channels(default_reason = "AGE_UNAVAILABLE")
+  coalesce_channels(missing_reason = "AGE_UNAVAILABLE")
 ```
 
 
