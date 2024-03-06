@@ -102,6 +102,6 @@ tbl_format_setup.deinterlaced_df <- function(x, width, ...) {
 #' @export
 tbl_format_header.deinterlaced_df <- function(x, setup, ...) {
   pillar::style_subtle(
-    glue("# An deinterlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
+    glue("# A deinterlaced tibble: {nrow(x)} {symbol$times} {ncol(x)}")
   )
 }
