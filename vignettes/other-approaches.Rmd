@@ -30,7 +30,7 @@ feature you'd use, [please let me know](mailto:kdh38@psu.edu)!)
 
 ## "Labelled" missing values
 
-When SPSS *.sav files are loaded with haven via `haven::read_spss()`, values
+When SPSS files are loaded with haven via `haven::read_spss()`, values
 and missing reasons are loaded into a single interlaced numeric vector:
 
 ```{r}
