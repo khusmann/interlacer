@@ -89,6 +89,13 @@
 </h2>
 <p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the regular values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons in R traditionally requires loading variables as character vectors and doing a bunch of string comparisons and type conversions to make sense of them.</p>
 <p>Interlacer was created based on the insight that values and missing reasons can be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this structure gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons in tidy pipelines, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (tldr: It allows us to interact with a variable as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
+<p>Although this may seem like a simple premise on the surface, it has deep implications! In addition to <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>, be sure to also check out:</p>
+<ul>
+<li><p><code><a href="articles/mutations.html">vignette("mutations")</a></code> for a discussion on how to motify data frames when in this format</p></li>
+<li><p><code><a href="articles/column-types.html">vignette("column-types")</a></code> to see how to handle column-level missing reasons</p></li>
+<li><p><code><a href="articles/coded-data.html">vignette("coded-data")</a></code> for some recipies for working with coded data (e.g. data produced by SPSS, SAS or Stata)</p></li>
+<li><p><code><a href="articles/other-approaches.html">vignette("other-approaches")</a></code> for a deep dive into how interlacer’s approach compares to other approaches for representing and manipulating missing reasons alongside data values</p></li>
+</ul>
 <p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="mailto:kdh38@psu.edu">let me know what you think</a>!</p>
 </div>
 <div class="section level2">
