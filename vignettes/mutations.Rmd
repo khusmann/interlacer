@@ -150,7 +150,7 @@ df |>
 ```
 
 
-## Creating New Columns
+## Creating new columns
 
 `coalesce_channels()` will also automatically create missing reason
 columns if they don't automatically exist. This is useful for adding new
