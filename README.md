@@ -26,6 +26,23 @@ interact with a variable as a [`Result`
 type](https://en.wikipedia.org/wiki/Result_type), an abstraction often
 found in functional programming)
 
+Although this may seem like a simple premise on the surface, it has deep
+implications! In addition to `vignette("interlacer")`, be sure to also
+check out:
+
+- `vignette("mutations")` for a discussion on how to motify data frames
+  when in this format
+
+- `vignette("column-types")` to see how to handle column-level missing
+  reasons
+
+- `vignette("coded-data")` for some recipies for working with coded data
+  (e.g. data produced by SPSS, SAS or Stata)
+
+- `vignette("other-approaches")` for a deep dive into how interlacer’s
+  approach compares to other approaches for representing and
+  manipulating missing reasons alongside data values
+
 This library is currently in its experimental stages, so be aware that
 its interface is likely to change in the future. In the meantime, please
 try it out and [let me know what you think](mailto:kdh38@psu.edu)!
