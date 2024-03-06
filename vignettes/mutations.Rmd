@@ -165,6 +165,102 @@ df |>
     coalesce_channels(default_reason = "AGE_UNAVAILABLE")
 ```
 
+## Column joins
+
+`coalesce_channels()` should also be used when joining new columns onto
+an interlaced data frame, to fill in missing reasons when no matches are found:
+
+```{r}
+conditions <- tribble(
+  ~person_id, ~condition,
+  1, "TREATMENT",
+  2, "CONTROL",
+  3, "CONTROL",
+  6, "CONTROL",
+  8, "TREATMENT",
+)
+
+df |>
+  left_join(conditions, by = join_by(person_id)) |>
+  relocate(condition, .after = person_id) |>
+  coalesce_channels(default_reason = "LEFT_STUDY")
+```
+
+Deinterlaced data frames can be joined as well, but you need to include
+both the value and missing reason columns for the key in `join_by()`:
+
+```{r}
+conditions <- tribble(
+  ~person_id, ~.person_id., ~condition, ~.condition.,
+  1, NA, "TREATMENT", NA,
+  2, NA, "CONTROL",   NA,
+  3, NA, NA,          "TECHNICAL_ERROR",
+  6, NA, "CONTROL",   NA,
+  8, NA, "TREATMENT", NA,
+)
+
+df |>
+  left_join(conditions, by = join_by(person_id, .person_id.)) |>
+  relocate(condition, .after = person_id) |>
+  coalesce_channels(default_reason = "LEFT_STUDY")
+```
+
+Use caution when your keys have missing reasons though:
+
+```{r}
+df_left <- tribble(
+  ~a, ~.a., ~b, ~.b.,
+  1,   NA,         "a", NA,
+  NA, "REASON_1",  "b", NA,
+  3,  NA,          NA, "REASON_2",
+  4,  NA,          "c", NA,
+  5,  NA,          "d", NA,
+)
+
+df_right <- tribble(
+  ~a, ~.a., ~c, ~.c.,
+  1,  NA,         "e", NA,
+  4,  NA,         "g", NA,
+  5,  NA,         "h", NA,
+  NA, "REASON_1", "i", NA,
+  NA, "REASON_1", "j", NA,
+  NA, "REASON_1", "k", NA, 
+)
+
+left_join(df_left, df_right, by = join_by(a, .a.)) |>
+  coalesce_channels(default_reason = "REASON_3")
+```
+
+When keys when missing reasons, it will join on missing reasons as well as
+values! Before you get mad at interlacer though, note how this situation echoes
+a similar situation with missing values in regular data frames:
+
+```{r}
+df_left <- tribble(
+  ~a, ~b,
+  1,  "a",
+  NA, "b",
+  3,  NA,
+  4,  "c",
+  5,  "d",
+)
+
+df_right <- tribble(
+  ~a, ~c,
+  1,  "e",
+  4,  "g",
+  5,  "h",
+  NA, "i",
+  NA, "j",
+  NA, "k",
+)
+
+left_join(df_left, df_right, by = join_by(a))
+```
+
+In short, you always need to exercise caution when you have missing join keys,
+regardless of if you're using interlacer or not!
+
 ## Writing interlaced files
 
 After you've made made changes to your data, you probably want to save them.
