@@ -203,12 +203,57 @@ will still happily compute aggregations using the negative numbers!</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>                    -<span style="color: #BB0000;">98</span>    -<span style="color: #BB0000;">22.3</span>     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>                    -<span style="color: #BB0000;">97</span>     40       2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>                    -<span style="color: #BB0000;">99</span>      1       1</span></span></code></pre></div>
+<p>In fact, ANY math you do without filtering for missing codes
+potentially ruins the integrity of your data:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># This will add 1 to the age values, but ALSO add one to all of the missing</span></span>
+<span><span class="co"># reason codes, resulting in corrupted data!</span></span>
+<span><span class="va">df_coded</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_next_year <span class="op">=</span> <span class="va">age</span> <span class="op">+</span> <span class="fl">1</span>,</span>
+<span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
+<span><span class="co">#&gt;    person_id age_next_year   age favorite_color</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1            21    20              1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2           -<span style="color: #BB0000;">97</span>   -<span style="color: #BB0000;">98</span>              1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3            22    21            -<span style="color: #BB0000;">98</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4            31    30            -<span style="color: #BB0000;">97</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5             2     1            -<span style="color: #BB0000;">99</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6            42    41              2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7            51    50            -<span style="color: #BB0000;">97</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8            31    30              3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9           -<span style="color: #BB0000;">97</span>   -<span style="color: #BB0000;">98</span>            -<span style="color: #BB0000;">98</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10           -<span style="color: #BB0000;">96</span>   -<span style="color: #BB0000;">97</span>              2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11            11    10            -<span style="color: #BB0000;">98</span></span></span>
+<span></span>
+<span><span class="co"># This will give you your intended result, but it's easy to forget</span></span>
+<span><span class="va">df_coded</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_next_year <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">0</span>, <span class="va">age</span>, <span class="va">age</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
+<span><span class="co">#&gt;    person_id age_next_year   age favorite_color</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1            21    20              1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2           -<span style="color: #BB0000;">98</span>   -<span style="color: #BB0000;">98</span>              1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3            22    21            -<span style="color: #BB0000;">98</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4            31    30            -<span style="color: #BB0000;">97</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5             2     1            -<span style="color: #BB0000;">99</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6            42    41              2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7            51    50            -<span style="color: #BB0000;">97</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8            31    30              3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9           -<span style="color: #BB0000;">98</span>   -<span style="color: #BB0000;">98</span>            -<span style="color: #BB0000;">98</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10           -<span style="color: #BB0000;">97</span>   -<span style="color: #BB0000;">97</span>              2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11            11    10            -<span style="color: #BB0000;">98</span></span></span></code></pre></div>
 <p>Have you ever thought you had a significant result, only to find that
 it’s only because there are some stray missing reason codes still
 interlaced with your values? It’s a bad time.</p>
 <p>You’re much better off loading these formats with interlacer, then
 converting the codes into labelled factor levels:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://forcats.tidyverse.org/" class="external-link">forcats</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="op">(</span><span class="va">df_decoded_deinterlaced</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
@@ -231,7 +276,7 @@ converting the codes into labelled factor levels:</p>
 <span>      YELLOW <span class="op">=</span> <span class="st">"3"</span>,</span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -248,7 +293,7 @@ converting the codes into labelled factor levels:</p>
 <p>Now aggregations won’t mix up values and missing codes, and you won’t
 have to keep cross-referencing your codebook to know what values
 mean:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_decoded_deinterlaced</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
 <span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
@@ -262,6 +307,29 @@ mean:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> REFUSED              15.5     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> OMITTED              40       2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> N/A                   1       1</span></span></code></pre></div>
+<p>Other operations work with similar ease:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_decoded_deinterlaced</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_next_year <span class="op">=</span> <span class="va">age</span> <span class="op">+</span> <span class="fl">1</span>,</span>
+<span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>missing_reason <span class="op">=</span> <span class="st">"AGE_UNAVAILABLE"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 8</span></span></span>
+<span><span class="co">#&gt;    person_id .person_id. age_next_year .age_next_year.   age .age.  </span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>                     21 <span style="color: #BB0000;">NA</span>                 20 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">NA</span>                     <span style="color: #BB0000;">NA</span> AGE_UNAVAILABLE    <span style="color: #BB0000;">NA</span> REFUSED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3 <span style="color: #BB0000;">NA</span>                     22 <span style="color: #BB0000;">NA</span>                 21 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4 <span style="color: #BB0000;">NA</span>                     31 <span style="color: #BB0000;">NA</span>                 30 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5 <span style="color: #BB0000;">NA</span>                      2 <span style="color: #BB0000;">NA</span>                  1 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6 <span style="color: #BB0000;">NA</span>                     42 <span style="color: #BB0000;">NA</span>                 41 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7 <span style="color: #BB0000;">NA</span>                     51 <span style="color: #BB0000;">NA</span>                 50 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>                     31 <span style="color: #BB0000;">NA</span>                 30 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>                     <span style="color: #BB0000;">NA</span> AGE_UNAVAILABLE    <span style="color: #BB0000;">NA</span> REFUSED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>                     <span style="color: #BB0000;">NA</span> AGE_UNAVAILABLE    <span style="color: #BB0000;">NA</span> OMITTED</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>                     11 <span style="color: #BB0000;">NA</span>                 10 <span style="color: #BB0000;">NA</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: favorite_color &lt;fct&gt;, .favorite_color. &lt;fct&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="numeric-codes-with-character-missing-reasons-sas-stata">Numeric codes with character missing reasons (SAS, Stata)<a class="anchor" aria-label="anchor" href="#numeric-codes-with-character-missing-reasons-sas-stata"></a>
@@ -269,7 +337,7 @@ mean:</p>
 <p>Like SPSS, SAS and Stata will encode factor levels as numeric values,
 but instead of representing missing reasons as negative codes, they are
 given character codes:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html" class="external-link">read_file</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors_coded_char.csv"</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -295,7 +363,7 @@ the missing reasons are coded as follows:</p>
 </blockquote>
 <p>To handle these missing reasons without interlacer, columns must be
 loaded as character vectors:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">df_coded_char</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors_coded_char.csv"</span><span class="op">)</span>,</span>
 <span>  col_types <span class="op">=</span> <span class="st">"c"</span></span>
@@ -317,7 +385,7 @@ loaded as character vectors:</p>
 <p>To test if a value is missing, they can be cast to numeric types. If
 the cast fails, you know it’s a missing code. If it is successful, you
 know it’s a coded value.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_coded_char</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    favorite_color_missing <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
@@ -351,7 +419,7 @@ including missing codes in value aggregations, having to cast our
 columns to numeric all the time to check for missingness is hardly
 ergonomic, and generates annoying warnings. Like before, it’s easier to
 import with interlacer and decode the values and missing reasons:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors_coded_char.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"."</span>, <span class="st">".a"</span>, <span class="st">".b"</span><span class="op">)</span></span>
@@ -372,7 +440,7 @@ import with interlacer and decode the values and missing reasons:</p>
 <span>      YELLOW <span class="op">=</span> <span class="st">"3"</span>,</span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -392,7 +460,7 @@ import with interlacer and decode the values and missing reasons:</p>
 </h2>
 <p>Re-coding and re-interlacing a data frame is easily done as
 follows:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_decoded_deinterlaced</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span></span>

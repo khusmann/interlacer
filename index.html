@@ -124,7 +124,6 @@
 <p>As a quick demo, consider the following example file bundled with interlacer:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: package 'readr' was built under R version 4.2.3</span></span>
 <span></span>
 <span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html" class="external-link">read_file</a></span><span class="op">(</span><span class="fu"><a href="reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -175,7 +174,7 @@
 <span>  <span class="fu"><a href="reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # An deinterlaced tibble: 11 × 6</span></span>
+<span><span class="co">#&gt; # A deinterlaced tibble: 11 × 6</span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;          &lt;fct&gt;           </span></span>
 <span><span class="co">#&gt;  1         1 &lt;NA&gt;           20 &lt;NA&gt;    BLUE           &lt;NA&gt;            </span></span>
@@ -212,6 +211,10 @@
 <h2 id="known-issues">Known Issues<a class="anchor" aria-label="anchor" href="#known-issues"></a>
 </h2>
 <p>Large data frames (many columns &amp; rows) are slow to run and print with interlacer. Deinterlaced data frames are validated to check that they conform to the rule of “one value OR missing reason per row”, and this check is done completely in R. There are a few key places (noted in the source) that would extremely benefit from a native implementation, and make the library much more snappy. Before I invest the time in that though, I want to get enough feedback from users of this package to stabilize the current approach / API. (If you find this package useful, please <a href="mailto:kdh38@psu.edu">let me know</a>!)</p>
+<p>In the meantime, if your deinterlaced data frames are too slow to print, you can disable row-level validation by setting this option in your current session:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>interlacer.print_validation <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>When <code>interlacer.print_validation = FALSE</code>, you will need to be extra careful during mutations, because if you create an invalid state you won’t get a warning!</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">

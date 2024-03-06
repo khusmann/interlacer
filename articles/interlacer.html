@@ -244,7 +244,7 @@ values, one for holding missing reasons.</p>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -293,7 +293,7 @@ age?</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span>  </span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 2 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 2 × 6</span></span></span>
 <span><span class="co">#&gt;   person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         2 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -303,7 +303,7 @@ favorite color?</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">.age.</span> <span class="op">==</span> <span class="st">"REFUSED"</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 1 × 6</span></span></span>
 <span><span class="co">#&gt;   person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         9 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
@@ -314,7 +314,7 @@ old:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_deinterlaced</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">20</span> <span class="op">&amp;</span> <span class="va">.favorite_color.</span> <span class="op">==</span> <span class="st">"REFUSED"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 1 × 6</span></span></span>
 <span><span class="co">#&gt;   person_id .person_id.   age .age. favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         3 <span style="color: #BB0000;">NA</span>             21 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
@@ -355,7 +355,7 @@ reason:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Column `age` has rows with both values and missing reasons</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.    favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 REDACTED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -377,7 +377,7 @@ reason:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Column `favorite_color` has rows without values or missing reasons</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>              </span></span>

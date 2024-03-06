@@ -179,7 +179,27 @@ aggregations:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="color: #BB0000;">NA</span>                                30.3     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>                 15.5     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>                 40       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>                      1       1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>                      1       1</span></span>
+<span></span>
+<span><span class="va">df_spss</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_next_year <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>, <span class="cn">NA</span>, <span class="va">age</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>,</span>
+<span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
+<span><span class="co">#&gt;    person_id age_next_year age                favorite_color    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  1                   21  20                  1<span style="color: #949494;"> [BLUE]</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2                   <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>   1<span style="color: #949494;"> [BLUE]</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  3                   22  21                -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  4                   31  30                -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  5                    2   1                -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  6                   42  41                  2<span style="color: #949494;"> [RED]</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  7                   51  50                -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  8                   31  30                  3<span style="color: #949494;"> [YELLOW]</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  9                   <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 10                   <span style="color: #BB0000;">NA</span> -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>   2<span style="color: #949494;"> [RED]</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 11                   11  10                -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span></code></pre></div>
 <p>It’s a little bit of an improvement to working with raw coded values,
 because you can use <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>, and your codes get labels, so
 you don’t have be constantly looking up codes in your codebook. But it
@@ -191,8 +211,9 @@ values and missing reasons need to be the same type, usually numeric
 codes. This creates a lot more type gymnastics and potential errors when
 you’re manipulating them.</p>
 <p>Reason 2: Keeping interlaced columns, even when the missing values
-are labelled, means aggregations are not protected. If you forget to
-take out your missing values, you get incorrect results:</p>
+are labelled, means aggregations and other math operatiosn are not
+protected. If you forget to take out your missing values, you get
+incorrect results / corrupted data:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_spss</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -211,7 +232,27 @@ take out your missing values, you get incorrect results:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="color: #BB0000;">NA</span>                               -<span style="color: #BB0000;">20.8</span>     5</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>                -<span style="color: #BB0000;">22.3</span>     3</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>                 40       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>                      1       1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>                      1       1</span></span>
+<span></span>
+<span><span class="va">df_spss</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    age_next_year <span class="op">=</span> <span class="va">age</span> <span class="op">+</span> <span class="fl">1</span>,</span>
+<span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
+<span><span class="co">#&gt;    person_id age_next_year age                favorite_color    </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  1                   21  20                  1<span style="color: #949494;"> [BLUE]</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2                  -<span style="color: #BB0000;">97</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span>   1<span style="color: #949494;"> [BLUE]</span>        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  3                   22  21                -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  4                   31  30                -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  5                    2   1                -<span style="color: #BB0000;">99 (NA)</span><span style="color: #949494;"> [N/A]</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  6                   42  41                  2<span style="color: #949494;"> [RED]</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  7                   51  50                -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  8                   31  30                  3<span style="color: #949494;"> [YELLOW]</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  9                  -<span style="color: #BB0000;">97</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span> -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 10                  -<span style="color: #BB0000;">96</span> -<span style="color: #BB0000;">97 (NA)</span><span style="color: #949494;"> [OMITTED]</span>   2<span style="color: #949494;"> [RED]</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> 11                   11  10                -<span style="color: #BB0000;">98 (NA)</span><span style="color: #949494;"> [REFUSED]</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="tagged-missing-values">“Tagged” missing values<a class="anchor" aria-label="anchor" href="#tagged-missing-values"></a>

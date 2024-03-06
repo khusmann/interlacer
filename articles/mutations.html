@@ -101,7 +101,7 @@ illustrate this, let’s load some example data:</p>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
 <span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -126,7 +126,7 @@ by setting their missing reason to <code>REDACTED</code>:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Column `age` has rows with both values and missing reasons</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.    favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 REDACTED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -150,7 +150,7 @@ situation: there are now rows where <code>age</code> and
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span>,</span>
 <span>    age <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id. age   .age.    favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>    REDACTED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -182,7 +182,7 @@ to be considered missing:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Column `favorite_color` has rows without values or missing reasons</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Run `coalesce_channels()` to fix.</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span>              </span></span>
@@ -214,7 +214,7 @@ mutation to the missing reason column:</p>
 <span>      <span class="va">.favorite_color.</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             TECHNICAL_ERROR </span></span>
@@ -245,7 +245,7 @@ cumbersome! Luckily, interlacer provides an easier way via
 <code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code>:</p>
 <p><code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> should be run every time you mutate
 something in a deinterlaced data frame. It accepts two arguments
-<code>keep</code>, and <code>default_reason</code>. It fixes both
+<code>keep</code>, and <code>missing_reason</code>. It fixes both
 possible problem cases as follows:</p>
 <p>Case 1: BOTH a value and a missing reason exists</p>
 <ul>
@@ -256,7 +256,7 @@ possible problem cases as follows:</p>
 </ul>
 <p>Case 2: NEITHER a value nor a missing reason exists</p>
 <ul>
-<li>Fill in the missing reason with <code>default_reason</code>
+<li>Fill in the missing reason with <code>missing_reason</code>
 </li>
 </ul>
 <p>These rules allow us to mutate our deinterlaced variables without
@@ -272,7 +272,7 @@ examples from the previous section:</p>
 <span>    .age. <span class="op">=</span> <span class="st">"REDACTED"</span>,</span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>keep <span class="op">=</span> <span class="st">"missing"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.    favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REDACTED BLUE           <span style="color: #BB0000;">NA</span>              </span></span>
@@ -295,8 +295,8 @@ examples from the previous section:</p>
 <span>      <span class="cn">NA</span></span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>default_reason <span class="op">=</span> <span class="st">"TECHNICAL_ERROR"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 6</span></span></span>
+<span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>missing_reason <span class="op">=</span> <span class="st">"TECHNICAL_ERROR"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 6</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             TECHNICAL_ERROR </span></span>
@@ -312,7 +312,7 @@ examples from the previous section:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>             10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>             REFUSED</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="creating-new-columns">Creating New Columns<a class="anchor" aria-label="anchor" href="#creating-new-columns"></a>
+<h2 id="creating-new-columns">Creating new columns<a class="anchor" aria-label="anchor" href="#creating-new-columns"></a>
 </h2>
 <p><code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> will also automatically create
 missing reason columns if they don’t automatically exist. This is useful
@@ -323,8 +323,8 @@ for adding new variables to your data frame:</p>
 <span>    person_type <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span>, <span class="st">"CHILD"</span>, <span class="st">"ADULT"</span><span class="op">)</span>,</span>
 <span>    .after <span class="op">=</span> <span class="va">person_id</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>    <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>default_reason <span class="op">=</span> <span class="st">"AGE_UNAVAILABLE"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 11 × 8</span></span></span>
+<span>    <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>missing_reason <span class="op">=</span> <span class="st">"AGE_UNAVAILABLE"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 8</span></span></span>
 <span><span class="co">#&gt;    person_id .person_id. person_type .person_type.     age .age.  favorite_color</span></span>
 <span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>          ADULT       <span style="color: #BB0000;">NA</span>                 20 <span style="color: #BB0000;">NA</span>     BLUE          </span></span>
@@ -341,19 +341,157 @@ for adding new variables to your data frame:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: .favorite_color. &lt;fct&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
+<h2 id="joining-columns">Joining columns<a class="anchor" aria-label="anchor" href="#joining-columns"></a>
+</h2>
+<p><code><a href="../reference/coalesce_channels.html">coalesce_channels()</a></code> should also be used when joining new
+columns onto an interlaced data frame, to fill in missing reasons when
+no matches are found:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">person_id</span>, <span class="op">~</span><span class="va">condition</span>,</span>
+<span>  <span class="fl">1</span>, <span class="st">"TREATMENT"</span>,</span>
+<span>  <span class="fl">2</span>, <span class="st">"CONTROL"</span>,</span>
+<span>  <span class="fl">3</span>, <span class="st">"CONTROL"</span>,</span>
+<span>  <span class="fl">6</span>, <span class="st">"CONTROL"</span>,</span>
+<span>  <span class="fl">8</span>, <span class="st">"TREATMENT"</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">conditions</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">person_id</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">condition</span>, .after <span class="op">=</span> <span class="va">person_id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>missing_reason <span class="op">=</span> <span class="st">"LEFT_STUDY"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 8</span></span></span>
+<span><span class="co">#&gt;    person_id .person_id. condition .condition.   age .age.   favorite_color</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>          TREATMENT <span style="color: #BB0000;">NA</span>             20 <span style="color: #BB0000;">NA</span>      BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">NA</span>          CONTROL   <span style="color: #BB0000;">NA</span>             <span style="color: #BB0000;">NA</span> REFUSED BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3 <span style="color: #BB0000;">NA</span>          CONTROL   <span style="color: #BB0000;">NA</span>             21 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY     30 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY      1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6 <span style="color: #BB0000;">NA</span>          CONTROL   <span style="color: #BB0000;">NA</span>             41 <span style="color: #BB0000;">NA</span>      RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY     50 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>          TREATMENT <span style="color: #BB0000;">NA</span>             30 <span style="color: #BB0000;">NA</span>      YELLOW        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY     <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY     <span style="color: #BB0000;">NA</span> OMITTED RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY     10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: .favorite_color. &lt;fct&gt;</span></span></span></code></pre></div>
+<p>Deinterlaced data frames can be joined as well, but you need to
+include both the value and missing reason columns for the key in
+<code><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by()</a></code>:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">person_id</span>, <span class="op">~</span><span class="va">.person_id.</span>, <span class="op">~</span><span class="va">condition</span>, <span class="op">~</span><span class="va">.condition.</span>,</span>
+<span>  <span class="fl">1</span>, <span class="cn">NA</span>, <span class="st">"TREATMENT"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="fl">2</span>, <span class="cn">NA</span>, <span class="st">"CONTROL"</span>,   <span class="cn">NA</span>,</span>
+<span>  <span class="fl">3</span>, <span class="cn">NA</span>, <span class="cn">NA</span>,          <span class="st">"TECHNICAL_ERROR"</span>,</span>
+<span>  <span class="fl">6</span>, <span class="cn">NA</span>, <span class="st">"CONTROL"</span>,   <span class="cn">NA</span>,</span>
+<span>  <span class="fl">8</span>, <span class="cn">NA</span>, <span class="st">"TREATMENT"</span>, <span class="cn">NA</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">conditions</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">person_id</span>, <span class="va">.person_id.</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/relocate.html" class="external-link">relocate</a></span><span class="op">(</span><span class="va">condition</span>, .after <span class="op">=</span> <span class="va">person_id</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>missing_reason <span class="op">=</span> <span class="st">"LEFT_STUDY"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 11 × 8</span></span></span>
+<span><span class="co">#&gt;    person_id .person_id. condition .condition.       age .age.   favorite_color</span></span>
+<span><span class="co">#&gt;        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1 <span style="color: #BB0000;">NA</span>          TREATMENT <span style="color: #BB0000;">NA</span>                 20 <span style="color: #BB0000;">NA</span>      BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">NA</span>          CONTROL   <span style="color: #BB0000;">NA</span>                 <span style="color: #BB0000;">NA</span> REFUSED BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        TECHNICAL_ERROR    21 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY         30 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY          1 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6 <span style="color: #BB0000;">NA</span>          CONTROL   <span style="color: #BB0000;">NA</span>                 41 <span style="color: #BB0000;">NA</span>      RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY         50 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8 <span style="color: #BB0000;">NA</span>          TREATMENT <span style="color: #BB0000;">NA</span>                 30 <span style="color: #BB0000;">NA</span>      YELLOW        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY         <span style="color: #BB0000;">NA</span> REFUSED <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY         <span style="color: #BB0000;">NA</span> OMITTED RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11 <span style="color: #BB0000;">NA</span>          <span style="color: #BB0000;">NA</span>        LEFT_STUDY         10 <span style="color: #BB0000;">NA</span>      <span style="color: #BB0000;">NA</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 more variable: .favorite_color. &lt;fct&gt;</span></span></span></code></pre></div>
+<p>Use caution when your keys have missing reasons though:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_left</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">.a.</span>, <span class="op">~</span><span class="va">b</span>, <span class="op">~</span><span class="va">.b.</span>,</span>
+<span>  <span class="fl">1</span>,   <span class="cn">NA</span>,         <span class="st">"a"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"REASON_1"</span>,  <span class="st">"b"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="fl">3</span>,  <span class="cn">NA</span>,          <span class="cn">NA</span>, <span class="st">"REASON_2"</span>,</span>
+<span>  <span class="fl">4</span>,  <span class="cn">NA</span>,          <span class="st">"c"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="fl">5</span>,  <span class="cn">NA</span>,          <span class="st">"d"</span>, <span class="cn">NA</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">.a.</span>, <span class="op">~</span><span class="va">c</span>, <span class="op">~</span><span class="va">.c.</span>,</span>
+<span>  <span class="fl">1</span>,  <span class="cn">NA</span>,         <span class="st">"e"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="fl">4</span>,  <span class="cn">NA</span>,         <span class="st">"g"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="fl">5</span>,  <span class="cn">NA</span>,         <span class="st">"h"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"REASON_1"</span>, <span class="st">"i"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"REASON_1"</span>, <span class="st">"j"</span>, <span class="cn">NA</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"REASON_1"</span>, <span class="st">"k"</span>, <span class="cn">NA</span>, </span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">df_left</span>, <span class="va">df_right</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">a</span>, <span class="va">.a.</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span>missing_reason <span class="op">=</span> <span class="st">"REASON_3"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 7 × 6</span></span></span>
+<span><span class="co">#&gt;       a .a.      b     .b.      c     .c.     </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 <span style="color: #BB0000;">NA</span>       a     <span style="color: #BB0000;">NA</span>       e     <span style="color: #BB0000;">NA</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    <span style="color: #BB0000;">NA</span> REASON_1 b     <span style="color: #BB0000;">NA</span>       i     <span style="color: #BB0000;">NA</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    <span style="color: #BB0000;">NA</span> REASON_1 b     <span style="color: #BB0000;">NA</span>       j     <span style="color: #BB0000;">NA</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    <span style="color: #BB0000;">NA</span> REASON_1 b     <span style="color: #BB0000;">NA</span>       k     <span style="color: #BB0000;">NA</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     3 <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>    REASON_2 <span style="color: #BB0000;">NA</span>    REASON_3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     4 <span style="color: #BB0000;">NA</span>       c     <span style="color: #BB0000;">NA</span>       g     <span style="color: #BB0000;">NA</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     5 <span style="color: #BB0000;">NA</span>       d     <span style="color: #BB0000;">NA</span>       h     <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+<p>When keys have missing reasons, missing reasons will be matched as
+well as values! Before you get mad at interlacer though, note how this
+situation echoes a similar situation with missing values in regular data
+frames:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_left</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">b</span>,</span>
+<span>  <span class="fl">1</span>,  <span class="st">"a"</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"b"</span>,</span>
+<span>  <span class="fl">3</span>,  <span class="cn">NA</span>,</span>
+<span>  <span class="fl">4</span>,  <span class="st">"c"</span>,</span>
+<span>  <span class="fl">5</span>,  <span class="st">"d"</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df_right</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span><span class="va">a</span>, <span class="op">~</span><span class="va">c</span>,</span>
+<span>  <span class="fl">1</span>,  <span class="st">"e"</span>,</span>
+<span>  <span class="fl">4</span>,  <span class="st">"g"</span>,</span>
+<span>  <span class="fl">5</span>,  <span class="st">"h"</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"i"</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"j"</span>,</span>
+<span>  <span class="cn">NA</span>, <span class="st">"k"</span>,</span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">df_left</span>, <span class="va">df_right</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7 × 3</span></span></span>
+<span><span class="co">#&gt;       a b     c    </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 a     e    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    <span style="color: #BB0000;">NA</span> b     i    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    <span style="color: #BB0000;">NA</span> b     j    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    <span style="color: #BB0000;">NA</span> b     k    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>     3 <span style="color: #BB0000;">NA</span>    <span style="color: #BB0000;">NA</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>     4 c     g    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>     5 d     h</span></span></code></pre></div>
+<p>In short, you always need to exercise caution when you have missing
+join keys, regardless of if you’re using interlacer or not!</p>
+</div>
+<div class="section level2">
 <h2 id="writing-interlaced-files">Writing interlaced files<a class="anchor" aria-label="anchor" href="#writing-interlaced-files"></a>
 </h2>
 <p>After you’ve made made changes to your data, you probably want to
 save them. Interlacer provides the <code>write_interlaced_*</code>
 family of functions for this:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_interlaced_delim.html">write_interlaced_csv</a></span><span class="op">(</span><span class="va">df</span>, <span class="st">"interlaced_output.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>This will combine the value and missing reasons into interlaced
 character columns, and write the result as a csv. Alternatively, if you
 want to re-interlace the columns without writing to a file for more
 control in the writing process, you can use
 <code><a href="../reference/interlace_channels.html">interlace_channels()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/interlace_channels.html">interlace_channels</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">#&gt;    person_id age     favorite_color</span></span>
@@ -377,15 +515,15 @@ control in the writing process, you can use
 <code>UNKNOWN_REASON</code> as the default missing reason. Sometimes you
 want to use a different default value, to act as the “catch-all” missing
 reason, so you don’t have to constantly specify it. To do this, set the
-global <code>default_missing_reason</code> option:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>default_missing_reason <span class="op">=</span> <span class="op">-</span><span class="fl">99</span><span class="op">)</span></span>
+global <code>interlacer.default_missing_reason</code> option:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>interlacer.default_missing_reason <span class="op">=</span> <span class="op">-</span><span class="fl">99</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">3</span>, <span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="../reference/coalesce_channels.html">coalesce_channels</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># An deinterlaced tibble: 5 × 2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A deinterlaced tibble: 5 × 2</span></span></span>
 <span><span class="co">#&gt;       a .a.  </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1 <span style="color: #BB0000;">NA</span>   </span></span>
