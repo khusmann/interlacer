@@ -79,7 +79,6 @@ interlacer:
 
 ``` r
 library(readr)
-#> Warning: package 'readr' was built under R version 4.2.3
 
 read_file(interlacer_example("colors.csv")) |>
   cat()
@@ -138,7 +137,7 @@ With interlacer, we get a “deinterlaced data frame” instead:
   interlacer_example("colors.csv"),
   na = c("REFUSED", "OMITTED", "N/A")
 ))
-#> # An deinterlaced tibble: 11 × 6
+#> # A deinterlaced tibble: 11 × 6
 #>    person_id .person_id.   age .age.   favorite_color .favorite_color.
 #>        <dbl> <fct>       <dbl> <fct>   <chr>          <fct>           
 #>  1         1 <NA>           20 <NA>    BLUE           <NA>            
@@ -200,3 +199,15 @@ make the library much more snappy. Before I invest the time in that
 though, I want to get enough feedback from users of this package to
 stabilize the current approach / API. (If you find this package useful,
 please [let me know](mailto:kdh38@psu.edu)!)
+
+In the meantime, if your deinterlaced data frames are too slow to print,
+you can disable row-level validation by setting this option in your
+current session:
+
+``` r
+options(interlacer.print_validation = FALSE)
+```
+
+When `interlacer.print_validation = FALSE`, you will need to be extra
+careful during mutations, because if you create an invalid state you
+won’t get a warning!

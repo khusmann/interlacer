@@ -83,17 +83,19 @@ abort_if_deinterlace_df_problems <- function(x, call = caller_call()) {
 tbl_format_setup.deinterlaced_df <- function(x, width, ...) {
   setup <- NextMethod()
 
-  interlaced_probs <- deinterlaced_df_problems(x)
+  if (getOption("interlacer.print_validation", default = TRUE)) {
+    interlaced_probs <- deinterlaced_df_problems(x)
 
-  if (length(interlaced_probs) > 0) {
-    cli_warn(
-      format_bullets_raw(
-        c(
-          glue("{interlaced_probs[[1]]}"),
-          "i" = glue("Run `coalesce_channels()` to fix.")
+    if (length(interlaced_probs) > 0) {
+      cli_warn(
+        format_bullets_raw(
+          c(
+            glue("{interlaced_probs[[1]]}"),
+            "i" = glue("Run `coalesce_channels()` to fix.")
+          )
         )
       )
-    )
+    }
   }
 
   setup
