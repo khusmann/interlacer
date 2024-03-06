@@ -57,7 +57,8 @@ is.na(df_spss$favorite_color)
 ```
 
 
-So you still have to do the usual gymnastics in pipelines:
+This makes it easy to check if a value is a missing reason,
+but you still have to filter out missing reasons before you do any aggregations:
 
 ```{r}
 df_spss |>
@@ -77,11 +78,12 @@ df_spss |>
 It's a little bit of an improvement to working with raw coded values, because
 you can use `is.na()`, and your codes get labels, so you don't have be
 constantly looking up codes in your codebook. But it still falls short of the
-interlacer approach for two key reasons.
+interlacer approach for two key reasons:
 
 Reason 1: With the interlacer approach
 of having separate columns for values and missing reasons, your value column
-can be whatever type you want: numeric, character, factor, etc. With labelled,
+can be whatever type you want: numeric, character, factor, etc. With labelled
+missing reasons,
 values and missing reasons need to be the same type, usually numeric codes.
 This creates a lot more type gymnastics and potential errors when you're
 manipulating them.
