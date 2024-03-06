@@ -33,7 +33,7 @@ check out:
 - `vignette("mutations")` for a discussion on how to motify data frames
   when in this format
 
-- `vignette("column-types")` to see how to handle column-level missing
+- `vignette("column-types")` to see how to handle variable-level missing
   reasons
 
 - `vignette("coded-data")` for some recipies for working with coded data
