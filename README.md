@@ -105,7 +105,7 @@ read_file(interlacer_example("colors.csv")) |>
 In this csv file, values are interlaced with three possible missing
 reasons: `REFUSED`, `OMITTED`, and `N/A`.
 
-With `readr`, loading these data would result in a data frame like this:
+With readr, loading these data would result in a data frame like this:
 
 ``` r
 read_csv(
@@ -217,3 +217,11 @@ options(interlacer.print_validation = FALSE)
 When `interlacer.print_validation = FALSE`, you will need to be extra
 careful during mutations, because if you create an invalid state you
 won’t get a warning!
+
+## Acknowledgements
+
+The development of this software was supported, in whole or in part, by
+the Institute of Education Sciences, U.S. Department of Education,
+through Grant R305A170047 to The Pennsylvania State University. The
+opinions expressed are those of the authors and do not represent the
+views of the Institute or the U.S. Department of Education.
