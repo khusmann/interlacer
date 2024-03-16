@@ -1,6 +1,10 @@
 url: http://kylehusmann.com/interlacer/
 template:
   bootstrap: 5
+  includes:
+    in_header: |
+      <script data-goatcounter="https://interlacer.goatcounter.com/count"
+      async src="//gc.zgo.at/count.js"></script>
 
 articles:
 - title: Articles
