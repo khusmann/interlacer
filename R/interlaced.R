@@ -116,7 +116,7 @@ vec_ptype_abbr.interlacer_interlaced <- function(x, ...) {
 format.interlacer_interlaced <- function(x, ...) {
   sapply(x, function(i) {
     if (is.na(i)) {
-      paste0("na(", format(na_channel(i)), ")")
+      paste0("<", format(na_channel(i)), ">")
     } else {
       format(value_channel(i))
     }
@@ -349,7 +349,27 @@ ptype2_helper <- function(x, bare, ...) {
 }
 
 #' @export
-vec_ptype2.interlacer_interlaced.default <- function(x, y, ...) {
+vec_ptype2.interlacer_interlaced.character <- function(x, y, ...) {
+  ptype2_helper(x, y)
+}
+
+#' @export
+vec_ptype2.interlacer_interlaced.double <- function(x, y, ...) {
+  ptype2_helper(x, y)
+}
+
+#' @export
+vec_ptype2.interlacer_interlaced.integer <- function(x, y, ...) {
+  ptype2_helper(x, y)
+}
+
+#' @export
+vec_ptype2.interlacer_interlaced.logical <- function(x, y, ...) {
+  ptype2_helper(x, y)
+}
+
+#' @export
+vec_ptype2.interlacer_interlaced.factor <- function(x, y, ...) {
   ptype2_helper(x, y)
 }
 
