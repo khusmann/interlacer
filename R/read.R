@@ -101,5 +101,5 @@ read_interlaced_helper <- function(
   x |>
     select(!!col_select) |>
     deinterlace_type_convert(col_types, na) |>
-    as_deinterlaced_df()
+    as_tibble()
 }
