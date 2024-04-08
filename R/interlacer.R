@@ -1,10 +1,11 @@
 #' @import rlang
-#' @import dplyr
+#' @import vctrs
 #' @import cli
 #' @import readr
-#' @import tibble
-#' @importFrom pillar tbl_format_setup tbl_format_header
-#' @importFrom purrr list_flatten
+#' @importFrom dplyr mutate if_else
+#' @importFrom tibble tibble
+#' @importFrom pillar tbl_format_setup tbl_format_header pillar_shaft
+#' @importFrom purrr list_flatten iwalk detect_index map2_vec map2
 #' @importFrom tidyselect peek_vars
 #' @importFrom glue glue
 

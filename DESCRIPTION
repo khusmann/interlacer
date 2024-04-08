@@ -22,7 +22,8 @@ Imports:
     readr,
     rlang,
     tibble,
-    tidyselect
+    tidyselect,
+    vctrs
 Suggests: 
     knitr,
     rmarkdown,
