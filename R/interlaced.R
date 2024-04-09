@@ -140,7 +140,7 @@ pillar_shaft.interlacer_interlaced <- function(x, ...) {
     }
     format(i)
   })
-  new_pillar_shaft_simple(items, align = align)
+  pillar::new_pillar_shaft_simple(items, align = align)
 }
 
 # Subsetting --------------------------------------------------------------
@@ -224,25 +224,12 @@ base_vec_rep <- function(x, ...) {
 
 #' @export
 vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
-  sapply(x, function(i) {
+  lapply(x, function(i) {
     if (is.empty(i)) {
-      return(NA)
+      return(NULL)
     }
-    if (is.na(i)) {
-      return(paste0("M", hash(na_channel(i))))
-    }
-    paste0("V", hash(value_channel(i)))
+    as.list(i)
   })
-}
-
-#' @export
-`==.interlacer_interlaced` <- function(e1, e2) {
-  vec_equal(e1, e2)
-}
-
-#' @export
-`!=.interlacer_interlaced` <- function(e1, e2) {
-  !vec_equal(e1, e2)
 }
 
 #' @export
@@ -258,6 +245,7 @@ is.na.interlacer_interlaced <- function(x) {
 vec_proxy_compare.interlacer_interlaced <- function(x, ...) {
   value_channel(x)
 }
+
 
 #' @export
 min.interlacer_interlaced <- function(x, ...) {
