@@ -246,6 +246,10 @@ vec_proxy_compare.interlacer_interlaced <- function(x, ...) {
   value_channel(x)
 }
 
+# Min, max, and range, etc. have to be redefined here because they are
+# implemented in the original vctrs_vctr by finding the index of the desired
+# value, then returning the vctr indexed at that location. Problem is, this
+# causes it to sometimes return na(Reason)s instead of a base NA when na.rm=F
 
 #' @export
 min.interlacer_interlaced <- function(x, ...) {
