@@ -27,7 +27,6 @@
 #'
 #' @export
 #' @examples
-#' # Beep boop
 read_interlaced_delim <- function(
     file,
     delim = NULL,
@@ -36,11 +35,16 @@ read_interlaced_delim <- function(
     na = c("", "NA"),
     ...
 ) {
-  read_delim(
-    file, delim, col_types = cols(.default = "c"), na = NULL, ...
-  ) |>
-    read_interlaced_helper(col_types, {{ col_select }}, na)
+  read_helper(
+    file = file,
+    delim = delim,
+    col_types = col_types,
+    na = na,
+    col_select = {{ col_select }},
+    ...
+  )
 }
+
 
 #' @rdname read_interlaced_delim
 #' @export
@@ -51,10 +55,14 @@ read_interlaced_csv <- function(
   na = c("", "NA"),
   ...
 ) {
-  read_csv(
-    file, col_types = cols(.default = "c"), na = character(), ...
-  ) |>
-    read_interlaced_helper(col_types, {{ col_select }}, na)
+  read_helper(
+    file = file,
+    delim = ",",
+    col_types = col_types,
+    na = na,
+    col_select = {{ col_select }},
+    ...
+  )
 }
 
 #' @rdname read_interlaced_delim
@@ -66,10 +74,14 @@ read_interlaced_csv2 <- function(
   na = c("", "NA"),
   ...
 ) {
-  read_csv2(
-    file, col_types = cols(.default = "c"), na = character(), ...
-  ) |>
-    read_interlaced_helper(col_types, {{ col_select }}, na)
+  read_helper(
+    file = file,
+    delim = ";",
+    col_types = col_types,
+    na = na,
+    col_select = {{ col_select }},
+    ...
+  )
 }
 
 #' @rdname read_interlaced_delim
@@ -81,25 +93,119 @@ read_interlaced_tsv <- function(
   na = c("", "NA"),
   ...
 ) {
-  read_tsv(
-    file, col_types = cols(.default = "c"), na = character(), ...
-  ) |>
-    read_interlaced_helper(col_types, {{ col_select }}, na)
+  read_helper(
+    file = file,
+    delim = "\t",
+    col_types = col_types,
+    na = na,
+    col_select = {{ col_select }},
+    ...
+  )
 }
 
-read_interlaced_helper <- function(
-  x,
-  col_types,
-  col_select,
-  na
-) {
-  col_select <- enquo(col_select)
-  if (quo_is_null(col_select)){
-    col_select <- expr(everything())
+read_helper <- function(col_types, na, col_select, ...) {
+  col_spec <- as.col_spec(col_types)
+
+  col_spec_names <- names(col_spec$cols) %||% rep_along(col_spec$cols, "")
+  if (length(col_spec_names) > 0 && any(col_spec_names == "")) {
+    cli_abort("`col_types` must include names")
   }
 
-  x |>
-    select(!!col_select) |>
-    deinterlace_type_convert(col_types, na) |>
-    as_tibble()
+  # Step 1: Read everything as string
+
+  df_chr <- vroom(
+    ...,
+    col_types = cols(.default = "c"),
+    na = character(),
+    col_select = {{ col_select }}
+  )
+
+  # Step 2: For each of the resulting columns, go back and convert values
+
+  out <- parallel::mclapply(names(df_chr), function(i) {
+    collector <- col_spec$cols[[i]] %||% col_spec$default
+
+    all_na_values <- unique(c(collector$na, na))
+
+    vroom_call <- withWarnings(
+      vroom(
+        ...,
+        col_types = col_spec,
+        na = all_na_values,
+        col_select = i,
+        num_threads = 1,
+        show_col_types = FALSE,
+        altrep = FALSE
+      )
+    )
+
+    value_df <- vroom_call$value
+
+    values <- value_df[[1]]
+
+    na_values <- factor(
+      ifelse(df_chr[[i]] %in% all_na_values, df_chr[[i]], NA),
+      levels = all_na_values
+    )
+
+    spec <- attr(value_df, "spec")$cols
+
+    spec_is_skip <- vapply(
+      spec, \(x) inherits(x, "collector_skip"), logical(1)
+    )
+
+    vroom_collector <- spec[which(!spec_is_skip)][[1]]
+
+    if (inherits(collector, "collector_guess")) {
+      collector_used <- vroom_collector
+    } else {
+      collector_used <- collector
+    }
+
+    list(
+      values = new_interlaced(values, na_values),
+      problems = vroom_call$warnings,
+      spec = collector_used
+    )
+  })
+
+  out <- set_names(out, names(df_chr))
+
+  df <- as_tibble(lapply(out, `[[`, "values"))
+
+  attr(df, "spec") <- inject(cols(!!!lapply(out, `[[`, "spec")))
+
+  # I'd like to hoover up all the vroom problems and put them together as a
+  # `problems` attr on the result, but I can't because of this bug:
+  # https://github.com/tidyverse/vroom/issues/534
+  #
+  # Instead, I just warn if there was an issue...
+  for (i in names(df)) {
+    for (w in out[[i]]$problems) {
+      if (inherits(w, "vroom_parse_issue")) {
+        cli_warn("column `{i}` had a vroom parse issue")
+      } else {
+        cli_warn(
+          c(
+            "unexpected vroom warning on column `{i}`",
+            ">" = "{w}"
+          )
+        )
+      }
+    }
+  }
+
+  df
+}
+
+# Source:
+# https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
+withWarnings <- function(expr) {
+  myWarnings <- list()
+  wHandler <- function(w) {
+    myWarnings <<- c(myWarnings, list(w))
+    invokeRestart("muffleWarning")
+  }
+  val <- withCallingHandlers(expr, warning = wHandler)
+  list(value = val, warnings = myWarnings)
 }

@@ -1,7 +1,7 @@
 #' @import rlang
 #' @import vctrs
 #' @import cli
-#' @import readr
+#' @import vroom
 #' @import dplyr
 #' @importFrom tibble tibble
 #' @importFrom pillar tbl_format_setup tbl_format_header pillar_shaft
