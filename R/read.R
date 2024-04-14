@@ -309,7 +309,7 @@ interlaced_vroom <- function(
     )
   )
 
-  # Get rename map from cols_select
+  # Get vars map from cols_select
   col_select_quo <- vroom_enquo(enquo(col_select))
   if (inherits(col_select_quo, "quosures") || !quo_is_null(col_select_quo)) {
     if (inherits(col_select_quo, "quosures")) {
