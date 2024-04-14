@@ -109,7 +109,9 @@ interlaced_vroom <- function(col_types, na, col_select, ...) {
 
   col_spec_names <- names(col_spec$cols) %||% rep_along(col_spec$cols, "")
   if (length(col_spec_names) > 0 && any(col_spec_names == "")) {
-    cli_abort("`col_types` must include names")
+    cli_abort(
+      "`col_types` must include names, character shortcuts not supported (yet)"
+    )
   }
 
   # Step 1: Read everything as string
