@@ -27,6 +27,7 @@
 #'
 #' @export
 #' @examples
+#' # Beep boop
 read_interlaced_delim <- function(
     file,
     delim = NULL,
