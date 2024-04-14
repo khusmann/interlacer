@@ -35,7 +35,7 @@ read_interlaced_delim <- function(
     na = c("", "NA"),
     ...
 ) {
-  read_helper(
+  interlaced_vroom(
     file = file,
     delim = delim,
     col_types = col_types,
@@ -55,7 +55,7 @@ read_interlaced_csv <- function(
   na = c("", "NA"),
   ...
 ) {
-  read_helper(
+  interlaced_vroom(
     file = file,
     delim = ",",
     col_types = col_types,
@@ -74,7 +74,7 @@ read_interlaced_csv2 <- function(
   na = c("", "NA"),
   ...
 ) {
-  read_helper(
+  interlaced_vroom(
     file = file,
     delim = ";",
     col_types = col_types,
@@ -93,7 +93,7 @@ read_interlaced_tsv <- function(
   na = c("", "NA"),
   ...
 ) {
-  read_helper(
+  interlaced_vroom(
     file = file,
     delim = "\t",
     col_types = col_types,
@@ -103,7 +103,7 @@ read_interlaced_tsv <- function(
   )
 }
 
-read_helper <- function(col_types, na, col_select, ...) {
+interlaced_vroom <- function(col_types, na, col_select, ...) {
   col_spec <- as.col_spec(col_types)
 
   col_spec_names <- names(col_spec$cols) %||% rep_along(col_spec$cols, "")
