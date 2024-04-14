@@ -170,7 +170,7 @@ interlaced_vroom <- function(col_types, na, col_select, ...) {
       problems = vroom_call$warnings,
       spec = collector_used
     )
-  })
+  }, mc.cores = 2)
 
   out <- set_names(out, names(df_chr))
 
