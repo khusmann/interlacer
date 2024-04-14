@@ -23,7 +23,8 @@
 #'
 #'    By default, reading a file without a column specification will print a
 #'    message showing what `vroom` guessed they were. To remove this message,
-#'    set `show_col_types = FALSE` or set `options(readr.show_col_types = FALSE)`.
+#'    set `show_col_types = FALSE` or set
+#'    `options(interlacer.show_col_types = FALSE)`.
 #'
 #' @return A [tibble()], with interlaced columns.
 #'
@@ -42,7 +43,6 @@ read_interlaced_delim <- function(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   comment = "",
   trim_ws = FALSE,
   skip = 0,
@@ -91,7 +91,6 @@ read_interlaced_csv <- function(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   quote = "\"",
   comment = "",
   trim_ws = TRUE,
@@ -141,7 +140,6 @@ read_interlaced_csv2 <- function(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   quote = "\"",
   comment = "",
   trim_ws = TRUE,
@@ -191,7 +189,6 @@ read_interlaced_tsv <- function(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   quote = "\"",
   comment = "",
   trim_ws = TRUE,
