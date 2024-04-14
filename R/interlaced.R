@@ -53,7 +53,7 @@ value_channel <- function(x) {
   x
 }
 
-# TODO: interlace_channels(), S3 defined for data frames and vctrs
+# TODO: flatten_channels(), S3 defined for data frames and vctrs
 
 #' @export
 na <- function(x = NA) {
