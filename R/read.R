@@ -29,40 +29,105 @@
 #' @examples
 #' # Beep boop
 read_interlaced_delim <- function(
-    file,
-    delim = NULL,
-    col_types = NULL,
-    col_select = NULL,
-    na = c("", "NA"),
-    ...
+  file,
+  delim = NULL,
+  quote = "\"",
+  escape_backslash = FALSE,
+  escape_double = TRUE,
+  col_names = TRUE,
+  col_types = NULL,
+  col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
+  na = c("", "NA"),
+  quoted_na = TRUE,
+  comment = "",
+  trim_ws = FALSE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
+  # lazy = should_read_lazy()
 ) {
   interlaced_vroom(
     file = file,
     delim = delim,
+    col_names = col_names,
     col_types = col_types,
+    col_select = {{col_select}},
+    id = id,
+    skip = skip,
+    n_max = n_max,
     na = na,
-    col_select = {{ col_select }},
-    ...
+    quote = quote,
+    comment = comment,
+    skip_empty_rows = skip_empty_rows,
+    trim_ws = trim_ws,
+    escape_double = escape_double,
+    escape_backslash = escape_backslash,
+    locale = locale,
+    guess_max = guess_max,
+    # altrep
+    num_threads = num_threads,
+    progress = progress,
+    show_col_types = show_col_types,
+    .name_repair = name_repair
   )
 }
+
 
 
 #' @rdname read_interlaced_delim
 #' @export
 read_interlaced_csv <- function(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  quote = "\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
+  # lazy = should_read_lazy()
 ) {
   interlaced_vroom(
     file = file,
     delim = ",",
+    col_names = col_names,
     col_types = col_types,
+    col_select = {{col_select}},
+    id = id,
+    skip = skip,
+    n_max = n_max,
     na = na,
-    col_select = {{ col_select }},
-    ...
+    quote = quote,
+    comment = comment,
+    skip_empty_rows = skip_empty_rows,
+    trim_ws = trim_ws,
+    escape_double = TRUE,
+    escape_backslash = FALSE,
+    locale = locale,
+    guess_max = guess_max,
+    # altrep
+    num_threads = num_threads,
+    progress = progress,
+    show_col_types = show_col_types,
+    .name_repair = name_repair
   )
 }
 
@@ -70,18 +135,49 @@ read_interlaced_csv <- function(
 #' @export
 read_interlaced_csv2 <- function(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  quote = "\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
+  # lazy = should_read_lazy()
 ) {
   interlaced_vroom(
     file = file,
     delim = ";",
+    col_names = col_names,
     col_types = col_types,
+    col_select = {{col_select}},
+    id = id,
+    skip = skip,
+    n_max = n_max,
     na = na,
-    col_select = {{ col_select }},
-    ...
+    quote = quote,
+    comment = comment,
+    skip_empty_rows = skip_empty_rows,
+    trim_ws = trim_ws,
+    escape_double = TRUE,
+    escape_backslash = FALSE,
+    locale = locale,
+    guess_max = guess_max,
+    # altrep
+    num_threads = num_threads,
+    progress = progress,
+    show_col_types = show_col_types,
+    .name_repair = name_repair
   )
 }
 
@@ -89,38 +185,131 @@ read_interlaced_csv2 <- function(
 #' @export
 read_interlaced_tsv <- function(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  quote = "\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
+  # lazy = should_read_lazy()
 ) {
   interlaced_vroom(
     file = file,
     delim = "\t",
+    col_names = col_names,
     col_types = col_types,
+    col_select = {{col_select}},
+    id = id,
+    skip = skip,
+    n_max = n_max,
     na = na,
-    col_select = {{ col_select }},
-    ...
+    quote = quote,
+    comment = comment,
+    skip_empty_rows = skip_empty_rows,
+    trim_ws = trim_ws,
+    escape_double = TRUE,
+    escape_backslash = FALSE,
+    locale = locale,
+    guess_max = guess_max,
+    # altrep
+    num_threads = num_threads,
+    progress = progress,
+    show_col_types = show_col_types,
+    .name_repair = name_repair
   )
 }
 
-interlaced_vroom <- function(col_types, na, col_select, ...) {
+#' @rdname read_interlaced_delim
+#' @export
+interlaced_vroom <- function(
+  file,
+  delim = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  col_select = NULL,
+  id = NULL,
+  skip = 0,
+  n_max = Inf,
+  na = c("", "NA"),
+  quote = "\"",
+  comment = "",
+  skip_empty_rows = TRUE,
+  trim_ws = TRUE,
+  escape_double = TRUE,
+  escape_backslash = FALSE,
+  locale = default_locale(),
+  guess_max = 100,
+  #  altrep = TRUE,
+  #  altrep_opts = deprecated(),
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  .name_repair = "unique"
+) {
+  std_opts <- list2(
+    file = file,
+    delim = delim,
+    col_names = col_names,
+    # col_types
+    # col_select
+    # id
+    skip = skip,
+    n_max = n_max,
+    # na
+    quote = quote,
+    comment = comment,
+    skip_empty_rows = skip_empty_rows,
+    trim_ws = trim_ws,
+    escape_double = escape_double,
+    escape_backslash = escape_backslash,
+    locale = locale,
+    guess_max = guess_max,
+    altrep = FALSE,
+    # num_threads
+    progress = FALSE,
+    show_col_types = FALSE,
+    .name_repair = "check_unique",
+  )
+
   col_spec <- as.col_spec(col_types)
 
   col_spec_names <- names(col_spec$cols) %||% rep_along(col_spec$cols, "")
   if (length(col_spec_names) > 0 && any(col_spec_names == "")) {
     cli_abort(
-      "`col_types` must include names, character shortcuts not supported (yet)"
+      "`col_types` arg must include column names",
+      "definitions based on column order not supported (yet)"
+    )
+  }
+
+  if (!is.null(id)) {
+    cli_abort(
+      "`id` arg not supported (yet)"
     )
   }
 
   # Step 1: Read everything as string
 
-  df_chr <- vroom(
-    ...,
-    col_types = cols(.default = "c"),
-    na = character(),
-    col_select = {{ col_select }}
+  df_chr <- inject(
+    vroom(
+      !!!std_opts,
+      col_types = cols(.default = "c"),
+      col_select = {{ col_select }},
+      id = NULL,
+      na = character(),
+      num_threads = num_threads
+    )
   )
 
   # Step 2: For each of the resulting columns, go back and convert values
@@ -131,14 +320,15 @@ interlaced_vroom <- function(col_types, na, col_select, ...) {
     all_na_values <- unique(c(collector$na, na))
 
     vroom_call <- withWarnings(
-      vroom(
-        ...,
-        col_types = col_spec,
-        na = all_na_values,
-        col_select = i,
-        num_threads = 1,
-        show_col_types = FALSE,
-        altrep = FALSE
+      inject(
+        vroom(
+          !!!std_opts,
+          col_types = col_spec,
+          col_select = i,
+          id = NULL,
+          na = all_na_values,
+          num_threads = 1
+        )
       )
     )
 
@@ -165,18 +355,22 @@ interlaced_vroom <- function(col_types, na, col_select, ...) {
       collector_used <- collector
     }
 
+    # TODO: update progress
+
     list(
       values = new_interlaced(values, na_values),
       problems = vroom_call$warnings,
       spec = collector_used
     )
-  }, mc.cores = 2)
+  }, mc.cores = num_threads)
 
   out <- set_names(out, names(df_chr))
 
   df <- as_tibble(lapply(out, `[[`, "values"))
 
   attr(df, "spec") <- inject(cols(!!!lapply(out, `[[`, "spec")))
+
+  # TODO: show col types
 
   # I'd like to hoover up all the vroom problems and put them together as a
   # `problems` attr on the result, but I can't because of this bug:
@@ -201,14 +395,3 @@ interlaced_vroom <- function(col_types, na, col_select, ...) {
   df
 }
 
-# Source:
-# https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
-withWarnings <- function(expr) {
-  myWarnings <- list()
-  wHandler <- function(w) {
-    myWarnings <<- c(myWarnings, list(w))
-    invokeRestart("muffleWarning")
-  }
-  val <- withCallingHandlers(expr, warning = wHandler)
-  list(value = val, warnings = myWarnings)
-}

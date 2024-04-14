@@ -5,39 +5,122 @@
 \alias{read_interlaced_csv}
 \alias{read_interlaced_csv2}
 \alias{read_interlaced_tsv}
+\alias{interlaced_vroom}
 \title{Read an delimited file with interlaced missing reasons into a tibble}
 \usage{
 read_interlaced_delim(
   file,
   delim = NULL,
+  quote = "\\"",
+  escape_backslash = FALSE,
+  escape_double = TRUE,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  comment = "",
+  trim_ws = FALSE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
 )
 
 read_interlaced_csv(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  quote = "\\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
 )
 
 read_interlaced_csv2(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  quote = "\\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
 )
 
 read_interlaced_tsv(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = default_locale(),
   na = c("", "NA"),
-  ...
+  quoted_na = TRUE,
+  quote = "\\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  skip_empty_rows = TRUE
+)
+
+interlaced_vroom(
+  file,
+  delim = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  col_select = NULL,
+  id = NULL,
+  skip = 0,
+  n_max = Inf,
+  na = c("", "NA"),
+  quote = "\\"",
+  comment = "",
+  skip_empty_rows = TRUE,
+  trim_ws = TRUE,
+  escape_double = TRUE,
+  escape_backslash = FALSE,
+  locale = default_locale(),
+  guess_max = 100,
+  num_threads = interlacer_threads(),
+  progress = interlacer_progress(),
+  show_col_types = interlacer_show_col_types(),
+  .name_repair = "unique"
 )
 }
 \arguments{
