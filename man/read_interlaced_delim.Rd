@@ -20,7 +20,6 @@ read_interlaced_delim(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   comment = "",
   trim_ws = FALSE,
   skip = 0,
@@ -41,7 +40,6 @@ read_interlaced_csv(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   quote = "\\"",
   comment = "",
   trim_ws = TRUE,
@@ -63,7 +61,6 @@ read_interlaced_csv2(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   quote = "\\"",
   comment = "",
   trim_ws = TRUE,
@@ -85,7 +82,6 @@ read_interlaced_tsv(
   id = NULL,
   locale = readr::default_locale(),
   na = c("", "NA"),
-  quoted_na = TRUE,
   quote = "\\"",
   comment = "",
   trim_ws = TRUE,
@@ -184,7 +180,8 @@ how this is done.}
 
    By default, reading a file without a column specification will print a
    message showing what `vroom` guessed they were. To remove this message,
-   set `show_col_types = FALSE` or set `options(readr.show_col_types = FALSE)`.}
+   set `show_col_types = FALSE` or set
+   `options(interlacer.show_col_types = FALSE)`.}
 
 \item{col_select}{Columns to include in the results. You can use the same
 mini-language as \code{dplyr::select()} to refer to the columns by name. Use
@@ -206,10 +203,6 @@ names.}
 
 \item{na}{Character vector of strings to interpret as missing values. Set this
 option to \code{character()} to indicate no missing values.}
-
-\item{quoted_na}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} Should missing values
-inside quotes be treated as missing values (the default) or strings. This
-parameter is soft deprecated as of readr 2.0.0.}
 
 \item{comment}{A string used to identify comments. Any text after the
 comment characters will be silently ignored.}
