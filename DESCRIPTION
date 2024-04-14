@@ -23,7 +23,8 @@ Imports:
     rlang,
     tibble,
     tidyselect,
-    vctrs
+    vctrs,
+    vroom
 Suggests: 
     knitr,
     rmarkdown,

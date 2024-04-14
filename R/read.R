@@ -299,7 +299,7 @@ interlaced_vroom <- function(
   # Step 1: Read everything as string
 
   df_chr <- inject(
-    vroom(
+    vroom::vroom(
       !!!std_opts,
       col_types = cols(.default = "c"),
       col_select = {{ col_select }},
@@ -337,7 +337,7 @@ interlaced_vroom <- function(
 
     vroom_call <- withWarnings(
       inject(
-        vroom(
+        vroom::vroom(
           !!!std_opts,
           col_types = col_spec,
           col_select = i,

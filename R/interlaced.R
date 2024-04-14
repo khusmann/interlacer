@@ -130,6 +130,7 @@ style_empty <- function(x) {
   cli::col_blue(x)
 }
 
+#' @importFrom pillar pillar_shaft
 #' @export
 pillar_shaft.interlacer_interlaced <- function(x, ...) {
   align <- if (is_character(x)) "left" else "right"
