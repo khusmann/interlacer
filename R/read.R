@@ -299,6 +299,7 @@ interlaced_vroom <- function(
     )
   }
 
+
   # Step 1: Read everything as string
 
   df_chr <- inject(
@@ -312,9 +313,28 @@ interlaced_vroom <- function(
     )
   )
 
+  # Get rename map from cols_select
+  col_select_quo <- interlacer_enquo(enquo(col_select))
+  if (inherits(col_select_quo, "quosures") || !quo_is_null(col_select_quo)) {
+    if (inherits(col_select_quo, "quosures")) {
+      vars <- tidyselect::vars_select(
+        names(spec(df_chr)$cols), !!!col_select_quo
+      )
+    } else {
+      vars <- tidyselect::vars_select(
+        names(spec(df_chr)$cols), !!col_select_quo
+      )
+    }
+  } else {
+    vars <- set_names(names(df_chr), names(df_chr))
+  }
+
+  # Rename cols back to original names
+  names(df_chr) <- vars
+
   # Step 2: For each of the resulting columns, go back and convert values
 
-  out <- parallel::mclapply(names(df_chr), function(i) {
+  out <- parallel::mclapply(set_names(vars, vars), function(i) {
     collector <- col_spec$cols[[i]] %||% col_spec$default
 
     all_na_values <- unique(c(collector$na, na))
@@ -364,11 +384,16 @@ interlaced_vroom <- function(
     )
   }, mc.cores = num_threads)
 
-  out <- set_names(out, names(df_chr))
+  df <- as_tibble(lapply(out, `[[`, "values"), .name_repair = .name_repair)
 
-  df <- as_tibble(lapply(out, `[[`, "values"))
+  # Replace spec cols from chr spec into values col specs
+  values_spec <- spec(df_chr)
+  values_spec$cols[names(out)] <- lapply(out, `[[`, "spec")
+  values_spec$default <- col_spec$default
+  attr(df, "spec") <- values_spec
 
-  attr(df, "spec") <- inject(cols(!!!lapply(out, `[[`, "spec")))
+  # Rename result to names from col_select
+  names(df) <- names(vars)
 
   # TODO: show col types
 

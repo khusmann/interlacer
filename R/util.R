@@ -84,3 +84,11 @@ withWarnings <- function(expr) {
   val <- withCallingHandlers(expr, warning = wHandler)
   list(value = val, warnings = myWarnings)
 }
+
+
+interlacer_enquo <- function(x) {
+  if (quo_is_call(x, "c") || quo_is_call(x, "list")) {
+    return(as_quosures(get_expr(x)[-1], get_env(x)))
+  }
+  x
+}
