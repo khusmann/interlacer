@@ -73,6 +73,11 @@ interlacer_show_col_types <- function() {
   }
 }
 
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true") &&
+    identical(Sys.getenv("TESTTHAT_PKG"), "interlacer")
+}
+
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
 withWarnings <- function(expr) {
@@ -85,8 +90,51 @@ withWarnings <- function(expr) {
   list(value = val, warnings = myWarnings)
 }
 
+## Misc internal functions from vroom
 
-interlacer_enquo <- function(x) {
+should_show_col_types <- function(has_col_types, show_col_types) {
+  if (is.null(show_col_types)) {
+    return(isTRUE(!has_col_types))
+  }
+  isTRUE(show_col_types)
+}
+
+show_col_types <- function(x, locale) {
+  show_dims(x)
+  summary(spec(x), locale = locale)
+  cli_block(class = "vroom_spec_message", {
+    cli::cli_verbatim("\n\n")
+    cli::cli_alert_info("Use {.fn spec} to retrieve the full column specification for this data.")
+    cli::cli_alert_info("Specify the column types or set {.arg show_col_types = FALSE} to quiet this message.")
+  })
+}
+
+show_dims <- function(x) {
+  cli_block(class = "vroom_dim_message", {
+    cli::cli_text("
+      {.strong Rows: }{.val {NROW(x)}}
+      {.strong Columns: }{.val {NCOL(x)}}
+      ")
+  })
+}
+
+
+cli_block <- function(expr, class = NULL, type = rlang::inform) {
+  msg <- ""
+  withCallingHandlers(
+    expr,
+    message = function(x) {
+      msg <<- paste0(msg, x$message)
+      invokeRestart("muffleMessage")
+    }
+  )
+  msg <- sub("^\n", "", msg)
+  msg <- sub("\n+$", "", msg)
+
+  type(msg, class = class)
+}
+
+vroom_enquo <- function(x) {
   if (quo_is_call(x, "c") || quo_is_call(x, "list")) {
     return(as_quosures(get_expr(x)[-1], get_env(x)))
   }

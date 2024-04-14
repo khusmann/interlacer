@@ -38,7 +38,7 @@ read_interlaced_delim <- function(
   col_types = NULL,
   col_select = NULL,
   id = NULL,
-  locale = default_locale(),
+  locale = readr::default_locale(),
   na = c("", "NA"),
   quoted_na = TRUE,
   comment = "",
@@ -89,7 +89,7 @@ read_interlaced_csv <- function(
   col_types = NULL,
   col_select = NULL,
   id = NULL,
-  locale = default_locale(),
+  locale = readr::default_locale(),
   na = c("", "NA"),
   quoted_na = TRUE,
   quote = "\"",
@@ -139,7 +139,7 @@ read_interlaced_csv2 <- function(
   col_types = NULL,
   col_select = NULL,
   id = NULL,
-  locale = default_locale(),
+  locale = readr::default_locale(),
   na = c("", "NA"),
   quoted_na = TRUE,
   quote = "\"",
@@ -189,7 +189,7 @@ read_interlaced_tsv <- function(
   col_types = NULL,
   col_select = NULL,
   id = NULL,
-  locale = default_locale(),
+  locale = readr::default_locale(),
   na = c("", "NA"),
   quoted_na = TRUE,
   quote = "\"",
@@ -249,7 +249,7 @@ interlaced_vroom <- function(
   trim_ws = TRUE,
   escape_double = TRUE,
   escape_backslash = FALSE,
-  locale = default_locale(),
+  locale = vroom::default_locale(),
   guess_max = 100,
   #  altrep = TRUE,
   #  altrep_opts = deprecated(),
@@ -299,7 +299,6 @@ interlaced_vroom <- function(
     )
   }
 
-
   # Step 1: Read everything as string
 
   df_chr <- inject(
@@ -314,7 +313,7 @@ interlaced_vroom <- function(
   )
 
   # Get rename map from cols_select
-  col_select_quo <- interlacer_enquo(enquo(col_select))
+  col_select_quo <- vroom_enquo(enquo(col_select))
   if (inherits(col_select_quo, "quosures") || !quo_is_null(col_select_quo)) {
     if (inherits(col_select_quo, "quosures")) {
       vars <- tidyselect::vars_select(
@@ -395,7 +394,10 @@ interlaced_vroom <- function(
   # Rename result to names from col_select
   names(df) <- names(vars)
 
-  # TODO: show col types
+  # Show col types if requested
+  if (should_show_col_types(!is.null(col_types), show_col_types)) {
+    show_col_types(df, locale)
+  }
 
   # I'd like to hoover up all the vroom problems and put them together as a
   # `problems` attr on the result, but I can't because of this bug:
