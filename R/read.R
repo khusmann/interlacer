@@ -3,27 +3,29 @@
 #' The `read_interlaced_*()`, family of functions extend `readr`'s
 #' `read_delim()`, `read_csv`, etc. functions for use on data sources where
 #' values are interlaced with missing reasons. These functions return a tibble
-#' with two columns for each interlaced source column: a column with
-#' values, and a column with missing reasons. Missing reason columns are named
-#' by taking the value column name and surrounding it by dots
-#' (e.g. missing reasons for "col_name" are read into a column named
-#' ".col_name.")
+#' with interlaced columns.
 #'
-#' @param file 	Either a path to a file, a connection, or literal data (either
-#' a single string or a raw vector).
-#' @param delim Single character used to separate fields within a record.
-#' @param col_types One of `NULL`, a [readr::cols()] specification, or a string. In
-#' addition to the `col_*` specifiers provided by `readr`, `icol_*()`
-#' specifiers may be used. See `vignette("interlacer")` for more details.
-#' @param col_select Columns to include in the results. As with
-#' [reader::read_delim], you can use the same mini-language as
-#' [dplyr::select()] to refer to the columns by name.
-#' @param na Character vector of strings to interpret as missing values. These
-#' values will become the factor levels of the missing reason column.
-#' @param ... Additional parameters to pass to `read_delim`
+#' @inheritParams readr::read_delim
+#' @inheritParams vroom::vroom
 #'
-#' @return A deinterlaced [tibble()], that is, a tibble with separate columns
-#' for values and missing reasonskfor each variable.
+#' @param col_types `NULL`, or a [cols()] specification.
+#'    The "compact string" representation supported by [readr::read_delim()]
+#'    and [vroom::vroom()] is not supported by interlacer (yet).
+#'
+#'    If `NULL`, all column types will be inferred from `guess_max` rows of the
+#'    input, interspersed throughout the file. This is convenient (and fast),
+#'    but not robust. If the guessed types are wrong, you'll need to increase
+#'    `guess_max` or supply the correct types yourself.
+#'
+#'    Column specifications created by [list()] or [cols()] must contain
+#'    one column specification for each column. If you only want to read a
+#'    subset of the columns, use [cols_only()].
+#'
+#'    By default, reading a file without a column specification will print a
+#'    message showing what `vroom` guessed they were. To remove this message,
+#'    set `show_col_types = FALSE` or set `options(readr.show_col_types = FALSE)`.
+#'
+#' @return A [tibble()], with interlaced columns.
 #'
 #' @export
 #' @examples
@@ -78,8 +80,6 @@ read_interlaced_delim <- function(
     .name_repair = name_repair
   )
 }
-
-
 
 #' @rdname read_interlaced_delim
 #' @export
