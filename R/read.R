@@ -339,8 +339,8 @@ interlaced_vroom <- function(
           col_types = col_spec,
           col_select = i,
           id = NULL,
-          na = all_na_values,
-          num_threads = 1
+          na = all_na_values
+          # num_threads = 1
         )
       )
     )
