@@ -30,53 +30,13 @@ interlacer_threads <- function() {
   res
 }
 
-#' Determine whether progress bars should be shown
-#'
-#' By default, interlacer shows progress bars. However, progress reporting is
-#' suppressed if any of the following conditions hold:
-#' - The bar is explicitly disabled by setting
-#'   `options(interlacer.show_progress = FALSE)`.
-#' - The code is run in a non-interactive session, as determined by
-#'   [rlang::is_interactive()].
-#' - The code is run in an RStudio notebook chunk, as determined by
-#'   `getOption("rstudio.notebook.executing")`.
+#' @importFrom readr show_progress
 #' @export
-interlacer_progress <- function() {
-  isTRUE(getOption("interlacer.show_progress")) && rlang::is_interactive() &&
-    !isTRUE(getOption("rstudio.notebook.executing"))
-}
+readr::show_progress
 
-#' Determine whether column types should be shown
-#'
-#' Wrapper around `getOption("interlacer.show_col_types")` that implements
-#' some fall back logic if the option is unset. This returns:
-#' * `TRUE` if the option is set to `TRUE`
-#' * `FALSE` if the option is set to `FALSE`
-#' * `FALSE` if the option is unset and we appear to be running tests
-#' * `NULL` otherwise, in which case the caller determines whether to show
-#'   column types based on context, e.g. whether `interlacer_show_col_types` or
-#'   actual `col_types` were explicitly specified
+#' @importFrom readr should_show_types
 #' @export
-interlacer_show_col_types <- function() {
-  opt <- getOption("interlacer.show_col_types", NA)
-  if (isTRUE(opt)) {
-    TRUE
-  }
-  else if (identical(opt, FALSE)) {
-    FALSE
-  }
-  else if (is.na(opt) && is_testing()) {
-    FALSE
-  }
-  else {
-    NULL
-  }
-}
-
-is_testing <- function() {
-  identical(Sys.getenv("TESTTHAT"), "true") &&
-    identical(Sys.getenv("TESTTHAT_PKG"), "interlacer")
-}
+readr::should_show_types
 
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
@@ -92,14 +52,14 @@ withWarnings <- function(expr) {
 
 ## Misc internal functions from vroom
 
-should_show_col_types <- function(has_col_types, show_col_types) {
+vroom_should_show_col_types <- function(has_col_types, show_col_types) {
   if (is.null(show_col_types)) {
     return(isTRUE(!has_col_types))
   }
   isTRUE(show_col_types)
 }
 
-show_col_types <- function(x, locale) {
+vroom_show_col_types <- function(x, locale) {
   show_dims(x)
   summary(spec(x), locale = locale)
   cli_block(class = "vroom_spec_message", {
@@ -132,6 +92,24 @@ cli_block <- function(expr, class = NULL, type = rlang::inform) {
   msg <- sub("\n+$", "", msg)
 
   type(msg, class = class)
+}
+
+vroom_col_select_map <- function(col_select, col_spec) {
+  col_select <- vroom_enquo(enquo(col_select))
+  if (inherits(col_select, "quosures") || !quo_is_null(col_select)) {
+    if (inherits(col_select, "quosures")) {
+      vars <- tidyselect::vars_select(
+        names(col_spec$cols), !!!col_select
+      )
+    } else {
+      vars <- tidyselect::vars_select(
+        names(col_spec$cols), !!col_select
+      )
+    }
+  } else {
+    vars <- set_names(names(col_spec$cols), names(col_spec$cols))
+  }
+  vars
 }
 
 vroom_enquo <- function(x) {

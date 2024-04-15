@@ -8,24 +8,6 @@
 #' @inheritParams readr::read_delim
 #' @inheritParams vroom::vroom
 #'
-#' @param col_types `NULL`, or a [cols()] specification.
-#'    The "compact string" representation supported by [readr::read_delim()]
-#'    and [vroom::vroom()] is not supported by interlacer (yet).
-#'
-#'    If `NULL`, all column types will be inferred from `guess_max` rows of the
-#'    input, interspersed throughout the file. This is convenient (and fast),
-#'    but not robust. If the guessed types are wrong, you'll need to increase
-#'    `guess_max` or supply the correct types yourself.
-#'
-#'    Column specifications created by [list()] or [cols()] must contain
-#'    one column specification for each column. If you only want to read a
-#'    subset of the columns, use [cols_only()].
-#'
-#'    By default, reading a file without a column specification will print a
-#'    message showing what `vroom` guessed they were. To remove this message,
-#'    set `show_col_types = FALSE` or set
-#'    `options(interlacer.show_col_types = FALSE)`.
-#'
 #' @return A [tibble()], with interlaced columns.
 #'
 #' @export
@@ -50,8 +32,8 @@ read_interlaced_delim <- function(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -99,8 +81,8 @@ read_interlaced_csv <- function(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -148,8 +130,8 @@ read_interlaced_csv2 <- function(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -197,8 +179,8 @@ read_interlaced_tsv <- function(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -249,10 +231,9 @@ interlaced_vroom <- function(
   locale = vroom::default_locale(),
   guess_max = 100,
   #  altrep = TRUE,
-  #  altrep_opts = deprecated(),
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   .name_repair = "unique"
 ) {
   std_opts <- list2(
@@ -281,18 +262,19 @@ interlaced_vroom <- function(
   )
 
   col_spec <- as.col_spec(col_types)
+  is_unnamed_col_spec <- is.null(names(col_spec$cols))
 
-  col_spec_names <- names(col_spec$cols) %||% rep_along(col_spec$cols, "")
-  if (length(col_spec_names) > 0 && any(col_spec_names == "")) {
-    cli_abort(
-      "`col_types` arg must include column names",
-      "definitions based on column order not supported (yet)"
-    )
+  if (length(col_spec$cols) > 0 && !is_unnamed_col_spec) {
+    if (any(names(col_spec$cols) == "")) {
+      cli_abort(
+        "{.arg col_type} cannot have a mix of named and unnamed values"
+      )
+    }
   }
 
   if (!is.null(id)) {
     cli_abort(
-      "`id` arg not supported (yet)"
+      "{.arg id} arg not supported (yet)"
     )
   }
 
@@ -309,24 +291,36 @@ interlaced_vroom <- function(
     )
   )
 
-  # Get vars map from cols_select
-  col_select_quo <- vroom_enquo(enquo(col_select))
-  if (inherits(col_select_quo, "quosures") || !quo_is_null(col_select_quo)) {
-    if (inherits(col_select_quo, "quosures")) {
-      vars <- tidyselect::vars_select(
-        names(spec(df_chr)$cols), !!!col_select_quo
-      )
-    } else {
-      vars <- tidyselect::vars_select(
-        names(spec(df_chr)$cols), !!col_select_quo
+  # IMMEDIATELY rename the cols back to their original names.
+  # (We will do the final rename after loading the values)
+  # `vars` has the original column names in the file, and
+  # `names(vars)` is what we want to rename them to.
+  vars <- vroom_col_select_map({{col_select}}, spec(df_chr))
+  names(df_chr) <- vars
+
+  # Set names of unnamed col_specs according to the columns vroom found
+  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
+    col_spec_names <- names(spec(df_chr)$cols)
+
+    if (length(col_spec$cols) != length(col_spec_names)) {
+      cli_warn(
+        paste0(
+          "mismatch between number of unnamed columns defined in ",
+          "{.arg col_types} ({length(col_spec$cols)}) and columns found in ",
+          "file ({length(col_spec_names)})"
+        )
       )
     }
-  } else {
-    vars <- set_names(names(df_chr), names(df_chr))
+
+    col_spec$cols <- col_spec$cols[seq_along(col_spec_names)]
+
+    col_spec_is_null <- vapply(col_spec$cols, is.null, logical(1))
+
+    col_spec$cols[col_spec_is_null] <- list(col_guess())
+
+    names(col_spec$cols) <- names(spec(df_chr)$cols)
   }
 
-  # Rename cols back to original names
-  names(df_chr) <- vars
 
   # Step 2: For each of the resulting columns, go back and convert values
 
@@ -357,13 +351,13 @@ interlaced_vroom <- function(
       levels = all_na_values
     )
 
-    spec <- attr(value_df, "spec")$cols
+    vroom_cols <- spec(value_df)$cols
 
     spec_is_skip <- vapply(
-      spec, \(x) inherits(x, "collector_skip"), logical(1)
+      vroom_cols, \(x) inherits(x, "collector_skip"), logical(1)
     )
 
-    vroom_collector <- spec[which(!spec_is_skip)][[1]]
+    vroom_collector <- vroom_cols[which(!spec_is_skip)][[1]]
 
     if (inherits(collector, "collector_guess")) {
       collector_used <- vroom_collector
@@ -392,8 +386,8 @@ interlaced_vroom <- function(
   names(df) <- names(vars)
 
   # Show col types if requested
-  if (should_show_col_types(!is.null(col_types), show_col_types)) {
-    show_col_types(df, locale)
+  if (vroom_should_show_col_types(!is.null(col_types), show_col_types)) {
+    vroom_show_col_types(df, locale)
   }
 
   # I'd like to hoover up all the vroom problems and put them together as a

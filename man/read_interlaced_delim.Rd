@@ -27,8 +27,8 @@ read_interlaced_delim(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -48,8 +48,8 @@ read_interlaced_csv(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -69,8 +69,8 @@ read_interlaced_csv2(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -90,8 +90,8 @@ read_interlaced_tsv(
   guess_max = min(1000, n_max),
   name_repair = "unique",
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -114,8 +114,8 @@ interlaced_vroom(
   locale = vroom::default_locale(),
   guess_max = 100,
   num_threads = interlacer_threads(),
-  progress = interlacer_progress(),
-  show_col_types = interlacer_show_col_types(),
+  progress = show_progress(),
+  show_col_types = should_show_types(),
   .name_repair = "unique"
 )
 }
@@ -165,23 +165,37 @@ in with dummy names \code{...1}, \code{...2} etc. Duplicate column names
 will generate a warning and be made unique, see \code{name_repair} to control
 how this is done.}
 
-\item{col_types}{`NULL`, or a [cols()] specification.
-   The "compact string" representation supported by [readr::read_delim()]
-   and [vroom::vroom()] is not supported by interlacer (yet).
+\item{col_types}{One of \code{NULL}, a \code{\link[readr:cols]{cols()}} specification, or
+a string. See \code{vignette("readr")} for more details.
 
-   If `NULL`, all column types will be inferred from `guess_max` rows of the
-   input, interspersed throughout the file. This is convenient (and fast),
-   but not robust. If the guessed types are wrong, you'll need to increase
-   `guess_max` or supply the correct types yourself.
+If \code{NULL}, all column types will be inferred from \code{guess_max} rows of the
+input, interspersed throughout the file. This is convenient (and fast),
+but not robust. If the guessed types are wrong, you'll need to increase
+\code{guess_max} or supply the correct types yourself.
 
-   Column specifications created by [list()] or [cols()] must contain
-   one column specification for each column. If you only want to read a
-   subset of the columns, use [cols_only()].
+Column specifications created by \code{\link[=list]{list()}} or \code{\link[readr:cols]{cols()}} must contain
+one column specification for each column. If you only want to read a
+subset of the columns, use \code{\link[readr:cols_only]{cols_only()}}.
 
-   By default, reading a file without a column specification will print a
-   message showing what `vroom` guessed they were. To remove this message,
-   set `show_col_types = FALSE` or set
-   `options(interlacer.show_col_types = FALSE)`.}
+Alternatively, you can use a compact string representation where each
+character represents one column:
+\itemize{
+\item c = character
+\item i = integer
+\item n = number
+\item d = double
+\item l = logical
+\item f = factor
+\item D = date
+\item T = date time
+\item t = time
+\item ? = guess
+\item _ or - = skip
+}
+
+By default, reading a file without a column specification will print a
+message showing what \code{readr} guessed they were. To remove this message,
+set \code{show_col_types = FALSE} or set \code{options(readr.show_col_types = FALSE)}.}
 
 \item{col_select}{Columns to include in the results. You can use the same
 mini-language as \code{dplyr::select()} to refer to the columns by name. Use
