@@ -15,10 +15,7 @@ Depends:
     R (>= 4.1.0)
 Imports: 
     cli,
-    dplyr,
-    glue,
     pillar,
-    purrr,
     readr,
     rlang,
     tibble,
