@@ -151,11 +151,13 @@ vec_ptype_abbr.interlacer_interlaced <- function(x, ...) {
 #' @export
 format.interlacer_interlaced <- function(x, ...) {
   sapply(x, function(i) {
-    if (is.na(i)) {
-      paste0("<", format(na_channel(i)), ">")
-    } else {
-      format(value_channel(i))
+    if (is.empty(i)) {
+      return(paste0("<<", format(na_channel(i)), ">>"))
     }
+    if (is.na(i)) {
+      return(paste0("<", format(na_channel(i)), ">"))
+    }
+    format(value_channel(i))
   })
 }
 
