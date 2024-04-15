@@ -53,7 +53,41 @@ value_channel <- function(x) {
   x
 }
 
-# TODO: flatten_channels(), S3 defined for data frames and vctrs
+#' @export
+flatten_channels <- function(x, ...) {
+  UseMethod("flatten_channels")
+}
+
+#' @export
+flatten_channels.default <- function(x, ...) {
+  x
+}
+
+#' @export
+flatten_channels.data.frame <- function(x, ...) {
+  for (i in names(x)) {
+    x[[i]] <- flatten_channels(x[[i]])
+  }
+  x
+}
+
+#' @export
+flatten_channels.interlacer_interlaced <- function(x, ...) {
+  v <- value_channel(x)
+  m <- na_channel(x)
+
+  # Prevent casts of factor to numeric...
+
+  if (is.factor(v) && !is.factor(m)) {
+    v <- as.character(v)
+  }
+
+  if (!is.factor(v) && is.factor(m)) {
+    m <- as.character(m)
+  }
+
+  ifelse(!is.na(v), v, m)
+}
 
 #' @export
 na <- function(x = NA) {
