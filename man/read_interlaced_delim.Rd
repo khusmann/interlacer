@@ -26,9 +26,8 @@ read_interlaced_delim(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -47,9 +46,8 @@ read_interlaced_csv(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -68,9 +66,8 @@ read_interlaced_csv2(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -89,9 +86,8 @@ read_interlaced_tsv(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
 )
 
@@ -113,9 +109,8 @@ interlaced_vroom(
   escape_backslash = FALSE,
   locale = vroom::default_locale(),
   guess_max = 100,
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  progress = vroom::vroom_progress(),
+  show_col_types = NULL,
   .name_repair = "unique"
 )
 }
@@ -251,12 +246,6 @@ for names in the style of base R).
 This argument is passed on as \code{repair} to \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}}.
 See there for more details on these terms and the strategies used
 to enforce them.}
-
-\item{num_threads}{The number of processing threads to use for initial
-parsing and lazy reading of data. If your data contains newlines within
-fields the parser should automatically detect this and fall back to using
-one thread only. However if you know your file has newlines within quoted
-fields it is safest to set \code{num_threads = 1} explicitly.}
 
 \item{progress}{Display a progress bar? By default it will only display
 in an interactive session and not while knitting a document. The automatic

@@ -1,43 +1,5 @@
 
 
-#' Determine how many threads interlacer should use when processing. If not
-#' running on a Unix-based system (like Windows), return 1 because they do not
-#' support [parallel::mclapply()], which is what is currently being used for
-#' parallel processing.
-#'
-#' The number of threads returned can be set by
-#' - If `.Platform$OS.type != "unix"`, return `1`
-#' - The global option `interlacer.num_threads`
-#' - The environment variable `VROOM_THREADS`
-#' - The value of [parallel::detectCores()]
-#' @export
-interlacer_threads <- function() {
-  if (.Platform$OS.type != "unix") {
-    return(1)
-  }
-
-  res <- getOption("interlacer.num_threads")
-
-  if (is.null(res)) {
-    res <- as.integer(Sys.getenv("VROOM_THREADS", parallel::detectCores()))
-    options("interlacer.num_threads" = res)
-  }
-
-  if (is.na(res) || res <= 0) {
-    res <- 1
-  }
-
-  res
-}
-
-#' @importFrom readr show_progress
-#' @export
-readr::show_progress
-
-#' @importFrom readr should_show_types
-#' @export
-readr::should_show_types
-
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
 withWarnings <- function(expr) {

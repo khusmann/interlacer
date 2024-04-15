@@ -31,9 +31,9 @@ read_interlaced_delim <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  # num_threads = readr::readr_threads(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -56,7 +56,7 @@ read_interlaced_delim <- function(
     locale = locale,
     guess_max = guess_max,
     # altrep
-    num_threads = num_threads,
+    # num_threads = num_threads,
     progress = progress,
     show_col_types = show_col_types,
     .name_repair = name_repair
@@ -80,9 +80,9 @@ read_interlaced_csv <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  # num_threads = readr::readr_threads(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -105,7 +105,7 @@ read_interlaced_csv <- function(
     locale = locale,
     guess_max = guess_max,
     # altrep
-    num_threads = num_threads,
+    # num_threads = num_threads,
     progress = progress,
     show_col_types = show_col_types,
     .name_repair = name_repair
@@ -129,9 +129,9 @@ read_interlaced_csv2 <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  # num_threads = readr::num_threads(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -154,7 +154,7 @@ read_interlaced_csv2 <- function(
     locale = locale,
     guess_max = guess_max,
     # altrep
-    num_threads = num_threads,
+    # num_threads = num_threads,
     progress = progress,
     show_col_types = show_col_types,
     .name_repair = name_repair
@@ -178,9 +178,9 @@ read_interlaced_tsv <- function(
   n_max = Inf,
   guess_max = min(1000, n_max),
   name_repair = "unique",
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  # num_threads = readr::num_threads(),
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
   skip_empty_rows = TRUE
   # lazy = should_read_lazy()
 ) {
@@ -203,7 +203,7 @@ read_interlaced_tsv <- function(
     locale = locale,
     guess_max = guess_max,
     # altrep
-    num_threads = num_threads,
+    # num_threads = num_threads,
     progress = progress,
     show_col_types = show_col_types,
     .name_repair = name_repair
@@ -230,10 +230,10 @@ interlaced_vroom <- function(
   escape_backslash = FALSE,
   locale = vroom::default_locale(),
   guess_max = 100,
-  #  altrep = TRUE,
-  num_threads = interlacer_threads(),
-  progress = show_progress(),
-  show_col_types = should_show_types(),
+  # altrep = TRUE,
+  # num_threads = vroom_threads(),
+  progress = vroom::vroom_progress(),
+  show_col_types = NULL,
   .name_repair = "unique"
 ) {
   std_opts <- list2(
@@ -287,7 +287,7 @@ interlaced_vroom <- function(
       col_select = {{ col_select }},
       id = NULL,
       na = character(),
-      num_threads = num_threads
+      # num_threads = num_threads
     )
   )
 
@@ -320,7 +320,6 @@ interlaced_vroom <- function(
 
     names(col_spec$cols) <- names(spec(df_chr)$cols)
   }
-
 
   # Step 2: For each of the resulting columns, go back and convert values
 
