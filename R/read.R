@@ -324,7 +324,11 @@ interlaced_vroom <- function(
 
   # Step 2: For each of the resulting columns, go back and convert values
 
-  out <- parallel::mclapply(set_names(vars, vars), function(i) {
+  if (progress) {
+    p <- cli_progress_bar("Loading", total = length(vars))
+  }
+
+  out <- lapply(set_names(vars, vars), function(i) {
     collector <- col_spec$cols[[i]] %||% col_spec$default
 
     all_na_values <- unique(c(collector$na, na))
@@ -365,14 +369,16 @@ interlaced_vroom <- function(
       collector_used <- collector
     }
 
-    # TODO: update progress
+    if (progress) {
+      cli_progress_update(id = p)
+    }
 
     list(
       values = new_interlaced(values, na_values),
       problems = vroom_call$warnings,
       spec = collector_used
     )
-  }, mc.cores = num_threads)
+  })
 
   df <- as_tibble(lapply(out, `[[`, "values"), .name_repair = .name_repair)
 
