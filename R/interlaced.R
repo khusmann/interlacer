@@ -497,7 +497,6 @@ vec_cast.character.interlacer_interlaced <- function(x, to, ...) {
 
 #' @export
 vec_cast.double.interlacer_interlaced <- function(x, to, ...) {
-  print("hello")
   cast_unwrap(x, to, ...)
 }
 
