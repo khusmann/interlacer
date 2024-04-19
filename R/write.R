@@ -27,7 +27,7 @@ write_interlaced_delim <- function(
   num_threads = readr::readr_threads(),
   progress = readr::show_progress()
 ) {
-  write_delim(
+  readr::write_delim(
     x = flatten_channels(x),
     delim = delim,
     na = empty,
@@ -56,7 +56,7 @@ write_interlaced_csv <- function(
     num_threads = readr::readr_threads(),
     progress = readr::show_progress()
 ) {
-  write_csv(
+  readr::write_csv(
     x = flatten_channels(x),
     file = file,
     na = empty,
@@ -85,7 +85,7 @@ write_interlaced_csv2 <- function(
     num_threads = readr::readr_threads(),
     progress = readr::show_progress()
 ) {
-  write_csv2(
+  readr::write_csv2(
     x = flatten_channels(x),
     file = file,
     na = empty,
@@ -114,7 +114,7 @@ write_interlaced_excel_csv <- function(
     num_threads = readr::readr_threads(),
     progress = readr::show_progress()
 ) {
-  write_excel_csv(
+  readr::write_excel_csv(
     x = flatten_channels(x),
     file = file,
     na = empty,
@@ -144,7 +144,7 @@ write_interlaced_excel_csv2 <- function(
     num_threads = readr::readr_threads(),
     progress = readr::show_progress()
 ) {
-  write_excel_csv2(
+  readr::write_excel_csv2(
     x = flatten_channels(x),
     file = file,
     na = empty,
@@ -173,7 +173,7 @@ write_interlaced_tsv <- function(
     num_threads = readr::readr_threads(),
     progress = readr::show_progress()
 ) {
-  write_tsv(
+  readr::write_tsv(
     x = flatten_channels(x),
     file = file,
     na = empty,

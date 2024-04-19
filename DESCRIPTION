@@ -23,6 +23,7 @@ Imports:
     vctrs,
     vroom
 Suggests: 
+    dplyr,
     knitr,
     rmarkdown,
     forcats,

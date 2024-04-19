@@ -228,7 +228,8 @@ base_vec_rep <- function(x, ...) {
 
 #' @export
 `length<-.interlacer_interlaced` <- function(x, value) {
-  out <- vec_size_assign(vec_data(x), value)
+  out <- vec_data(x)
+  length(out) <- value
   vec_restore(out, x)
 }
 
@@ -305,11 +306,13 @@ range.interlacer_interlaced <- function(x, ...) {
   range(value_channel(x), ...)
 }
 
+#' @importFrom stats median
 #' @export
 median.interlacer_interlaced <- function(x, ...) {
-  median(value_channel(x), ..)
+  median(value_channel(x), ...)
 }
 
+#' @importFrom stats quantile
 #' @export
 quantile.interlacer_interlaced <- function(x, ...) {
   quantile(value_channel(x), ...)

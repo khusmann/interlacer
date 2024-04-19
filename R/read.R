@@ -337,7 +337,7 @@ interlaced_vroom <- function(
         vroom::vroom(
           !!!std_opts,
           col_types = col_spec,
-          col_select = all_of(i),
+          col_select = tidyselect::all_of(i),
           id = NULL,
           na = all_na_values
           # num_threads = 1
