@@ -9,8 +9,8 @@ template:
 articles:
 - title: Articles
   navbar: ~
-  contents:
-  - mutations
-  - column-types
-  - coded-data
-  - other-approaches
+  contents: []
+#  - mutations
+#  - column-types
+#  - coded-data
+#  - other-approaches
