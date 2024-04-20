@@ -126,17 +126,6 @@ is.empty.interlacer_interlaced <- function(x) {
   is.na(value_channel(x)) & is.na(na_channel(x))
 }
 
-#' @export
-levels.interlacer_interlaced <- function(x) {
-  levels(value_channel(x))
-}
-
-#' @export
-`levels<-.interlacer_interlaced` <- function(x, value) {
-  new_value_channel <- value_channel(x)
-  levels(new_value_channel) <- value
-  new_interlaced(new_value_channel, na_channel(x))
-}
 
 # Display ---------------------------------------------------------------
 
@@ -190,7 +179,7 @@ pillar_shaft.interlacer_interlaced <- function(x, ...) {
   pillar::new_pillar_shaft_simple(items, align = align)
 }
 
-# Subsetting --------------------------------------------------------------
+# Proxies --------------------------------------------------------------
 
 #' @export
 vec_proxy.interlacer_interlaced <- function(x, ...) {
@@ -204,6 +193,28 @@ vec_proxy.interlacer_interlaced <- function(x, ...) {
 vec_restore.interlacer_interlaced <- function(x, to, ...) {
   new_interlaced(x$v, x$m)
 }
+
+#' @export
+vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
+  lapply(x, function(i) {
+    if (is.empty(i)) {
+      return(NULL)
+    }
+    as.list(i)
+  })
+}
+
+#' @export
+vec_proxy_compare.interlacer_interlaced <- function(x, ...) {
+  value_channel(x)
+}
+
+#' @export
+vec_proxy_order.interlacer_interlaced <- function(x, ...) {
+  vec_proxy(x)
+}
+
+# Subsetting --------------------------------------------------------------
 
 #' @export
 `[.interlacer_interlaced` <-  function(x, i, ...) {
@@ -230,30 +241,6 @@ vec_restore.interlacer_interlaced <- function(x, to, ...) {
 #' @export
 `$.interlacer_interlaced` <- function(x, i, ...) {
   stop_unsupported(x, "subsetting with $")
-}
-
-#' @export
-rep.interlacer_interlaced <- function(x, ...) {
-  out <- lapply(vec_data(x), base_vec_rep, ...)
-  vec_restore(out, x)
-}
-
-base_vec_rep <- function(x, ...) {
-  i <- rep(seq_len(vec_size(x)), ...)
-  vec_slice(x, i)
-}
-
-#' @export
-`length<-.interlacer_interlaced` <- function(x, value) {
-  out <- vec_data(x)
-  length(out) <- value
-  vec_restore(out, x)
-}
-
-
-#' @export
-`$<-.interlacer_interlaced` <- function(x, i, value) {
-  stop_unsupported(x, "subset assignment with $")
 }
 
 #' @export
@@ -286,17 +273,46 @@ base_vec_rep <- function(x, ...) {
   new_interlaced(new_value_channel, new_na_channel)
 }
 
-# Equality ------------------------------------------------------------
+#' @export
+`$<-.interlacer_interlaced` <- function(x, i, value) {
+  stop_unsupported(x, "subset assignment with $")
+}
+
+# Misc -----------------------------------------------------------
 
 #' @export
-vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
-  lapply(x, function(i) {
-    if (is.empty(i)) {
-      return(NULL)
-    }
-    as.list(i)
-  })
+rep.interlacer_interlaced <- function(x, ...) {
+  new_interlaced(
+    rep(value_channel(x), ...),
+    rep(na_channel(x), ...)
+  )
 }
+
+#' @export
+`length<-.interlacer_interlaced` <- function(x, value) {
+  new_value_channel <- value_channel(x)
+  length(new_value_channel) <- value
+
+  new_na_channel < na_channel(x)
+  length(new_na_channel) <- value
+
+  new_interlaced(new_value_channel, new_na_channel)
+}
+
+#' @export
+levels.interlacer_interlaced <- function(x) {
+  levels(value_channel(x))
+}
+
+#' @export
+`levels<-.interlacer_interlaced` <- function(x, value) {
+  new_value_channel <- value_channel(x)
+  levels(new_value_channel) <- value
+  new_interlaced(new_value_channel, na_channel(x))
+}
+
+
+# NA functions ---------------------------------------------------------
 
 #' @export
 is.na.interlacer_interlaced <- function(x) {
@@ -305,12 +321,7 @@ is.na.interlacer_interlaced <- function(x) {
 
 # TODO: implement na.actions
 
-# Comparison -----------------------------------------------------------
-
-#' @export
-vec_proxy_compare.interlacer_interlaced <- function(x, ...) {
-  value_channel(x)
-}
+# Comparison & Order ----------------------------------------------------
 
 # Min, max, and range, etc. have to be redefined here because they are
 # implemented in the original vctrs_vctr by finding the index of the desired
@@ -347,13 +358,6 @@ quantile.interlacer_interlaced <- function(x, ...) {
 #' @export
 xtfrm.interlacer_interlaced <- function(x, ...) {
   xtfrm(value_channel(x))
-}
-
-# Ordering ------------------------------------------------------------
-
-#' @export
-vec_proxy_order.interlacer_interlaced <- function(x, ...) {
-  vec_proxy(x)
 }
 
 # Math / Arith  -------------------------------------------------------
