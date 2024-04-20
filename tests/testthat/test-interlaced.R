@@ -21,11 +21,21 @@ test_that("is.empty() detects empty values", {
   )
 })
 
-test_that("levels() returns levels of values channel", {
+test_that("levels() returns and sets levels of values channel", {
+  foo <- new_interlaced(factor(c("a", "b", "c")), c(NA, NA, NA))
+
   expect_equal(
-    levels(new_interlaced(factor(c("a", "b", "c")), c(NA, NA, NA))),
+    levels(foo),
     c("a", "b", "c")
   )
+
+  levels(foo) <- c("d", "e", "f")
+
+  expect_equal(
+    levels(foo),
+    c("d", "e", "f")
+  )
+
   expect_null(
     levels(new_interlaced(1, NA))
   )

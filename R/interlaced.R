@@ -32,6 +32,13 @@ new_interlaced <- function(x, na_values, ...) {
   v
 }
 
+as.interlaced <- function(x) {
+  new_interlaced(
+    value_channel(x),
+    na_channel(x)
+  )
+}
+
 is.interlaced <- function(x) {
   inherits(x, "interlacer_interlaced")
 }
@@ -214,6 +221,44 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
   vec_proxy(x)
 }
 
+# Functional utilities ----------------------------------------------------
+
+#' @export
+map_value <- function(x, fn) {
+  result <- as.interlaced(fn(value_channel(x)))
+
+  result_values <- value_channel(result)
+  result_na <- na_channel(result)
+
+  result_na[is.empty(result)] <- na_channel(x)[is.empty(result)]
+
+  new_interlaced(result_values, result_na)
+}
+
+
+#' @export
+map_na <- function(x, fn) {
+  new_interlaced(
+    value_channel(x),
+    fn(na_channel(x))
+  )
+}
+
+# Utility helper, not exported
+bimap_interlaced <- function(x, fn) {
+  new_interlaced(
+    fn(value_channel(x)),
+    fn(na_channel(x))
+  )
+}
+
+bimap2_interlaced <- function(x, y, fn) {
+  new_interlaced(
+    fn(value_channel(x), value_channel(y)),
+    fn(na_channel(x), na_channel(y)),
+  )
+}
+
 # Subsetting --------------------------------------------------------------
 
 #' @export
@@ -221,10 +266,8 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-  new_interlaced(
-    value_channel(x)[maybe_missing(i)],
-    na_channel(x)[maybe_missing(i)]
-  )
+  i <- maybe_missing(i, TRUE)
+  bimap_interlaced(x, \(v) v[i])
 }
 
 #' @export
@@ -232,10 +275,7 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-  new_interlaced(
-    value_channel(x)[[i]],
-    na_channel(x)[[i]]
-  )
+  bimap_interlaced(x, \(v) v[[i]])
 }
 
 #' @export
@@ -248,14 +288,7 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-
-  new_value_channel <- value_channel(x)
-  new_value_channel[maybe_missing(i)] <- value_channel(value)
-
-  new_na_channel <- na_channel(x)
-  new_na_channel[maybe_missing(i)] <- na_channel(value)
-
-  new_interlaced(new_value_channel, new_na_channel)
+  bimap2_interlaced(x, value, \(v, new_v) `[<-`(v, i, new_v))
 }
 
 #' @export
@@ -263,14 +296,7 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-
-  new_value_channel <- value_channel(x)
-  new_value_channel[[i]] <- value_channel(value)
-
-  new_na_channel <- na_channel(x)
-  new_na_channel[[i]] <- na_channel(value)
-
-  new_interlaced(new_value_channel, new_na_channel)
+  bimap2_interlaced(x, value, \(v, new_v) `[[<-`(v, i, new_v))
 }
 
 #' @export
@@ -282,21 +308,12 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
 
 #' @export
 rep.interlacer_interlaced <- function(x, ...) {
-  new_interlaced(
-    rep(value_channel(x), ...),
-    rep(na_channel(x), ...)
-  )
+  bimap_interlaced(x, \(v) rep(v, ...))
 }
 
 #' @export
 `length<-.interlacer_interlaced` <- function(x, value) {
-  new_value_channel <- value_channel(x)
-  length(new_value_channel) <- value
-
-  new_na_channel < na_channel(x)
-  length(new_na_channel) <- value
-
-  new_interlaced(new_value_channel, new_na_channel)
+  bimap_interlaced(x, \(v) `length<-`(v, value))
 }
 
 #' @export
@@ -306,9 +323,7 @@ levels.interlacer_interlaced <- function(x) {
 
 #' @export
 `levels<-.interlacer_interlaced` <- function(x, value) {
-  new_value_channel <- value_channel(x)
-  levels(new_value_channel) <- value
-  new_interlaced(new_value_channel, na_channel(x))
+  map_value(x, \(v) `levels<-`(v, value))
 }
 
 
