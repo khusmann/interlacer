@@ -12,10 +12,6 @@ new_interlaced <- function(x, na_values, ...) {
     cli_abort("values and na_values cannot simultaneously have valid values")
   }
 
-  if (!is.null(attr(x, "na_values"))) {
-    cli_abort("cannot have na_values attribute in child value types")
-  }
-
   v <- new_vctr(
     x,
     na_values = na_values,
@@ -200,14 +196,23 @@ vec_restore.interlacer_interlaced <- function(x, to, ...) {
 #' @export
 `[.interlacer_interlaced` <-  function(x, i, ...) {
   if (!missing(...)) {
-    abort("Can't index interlaced vectors on dimensions greater than 1.")
+    cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-  vec_slice(x, maybe_missing(i))
+  new_interlaced(
+    value_channel(x)[maybe_missing(i)],
+    na_channel(x)[maybe_missing(i)]
+  )
 }
 
 #' @export
 `[[.interlacer_interlaced` <- function(x, i, ...) {
-  vec_slice(x, i)
+  if (!missing(...)) {
+    cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
+  }
+  new_interlaced(
+    value_channel(x)[[i]],
+    na_channel(x)[[i]]
+  )
 }
 
 #' @export
@@ -240,8 +245,13 @@ base_vec_rep <- function(x, ...) {
 }
 
 #' @export
-`[<-.interlacer_interlaced` <- function(x, i, value) {
+`[<-.interlacer_interlaced` <- function(x, i, value, ...) {
+  if (!missing(...)) {
+    cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
+  }
+
   i <- maybe_missing(i, TRUE)
+
   interlaced_value <- vec_cast(value, x)
 
   new_value_channel <- value_channel(x)
@@ -254,10 +264,20 @@ base_vec_rep <- function(x, ...) {
 }
 
 #' @export
-`[[<-.interlacer_interlaced` <- function(x, i, value) {
-  force(i)
-  x[i] <- value
-  x
+`[[<-.interlacer_interlaced` <- function(x, i, value, ...) {
+  if (!missing(...)) {
+    cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
+  }
+
+  interlaced_value <- vec_cast(value, x)
+
+  new_value_channel <- value_channel(x)
+  new_value_channel[[i]] <- value_channel(interlaced_value)
+
+  new_na_channel <- na_channel(x)
+  new_na_channel[[i]] <- na_channel(interlaced_value)
+
+  new_interlaced(new_value_channel, new_na_channel)
 }
 
 # Equality ------------------------------------------------------------
