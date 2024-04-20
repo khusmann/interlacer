@@ -37,11 +37,17 @@ is.interlaced <- function(x) {
 }
 
 #' @export
-value_channel <- function(x) {
-  if (!is.interlaced(x)) {
-    cli_abort("x must be an interlaced vector")
-  }
+value_channel <- function(x, ...) {
+  UseMethod("value_channel")
+}
 
+#' @export
+value_channel.default <- function(x, ...) {
+  x
+}
+
+#' @export
+value_channel.interlacer_interlaced <- function(x) {
   attr(x, "na_values") <- NULL
   cls <- class(x)
   cls_idx <- match("vctrs_vctr", cls)
@@ -91,11 +97,17 @@ na <- function(x = NA) {
 }
 
 #' @export
-na_channel <- function(x) {
-  if (!is.interlaced(x)) {
-    abort("x must be an interlaced vector")
-  }
+na_channel <- function(x, ...) {
+  UseMethod("na_channel")
+}
 
+#' @export
+na_channel.default <- function(x, ...) {
+  rep_along(x, NA)
+}
+
+#' @export
+na_channel.interlacer_interlaced <- function(x) {
   attr(x, "na_values")
 }
 
@@ -250,15 +262,11 @@ base_vec_rep <- function(x, ...) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
 
-  i <- maybe_missing(i, TRUE)
-
-  interlaced_value <- vec_cast(value, x)
-
   new_value_channel <- value_channel(x)
-  new_value_channel[i] <- value_channel(interlaced_value)
+  new_value_channel[maybe_missing(i)] <- value_channel(value)
 
   new_na_channel <- na_channel(x)
-  new_na_channel[i] <- na_channel(interlaced_value)
+  new_na_channel[maybe_missing(i)] <- na_channel(value)
 
   new_interlaced(new_value_channel, new_na_channel)
 }
@@ -269,13 +277,11 @@ base_vec_rep <- function(x, ...) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
 
-  interlaced_value <- vec_cast(value, x)
-
   new_value_channel <- value_channel(x)
-  new_value_channel[[i]] <- value_channel(interlaced_value)
+  new_value_channel[[i]] <- value_channel(value)
 
   new_na_channel <- na_channel(x)
-  new_na_channel[[i]] <- na_channel(interlaced_value)
+  new_na_channel[[i]] <- na_channel(value)
 
   new_interlaced(new_value_channel, new_na_channel)
 }
