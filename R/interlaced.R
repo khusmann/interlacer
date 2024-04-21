@@ -1,5 +1,36 @@
+#' @export
+parse_interlaced <- function(
+  x, na,
+  .value_col = col_guess(),
+  .na_col = col_guess()
+) {
+  sc <- split_channels(x, na)
+  new_interlaced(
+    type_convert_col(sc$value_channel, .value_col),
+    type_convert_col(sc$na_channel, .na_col)
+  )
+}
+
+split_channels <- function(x, na) {
+  x_is_na <- x %in% na
+  list(
+    value_channel = if_else(x_is_na, unspecified(1), x),
+    na_channel = if_else(x_is_na, x, unspecified(1))
+  )
+}
+
+type_convert_col <- function(x, col) {
+  readr::type_convert(tibble(x), col_types = list(x = col))$x
+}
 
 #' @export
+interlaced <- function(x, na=NULL) {
+  sc <- split_channels(x, na)
+  new_interlaced(sc$value_channel, sc$na_channel)
+}
+
+#' @export
+#' TODO: change to "value_channel" and "na_channel"
 new_interlaced <- function(x, na_values, ...) {
   obj_check_vector(x)
   obj_check_vector(na_values)

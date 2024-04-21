@@ -350,7 +350,7 @@ interlaced_vroom <- function(
     values <- value_df[[1]]
 
     na_values <- factor(
-      ifelse(df_chr[[i]] %in% all_na_values, df_chr[[i]], NA),
+      if_else(df_chr[[i]] %in% all_na_values, df_chr[[i]], NA),
       levels = all_na_values
     )
 
