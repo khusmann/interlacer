@@ -13,11 +13,46 @@ test_that("interlaced type cannot construct with existing 'na_values' attr", {
   expect_error(new_interlaced(foo, c(NA, NA)))
 })
 
+test_that("annoying things are still annoying", {
+  # Right combining with base type doesn't become interlaced
+  # (use vec_c instead)
+  expect_equal(
+    c(1, 2, na("reason")),
+    c(1, 2, NA)
+  )
+
+  foo <- c(1, 2)
+  foo[[1]] <- na("hello")
+
+  # Index assignment on base types with interlaced are not promoted
+  # to interlaced (no alternative)
+  expect_equal(foo, c(NA, 2))
+
+  # ifelse doesn't work because it relies on base index assignment
+  # (use if_else instead)
+  expect_equal(
+    ifelse(c(TRUE, FALSE), na(4), 5),
+    c(NA, 5)
+  )
+})
 
 test_that("is.empty() detects empty values", {
   expect_equal(
     is.empty(new_interlaced(c("a", NA, NA), c(NA, "reason", NA))),
     c(FALSE, FALSE, TRUE)
+  )
+})
+
+test_that("map_value_channel works", {
+  foo <- vec_c("a", "b", "c", na("reason"))
+
+  expect_equal(
+    map_value_channel(foo, \(x) if_else(x == "a", "z", x)),
+    vec_c("z", "b", "c", na("reason"))
+  )
+
+  expect_error(
+    map_value_channel(foo, \(x) if_else(x == "a", na("z"), x))
   )
 })
 

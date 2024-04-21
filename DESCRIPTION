@@ -15,6 +15,7 @@ Depends:
     R (>= 4.1.0)
 Imports: 
     cli,
+    dplyr,
     pillar,
     readr,
     rlang,
@@ -23,7 +24,6 @@ Imports:
     vctrs,
     vroom
 Suggests: 
-    dplyr,
     knitr,
     rmarkdown,
     forcats,

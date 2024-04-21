@@ -12,6 +12,10 @@ new_interlaced <- function(x, na_values, ...) {
     cli_abort("values and na_values cannot simultaneously have valid values")
   }
 
+  if (is.interlaced(x) || is.interlaced(na_values)) {
+    cli_abort("interlaced types cannot be nested")
+  }
+
   v <- new_vctr(
     x,
     na_values = na_values,
@@ -27,7 +31,9 @@ new_interlaced <- function(x, na_values, ...) {
     }
   }
 
-  class(v) <- c(class(v), class(x))
+  if (!inherits(x, "vctrs_unspecified")) {
+    class(v) <- c(class(v), class(x))
+  }
 
   v
 }
@@ -58,7 +64,11 @@ value_channel.interlacer_interlaced <- function(x) {
   attr(x, "na_values") <- NULL
   cls <- class(x)
   cls_idx <- match("vctrs_vctr", cls)
-  class(x) <- cls[(cls_idx+1):length(cls)]
+  if (cls_idx == length(cls)) {
+    x <- unspecified(length(x))
+  } else {
+    class(x) <- cls[(cls_idx+1):length(cls)]
+  }
   x
 }
 
@@ -95,12 +105,12 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
     m <- as.character(m)
   }
 
-  ifelse(!is.na(v), v, m)
+  if_else(!is.na(v), v, m)
 }
 
 #' @export
 na <- function(x = NA) {
-  new_interlaced(rep(NA, length(x)), x)
+  new_interlaced(unspecified(vec_size(x)), x)
 }
 
 #' @export
@@ -110,7 +120,7 @@ na_channel <- function(x, ...) {
 
 #' @export
 na_channel.default <- function(x, ...) {
-  rep_along(x, NA)
+  unspecified(vec_size(x))
 }
 
 #' @export
@@ -224,20 +234,16 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
 # Functional utilities ----------------------------------------------------
 
 #' @export
-map_value <- function(x, fn) {
-  result <- as.interlaced(fn(value_channel(x)))
-
-  result_values <- value_channel(result)
-  result_na <- na_channel(result)
-
-  result_na[is.empty(result)] <- na_channel(x)[is.empty(result)]
-
-  new_interlaced(result_values, result_na)
+map_value_channel <- function(x, fn) {
+  new_interlaced(
+    fn(value_channel(x)),
+    na_channel(x)
+  )
 }
 
 
 #' @export
-map_na <- function(x, fn) {
+map_na_channel <- function(x, fn) {
   new_interlaced(
     value_channel(x),
     fn(na_channel(x))
@@ -323,7 +329,7 @@ levels.interlacer_interlaced <- function(x) {
 
 #' @export
 `levels<-.interlacer_interlaced` <- function(x, value) {
-  map_value(x, \(v) `levels<-`(v, value))
+  map_value_channel(x, \(v) `levels<-`(v, value))
 }
 
 
@@ -371,7 +377,7 @@ quantile.interlacer_interlaced <- function(x, ...) {
 }
 
 #' @export
-xtfrm.interlacer_interlaced <- function(x, ...) {
+xtfrm.interlacer_interlaced <- function(x) {
   xtfrm(value_channel(x))
 }
 
@@ -421,7 +427,7 @@ vec_arith.logical.interlacer_interlaced <- function(op, x, y, ...) {
 # Coercion ----------------------------------------------------------------
 
 ptype2_helper <- function(x, bare, ...) {
-   new_interlaced(
+  new_interlaced(
     vec_ptype2(value_channel(x), bare),
     na_channel(x),
   )
@@ -454,10 +460,7 @@ vec_ptype2.interlacer_interlaced.factor <- function(x, y, ...) {
 
 #' @export
 vec_ptype2.interlacer_interlaced.interlacer_interlaced <- function(x, y, ...) {
-  new_interlaced(
-    vec_ptype2(value_channel(x), value_channel(y)),
-    vec_ptype2(na_channel(x), na_channel(y)),
-  )
+  bimap2_interlaced(x, y, vec_ptype2)
 }
 
 #######
@@ -492,7 +495,7 @@ vec_ptype2.factor.interlacer_interlaced <- function(x, y, ...) {
 cast_lift <- function(x, to, ...) {
   new_interlaced(
     vec_cast(x, value_channel(to)),
-    rep(vec_cast(NA, na_channel(to)), length(x)),
+    rep_along(x, vec_cast(NA, na_channel(to)))
   )
 }
 
@@ -523,10 +526,7 @@ vec_cast.interlacer_interlaced.factor <- function(x, to, ...) {
 
 #' @export
 vec_cast.interlacer_interlaced.interlacer_interlaced <- function(x, to, ...) {
-  new_interlaced(
-    vec_cast(value_channel(x), value_channel(to)),
-    vec_cast(na_channel(x), na_channel(to)),
-  )
+  bimap2_interlaced(x, to, vec_cast)
 }
 
 ##
