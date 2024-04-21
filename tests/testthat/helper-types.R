@@ -58,7 +58,8 @@ coerces_to <- function(x, y, using = "strict") {
 }
 
 maxtype_mat <- function(x_types, y_types = x_types, using = "strict") {
-  names(types) <- map_chr(types, function(x) vec_ptype_full(vec_ptype(x)))
+  names(x_types) <- map_chr(x_types, function(x) vec_ptype_full(vec_ptype(x)))
+  names(y_types) <- map_chr(y_types, function(x) vec_ptype_full(vec_ptype(x)))
 
   grid <- expand.grid(x = x_types, y = y_types)
   grid$max <- map2_chr(grid$x, grid$y, coerces_to, using = using)

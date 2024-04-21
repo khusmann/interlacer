@@ -12,6 +12,7 @@ test_that("base type coercion is symmetric and unchanging", {
 
   expect_true(all(mat == t(mat2), na.rm = TRUE))
   expect_snapshot(mat)
+  expect_snapshot(mat2)
 })
 
 test_that("base type casting unwraps / lifts and is unchanging", {
@@ -21,7 +22,8 @@ test_that("base type casting unwraps / lifts and is unchanging", {
   expect_true(all(grepl("^interlaced", na.omit(lifts))))
   expect_true(!any(grepl("^interlaced", na.omit(unwraps))))
 
-  expect_snapshot(mat)
+  expect_snapshot(lifts)
+  expect_snapshot(unwraps)
 })
 
 test_that("interlaced type casting is unchanging", {

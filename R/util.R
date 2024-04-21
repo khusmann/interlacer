@@ -12,6 +12,11 @@ withWarnings <- function(expr) {
   list(value = val, warnings = myWarnings)
 }
 
+## Misc internal functions from readr
+type_convert_col <- function(x, col) {
+  readr::type_convert(tibble(x), col_types = list(x = col))$x
+}
+
 ## Misc internal functions from vroom
 
 vroom_should_show_col_types <- function(has_col_types, show_col_types) {

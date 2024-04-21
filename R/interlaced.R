@@ -4,14 +4,14 @@ parse_interlaced <- function(
   .value_col = col_guess(),
   .na_col = col_guess()
 ) {
-  sc <- split_channels(x, na)
+  sc <- separate_channels(x, na)
   new_interlaced(
     type_convert_col(sc$value_channel, .value_col),
     type_convert_col(sc$na_channel, .na_col)
   )
 }
 
-split_channels <- function(x, na) {
+separate_channels <- function(x, na) {
   x_is_na <- x %in% na
   list(
     value_channel = if_else(x_is_na, unspecified(1), x),
@@ -19,51 +19,48 @@ split_channels <- function(x, na) {
   )
 }
 
-type_convert_col <- function(x, col) {
-  readr::type_convert(tibble(x), col_types = list(x = col))$x
-}
-
 #' @export
 interlaced <- function(x, na=NULL) {
-  sc <- split_channels(x, na)
+  sc <- separate_channels(x, na)
   new_interlaced(sc$value_channel, sc$na_channel)
 }
 
 #' @export
-#' TODO: change to "value_channel" and "na_channel"
-new_interlaced <- function(x, na_values, ...) {
-  obj_check_vector(x)
-  obj_check_vector(na_values)
+new_interlaced <- function(value_channel, na_channel, ...) {
+  obj_check_vector(value_channel)
+  obj_check_vector(na_channel)
 
-  if (vec_size(x) != vec_size(na_values)) {
-    cli_abort("values and na_values must be the same size")
+  if (vec_size(value_channel) != vec_size(na_channel)) {
+    cli_abort("value_channel and na_channel must be the same size")
   }
 
-  if (any(!is.na(x) & !is.na(na_values))) {
-    cli_abort("values and na_values cannot simultaneously have valid values")
+  if (any(!is.na(value_channel) & !is.na(na_channel))) {
+    cli_abort(
+      "value_channel and na_channel cannot simultaneously have valid values"
+    )
   }
 
-  if (is.interlaced(x) || is.interlaced(na_values)) {
+  if (is.interlaced(value_channel) || is.interlaced(na_channel)) {
     cli_abort("interlaced types cannot be nested")
   }
 
   v <- new_vctr(
-    x,
-    na_values = na_values,
+    value_channel,
+    na_channel_values = na_channel,
     class = "interlacer_interlaced"
   )
 
-  for (i in names(attributes(x))) {
+  for (i in names(attributes(value_channel))) {
     if (i != "class") {
       if (!is.null(attr(v, i))) {
         cli_abort("attribute {i} in value vector conflicts with interlaced")
       }
-      attr(v, i) <- attr(x, i)
+      attr(v, i) <- attr(value_channel, i)
     }
   }
 
-  if (!inherits(x, "vctrs_unspecified")) {
-    class(v) <- c(class(v), class(x))
+  if (!inherits(value_channel, "vctrs_unspecified")) {
+    class(v) <- c(class(v), class(value_channel))
   }
 
   v
@@ -92,7 +89,7 @@ value_channel.default <- function(x, ...) {
 
 #' @export
 value_channel.interlacer_interlaced <- function(x) {
-  attr(x, "na_values") <- NULL
+  attr(x, "na_channel_values") <- NULL
   cls <- class(x)
   cls_idx <- match("vctrs_vctr", cls)
   if (cls_idx == length(cls)) {
@@ -122,25 +119,30 @@ flatten_channels.data.frame <- function(x, ...) {
 }
 
 #' @export
-flatten_channels.interlacer_interlaced <- function(x, ...) {
+flatten_channels.interlacer_interlaced <- function(x, fct_as_char = TRUE, ...) {
   v <- value_channel(x)
   m <- na_channel(x)
 
-  # Prevent casts of factor to numeric...
+  if (fct_as_chr) {
+    if (is.factor(v) && !is.factor(m)) {
+      v <- as.character(v)
+    }
 
-  if (is.factor(v) && !is.factor(m)) {
-    v <- as.character(v)
+    if (!is.factor(v) && is.factor(m)) {
+      m <- as.character(m)
+    }
   }
 
-  if (!is.factor(v) && is.factor(m)) {
-    m <- as.character(m)
-  }
-
-  if_else(!is.na(v), v, m)
+  # Use base::ifelse to allow sloppy type conversion
+  # fct + num = num
+  # fct + chr = chr
+  # num + chr = chr
+  # etc.
+  ifelse(!is.na(v), v, m)
 }
 
 #' @export
-na <- function(x = NA) {
+na <- function(x = unspecified()) {
   new_interlaced(unspecified(vec_size(x)), x)
 }
 
@@ -156,7 +158,7 @@ na_channel.default <- function(x, ...) {
 
 #' @export
 na_channel.interlacer_interlaced <- function(x) {
-  attr(x, "na_values")
+  attr(x, "na_channel_values")
 }
 
 #' @export

@@ -3,828 +3,1744 @@
     Code
       mat
     Output
-            [,1]                           [,2]                          
-       [1,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [2,] "interlaced<logical, integer>" "interlaced<logical, integer>"
-       [3,] "interlaced<logical, double>"  "interlaced<logical, double>" 
-       [4,] NA                             NA                            
-       [5,] NA                             NA                            
-       [6,] "interlaced<integer, logical>" "interlaced<integer, integer>"
-       [7,] "interlaced<integer, integer>" "interlaced<integer, integer>"
-       [8,] "interlaced<integer, double>"  "interlaced<integer, double>" 
-       [9,] NA                             NA                            
-      [10,] NA                             NA                            
-      [11,] "interlaced<double, logical>"  "interlaced<double, integer>" 
-      [12,] "interlaced<double, integer>"  "interlaced<double, integer>" 
-      [13,] "interlaced<double, double>"   "interlaced<double, double>"  
-      [14,] NA                             NA                            
-      [15,] NA                             NA                            
-      [16,] NA                             NA                            
-      [17,] NA                             NA                            
-      [18,] NA                             NA                            
-      [19,] NA                             NA                            
-      [20,] NA                             NA                            
-      [21,] NA                             NA                            
-      [22,] NA                             NA                            
-      [23,] NA                             NA                            
-      [24,] NA                             NA                            
-      [25,] NA                             NA                            
-            [,3]                          [,4]                                
-       [1,] "interlaced<logical, double>" NA                                  
-       [2,] "interlaced<logical, double>" NA                                  
-       [3,] "interlaced<logical, double>" NA                                  
-       [4,] NA                            "interlaced<logical, factor<af15a>>"
-       [5,] NA                            "interlaced<logical, character>"    
-       [6,] "interlaced<integer, double>" NA                                  
-       [7,] "interlaced<integer, double>" NA                                  
-       [8,] "interlaced<integer, double>" NA                                  
-       [9,] NA                            "interlaced<integer, factor<af15a>>"
-      [10,] NA                            "interlaced<integer, character>"    
-      [11,] "interlaced<double, double>"  NA                                  
-      [12,] "interlaced<double, double>"  NA                                  
-      [13,] "interlaced<double, double>"  NA                                  
-      [14,] NA                            "interlaced<double, factor<af15a>>" 
-      [15,] NA                            "interlaced<double, character>"     
-      [16,] NA                            NA                                  
-      [17,] NA                            NA                                  
-      [18,] NA                            NA                                  
-      [19,] NA                            NA                                  
-      [20,] NA                            NA                                  
-      [21,] NA                            NA                                  
-      [22,] NA                            NA                                  
-      [23,] NA                            NA                                  
-      [24,] NA                            NA                                  
-      [25,] NA                            NA                                  
-            [,5]                             [,6]                          
-       [1,] NA                               "interlaced<integer, logical>"
-       [2,] NA                               "interlaced<integer, integer>"
-       [3,] NA                               "interlaced<integer, double>" 
-       [4,] "interlaced<logical, character>" NA                            
-       [5,] "interlaced<logical, character>" NA                            
-       [6,] NA                               "interlaced<integer, logical>"
-       [7,] NA                               "interlaced<integer, integer>"
-       [8,] NA                               "interlaced<integer, double>" 
-       [9,] "interlaced<integer, character>" NA                            
-      [10,] "interlaced<integer, character>" NA                            
-      [11,] NA                               "interlaced<double, logical>" 
-      [12,] NA                               "interlaced<double, integer>" 
-      [13,] NA                               "interlaced<double, double>"  
-      [14,] "interlaced<double, character>"  NA                            
-      [15,] "interlaced<double, character>"  NA                            
-      [16,] NA                               NA                            
-      [17,] NA                               NA                            
-      [18,] NA                               NA                            
-      [19,] NA                               NA                            
-      [20,] NA                               NA                            
-      [21,] NA                               NA                            
-      [22,] NA                               NA                            
-      [23,] NA                               NA                            
-      [24,] NA                               NA                            
-      [25,] NA                               NA                            
-            [,7]                           [,8]                         
-       [1,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [2,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [3,] "interlaced<integer, double>"  "interlaced<integer, double>"
-       [4,] NA                             NA                           
-       [5,] NA                             NA                           
-       [6,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [7,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [8,] "interlaced<integer, double>"  "interlaced<integer, double>"
-       [9,] NA                             NA                           
-      [10,] NA                             NA                           
-      [11,] "interlaced<double, integer>"  "interlaced<double, double>" 
-      [12,] "interlaced<double, integer>"  "interlaced<double, double>" 
-      [13,] "interlaced<double, double>"   "interlaced<double, double>" 
-      [14,] NA                             NA                           
-      [15,] NA                             NA                           
-      [16,] NA                             NA                           
-      [17,] NA                             NA                           
-      [18,] NA                             NA                           
-      [19,] NA                             NA                           
-      [20,] NA                             NA                           
-      [21,] NA                             NA                           
-      [22,] NA                             NA                           
-      [23,] NA                             NA                           
-      [24,] NA                             NA                           
-      [25,] NA                             NA                           
-            [,9]                                 [,10]                           
-       [1,] NA                                   NA                              
-       [2,] NA                                   NA                              
-       [3,] NA                                   NA                              
-       [4,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-       [5,] "interlaced<integer, character>"     "interlaced<integer, character>"
-       [6,] NA                                   NA                              
-       [7,] NA                                   NA                              
-       [8,] NA                                   NA                              
-       [9,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-      [10,] "interlaced<integer, character>"     "interlaced<integer, character>"
-      [11,] NA                                   NA                              
-      [12,] NA                                   NA                              
-      [13,] NA                                   NA                              
-      [14,] "interlaced<double, factor<af15a>>"  "interlaced<double, character>" 
-      [15,] "interlaced<double, character>"      "interlaced<double, character>" 
-      [16,] NA                                   NA                              
-      [17,] NA                                   NA                              
-      [18,] NA                                   NA                              
-      [19,] NA                                   NA                              
-      [20,] NA                                   NA                              
-      [21,] NA                                   NA                              
-      [22,] NA                                   NA                              
-      [23,] NA                                   NA                              
-      [24,] NA                                   NA                              
-      [25,] NA                                   NA                              
-            [,11]                         [,12]                        
-       [1,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [2,] "interlaced<double, integer>" "interlaced<double, integer>"
-       [3,] "interlaced<double, double>"  "interlaced<double, double>" 
-       [4,] NA                            NA                           
-       [5,] NA                            NA                           
-       [6,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [7,] "interlaced<double, integer>" "interlaced<double, integer>"
-       [8,] "interlaced<double, double>"  "interlaced<double, double>" 
-       [9,] NA                            NA                           
-      [10,] NA                            NA                           
-      [11,] "interlaced<double, logical>" "interlaced<double, integer>"
-      [12,] "interlaced<double, integer>" "interlaced<double, integer>"
-      [13,] "interlaced<double, double>"  "interlaced<double, double>" 
-      [14,] NA                            NA                           
-      [15,] NA                            NA                           
-      [16,] NA                            NA                           
-      [17,] NA                            NA                           
-      [18,] NA                            NA                           
-      [19,] NA                            NA                           
-      [20,] NA                            NA                           
-      [21,] NA                            NA                           
-      [22,] NA                            NA                           
-      [23,] NA                            NA                           
-      [24,] NA                            NA                           
-      [25,] NA                            NA                           
-            [,13]                        [,14]                              
-       [1,] "interlaced<double, double>" NA                                 
-       [2,] "interlaced<double, double>" NA                                 
-       [3,] "interlaced<double, double>" NA                                 
-       [4,] NA                           "interlaced<double, factor<af15a>>"
-       [5,] NA                           "interlaced<double, character>"    
-       [6,] "interlaced<double, double>" NA                                 
-       [7,] "interlaced<double, double>" NA                                 
-       [8,] "interlaced<double, double>" NA                                 
-       [9,] NA                           "interlaced<double, factor<af15a>>"
-      [10,] NA                           "interlaced<double, character>"    
-      [11,] "interlaced<double, double>" NA                                 
-      [12,] "interlaced<double, double>" NA                                 
-      [13,] "interlaced<double, double>" NA                                 
-      [14,] NA                           "interlaced<double, factor<af15a>>"
-      [15,] NA                           "interlaced<double, character>"    
-      [16,] NA                           NA                                 
-      [17,] NA                           NA                                 
-      [18,] NA                           NA                                 
-      [19,] NA                           NA                                 
-      [20,] NA                           NA                                 
-      [21,] NA                           NA                                 
-      [22,] NA                           NA                                 
-      [23,] NA                           NA                                 
-      [24,] NA                           NA                                 
-      [25,] NA                           NA                                 
-            [,15]                           [,16]                               
-       [1,] NA                              NA                                  
-       [2,] NA                              NA                                  
-       [3,] NA                              NA                                  
-       [4,] "interlaced<double, character>" NA                                  
-       [5,] "interlaced<double, character>" NA                                  
-       [6,] NA                              NA                                  
-       [7,] NA                              NA                                  
-       [8,] NA                              NA                                  
-       [9,] "interlaced<double, character>" NA                                  
-      [10,] "interlaced<double, character>" NA                                  
-      [11,] NA                              NA                                  
-      [12,] NA                              NA                                  
-      [13,] NA                              NA                                  
-      [14,] "interlaced<double, character>" NA                                  
-      [15,] "interlaced<double, character>" NA                                  
-      [16,] NA                              "interlaced<factor<af15a>, logical>"
-      [17,] NA                              "interlaced<factor<af15a>, integer>"
-      [18,] NA                              "interlaced<factor<af15a>, double>" 
-      [19,] NA                              NA                                  
-      [20,] NA                              NA                                  
-      [21,] NA                              "interlaced<character, logical>"    
-      [22,] NA                              "interlaced<character, integer>"    
-      [23,] NA                              "interlaced<character, double>"     
-      [24,] NA                              NA                                  
-      [25,] NA                              NA                                  
-            [,17]                                [,18]                              
-       [1,] NA                                   NA                                 
-       [2,] NA                                   NA                                 
-       [3,] NA                                   NA                                 
-       [4,] NA                                   NA                                 
-       [5,] NA                                   NA                                 
-       [6,] NA                                   NA                                 
-       [7,] NA                                   NA                                 
-       [8,] NA                                   NA                                 
-       [9,] NA                                   NA                                 
-      [10,] NA                                   NA                                 
-      [11,] NA                                   NA                                 
-      [12,] NA                                   NA                                 
-      [13,] NA                                   NA                                 
-      [14,] NA                                   NA                                 
-      [15,] NA                                   NA                                 
-      [16,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [17,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [18,] "interlaced<factor<af15a>, double>"  "interlaced<factor<af15a>, double>"
-      [19,] NA                                   NA                                 
-      [20,] NA                                   NA                                 
-      [21,] "interlaced<character, integer>"     "interlaced<character, double>"    
-      [22,] "interlaced<character, integer>"     "interlaced<character, double>"    
-      [23,] "interlaced<character, double>"      "interlaced<character, double>"    
-      [24,] NA                                   NA                                 
-      [25,] NA                                   NA                                 
-            [,19]                                     
-       [1,] NA                                        
-       [2,] NA                                        
-       [3,] NA                                        
-       [4,] NA                                        
-       [5,] NA                                        
-       [6,] NA                                        
-       [7,] NA                                        
-       [8,] NA                                        
-       [9,] NA                                        
-      [10,] NA                                        
-      [11,] NA                                        
-      [12,] NA                                        
-      [13,] NA                                        
-      [14,] NA                                        
-      [15,] NA                                        
-      [16,] NA                                        
-      [17,] NA                                        
-      [18,] NA                                        
-      [19,] "interlaced<factor<af15a>, factor<af15a>>"
-      [20,] "interlaced<factor<af15a>, character>"    
-      [21,] NA                                        
-      [22,] NA                                        
-      [23,] NA                                        
-      [24,] "interlaced<character, factor<af15a>>"    
-      [25,] "interlaced<character, character>"        
-            [,20]                                  [,21]                           
-       [1,] NA                                     NA                              
-       [2,] NA                                     NA                              
-       [3,] NA                                     NA                              
-       [4,] NA                                     NA                              
-       [5,] NA                                     NA                              
-       [6,] NA                                     NA                              
-       [7,] NA                                     NA                              
-       [8,] NA                                     NA                              
-       [9,] NA                                     NA                              
-      [10,] NA                                     NA                              
-      [11,] NA                                     NA                              
-      [12,] NA                                     NA                              
-      [13,] NA                                     NA                              
-      [14,] NA                                     NA                              
-      [15,] NA                                     NA                              
-      [16,] NA                                     "interlaced<character, logical>"
-      [17,] NA                                     "interlaced<character, integer>"
-      [18,] NA                                     "interlaced<character, double>" 
-      [19,] "interlaced<factor<af15a>, character>" NA                              
-      [20,] "interlaced<factor<af15a>, character>" NA                              
-      [21,] NA                                     "interlaced<character, logical>"
-      [22,] NA                                     "interlaced<character, integer>"
-      [23,] NA                                     "interlaced<character, double>" 
-      [24,] "interlaced<character, character>"     NA                              
-      [25,] "interlaced<character, character>"     NA                              
-            [,22]                            [,23]                          
-       [1,] NA                               NA                             
-       [2,] NA                               NA                             
-       [3,] NA                               NA                             
-       [4,] NA                               NA                             
-       [5,] NA                               NA                             
-       [6,] NA                               NA                             
-       [7,] NA                               NA                             
-       [8,] NA                               NA                             
-       [9,] NA                               NA                             
-      [10,] NA                               NA                             
-      [11,] NA                               NA                             
-      [12,] NA                               NA                             
-      [13,] NA                               NA                             
-      [14,] NA                               NA                             
-      [15,] NA                               NA                             
-      [16,] "interlaced<character, integer>" "interlaced<character, double>"
-      [17,] "interlaced<character, integer>" "interlaced<character, double>"
-      [18,] "interlaced<character, double>"  "interlaced<character, double>"
-      [19,] NA                               NA                             
-      [20,] NA                               NA                             
-      [21,] "interlaced<character, integer>" "interlaced<character, double>"
-      [22,] "interlaced<character, integer>" "interlaced<character, double>"
-      [23,] "interlaced<character, double>"  "interlaced<character, double>"
-      [24,] NA                               NA                             
-      [25,] NA                               NA                             
-            [,24]                                  [,25]                             
-       [1,] NA                                     NA                                
-       [2,] NA                                     NA                                
-       [3,] NA                                     NA                                
-       [4,] NA                                     NA                                
-       [5,] NA                                     NA                                
-       [6,] NA                                     NA                                
-       [7,] NA                                     NA                                
-       [8,] NA                                     NA                                
-       [9,] NA                                     NA                                
-      [10,] NA                                     NA                                
-      [11,] NA                                     NA                                
-      [12,] NA                                     NA                                
-      [13,] NA                                     NA                                
-      [14,] NA                                     NA                                
-      [15,] NA                                     NA                                
-      [16,] NA                                     NA                                
-      [17,] NA                                     NA                                
-      [18,] NA                                     NA                                
-      [19,] "interlaced<character, factor<af15a>>" "interlaced<character, character>"
-      [20,] "interlaced<character, character>"     "interlaced<character, character>"
-      [21,] NA                                     NA                                
-      [22,] NA                                     NA                                
-      [23,] NA                                     NA                                
-      [24,] "interlaced<character, factor<af15a>>" "interlaced<character, character>"
-      [25,] "interlaced<character, character>"     "interlaced<character, character>"
+                                               interlaced<logical, logical>  
+      interlaced<logical, logical>             "interlaced<logical, logical>"
+      interlaced<logical, integer>             "interlaced<logical, integer>"
+      interlaced<logical, double>              "interlaced<logical, double>" 
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<integer, logical>"
+      interlaced<integer, integer>             "interlaced<integer, integer>"
+      interlaced<integer, double>              "interlaced<integer, double>" 
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<double, logical>" 
+      interlaced<double, integer>              "interlaced<double, integer>" 
+      interlaced<double, double>               "interlaced<double, double>"  
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<logical, integer>  
+      interlaced<logical, logical>             "interlaced<logical, integer>"
+      interlaced<logical, integer>             "interlaced<logical, integer>"
+      interlaced<logical, double>              "interlaced<logical, double>" 
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<integer, integer>"
+      interlaced<integer, integer>             "interlaced<integer, integer>"
+      interlaced<integer, double>              "interlaced<integer, double>" 
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<double, integer>" 
+      interlaced<double, integer>              "interlaced<double, integer>" 
+      interlaced<double, double>               "interlaced<double, double>"  
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<logical, double>  
+      interlaced<logical, logical>             "interlaced<logical, double>"
+      interlaced<logical, integer>             "interlaced<logical, double>"
+      interlaced<logical, double>              "interlaced<logical, double>"
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<integer, double>"
+      interlaced<integer, integer>             "interlaced<integer, double>"
+      interlaced<integer, double>              "interlaced<integer, double>"
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<double, double>" 
+      interlaced<double, integer>              "interlaced<double, double>" 
+      interlaced<double, double>               "interlaced<double, double>" 
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<logical, factor<af15a>>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       "interlaced<logical, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<logical, character>"    
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<integer, character>"    
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>" 
+      interlaced<double, character>            "interlaced<double, character>"     
+      interlaced<factor<af15a>, logical>       NA                                  
+      interlaced<factor<af15a>, integer>       NA                                  
+      interlaced<factor<af15a>, double>        NA                                  
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           NA                                  
+      interlaced<character, integer>           NA                                  
+      interlaced<character, double>            NA                                  
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<logical, character>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       "interlaced<logical, character>"
+      interlaced<logical, character>           "interlaced<logical, character>"
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       "interlaced<integer, character>"
+      interlaced<integer, character>           "interlaced<integer, character>"
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        "interlaced<double, character>" 
+      interlaced<double, character>            "interlaced<double, character>" 
+      interlaced<factor<af15a>, logical>       NA                              
+      interlaced<factor<af15a>, integer>       NA                              
+      interlaced<factor<af15a>, double>        NA                              
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           NA                              
+      interlaced<character, integer>           NA                              
+      interlaced<character, double>            NA                              
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<integer, logical>  
+      interlaced<logical, logical>             "interlaced<integer, logical>"
+      interlaced<logical, integer>             "interlaced<integer, integer>"
+      interlaced<logical, double>              "interlaced<integer, double>" 
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<integer, logical>"
+      interlaced<integer, integer>             "interlaced<integer, integer>"
+      interlaced<integer, double>              "interlaced<integer, double>" 
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<double, logical>" 
+      interlaced<double, integer>              "interlaced<double, integer>" 
+      interlaced<double, double>               "interlaced<double, double>"  
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<integer, integer>  
+      interlaced<logical, logical>             "interlaced<integer, integer>"
+      interlaced<logical, integer>             "interlaced<integer, integer>"
+      interlaced<logical, double>              "interlaced<integer, double>" 
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<integer, integer>"
+      interlaced<integer, integer>             "interlaced<integer, integer>"
+      interlaced<integer, double>              "interlaced<integer, double>" 
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<double, integer>" 
+      interlaced<double, integer>              "interlaced<double, integer>" 
+      interlaced<double, double>               "interlaced<double, double>"  
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<integer, double>  
+      interlaced<logical, logical>             "interlaced<integer, double>"
+      interlaced<logical, integer>             "interlaced<integer, double>"
+      interlaced<logical, double>              "interlaced<integer, double>"
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<integer, double>"
+      interlaced<integer, integer>             "interlaced<integer, double>"
+      interlaced<integer, double>              "interlaced<integer, double>"
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<double, double>" 
+      interlaced<double, integer>              "interlaced<double, double>" 
+      interlaced<double, double>               "interlaced<double, double>" 
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<integer, factor<af15a>>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<integer, character>"    
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<integer, character>"    
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>" 
+      interlaced<double, character>            "interlaced<double, character>"     
+      interlaced<factor<af15a>, logical>       NA                                  
+      interlaced<factor<af15a>, integer>       NA                                  
+      interlaced<factor<af15a>, double>        NA                                  
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           NA                                  
+      interlaced<character, integer>           NA                                  
+      interlaced<character, double>            NA                                  
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<integer, character>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       "interlaced<integer, character>"
+      interlaced<logical, character>           "interlaced<integer, character>"
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       "interlaced<integer, character>"
+      interlaced<integer, character>           "interlaced<integer, character>"
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        "interlaced<double, character>" 
+      interlaced<double, character>            "interlaced<double, character>" 
+      interlaced<factor<af15a>, logical>       NA                              
+      interlaced<factor<af15a>, integer>       NA                              
+      interlaced<factor<af15a>, double>        NA                              
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           NA                              
+      interlaced<character, integer>           NA                              
+      interlaced<character, double>            NA                              
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<double, logical>  
+      interlaced<logical, logical>             "interlaced<double, logical>"
+      interlaced<logical, integer>             "interlaced<double, integer>"
+      interlaced<logical, double>              "interlaced<double, double>" 
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<double, logical>"
+      interlaced<integer, integer>             "interlaced<double, integer>"
+      interlaced<integer, double>              "interlaced<double, double>" 
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<double, logical>"
+      interlaced<double, integer>              "interlaced<double, integer>"
+      interlaced<double, double>               "interlaced<double, double>" 
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<double, integer>  
+      interlaced<logical, logical>             "interlaced<double, integer>"
+      interlaced<logical, integer>             "interlaced<double, integer>"
+      interlaced<logical, double>              "interlaced<double, double>" 
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<double, integer>"
+      interlaced<integer, integer>             "interlaced<double, integer>"
+      interlaced<integer, double>              "interlaced<double, double>" 
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<double, integer>"
+      interlaced<double, integer>              "interlaced<double, integer>"
+      interlaced<double, double>               "interlaced<double, double>" 
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<double, double>  
+      interlaced<logical, logical>             "interlaced<double, double>"
+      interlaced<logical, integer>             "interlaced<double, double>"
+      interlaced<logical, double>              "interlaced<double, double>"
+      interlaced<logical, factor<af15a>>       NA                          
+      interlaced<logical, character>           NA                          
+      interlaced<integer, logical>             "interlaced<double, double>"
+      interlaced<integer, integer>             "interlaced<double, double>"
+      interlaced<integer, double>              "interlaced<double, double>"
+      interlaced<integer, factor<af15a>>       NA                          
+      interlaced<integer, character>           NA                          
+      interlaced<double, logical>              "interlaced<double, double>"
+      interlaced<double, integer>              "interlaced<double, double>"
+      interlaced<double, double>               "interlaced<double, double>"
+      interlaced<double, factor<af15a>>        NA                          
+      interlaced<double, character>            NA                          
+      interlaced<factor<af15a>, logical>       NA                          
+      interlaced<factor<af15a>, integer>       NA                          
+      interlaced<factor<af15a>, double>        NA                          
+      interlaced<factor<af15a>, factor<af15a>> NA                          
+      interlaced<factor<af15a>, character>     NA                          
+      interlaced<character, logical>           NA                          
+      interlaced<character, integer>           NA                          
+      interlaced<character, double>            NA                          
+      interlaced<character, factor<af15a>>     NA                          
+      interlaced<character, character>         NA                          
+                                               interlaced<double, factor<af15a>>  
+      interlaced<logical, logical>             NA                                 
+      interlaced<logical, integer>             NA                                 
+      interlaced<logical, double>              NA                                 
+      interlaced<logical, factor<af15a>>       "interlaced<double, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<double, character>"    
+      interlaced<integer, logical>             NA                                 
+      interlaced<integer, integer>             NA                                 
+      interlaced<integer, double>              NA                                 
+      interlaced<integer, factor<af15a>>       "interlaced<double, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<double, character>"    
+      interlaced<double, logical>              NA                                 
+      interlaced<double, integer>              NA                                 
+      interlaced<double, double>               NA                                 
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>"
+      interlaced<double, character>            "interlaced<double, character>"    
+      interlaced<factor<af15a>, logical>       NA                                 
+      interlaced<factor<af15a>, integer>       NA                                 
+      interlaced<factor<af15a>, double>        NA                                 
+      interlaced<factor<af15a>, factor<af15a>> NA                                 
+      interlaced<factor<af15a>, character>     NA                                 
+      interlaced<character, logical>           NA                                 
+      interlaced<character, integer>           NA                                 
+      interlaced<character, double>            NA                                 
+      interlaced<character, factor<af15a>>     NA                                 
+      interlaced<character, character>         NA                                 
+                                               interlaced<double, character>  
+      interlaced<logical, logical>             NA                             
+      interlaced<logical, integer>             NA                             
+      interlaced<logical, double>              NA                             
+      interlaced<logical, factor<af15a>>       "interlaced<double, character>"
+      interlaced<logical, character>           "interlaced<double, character>"
+      interlaced<integer, logical>             NA                             
+      interlaced<integer, integer>             NA                             
+      interlaced<integer, double>              NA                             
+      interlaced<integer, factor<af15a>>       "interlaced<double, character>"
+      interlaced<integer, character>           "interlaced<double, character>"
+      interlaced<double, logical>              NA                             
+      interlaced<double, integer>              NA                             
+      interlaced<double, double>               NA                             
+      interlaced<double, factor<af15a>>        "interlaced<double, character>"
+      interlaced<double, character>            "interlaced<double, character>"
+      interlaced<factor<af15a>, logical>       NA                             
+      interlaced<factor<af15a>, integer>       NA                             
+      interlaced<factor<af15a>, double>        NA                             
+      interlaced<factor<af15a>, factor<af15a>> NA                             
+      interlaced<factor<af15a>, character>     NA                             
+      interlaced<character, logical>           NA                             
+      interlaced<character, integer>           NA                             
+      interlaced<character, double>            NA                             
+      interlaced<character, factor<af15a>>     NA                             
+      interlaced<character, character>         NA                             
+                                               interlaced<factor<af15a>, logical>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       NA                                  
+      interlaced<logical, character>           NA                                  
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       NA                                  
+      interlaced<integer, character>           NA                                  
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        NA                                  
+      interlaced<double, character>            NA                                  
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, logical>"
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, integer>"
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, double>" 
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           "interlaced<character, logical>"    
+      interlaced<character, integer>           "interlaced<character, integer>"    
+      interlaced<character, double>            "interlaced<character, double>"     
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<factor<af15a>, integer>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       NA                                  
+      interlaced<logical, character>           NA                                  
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       NA                                  
+      interlaced<integer, character>           NA                                  
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        NA                                  
+      interlaced<double, character>            NA                                  
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, integer>"
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, integer>"
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, double>" 
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           "interlaced<character, integer>"    
+      interlaced<character, integer>           "interlaced<character, integer>"    
+      interlaced<character, double>            "interlaced<character, double>"     
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<factor<af15a>, double>  
+      interlaced<logical, logical>             NA                                 
+      interlaced<logical, integer>             NA                                 
+      interlaced<logical, double>              NA                                 
+      interlaced<logical, factor<af15a>>       NA                                 
+      interlaced<logical, character>           NA                                 
+      interlaced<integer, logical>             NA                                 
+      interlaced<integer, integer>             NA                                 
+      interlaced<integer, double>              NA                                 
+      interlaced<integer, factor<af15a>>       NA                                 
+      interlaced<integer, character>           NA                                 
+      interlaced<double, logical>              NA                                 
+      interlaced<double, integer>              NA                                 
+      interlaced<double, double>               NA                                 
+      interlaced<double, factor<af15a>>        NA                                 
+      interlaced<double, character>            NA                                 
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, double>"
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, double>"
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, double>"
+      interlaced<factor<af15a>, factor<af15a>> NA                                 
+      interlaced<factor<af15a>, character>     NA                                 
+      interlaced<character, logical>           "interlaced<character, double>"    
+      interlaced<character, integer>           "interlaced<character, double>"    
+      interlaced<character, double>            "interlaced<character, double>"    
+      interlaced<character, factor<af15a>>     NA                                 
+      interlaced<character, character>         NA                                 
+                                               interlaced<factor<af15a>, factor<af15a>>  
+      interlaced<logical, logical>             NA                                        
+      interlaced<logical, integer>             NA                                        
+      interlaced<logical, double>              NA                                        
+      interlaced<logical, factor<af15a>>       NA                                        
+      interlaced<logical, character>           NA                                        
+      interlaced<integer, logical>             NA                                        
+      interlaced<integer, integer>             NA                                        
+      interlaced<integer, double>              NA                                        
+      interlaced<integer, factor<af15a>>       NA                                        
+      interlaced<integer, character>           NA                                        
+      interlaced<double, logical>              NA                                        
+      interlaced<double, integer>              NA                                        
+      interlaced<double, double>               NA                                        
+      interlaced<double, factor<af15a>>        NA                                        
+      interlaced<double, character>            NA                                        
+      interlaced<factor<af15a>, logical>       NA                                        
+      interlaced<factor<af15a>, integer>       NA                                        
+      interlaced<factor<af15a>, double>        NA                                        
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<factor<af15a>, factor<af15a>>"
+      interlaced<factor<af15a>, character>     "interlaced<factor<af15a>, character>"    
+      interlaced<character, logical>           NA                                        
+      interlaced<character, integer>           NA                                        
+      interlaced<character, double>            NA                                        
+      interlaced<character, factor<af15a>>     "interlaced<character, factor<af15a>>"    
+      interlaced<character, character>         "interlaced<character, character>"        
+                                               interlaced<factor<af15a>, character>  
+      interlaced<logical, logical>             NA                                    
+      interlaced<logical, integer>             NA                                    
+      interlaced<logical, double>              NA                                    
+      interlaced<logical, factor<af15a>>       NA                                    
+      interlaced<logical, character>           NA                                    
+      interlaced<integer, logical>             NA                                    
+      interlaced<integer, integer>             NA                                    
+      interlaced<integer, double>              NA                                    
+      interlaced<integer, factor<af15a>>       NA                                    
+      interlaced<integer, character>           NA                                    
+      interlaced<double, logical>              NA                                    
+      interlaced<double, integer>              NA                                    
+      interlaced<double, double>               NA                                    
+      interlaced<double, factor<af15a>>        NA                                    
+      interlaced<double, character>            NA                                    
+      interlaced<factor<af15a>, logical>       NA                                    
+      interlaced<factor<af15a>, integer>       NA                                    
+      interlaced<factor<af15a>, double>        NA                                    
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<factor<af15a>, character>"
+      interlaced<factor<af15a>, character>     "interlaced<factor<af15a>, character>"
+      interlaced<character, logical>           NA                                    
+      interlaced<character, integer>           NA                                    
+      interlaced<character, double>            NA                                    
+      interlaced<character, factor<af15a>>     "interlaced<character, character>"    
+      interlaced<character, character>         "interlaced<character, character>"    
+                                               interlaced<character, logical>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       NA                              
+      interlaced<logical, character>           NA                              
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       NA                              
+      interlaced<integer, character>           NA                              
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        NA                              
+      interlaced<double, character>            NA                              
+      interlaced<factor<af15a>, logical>       "interlaced<character, logical>"
+      interlaced<factor<af15a>, integer>       "interlaced<character, integer>"
+      interlaced<factor<af15a>, double>        "interlaced<character, double>" 
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           "interlaced<character, logical>"
+      interlaced<character, integer>           "interlaced<character, integer>"
+      interlaced<character, double>            "interlaced<character, double>" 
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<character, integer>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       NA                              
+      interlaced<logical, character>           NA                              
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       NA                              
+      interlaced<integer, character>           NA                              
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        NA                              
+      interlaced<double, character>            NA                              
+      interlaced<factor<af15a>, logical>       "interlaced<character, integer>"
+      interlaced<factor<af15a>, integer>       "interlaced<character, integer>"
+      interlaced<factor<af15a>, double>        "interlaced<character, double>" 
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           "interlaced<character, integer>"
+      interlaced<character, integer>           "interlaced<character, integer>"
+      interlaced<character, double>            "interlaced<character, double>" 
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<character, double>  
+      interlaced<logical, logical>             NA                             
+      interlaced<logical, integer>             NA                             
+      interlaced<logical, double>              NA                             
+      interlaced<logical, factor<af15a>>       NA                             
+      interlaced<logical, character>           NA                             
+      interlaced<integer, logical>             NA                             
+      interlaced<integer, integer>             NA                             
+      interlaced<integer, double>              NA                             
+      interlaced<integer, factor<af15a>>       NA                             
+      interlaced<integer, character>           NA                             
+      interlaced<double, logical>              NA                             
+      interlaced<double, integer>              NA                             
+      interlaced<double, double>               NA                             
+      interlaced<double, factor<af15a>>        NA                             
+      interlaced<double, character>            NA                             
+      interlaced<factor<af15a>, logical>       "interlaced<character, double>"
+      interlaced<factor<af15a>, integer>       "interlaced<character, double>"
+      interlaced<factor<af15a>, double>        "interlaced<character, double>"
+      interlaced<factor<af15a>, factor<af15a>> NA                             
+      interlaced<factor<af15a>, character>     NA                             
+      interlaced<character, logical>           "interlaced<character, double>"
+      interlaced<character, integer>           "interlaced<character, double>"
+      interlaced<character, double>            "interlaced<character, double>"
+      interlaced<character, factor<af15a>>     NA                             
+      interlaced<character, character>         NA                             
+                                               interlaced<character, factor<af15a>>  
+      interlaced<logical, logical>             NA                                    
+      interlaced<logical, integer>             NA                                    
+      interlaced<logical, double>              NA                                    
+      interlaced<logical, factor<af15a>>       NA                                    
+      interlaced<logical, character>           NA                                    
+      interlaced<integer, logical>             NA                                    
+      interlaced<integer, integer>             NA                                    
+      interlaced<integer, double>              NA                                    
+      interlaced<integer, factor<af15a>>       NA                                    
+      interlaced<integer, character>           NA                                    
+      interlaced<double, logical>              NA                                    
+      interlaced<double, integer>              NA                                    
+      interlaced<double, double>               NA                                    
+      interlaced<double, factor<af15a>>        NA                                    
+      interlaced<double, character>            NA                                    
+      interlaced<factor<af15a>, logical>       NA                                    
+      interlaced<factor<af15a>, integer>       NA                                    
+      interlaced<factor<af15a>, double>        NA                                    
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<character, factor<af15a>>"
+      interlaced<factor<af15a>, character>     "interlaced<character, character>"    
+      interlaced<character, logical>           NA                                    
+      interlaced<character, integer>           NA                                    
+      interlaced<character, double>            NA                                    
+      interlaced<character, factor<af15a>>     "interlaced<character, factor<af15a>>"
+      interlaced<character, character>         "interlaced<character, character>"    
+                                               interlaced<character, character>  
+      interlaced<logical, logical>             NA                                
+      interlaced<logical, integer>             NA                                
+      interlaced<logical, double>              NA                                
+      interlaced<logical, factor<af15a>>       NA                                
+      interlaced<logical, character>           NA                                
+      interlaced<integer, logical>             NA                                
+      interlaced<integer, integer>             NA                                
+      interlaced<integer, double>              NA                                
+      interlaced<integer, factor<af15a>>       NA                                
+      interlaced<integer, character>           NA                                
+      interlaced<double, logical>              NA                                
+      interlaced<double, integer>              NA                                
+      interlaced<double, double>               NA                                
+      interlaced<double, factor<af15a>>        NA                                
+      interlaced<double, character>            NA                                
+      interlaced<factor<af15a>, logical>       NA                                
+      interlaced<factor<af15a>, integer>       NA                                
+      interlaced<factor<af15a>, double>        NA                                
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<character, character>"
+      interlaced<factor<af15a>, character>     "interlaced<character, character>"
+      interlaced<character, logical>           NA                                
+      interlaced<character, integer>           NA                                
+      interlaced<character, double>            NA                                
+      interlaced<character, factor<af15a>>     "interlaced<character, character>"
+      interlaced<character, character>         "interlaced<character, character>"
 
 # base type coercion is symmetric and unchanging
 
     Code
       mat
     Output
-            [,1]                                 [,2]                                
-       [1,] "interlaced<logical, logical>"       "interlaced<integer, logical>"      
-       [2,] "interlaced<logical, integer>"       "interlaced<integer, integer>"      
-       [3,] "interlaced<logical, double>"        "interlaced<integer, double>"       
-       [4,] "interlaced<logical, factor<af15a>>" "interlaced<integer, factor<af15a>>"
-       [5,] "interlaced<logical, character>"     "interlaced<integer, character>"    
-       [6,] "interlaced<integer, logical>"       "interlaced<integer, logical>"      
-       [7,] "interlaced<integer, integer>"       "interlaced<integer, integer>"      
-       [8,] "interlaced<integer, double>"        "interlaced<integer, double>"       
-       [9,] "interlaced<integer, factor<af15a>>" "interlaced<integer, factor<af15a>>"
-      [10,] "interlaced<integer, character>"     "interlaced<integer, character>"    
-      [11,] "interlaced<double, logical>"        "interlaced<double, logical>"       
-      [12,] "interlaced<double, integer>"        "interlaced<double, integer>"       
-      [13,] "interlaced<double, double>"         "interlaced<double, double>"        
-      [14,] "interlaced<double, factor<af15a>>"  "interlaced<double, factor<af15a>>" 
-      [15,] "interlaced<double, character>"      "interlaced<double, character>"     
-      [16,] NA                                   NA                                  
-      [17,] NA                                   NA                                  
-      [18,] NA                                   NA                                  
-      [19,] NA                                   NA                                  
-      [20,] NA                                   NA                                  
-      [21,] NA                                   NA                                  
-      [22,] NA                                   NA                                  
-      [23,] NA                                   NA                                  
-      [24,] NA                                   NA                                  
-      [25,] NA                                   NA                                  
-            [,3]                               
-       [1,] "interlaced<double, logical>"      
-       [2,] "interlaced<double, integer>"      
-       [3,] "interlaced<double, double>"       
-       [4,] "interlaced<double, factor<af15a>>"
-       [5,] "interlaced<double, character>"    
-       [6,] "interlaced<double, logical>"      
-       [7,] "interlaced<double, integer>"      
-       [8,] "interlaced<double, double>"       
-       [9,] "interlaced<double, factor<af15a>>"
-      [10,] "interlaced<double, character>"    
-      [11,] "interlaced<double, logical>"      
-      [12,] "interlaced<double, integer>"      
-      [13,] "interlaced<double, double>"       
-      [14,] "interlaced<double, factor<af15a>>"
-      [15,] "interlaced<double, character>"    
-      [16,] NA                                 
-      [17,] NA                                 
-      [18,] NA                                 
-      [19,] NA                                 
-      [20,] NA                                 
-      [21,] NA                                 
-      [22,] NA                                 
-      [23,] NA                                 
-      [24,] NA                                 
-      [25,] NA                                 
-            [,4]                                      
-       [1,] NA                                        
-       [2,] NA                                        
-       [3,] NA                                        
-       [4,] NA                                        
-       [5,] NA                                        
-       [6,] NA                                        
-       [7,] NA                                        
-       [8,] NA                                        
-       [9,] NA                                        
-      [10,] NA                                        
-      [11,] NA                                        
-      [12,] NA                                        
-      [13,] NA                                        
-      [14,] NA                                        
-      [15,] NA                                        
-      [16,] "interlaced<factor<af15a>, logical>"      
-      [17,] "interlaced<factor<af15a>, integer>"      
-      [18,] "interlaced<factor<af15a>, double>"       
-      [19,] "interlaced<factor<af15a>, factor<af15a>>"
-      [20,] "interlaced<factor<af15a>, character>"    
-      [21,] "interlaced<character, logical>"          
-      [22,] "interlaced<character, integer>"          
-      [23,] "interlaced<character, double>"           
-      [24,] "interlaced<character, factor<af15a>>"    
-      [25,] "interlaced<character, character>"        
-            [,5]                                  
-       [1,] NA                                    
-       [2,] NA                                    
-       [3,] NA                                    
-       [4,] NA                                    
-       [5,] NA                                    
-       [6,] NA                                    
-       [7,] NA                                    
-       [8,] NA                                    
-       [9,] NA                                    
-      [10,] NA                                    
-      [11,] NA                                    
-      [12,] NA                                    
-      [13,] NA                                    
-      [14,] NA                                    
-      [15,] NA                                    
-      [16,] "interlaced<character, logical>"      
-      [17,] "interlaced<character, integer>"      
-      [18,] "interlaced<character, double>"       
-      [19,] "interlaced<character, factor<af15a>>"
-      [20,] "interlaced<character, character>"    
-      [21,] "interlaced<character, logical>"      
-      [22,] "interlaced<character, integer>"      
-      [23,] "interlaced<character, double>"       
-      [24,] "interlaced<character, factor<af15a>>"
-      [25,] "interlaced<character, character>"    
+                                               logical                             
+      interlaced<logical, logical>             "interlaced<logical, logical>"      
+      interlaced<logical, integer>             "interlaced<logical, integer>"      
+      interlaced<logical, double>              "interlaced<logical, double>"       
+      interlaced<logical, factor<af15a>>       "interlaced<logical, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<logical, character>"    
+      interlaced<integer, logical>             "interlaced<integer, logical>"      
+      interlaced<integer, integer>             "interlaced<integer, integer>"      
+      interlaced<integer, double>              "interlaced<integer, double>"       
+      interlaced<integer, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<integer, character>"    
+      interlaced<double, logical>              "interlaced<double, logical>"       
+      interlaced<double, integer>              "interlaced<double, integer>"       
+      interlaced<double, double>               "interlaced<double, double>"        
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>" 
+      interlaced<double, character>            "interlaced<double, character>"     
+      interlaced<factor<af15a>, logical>       NA                                  
+      interlaced<factor<af15a>, integer>       NA                                  
+      interlaced<factor<af15a>, double>        NA                                  
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           NA                                  
+      interlaced<character, integer>           NA                                  
+      interlaced<character, double>            NA                                  
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               integer                             
+      interlaced<logical, logical>             "interlaced<integer, logical>"      
+      interlaced<logical, integer>             "interlaced<integer, integer>"      
+      interlaced<logical, double>              "interlaced<integer, double>"       
+      interlaced<logical, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<integer, character>"    
+      interlaced<integer, logical>             "interlaced<integer, logical>"      
+      interlaced<integer, integer>             "interlaced<integer, integer>"      
+      interlaced<integer, double>              "interlaced<integer, double>"       
+      interlaced<integer, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<integer, character>"    
+      interlaced<double, logical>              "interlaced<double, logical>"       
+      interlaced<double, integer>              "interlaced<double, integer>"       
+      interlaced<double, double>               "interlaced<double, double>"        
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>" 
+      interlaced<double, character>            "interlaced<double, character>"     
+      interlaced<factor<af15a>, logical>       NA                                  
+      interlaced<factor<af15a>, integer>       NA                                  
+      interlaced<factor<af15a>, double>        NA                                  
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           NA                                  
+      interlaced<character, integer>           NA                                  
+      interlaced<character, double>            NA                                  
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               double                             
+      interlaced<logical, logical>             "interlaced<double, logical>"      
+      interlaced<logical, integer>             "interlaced<double, integer>"      
+      interlaced<logical, double>              "interlaced<double, double>"       
+      interlaced<logical, factor<af15a>>       "interlaced<double, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<double, character>"    
+      interlaced<integer, logical>             "interlaced<double, logical>"      
+      interlaced<integer, integer>             "interlaced<double, integer>"      
+      interlaced<integer, double>              "interlaced<double, double>"       
+      interlaced<integer, factor<af15a>>       "interlaced<double, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<double, character>"    
+      interlaced<double, logical>              "interlaced<double, logical>"      
+      interlaced<double, integer>              "interlaced<double, integer>"      
+      interlaced<double, double>               "interlaced<double, double>"       
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>"
+      interlaced<double, character>            "interlaced<double, character>"    
+      interlaced<factor<af15a>, logical>       NA                                 
+      interlaced<factor<af15a>, integer>       NA                                 
+      interlaced<factor<af15a>, double>        NA                                 
+      interlaced<factor<af15a>, factor<af15a>> NA                                 
+      interlaced<factor<af15a>, character>     NA                                 
+      interlaced<character, logical>           NA                                 
+      interlaced<character, integer>           NA                                 
+      interlaced<character, double>            NA                                 
+      interlaced<character, factor<af15a>>     NA                                 
+      interlaced<character, character>         NA                                 
+                                               factor<af15a>                             
+      interlaced<logical, logical>             NA                                        
+      interlaced<logical, integer>             NA                                        
+      interlaced<logical, double>              NA                                        
+      interlaced<logical, factor<af15a>>       NA                                        
+      interlaced<logical, character>           NA                                        
+      interlaced<integer, logical>             NA                                        
+      interlaced<integer, integer>             NA                                        
+      interlaced<integer, double>              NA                                        
+      interlaced<integer, factor<af15a>>       NA                                        
+      interlaced<integer, character>           NA                                        
+      interlaced<double, logical>              NA                                        
+      interlaced<double, integer>              NA                                        
+      interlaced<double, double>               NA                                        
+      interlaced<double, factor<af15a>>        NA                                        
+      interlaced<double, character>            NA                                        
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, logical>"      
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, integer>"      
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, double>"       
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<factor<af15a>, factor<af15a>>"
+      interlaced<factor<af15a>, character>     "interlaced<factor<af15a>, character>"    
+      interlaced<character, logical>           "interlaced<character, logical>"          
+      interlaced<character, integer>           "interlaced<character, integer>"          
+      interlaced<character, double>            "interlaced<character, double>"           
+      interlaced<character, factor<af15a>>     "interlaced<character, factor<af15a>>"    
+      interlaced<character, character>         "interlaced<character, character>"        
+                                               character                             
+      interlaced<logical, logical>             NA                                    
+      interlaced<logical, integer>             NA                                    
+      interlaced<logical, double>              NA                                    
+      interlaced<logical, factor<af15a>>       NA                                    
+      interlaced<logical, character>           NA                                    
+      interlaced<integer, logical>             NA                                    
+      interlaced<integer, integer>             NA                                    
+      interlaced<integer, double>              NA                                    
+      interlaced<integer, factor<af15a>>       NA                                    
+      interlaced<integer, character>           NA                                    
+      interlaced<double, logical>              NA                                    
+      interlaced<double, integer>              NA                                    
+      interlaced<double, double>               NA                                    
+      interlaced<double, factor<af15a>>        NA                                    
+      interlaced<double, character>            NA                                    
+      interlaced<factor<af15a>, logical>       "interlaced<character, logical>"      
+      interlaced<factor<af15a>, integer>       "interlaced<character, integer>"      
+      interlaced<factor<af15a>, double>        "interlaced<character, double>"       
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<character, factor<af15a>>"
+      interlaced<factor<af15a>, character>     "interlaced<character, character>"    
+      interlaced<character, logical>           "interlaced<character, logical>"      
+      interlaced<character, integer>           "interlaced<character, integer>"      
+      interlaced<character, double>            "interlaced<character, double>"       
+      interlaced<character, factor<af15a>>     "interlaced<character, factor<af15a>>"
+      interlaced<character, character>         "interlaced<character, character>"    
+
+---
+
+    Code
+      mat2
+    Output
+                    interlaced<logical, logical>   interlaced<logical, integer>  
+      logical       "interlaced<logical, logical>" "interlaced<logical, integer>"
+      integer       "interlaced<integer, logical>" "interlaced<integer, integer>"
+      double        "interlaced<double, logical>"  "interlaced<double, integer>" 
+      factor<af15a> NA                             NA                            
+      character     NA                             NA                            
+                    interlaced<logical, double>  
+      logical       "interlaced<logical, double>"
+      integer       "interlaced<integer, double>"
+      double        "interlaced<double, double>" 
+      factor<af15a> NA                           
+      character     NA                           
+                    interlaced<logical, factor<af15a>>  
+      logical       "interlaced<logical, factor<af15a>>"
+      integer       "interlaced<integer, factor<af15a>>"
+      double        "interlaced<double, factor<af15a>>" 
+      factor<af15a> NA                                  
+      character     NA                                  
+                    interlaced<logical, character>   interlaced<integer, logical>  
+      logical       "interlaced<logical, character>" "interlaced<integer, logical>"
+      integer       "interlaced<integer, character>" "interlaced<integer, logical>"
+      double        "interlaced<double, character>"  "interlaced<double, logical>" 
+      factor<af15a> NA                               NA                            
+      character     NA                               NA                            
+                    interlaced<integer, integer>   interlaced<integer, double>  
+      logical       "interlaced<integer, integer>" "interlaced<integer, double>"
+      integer       "interlaced<integer, integer>" "interlaced<integer, double>"
+      double        "interlaced<double, integer>"  "interlaced<double, double>" 
+      factor<af15a> NA                             NA                           
+      character     NA                             NA                           
+                    interlaced<integer, factor<af15a>>  
+      logical       "interlaced<integer, factor<af15a>>"
+      integer       "interlaced<integer, factor<af15a>>"
+      double        "interlaced<double, factor<af15a>>" 
+      factor<af15a> NA                                  
+      character     NA                                  
+                    interlaced<integer, character>   interlaced<double, logical>  
+      logical       "interlaced<integer, character>" "interlaced<double, logical>"
+      integer       "interlaced<integer, character>" "interlaced<double, logical>"
+      double        "interlaced<double, character>"  "interlaced<double, logical>"
+      factor<af15a> NA                               NA                           
+      character     NA                               NA                           
+                    interlaced<double, integer>   interlaced<double, double>  
+      logical       "interlaced<double, integer>" "interlaced<double, double>"
+      integer       "interlaced<double, integer>" "interlaced<double, double>"
+      double        "interlaced<double, integer>" "interlaced<double, double>"
+      factor<af15a> NA                            NA                          
+      character     NA                            NA                          
+                    interlaced<double, factor<af15a>>  
+      logical       "interlaced<double, factor<af15a>>"
+      integer       "interlaced<double, factor<af15a>>"
+      double        "interlaced<double, factor<af15a>>"
+      factor<af15a> NA                                 
+      character     NA                                 
+                    interlaced<double, character>  
+      logical       "interlaced<double, character>"
+      integer       "interlaced<double, character>"
+      double        "interlaced<double, character>"
+      factor<af15a> NA                             
+      character     NA                             
+                    interlaced<factor<af15a>, logical>  
+      logical       NA                                  
+      integer       NA                                  
+      double        NA                                  
+      factor<af15a> "interlaced<factor<af15a>, logical>"
+      character     "interlaced<character, logical>"    
+                    interlaced<factor<af15a>, integer>  
+      logical       NA                                  
+      integer       NA                                  
+      double        NA                                  
+      factor<af15a> "interlaced<factor<af15a>, integer>"
+      character     "interlaced<character, integer>"    
+                    interlaced<factor<af15a>, double>  
+      logical       NA                                 
+      integer       NA                                 
+      double        NA                                 
+      factor<af15a> "interlaced<factor<af15a>, double>"
+      character     "interlaced<character, double>"    
+                    interlaced<factor<af15a>, factor<af15a>>  
+      logical       NA                                        
+      integer       NA                                        
+      double        NA                                        
+      factor<af15a> "interlaced<factor<af15a>, factor<af15a>>"
+      character     "interlaced<character, factor<af15a>>"    
+                    interlaced<factor<af15a>, character>  
+      logical       NA                                    
+      integer       NA                                    
+      double        NA                                    
+      factor<af15a> "interlaced<factor<af15a>, character>"
+      character     "interlaced<character, character>"    
+                    interlaced<character, logical>   interlaced<character, integer>  
+      logical       NA                               NA                              
+      integer       NA                               NA                              
+      double        NA                               NA                              
+      factor<af15a> "interlaced<character, logical>" "interlaced<character, integer>"
+      character     "interlaced<character, logical>" "interlaced<character, integer>"
+                    interlaced<character, double>  
+      logical       NA                             
+      integer       NA                             
+      double        NA                             
+      factor<af15a> "interlaced<character, double>"
+      character     "interlaced<character, double>"
+                    interlaced<character, factor<af15a>>  
+      logical       NA                                    
+      integer       NA                                    
+      double        NA                                    
+      factor<af15a> "interlaced<character, factor<af15a>>"
+      character     "interlaced<character, factor<af15a>>"
+                    interlaced<character, character>  
+      logical       NA                                
+      integer       NA                                
+      double        NA                                
+      factor<af15a> "interlaced<character, character>"
+      character     "interlaced<character, character>"
 
 # base type casting unwraps / lifts and is unchanging
 
     Code
-      mat
+      lifts
     Output
-            [,1]      [,2]      [,3]     [,4]            [,5]       
-       [1,] "logical" "integer" "double" NA              NA         
-       [2,] "logical" "integer" "double" NA              NA         
-       [3,] "logical" "integer" "double" NA              NA         
-       [4,] "logical" "integer" "double" NA              NA         
-       [5,] "logical" "integer" "double" NA              NA         
-       [6,] "logical" "integer" "double" NA              NA         
-       [7,] "logical" "integer" "double" NA              NA         
-       [8,] "logical" "integer" "double" NA              NA         
-       [9,] "logical" "integer" "double" NA              NA         
-      [10,] "logical" "integer" "double" NA              NA         
-      [11,] "logical" "integer" "double" NA              NA         
-      [12,] "logical" "integer" "double" NA              NA         
-      [13,] "logical" "integer" "double" NA              NA         
-      [14,] "logical" "integer" "double" NA              NA         
-      [15,] "logical" "integer" "double" NA              NA         
-      [16,] NA        NA        NA       "factor<af15a>" "character"
-      [17,] NA        NA        NA       "factor<af15a>" "character"
-      [18,] NA        NA        NA       "factor<af15a>" "character"
-      [19,] NA        NA        NA       "factor<af15a>" "character"
-      [20,] NA        NA        NA       "factor<af15a>" "character"
-      [21,] NA        NA        NA       "factor<af15a>" "character"
-      [22,] NA        NA        NA       "factor<af15a>" "character"
-      [23,] NA        NA        NA       "factor<af15a>" "character"
-      [24,] NA        NA        NA       "factor<af15a>" "character"
-      [25,] NA        NA        NA       "factor<af15a>" "character"
+                    interlaced<logical, logical>   interlaced<logical, integer>  
+      logical       "interlaced<logical, logical>" "interlaced<logical, integer>"
+      integer       "interlaced<logical, logical>" "interlaced<logical, integer>"
+      double        "interlaced<logical, logical>" "interlaced<logical, integer>"
+      factor<af15a> NA                             NA                            
+      character     NA                             NA                            
+                    interlaced<logical, double>  
+      logical       "interlaced<logical, double>"
+      integer       "interlaced<logical, double>"
+      double        "interlaced<logical, double>"
+      factor<af15a> NA                           
+      character     NA                           
+                    interlaced<logical, factor<af15a>>  
+      logical       "interlaced<logical, factor<af15a>>"
+      integer       "interlaced<logical, factor<af15a>>"
+      double        "interlaced<logical, factor<af15a>>"
+      factor<af15a> NA                                  
+      character     NA                                  
+                    interlaced<logical, character>   interlaced<integer, logical>  
+      logical       "interlaced<logical, character>" "interlaced<integer, logical>"
+      integer       "interlaced<logical, character>" "interlaced<integer, logical>"
+      double        "interlaced<logical, character>" "interlaced<integer, logical>"
+      factor<af15a> NA                               NA                            
+      character     NA                               NA                            
+                    interlaced<integer, integer>   interlaced<integer, double>  
+      logical       "interlaced<integer, integer>" "interlaced<integer, double>"
+      integer       "interlaced<integer, integer>" "interlaced<integer, double>"
+      double        "interlaced<integer, integer>" "interlaced<integer, double>"
+      factor<af15a> NA                             NA                           
+      character     NA                             NA                           
+                    interlaced<integer, factor<af15a>>  
+      logical       "interlaced<integer, factor<af15a>>"
+      integer       "interlaced<integer, factor<af15a>>"
+      double        "interlaced<integer, factor<af15a>>"
+      factor<af15a> NA                                  
+      character     NA                                  
+                    interlaced<integer, character>   interlaced<double, logical>  
+      logical       "interlaced<integer, character>" "interlaced<double, logical>"
+      integer       "interlaced<integer, character>" "interlaced<double, logical>"
+      double        "interlaced<integer, character>" "interlaced<double, logical>"
+      factor<af15a> NA                               NA                           
+      character     NA                               NA                           
+                    interlaced<double, integer>   interlaced<double, double>  
+      logical       "interlaced<double, integer>" "interlaced<double, double>"
+      integer       "interlaced<double, integer>" "interlaced<double, double>"
+      double        "interlaced<double, integer>" "interlaced<double, double>"
+      factor<af15a> NA                            NA                          
+      character     NA                            NA                          
+                    interlaced<double, factor<af15a>>  
+      logical       "interlaced<double, factor<af15a>>"
+      integer       "interlaced<double, factor<af15a>>"
+      double        "interlaced<double, factor<af15a>>"
+      factor<af15a> NA                                 
+      character     NA                                 
+                    interlaced<double, character>  
+      logical       "interlaced<double, character>"
+      integer       "interlaced<double, character>"
+      double        "interlaced<double, character>"
+      factor<af15a> NA                             
+      character     NA                             
+                    interlaced<factor<af15a>, logical>  
+      logical       NA                                  
+      integer       NA                                  
+      double        NA                                  
+      factor<af15a> "interlaced<factor<af15a>, logical>"
+      character     "interlaced<factor<af15a>, logical>"
+                    interlaced<factor<af15a>, integer>  
+      logical       NA                                  
+      integer       NA                                  
+      double        NA                                  
+      factor<af15a> "interlaced<factor<af15a>, integer>"
+      character     "interlaced<factor<af15a>, integer>"
+                    interlaced<factor<af15a>, double>  
+      logical       NA                                 
+      integer       NA                                 
+      double        NA                                 
+      factor<af15a> "interlaced<factor<af15a>, double>"
+      character     "interlaced<factor<af15a>, double>"
+                    interlaced<factor<af15a>, factor<af15a>>  
+      logical       NA                                        
+      integer       NA                                        
+      double        NA                                        
+      factor<af15a> "interlaced<factor<af15a>, factor<af15a>>"
+      character     "interlaced<factor<af15a>, factor<af15a>>"
+                    interlaced<factor<af15a>, character>  
+      logical       NA                                    
+      integer       NA                                    
+      double        NA                                    
+      factor<af15a> "interlaced<factor<af15a>, character>"
+      character     "interlaced<factor<af15a>, character>"
+                    interlaced<character, logical>   interlaced<character, integer>  
+      logical       NA                               NA                              
+      integer       NA                               NA                              
+      double        NA                               NA                              
+      factor<af15a> "interlaced<character, logical>" "interlaced<character, integer>"
+      character     "interlaced<character, logical>" "interlaced<character, integer>"
+                    interlaced<character, double>  
+      logical       NA                             
+      integer       NA                             
+      double        NA                             
+      factor<af15a> "interlaced<character, double>"
+      character     "interlaced<character, double>"
+                    interlaced<character, factor<af15a>>  
+      logical       NA                                    
+      integer       NA                                    
+      double        NA                                    
+      factor<af15a> "interlaced<character, factor<af15a>>"
+      character     "interlaced<character, factor<af15a>>"
+                    interlaced<character, character>  
+      logical       NA                                
+      integer       NA                                
+      double        NA                                
+      factor<af15a> "interlaced<character, character>"
+      character     "interlaced<character, character>"
+
+---
+
+    Code
+      unwraps
+    Output
+                                               logical   integer   double  
+      interlaced<logical, logical>             "logical" "integer" "double"
+      interlaced<logical, integer>             "logical" "integer" "double"
+      interlaced<logical, double>              "logical" "integer" "double"
+      interlaced<logical, factor<af15a>>       "logical" "integer" "double"
+      interlaced<logical, character>           "logical" "integer" "double"
+      interlaced<integer, logical>             "logical" "integer" "double"
+      interlaced<integer, integer>             "logical" "integer" "double"
+      interlaced<integer, double>              "logical" "integer" "double"
+      interlaced<integer, factor<af15a>>       "logical" "integer" "double"
+      interlaced<integer, character>           "logical" "integer" "double"
+      interlaced<double, logical>              "logical" "integer" "double"
+      interlaced<double, integer>              "logical" "integer" "double"
+      interlaced<double, double>               "logical" "integer" "double"
+      interlaced<double, factor<af15a>>        "logical" "integer" "double"
+      interlaced<double, character>            "logical" "integer" "double"
+      interlaced<factor<af15a>, logical>       NA        NA        NA      
+      interlaced<factor<af15a>, integer>       NA        NA        NA      
+      interlaced<factor<af15a>, double>        NA        NA        NA      
+      interlaced<factor<af15a>, factor<af15a>> NA        NA        NA      
+      interlaced<factor<af15a>, character>     NA        NA        NA      
+      interlaced<character, logical>           NA        NA        NA      
+      interlaced<character, integer>           NA        NA        NA      
+      interlaced<character, double>            NA        NA        NA      
+      interlaced<character, factor<af15a>>     NA        NA        NA      
+      interlaced<character, character>         NA        NA        NA      
+                                               factor<af15a>   character  
+      interlaced<logical, logical>             NA              NA         
+      interlaced<logical, integer>             NA              NA         
+      interlaced<logical, double>              NA              NA         
+      interlaced<logical, factor<af15a>>       NA              NA         
+      interlaced<logical, character>           NA              NA         
+      interlaced<integer, logical>             NA              NA         
+      interlaced<integer, integer>             NA              NA         
+      interlaced<integer, double>              NA              NA         
+      interlaced<integer, factor<af15a>>       NA              NA         
+      interlaced<integer, character>           NA              NA         
+      interlaced<double, logical>              NA              NA         
+      interlaced<double, integer>              NA              NA         
+      interlaced<double, double>               NA              NA         
+      interlaced<double, factor<af15a>>        NA              NA         
+      interlaced<double, character>            NA              NA         
+      interlaced<factor<af15a>, logical>       "factor<af15a>" "character"
+      interlaced<factor<af15a>, integer>       "factor<af15a>" "character"
+      interlaced<factor<af15a>, double>        "factor<af15a>" "character"
+      interlaced<factor<af15a>, factor<af15a>> "factor<af15a>" "character"
+      interlaced<factor<af15a>, character>     "factor<af15a>" "character"
+      interlaced<character, logical>           "factor<af15a>" "character"
+      interlaced<character, integer>           "factor<af15a>" "character"
+      interlaced<character, double>            "factor<af15a>" "character"
+      interlaced<character, factor<af15a>>     "factor<af15a>" "character"
+      interlaced<character, character>         "factor<af15a>" "character"
 
 # interlaced type casting is unchanging
 
     Code
       mat
     Output
-            [,1]                           [,2]                          
-       [1,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [2,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [3,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [4,] NA                             NA                            
-       [5,] NA                             NA                            
-       [6,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [7,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [8,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-       [9,] NA                             NA                            
-      [10,] NA                             NA                            
-      [11,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-      [12,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-      [13,] "interlaced<logical, logical>" "interlaced<logical, integer>"
-      [14,] NA                             NA                            
-      [15,] NA                             NA                            
-      [16,] NA                             NA                            
-      [17,] NA                             NA                            
-      [18,] NA                             NA                            
-      [19,] NA                             NA                            
-      [20,] NA                             NA                            
-      [21,] NA                             NA                            
-      [22,] NA                             NA                            
-      [23,] NA                             NA                            
-      [24,] NA                             NA                            
-      [25,] NA                             NA                            
-            [,3]                          [,4]                                
-       [1,] "interlaced<logical, double>" NA                                  
-       [2,] "interlaced<logical, double>" NA                                  
-       [3,] "interlaced<logical, double>" NA                                  
-       [4,] NA                            "interlaced<logical, factor<af15a>>"
-       [5,] NA                            "interlaced<logical, factor<af15a>>"
-       [6,] "interlaced<logical, double>" NA                                  
-       [7,] "interlaced<logical, double>" NA                                  
-       [8,] "interlaced<logical, double>" NA                                  
-       [9,] NA                            "interlaced<logical, factor<af15a>>"
-      [10,] NA                            "interlaced<logical, factor<af15a>>"
-      [11,] "interlaced<logical, double>" NA                                  
-      [12,] "interlaced<logical, double>" NA                                  
-      [13,] "interlaced<logical, double>" NA                                  
-      [14,] NA                            "interlaced<logical, factor<af15a>>"
-      [15,] NA                            "interlaced<logical, factor<af15a>>"
-      [16,] NA                            NA                                  
-      [17,] NA                            NA                                  
-      [18,] NA                            NA                                  
-      [19,] NA                            NA                                  
-      [20,] NA                            NA                                  
-      [21,] NA                            NA                                  
-      [22,] NA                            NA                                  
-      [23,] NA                            NA                                  
-      [24,] NA                            NA                                  
-      [25,] NA                            NA                                  
-            [,5]                             [,6]                          
-       [1,] NA                               "interlaced<integer, logical>"
-       [2,] NA                               "interlaced<integer, logical>"
-       [3,] NA                               "interlaced<integer, logical>"
-       [4,] "interlaced<logical, character>" NA                            
-       [5,] "interlaced<logical, character>" NA                            
-       [6,] NA                               "interlaced<integer, logical>"
-       [7,] NA                               "interlaced<integer, logical>"
-       [8,] NA                               "interlaced<integer, logical>"
-       [9,] "interlaced<logical, character>" NA                            
-      [10,] "interlaced<logical, character>" NA                            
-      [11,] NA                               "interlaced<integer, logical>"
-      [12,] NA                               "interlaced<integer, logical>"
-      [13,] NA                               "interlaced<integer, logical>"
-      [14,] "interlaced<logical, character>" NA                            
-      [15,] "interlaced<logical, character>" NA                            
-      [16,] NA                               NA                            
-      [17,] NA                               NA                            
-      [18,] NA                               NA                            
-      [19,] NA                               NA                            
-      [20,] NA                               NA                            
-      [21,] NA                               NA                            
-      [22,] NA                               NA                            
-      [23,] NA                               NA                            
-      [24,] NA                               NA                            
-      [25,] NA                               NA                            
-            [,7]                           [,8]                         
-       [1,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [2,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [3,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [4,] NA                             NA                           
-       [5,] NA                             NA                           
-       [6,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [7,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [8,] "interlaced<integer, integer>" "interlaced<integer, double>"
-       [9,] NA                             NA                           
-      [10,] NA                             NA                           
-      [11,] "interlaced<integer, integer>" "interlaced<integer, double>"
-      [12,] "interlaced<integer, integer>" "interlaced<integer, double>"
-      [13,] "interlaced<integer, integer>" "interlaced<integer, double>"
-      [14,] NA                             NA                           
-      [15,] NA                             NA                           
-      [16,] NA                             NA                           
-      [17,] NA                             NA                           
-      [18,] NA                             NA                           
-      [19,] NA                             NA                           
-      [20,] NA                             NA                           
-      [21,] NA                             NA                           
-      [22,] NA                             NA                           
-      [23,] NA                             NA                           
-      [24,] NA                             NA                           
-      [25,] NA                             NA                           
-            [,9]                                 [,10]                           
-       [1,] NA                                   NA                              
-       [2,] NA                                   NA                              
-       [3,] NA                                   NA                              
-       [4,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-       [5,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-       [6,] NA                                   NA                              
-       [7,] NA                                   NA                              
-       [8,] NA                                   NA                              
-       [9,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-      [10,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-      [11,] NA                                   NA                              
-      [12,] NA                                   NA                              
-      [13,] NA                                   NA                              
-      [14,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-      [15,] "interlaced<integer, factor<af15a>>" "interlaced<integer, character>"
-      [16,] NA                                   NA                              
-      [17,] NA                                   NA                              
-      [18,] NA                                   NA                              
-      [19,] NA                                   NA                              
-      [20,] NA                                   NA                              
-      [21,] NA                                   NA                              
-      [22,] NA                                   NA                              
-      [23,] NA                                   NA                              
-      [24,] NA                                   NA                              
-      [25,] NA                                   NA                              
-            [,11]                         [,12]                        
-       [1,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [2,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [3,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [4,] NA                            NA                           
-       [5,] NA                            NA                           
-       [6,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [7,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [8,] "interlaced<double, logical>" "interlaced<double, integer>"
-       [9,] NA                            NA                           
-      [10,] NA                            NA                           
-      [11,] "interlaced<double, logical>" "interlaced<double, integer>"
-      [12,] "interlaced<double, logical>" "interlaced<double, integer>"
-      [13,] "interlaced<double, logical>" "interlaced<double, integer>"
-      [14,] NA                            NA                           
-      [15,] NA                            NA                           
-      [16,] NA                            NA                           
-      [17,] NA                            NA                           
-      [18,] NA                            NA                           
-      [19,] NA                            NA                           
-      [20,] NA                            NA                           
-      [21,] NA                            NA                           
-      [22,] NA                            NA                           
-      [23,] NA                            NA                           
-      [24,] NA                            NA                           
-      [25,] NA                            NA                           
-            [,13]                        [,14]                              
-       [1,] "interlaced<double, double>" NA                                 
-       [2,] "interlaced<double, double>" NA                                 
-       [3,] "interlaced<double, double>" NA                                 
-       [4,] NA                           "interlaced<double, factor<af15a>>"
-       [5,] NA                           "interlaced<double, factor<af15a>>"
-       [6,] "interlaced<double, double>" NA                                 
-       [7,] "interlaced<double, double>" NA                                 
-       [8,] "interlaced<double, double>" NA                                 
-       [9,] NA                           "interlaced<double, factor<af15a>>"
-      [10,] NA                           "interlaced<double, factor<af15a>>"
-      [11,] "interlaced<double, double>" NA                                 
-      [12,] "interlaced<double, double>" NA                                 
-      [13,] "interlaced<double, double>" NA                                 
-      [14,] NA                           "interlaced<double, factor<af15a>>"
-      [15,] NA                           "interlaced<double, factor<af15a>>"
-      [16,] NA                           NA                                 
-      [17,] NA                           NA                                 
-      [18,] NA                           NA                                 
-      [19,] NA                           NA                                 
-      [20,] NA                           NA                                 
-      [21,] NA                           NA                                 
-      [22,] NA                           NA                                 
-      [23,] NA                           NA                                 
-      [24,] NA                           NA                                 
-      [25,] NA                           NA                                 
-            [,15]                           [,16]                               
-       [1,] NA                              NA                                  
-       [2,] NA                              NA                                  
-       [3,] NA                              NA                                  
-       [4,] "interlaced<double, character>" NA                                  
-       [5,] "interlaced<double, character>" NA                                  
-       [6,] NA                              NA                                  
-       [7,] NA                              NA                                  
-       [8,] NA                              NA                                  
-       [9,] "interlaced<double, character>" NA                                  
-      [10,] "interlaced<double, character>" NA                                  
-      [11,] NA                              NA                                  
-      [12,] NA                              NA                                  
-      [13,] NA                              NA                                  
-      [14,] "interlaced<double, character>" NA                                  
-      [15,] "interlaced<double, character>" NA                                  
-      [16,] NA                              "interlaced<factor<af15a>, logical>"
-      [17,] NA                              "interlaced<factor<af15a>, logical>"
-      [18,] NA                              "interlaced<factor<af15a>, logical>"
-      [19,] NA                              NA                                  
-      [20,] NA                              NA                                  
-      [21,] NA                              "interlaced<factor<af15a>, logical>"
-      [22,] NA                              "interlaced<factor<af15a>, logical>"
-      [23,] NA                              "interlaced<factor<af15a>, logical>"
-      [24,] NA                              NA                                  
-      [25,] NA                              NA                                  
-            [,17]                                [,18]                              
-       [1,] NA                                   NA                                 
-       [2,] NA                                   NA                                 
-       [3,] NA                                   NA                                 
-       [4,] NA                                   NA                                 
-       [5,] NA                                   NA                                 
-       [6,] NA                                   NA                                 
-       [7,] NA                                   NA                                 
-       [8,] NA                                   NA                                 
-       [9,] NA                                   NA                                 
-      [10,] NA                                   NA                                 
-      [11,] NA                                   NA                                 
-      [12,] NA                                   NA                                 
-      [13,] NA                                   NA                                 
-      [14,] NA                                   NA                                 
-      [15,] NA                                   NA                                 
-      [16,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [17,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [18,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [19,] NA                                   NA                                 
-      [20,] NA                                   NA                                 
-      [21,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [22,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [23,] "interlaced<factor<af15a>, integer>" "interlaced<factor<af15a>, double>"
-      [24,] NA                                   NA                                 
-      [25,] NA                                   NA                                 
-            [,19]                                     
-       [1,] NA                                        
-       [2,] NA                                        
-       [3,] NA                                        
-       [4,] NA                                        
-       [5,] NA                                        
-       [6,] NA                                        
-       [7,] NA                                        
-       [8,] NA                                        
-       [9,] NA                                        
-      [10,] NA                                        
-      [11,] NA                                        
-      [12,] NA                                        
-      [13,] NA                                        
-      [14,] NA                                        
-      [15,] NA                                        
-      [16,] NA                                        
-      [17,] NA                                        
-      [18,] NA                                        
-      [19,] "interlaced<factor<af15a>, factor<af15a>>"
-      [20,] "interlaced<factor<af15a>, factor<af15a>>"
-      [21,] NA                                        
-      [22,] NA                                        
-      [23,] NA                                        
-      [24,] "interlaced<factor<af15a>, factor<af15a>>"
-      [25,] "interlaced<factor<af15a>, factor<af15a>>"
-            [,20]                                  [,21]                           
-       [1,] NA                                     NA                              
-       [2,] NA                                     NA                              
-       [3,] NA                                     NA                              
-       [4,] NA                                     NA                              
-       [5,] NA                                     NA                              
-       [6,] NA                                     NA                              
-       [7,] NA                                     NA                              
-       [8,] NA                                     NA                              
-       [9,] NA                                     NA                              
-      [10,] NA                                     NA                              
-      [11,] NA                                     NA                              
-      [12,] NA                                     NA                              
-      [13,] NA                                     NA                              
-      [14,] NA                                     NA                              
-      [15,] NA                                     NA                              
-      [16,] NA                                     "interlaced<character, logical>"
-      [17,] NA                                     "interlaced<character, logical>"
-      [18,] NA                                     "interlaced<character, logical>"
-      [19,] "interlaced<factor<af15a>, character>" NA                              
-      [20,] "interlaced<factor<af15a>, character>" NA                              
-      [21,] NA                                     "interlaced<character, logical>"
-      [22,] NA                                     "interlaced<character, logical>"
-      [23,] NA                                     "interlaced<character, logical>"
-      [24,] "interlaced<factor<af15a>, character>" NA                              
-      [25,] "interlaced<factor<af15a>, character>" NA                              
-            [,22]                            [,23]                          
-       [1,] NA                               NA                             
-       [2,] NA                               NA                             
-       [3,] NA                               NA                             
-       [4,] NA                               NA                             
-       [5,] NA                               NA                             
-       [6,] NA                               NA                             
-       [7,] NA                               NA                             
-       [8,] NA                               NA                             
-       [9,] NA                               NA                             
-      [10,] NA                               NA                             
-      [11,] NA                               NA                             
-      [12,] NA                               NA                             
-      [13,] NA                               NA                             
-      [14,] NA                               NA                             
-      [15,] NA                               NA                             
-      [16,] "interlaced<character, integer>" "interlaced<character, double>"
-      [17,] "interlaced<character, integer>" "interlaced<character, double>"
-      [18,] "interlaced<character, integer>" "interlaced<character, double>"
-      [19,] NA                               NA                             
-      [20,] NA                               NA                             
-      [21,] "interlaced<character, integer>" "interlaced<character, double>"
-      [22,] "interlaced<character, integer>" "interlaced<character, double>"
-      [23,] "interlaced<character, integer>" "interlaced<character, double>"
-      [24,] NA                               NA                             
-      [25,] NA                               NA                             
-            [,24]                                  [,25]                             
-       [1,] NA                                     NA                                
-       [2,] NA                                     NA                                
-       [3,] NA                                     NA                                
-       [4,] NA                                     NA                                
-       [5,] NA                                     NA                                
-       [6,] NA                                     NA                                
-       [7,] NA                                     NA                                
-       [8,] NA                                     NA                                
-       [9,] NA                                     NA                                
-      [10,] NA                                     NA                                
-      [11,] NA                                     NA                                
-      [12,] NA                                     NA                                
-      [13,] NA                                     NA                                
-      [14,] NA                                     NA                                
-      [15,] NA                                     NA                                
-      [16,] NA                                     NA                                
-      [17,] NA                                     NA                                
-      [18,] NA                                     NA                                
-      [19,] "interlaced<character, factor<af15a>>" "interlaced<character, character>"
-      [20,] "interlaced<character, factor<af15a>>" "interlaced<character, character>"
-      [21,] NA                                     NA                                
-      [22,] NA                                     NA                                
-      [23,] NA                                     NA                                
-      [24,] "interlaced<character, factor<af15a>>" "interlaced<character, character>"
-      [25,] "interlaced<character, factor<af15a>>" "interlaced<character, character>"
+                                               interlaced<logical, logical>  
+      interlaced<logical, logical>             "interlaced<logical, logical>"
+      interlaced<logical, integer>             "interlaced<logical, logical>"
+      interlaced<logical, double>              "interlaced<logical, logical>"
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<logical, logical>"
+      interlaced<integer, integer>             "interlaced<logical, logical>"
+      interlaced<integer, double>              "interlaced<logical, logical>"
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<logical, logical>"
+      interlaced<double, integer>              "interlaced<logical, logical>"
+      interlaced<double, double>               "interlaced<logical, logical>"
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<logical, integer>  
+      interlaced<logical, logical>             "interlaced<logical, integer>"
+      interlaced<logical, integer>             "interlaced<logical, integer>"
+      interlaced<logical, double>              "interlaced<logical, integer>"
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<logical, integer>"
+      interlaced<integer, integer>             "interlaced<logical, integer>"
+      interlaced<integer, double>              "interlaced<logical, integer>"
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<logical, integer>"
+      interlaced<double, integer>              "interlaced<logical, integer>"
+      interlaced<double, double>               "interlaced<logical, integer>"
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<logical, double>  
+      interlaced<logical, logical>             "interlaced<logical, double>"
+      interlaced<logical, integer>             "interlaced<logical, double>"
+      interlaced<logical, double>              "interlaced<logical, double>"
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<logical, double>"
+      interlaced<integer, integer>             "interlaced<logical, double>"
+      interlaced<integer, double>              "interlaced<logical, double>"
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<logical, double>"
+      interlaced<double, integer>              "interlaced<logical, double>"
+      interlaced<double, double>               "interlaced<logical, double>"
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<logical, factor<af15a>>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       "interlaced<logical, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<logical, factor<af15a>>"
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       "interlaced<logical, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<logical, factor<af15a>>"
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        "interlaced<logical, factor<af15a>>"
+      interlaced<double, character>            "interlaced<logical, factor<af15a>>"
+      interlaced<factor<af15a>, logical>       NA                                  
+      interlaced<factor<af15a>, integer>       NA                                  
+      interlaced<factor<af15a>, double>        NA                                  
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           NA                                  
+      interlaced<character, integer>           NA                                  
+      interlaced<character, double>            NA                                  
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<logical, character>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       "interlaced<logical, character>"
+      interlaced<logical, character>           "interlaced<logical, character>"
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       "interlaced<logical, character>"
+      interlaced<integer, character>           "interlaced<logical, character>"
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        "interlaced<logical, character>"
+      interlaced<double, character>            "interlaced<logical, character>"
+      interlaced<factor<af15a>, logical>       NA                              
+      interlaced<factor<af15a>, integer>       NA                              
+      interlaced<factor<af15a>, double>        NA                              
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           NA                              
+      interlaced<character, integer>           NA                              
+      interlaced<character, double>            NA                              
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<integer, logical>  
+      interlaced<logical, logical>             "interlaced<integer, logical>"
+      interlaced<logical, integer>             "interlaced<integer, logical>"
+      interlaced<logical, double>              "interlaced<integer, logical>"
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<integer, logical>"
+      interlaced<integer, integer>             "interlaced<integer, logical>"
+      interlaced<integer, double>              "interlaced<integer, logical>"
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<integer, logical>"
+      interlaced<double, integer>              "interlaced<integer, logical>"
+      interlaced<double, double>               "interlaced<integer, logical>"
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<integer, integer>  
+      interlaced<logical, logical>             "interlaced<integer, integer>"
+      interlaced<logical, integer>             "interlaced<integer, integer>"
+      interlaced<logical, double>              "interlaced<integer, integer>"
+      interlaced<logical, factor<af15a>>       NA                            
+      interlaced<logical, character>           NA                            
+      interlaced<integer, logical>             "interlaced<integer, integer>"
+      interlaced<integer, integer>             "interlaced<integer, integer>"
+      interlaced<integer, double>              "interlaced<integer, integer>"
+      interlaced<integer, factor<af15a>>       NA                            
+      interlaced<integer, character>           NA                            
+      interlaced<double, logical>              "interlaced<integer, integer>"
+      interlaced<double, integer>              "interlaced<integer, integer>"
+      interlaced<double, double>               "interlaced<integer, integer>"
+      interlaced<double, factor<af15a>>        NA                            
+      interlaced<double, character>            NA                            
+      interlaced<factor<af15a>, logical>       NA                            
+      interlaced<factor<af15a>, integer>       NA                            
+      interlaced<factor<af15a>, double>        NA                            
+      interlaced<factor<af15a>, factor<af15a>> NA                            
+      interlaced<factor<af15a>, character>     NA                            
+      interlaced<character, logical>           NA                            
+      interlaced<character, integer>           NA                            
+      interlaced<character, double>            NA                            
+      interlaced<character, factor<af15a>>     NA                            
+      interlaced<character, character>         NA                            
+                                               interlaced<integer, double>  
+      interlaced<logical, logical>             "interlaced<integer, double>"
+      interlaced<logical, integer>             "interlaced<integer, double>"
+      interlaced<logical, double>              "interlaced<integer, double>"
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<integer, double>"
+      interlaced<integer, integer>             "interlaced<integer, double>"
+      interlaced<integer, double>              "interlaced<integer, double>"
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<integer, double>"
+      interlaced<double, integer>              "interlaced<integer, double>"
+      interlaced<double, double>               "interlaced<integer, double>"
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<integer, factor<af15a>>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<integer, factor<af15a>>"
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       "interlaced<integer, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<integer, factor<af15a>>"
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        "interlaced<integer, factor<af15a>>"
+      interlaced<double, character>            "interlaced<integer, factor<af15a>>"
+      interlaced<factor<af15a>, logical>       NA                                  
+      interlaced<factor<af15a>, integer>       NA                                  
+      interlaced<factor<af15a>, double>        NA                                  
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           NA                                  
+      interlaced<character, integer>           NA                                  
+      interlaced<character, double>            NA                                  
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<integer, character>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       "interlaced<integer, character>"
+      interlaced<logical, character>           "interlaced<integer, character>"
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       "interlaced<integer, character>"
+      interlaced<integer, character>           "interlaced<integer, character>"
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        "interlaced<integer, character>"
+      interlaced<double, character>            "interlaced<integer, character>"
+      interlaced<factor<af15a>, logical>       NA                              
+      interlaced<factor<af15a>, integer>       NA                              
+      interlaced<factor<af15a>, double>        NA                              
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           NA                              
+      interlaced<character, integer>           NA                              
+      interlaced<character, double>            NA                              
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<double, logical>  
+      interlaced<logical, logical>             "interlaced<double, logical>"
+      interlaced<logical, integer>             "interlaced<double, logical>"
+      interlaced<logical, double>              "interlaced<double, logical>"
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<double, logical>"
+      interlaced<integer, integer>             "interlaced<double, logical>"
+      interlaced<integer, double>              "interlaced<double, logical>"
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<double, logical>"
+      interlaced<double, integer>              "interlaced<double, logical>"
+      interlaced<double, double>               "interlaced<double, logical>"
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<double, integer>  
+      interlaced<logical, logical>             "interlaced<double, integer>"
+      interlaced<logical, integer>             "interlaced<double, integer>"
+      interlaced<logical, double>              "interlaced<double, integer>"
+      interlaced<logical, factor<af15a>>       NA                           
+      interlaced<logical, character>           NA                           
+      interlaced<integer, logical>             "interlaced<double, integer>"
+      interlaced<integer, integer>             "interlaced<double, integer>"
+      interlaced<integer, double>              "interlaced<double, integer>"
+      interlaced<integer, factor<af15a>>       NA                           
+      interlaced<integer, character>           NA                           
+      interlaced<double, logical>              "interlaced<double, integer>"
+      interlaced<double, integer>              "interlaced<double, integer>"
+      interlaced<double, double>               "interlaced<double, integer>"
+      interlaced<double, factor<af15a>>        NA                           
+      interlaced<double, character>            NA                           
+      interlaced<factor<af15a>, logical>       NA                           
+      interlaced<factor<af15a>, integer>       NA                           
+      interlaced<factor<af15a>, double>        NA                           
+      interlaced<factor<af15a>, factor<af15a>> NA                           
+      interlaced<factor<af15a>, character>     NA                           
+      interlaced<character, logical>           NA                           
+      interlaced<character, integer>           NA                           
+      interlaced<character, double>            NA                           
+      interlaced<character, factor<af15a>>     NA                           
+      interlaced<character, character>         NA                           
+                                               interlaced<double, double>  
+      interlaced<logical, logical>             "interlaced<double, double>"
+      interlaced<logical, integer>             "interlaced<double, double>"
+      interlaced<logical, double>              "interlaced<double, double>"
+      interlaced<logical, factor<af15a>>       NA                          
+      interlaced<logical, character>           NA                          
+      interlaced<integer, logical>             "interlaced<double, double>"
+      interlaced<integer, integer>             "interlaced<double, double>"
+      interlaced<integer, double>              "interlaced<double, double>"
+      interlaced<integer, factor<af15a>>       NA                          
+      interlaced<integer, character>           NA                          
+      interlaced<double, logical>              "interlaced<double, double>"
+      interlaced<double, integer>              "interlaced<double, double>"
+      interlaced<double, double>               "interlaced<double, double>"
+      interlaced<double, factor<af15a>>        NA                          
+      interlaced<double, character>            NA                          
+      interlaced<factor<af15a>, logical>       NA                          
+      interlaced<factor<af15a>, integer>       NA                          
+      interlaced<factor<af15a>, double>        NA                          
+      interlaced<factor<af15a>, factor<af15a>> NA                          
+      interlaced<factor<af15a>, character>     NA                          
+      interlaced<character, logical>           NA                          
+      interlaced<character, integer>           NA                          
+      interlaced<character, double>            NA                          
+      interlaced<character, factor<af15a>>     NA                          
+      interlaced<character, character>         NA                          
+                                               interlaced<double, factor<af15a>>  
+      interlaced<logical, logical>             NA                                 
+      interlaced<logical, integer>             NA                                 
+      interlaced<logical, double>              NA                                 
+      interlaced<logical, factor<af15a>>       "interlaced<double, factor<af15a>>"
+      interlaced<logical, character>           "interlaced<double, factor<af15a>>"
+      interlaced<integer, logical>             NA                                 
+      interlaced<integer, integer>             NA                                 
+      interlaced<integer, double>              NA                                 
+      interlaced<integer, factor<af15a>>       "interlaced<double, factor<af15a>>"
+      interlaced<integer, character>           "interlaced<double, factor<af15a>>"
+      interlaced<double, logical>              NA                                 
+      interlaced<double, integer>              NA                                 
+      interlaced<double, double>               NA                                 
+      interlaced<double, factor<af15a>>        "interlaced<double, factor<af15a>>"
+      interlaced<double, character>            "interlaced<double, factor<af15a>>"
+      interlaced<factor<af15a>, logical>       NA                                 
+      interlaced<factor<af15a>, integer>       NA                                 
+      interlaced<factor<af15a>, double>        NA                                 
+      interlaced<factor<af15a>, factor<af15a>> NA                                 
+      interlaced<factor<af15a>, character>     NA                                 
+      interlaced<character, logical>           NA                                 
+      interlaced<character, integer>           NA                                 
+      interlaced<character, double>            NA                                 
+      interlaced<character, factor<af15a>>     NA                                 
+      interlaced<character, character>         NA                                 
+                                               interlaced<double, character>  
+      interlaced<logical, logical>             NA                             
+      interlaced<logical, integer>             NA                             
+      interlaced<logical, double>              NA                             
+      interlaced<logical, factor<af15a>>       "interlaced<double, character>"
+      interlaced<logical, character>           "interlaced<double, character>"
+      interlaced<integer, logical>             NA                             
+      interlaced<integer, integer>             NA                             
+      interlaced<integer, double>              NA                             
+      interlaced<integer, factor<af15a>>       "interlaced<double, character>"
+      interlaced<integer, character>           "interlaced<double, character>"
+      interlaced<double, logical>              NA                             
+      interlaced<double, integer>              NA                             
+      interlaced<double, double>               NA                             
+      interlaced<double, factor<af15a>>        "interlaced<double, character>"
+      interlaced<double, character>            "interlaced<double, character>"
+      interlaced<factor<af15a>, logical>       NA                             
+      interlaced<factor<af15a>, integer>       NA                             
+      interlaced<factor<af15a>, double>        NA                             
+      interlaced<factor<af15a>, factor<af15a>> NA                             
+      interlaced<factor<af15a>, character>     NA                             
+      interlaced<character, logical>           NA                             
+      interlaced<character, integer>           NA                             
+      interlaced<character, double>            NA                             
+      interlaced<character, factor<af15a>>     NA                             
+      interlaced<character, character>         NA                             
+                                               interlaced<factor<af15a>, logical>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       NA                                  
+      interlaced<logical, character>           NA                                  
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       NA                                  
+      interlaced<integer, character>           NA                                  
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        NA                                  
+      interlaced<double, character>            NA                                  
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, logical>"
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, logical>"
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, logical>"
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           "interlaced<factor<af15a>, logical>"
+      interlaced<character, integer>           "interlaced<factor<af15a>, logical>"
+      interlaced<character, double>            "interlaced<factor<af15a>, logical>"
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<factor<af15a>, integer>  
+      interlaced<logical, logical>             NA                                  
+      interlaced<logical, integer>             NA                                  
+      interlaced<logical, double>              NA                                  
+      interlaced<logical, factor<af15a>>       NA                                  
+      interlaced<logical, character>           NA                                  
+      interlaced<integer, logical>             NA                                  
+      interlaced<integer, integer>             NA                                  
+      interlaced<integer, double>              NA                                  
+      interlaced<integer, factor<af15a>>       NA                                  
+      interlaced<integer, character>           NA                                  
+      interlaced<double, logical>              NA                                  
+      interlaced<double, integer>              NA                                  
+      interlaced<double, double>               NA                                  
+      interlaced<double, factor<af15a>>        NA                                  
+      interlaced<double, character>            NA                                  
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, integer>"
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, integer>"
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, integer>"
+      interlaced<factor<af15a>, factor<af15a>> NA                                  
+      interlaced<factor<af15a>, character>     NA                                  
+      interlaced<character, logical>           "interlaced<factor<af15a>, integer>"
+      interlaced<character, integer>           "interlaced<factor<af15a>, integer>"
+      interlaced<character, double>            "interlaced<factor<af15a>, integer>"
+      interlaced<character, factor<af15a>>     NA                                  
+      interlaced<character, character>         NA                                  
+                                               interlaced<factor<af15a>, double>  
+      interlaced<logical, logical>             NA                                 
+      interlaced<logical, integer>             NA                                 
+      interlaced<logical, double>              NA                                 
+      interlaced<logical, factor<af15a>>       NA                                 
+      interlaced<logical, character>           NA                                 
+      interlaced<integer, logical>             NA                                 
+      interlaced<integer, integer>             NA                                 
+      interlaced<integer, double>              NA                                 
+      interlaced<integer, factor<af15a>>       NA                                 
+      interlaced<integer, character>           NA                                 
+      interlaced<double, logical>              NA                                 
+      interlaced<double, integer>              NA                                 
+      interlaced<double, double>               NA                                 
+      interlaced<double, factor<af15a>>        NA                                 
+      interlaced<double, character>            NA                                 
+      interlaced<factor<af15a>, logical>       "interlaced<factor<af15a>, double>"
+      interlaced<factor<af15a>, integer>       "interlaced<factor<af15a>, double>"
+      interlaced<factor<af15a>, double>        "interlaced<factor<af15a>, double>"
+      interlaced<factor<af15a>, factor<af15a>> NA                                 
+      interlaced<factor<af15a>, character>     NA                                 
+      interlaced<character, logical>           "interlaced<factor<af15a>, double>"
+      interlaced<character, integer>           "interlaced<factor<af15a>, double>"
+      interlaced<character, double>            "interlaced<factor<af15a>, double>"
+      interlaced<character, factor<af15a>>     NA                                 
+      interlaced<character, character>         NA                                 
+                                               interlaced<factor<af15a>, factor<af15a>>  
+      interlaced<logical, logical>             NA                                        
+      interlaced<logical, integer>             NA                                        
+      interlaced<logical, double>              NA                                        
+      interlaced<logical, factor<af15a>>       NA                                        
+      interlaced<logical, character>           NA                                        
+      interlaced<integer, logical>             NA                                        
+      interlaced<integer, integer>             NA                                        
+      interlaced<integer, double>              NA                                        
+      interlaced<integer, factor<af15a>>       NA                                        
+      interlaced<integer, character>           NA                                        
+      interlaced<double, logical>              NA                                        
+      interlaced<double, integer>              NA                                        
+      interlaced<double, double>               NA                                        
+      interlaced<double, factor<af15a>>        NA                                        
+      interlaced<double, character>            NA                                        
+      interlaced<factor<af15a>, logical>       NA                                        
+      interlaced<factor<af15a>, integer>       NA                                        
+      interlaced<factor<af15a>, double>        NA                                        
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<factor<af15a>, factor<af15a>>"
+      interlaced<factor<af15a>, character>     "interlaced<factor<af15a>, factor<af15a>>"
+      interlaced<character, logical>           NA                                        
+      interlaced<character, integer>           NA                                        
+      interlaced<character, double>            NA                                        
+      interlaced<character, factor<af15a>>     "interlaced<factor<af15a>, factor<af15a>>"
+      interlaced<character, character>         "interlaced<factor<af15a>, factor<af15a>>"
+                                               interlaced<factor<af15a>, character>  
+      interlaced<logical, logical>             NA                                    
+      interlaced<logical, integer>             NA                                    
+      interlaced<logical, double>              NA                                    
+      interlaced<logical, factor<af15a>>       NA                                    
+      interlaced<logical, character>           NA                                    
+      interlaced<integer, logical>             NA                                    
+      interlaced<integer, integer>             NA                                    
+      interlaced<integer, double>              NA                                    
+      interlaced<integer, factor<af15a>>       NA                                    
+      interlaced<integer, character>           NA                                    
+      interlaced<double, logical>              NA                                    
+      interlaced<double, integer>              NA                                    
+      interlaced<double, double>               NA                                    
+      interlaced<double, factor<af15a>>        NA                                    
+      interlaced<double, character>            NA                                    
+      interlaced<factor<af15a>, logical>       NA                                    
+      interlaced<factor<af15a>, integer>       NA                                    
+      interlaced<factor<af15a>, double>        NA                                    
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<factor<af15a>, character>"
+      interlaced<factor<af15a>, character>     "interlaced<factor<af15a>, character>"
+      interlaced<character, logical>           NA                                    
+      interlaced<character, integer>           NA                                    
+      interlaced<character, double>            NA                                    
+      interlaced<character, factor<af15a>>     "interlaced<factor<af15a>, character>"
+      interlaced<character, character>         "interlaced<factor<af15a>, character>"
+                                               interlaced<character, logical>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       NA                              
+      interlaced<logical, character>           NA                              
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       NA                              
+      interlaced<integer, character>           NA                              
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        NA                              
+      interlaced<double, character>            NA                              
+      interlaced<factor<af15a>, logical>       "interlaced<character, logical>"
+      interlaced<factor<af15a>, integer>       "interlaced<character, logical>"
+      interlaced<factor<af15a>, double>        "interlaced<character, logical>"
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           "interlaced<character, logical>"
+      interlaced<character, integer>           "interlaced<character, logical>"
+      interlaced<character, double>            "interlaced<character, logical>"
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<character, integer>  
+      interlaced<logical, logical>             NA                              
+      interlaced<logical, integer>             NA                              
+      interlaced<logical, double>              NA                              
+      interlaced<logical, factor<af15a>>       NA                              
+      interlaced<logical, character>           NA                              
+      interlaced<integer, logical>             NA                              
+      interlaced<integer, integer>             NA                              
+      interlaced<integer, double>              NA                              
+      interlaced<integer, factor<af15a>>       NA                              
+      interlaced<integer, character>           NA                              
+      interlaced<double, logical>              NA                              
+      interlaced<double, integer>              NA                              
+      interlaced<double, double>               NA                              
+      interlaced<double, factor<af15a>>        NA                              
+      interlaced<double, character>            NA                              
+      interlaced<factor<af15a>, logical>       "interlaced<character, integer>"
+      interlaced<factor<af15a>, integer>       "interlaced<character, integer>"
+      interlaced<factor<af15a>, double>        "interlaced<character, integer>"
+      interlaced<factor<af15a>, factor<af15a>> NA                              
+      interlaced<factor<af15a>, character>     NA                              
+      interlaced<character, logical>           "interlaced<character, integer>"
+      interlaced<character, integer>           "interlaced<character, integer>"
+      interlaced<character, double>            "interlaced<character, integer>"
+      interlaced<character, factor<af15a>>     NA                              
+      interlaced<character, character>         NA                              
+                                               interlaced<character, double>  
+      interlaced<logical, logical>             NA                             
+      interlaced<logical, integer>             NA                             
+      interlaced<logical, double>              NA                             
+      interlaced<logical, factor<af15a>>       NA                             
+      interlaced<logical, character>           NA                             
+      interlaced<integer, logical>             NA                             
+      interlaced<integer, integer>             NA                             
+      interlaced<integer, double>              NA                             
+      interlaced<integer, factor<af15a>>       NA                             
+      interlaced<integer, character>           NA                             
+      interlaced<double, logical>              NA                             
+      interlaced<double, integer>              NA                             
+      interlaced<double, double>               NA                             
+      interlaced<double, factor<af15a>>        NA                             
+      interlaced<double, character>            NA                             
+      interlaced<factor<af15a>, logical>       "interlaced<character, double>"
+      interlaced<factor<af15a>, integer>       "interlaced<character, double>"
+      interlaced<factor<af15a>, double>        "interlaced<character, double>"
+      interlaced<factor<af15a>, factor<af15a>> NA                             
+      interlaced<factor<af15a>, character>     NA                             
+      interlaced<character, logical>           "interlaced<character, double>"
+      interlaced<character, integer>           "interlaced<character, double>"
+      interlaced<character, double>            "interlaced<character, double>"
+      interlaced<character, factor<af15a>>     NA                             
+      interlaced<character, character>         NA                             
+                                               interlaced<character, factor<af15a>>  
+      interlaced<logical, logical>             NA                                    
+      interlaced<logical, integer>             NA                                    
+      interlaced<logical, double>              NA                                    
+      interlaced<logical, factor<af15a>>       NA                                    
+      interlaced<logical, character>           NA                                    
+      interlaced<integer, logical>             NA                                    
+      interlaced<integer, integer>             NA                                    
+      interlaced<integer, double>              NA                                    
+      interlaced<integer, factor<af15a>>       NA                                    
+      interlaced<integer, character>           NA                                    
+      interlaced<double, logical>              NA                                    
+      interlaced<double, integer>              NA                                    
+      interlaced<double, double>               NA                                    
+      interlaced<double, factor<af15a>>        NA                                    
+      interlaced<double, character>            NA                                    
+      interlaced<factor<af15a>, logical>       NA                                    
+      interlaced<factor<af15a>, integer>       NA                                    
+      interlaced<factor<af15a>, double>        NA                                    
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<character, factor<af15a>>"
+      interlaced<factor<af15a>, character>     "interlaced<character, factor<af15a>>"
+      interlaced<character, logical>           NA                                    
+      interlaced<character, integer>           NA                                    
+      interlaced<character, double>            NA                                    
+      interlaced<character, factor<af15a>>     "interlaced<character, factor<af15a>>"
+      interlaced<character, character>         "interlaced<character, factor<af15a>>"
+                                               interlaced<character, character>  
+      interlaced<logical, logical>             NA                                
+      interlaced<logical, integer>             NA                                
+      interlaced<logical, double>              NA                                
+      interlaced<logical, factor<af15a>>       NA                                
+      interlaced<logical, character>           NA                                
+      interlaced<integer, logical>             NA                                
+      interlaced<integer, integer>             NA                                
+      interlaced<integer, double>              NA                                
+      interlaced<integer, factor<af15a>>       NA                                
+      interlaced<integer, character>           NA                                
+      interlaced<double, logical>              NA                                
+      interlaced<double, integer>              NA                                
+      interlaced<double, double>               NA                                
+      interlaced<double, factor<af15a>>        NA                                
+      interlaced<double, character>            NA                                
+      interlaced<factor<af15a>, logical>       NA                                
+      interlaced<factor<af15a>, integer>       NA                                
+      interlaced<factor<af15a>, double>        NA                                
+      interlaced<factor<af15a>, factor<af15a>> "interlaced<character, character>"
+      interlaced<factor<af15a>, character>     "interlaced<character, character>"
+      interlaced<character, logical>           NA                                
+      interlaced<character, integer>           NA                                
+      interlaced<character, double>            NA                                
+      interlaced<character, factor<af15a>>     "interlaced<character, character>"
+      interlaced<character, character>         "interlaced<character, character>"
 

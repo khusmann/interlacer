@@ -9,7 +9,7 @@ test_that("interlaced type cannot construct with simultaneous valid and na", {
 
 test_that("interlaced type cannot construct with existing 'na_values' attr", {
   foo <- c(1, 2)
-  attr(foo, "na_values") <- "bar"
+  attr(foo, "na_channel_values") <- "bar"
   expect_error(new_interlaced(foo, c(NA, NA)))
 })
 
