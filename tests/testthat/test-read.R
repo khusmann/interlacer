@@ -40,10 +40,10 @@ test_that("basic reading works", {
 test_that("columns with NA as the na reason read properly", {
   result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6"), show_col_types = FALSE)
   expected <- tibble(
-    a = new_interlaced(c(1, NA, 5), c(NA, "NA", NA)),
-    b = new_interlaced(c(2, NA, 6), c(NA, "", NA))
+    a = c(NA, "NA", NA),
+    b = c(NA, "", NA)
   )
-  expect_equal(result, expected, ignore_attr = TRUE)
+  expect_equal(na_channel(result), expected, ignore_attr = TRUE)
 })
 
 test_that("column-level missing reasons can be specified with icol_*", {

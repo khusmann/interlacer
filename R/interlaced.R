@@ -102,6 +102,12 @@ value_channel.interlacer_interlaced <- function(x) {
 }
 
 #' @export
+value_channel.data.frame <- function(df) {
+  df[] <- lapply(df, value_channel)
+  df
+}
+
+#' @export
 flatten_channels <- function(x, ...) {
   UseMethod("flatten_channels")
 }
@@ -160,6 +166,12 @@ na_channel.default <- function(x, ...) {
 #' @export
 na_channel.interlacer_interlaced <- function(x) {
   attr(x, "na_channel_values")
+}
+
+#' @export
+na_channel.data.frame <- function(df) {
+  df[] <- lapply(df, na_channel)
+  df
 }
 
 #' @export
