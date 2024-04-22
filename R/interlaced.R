@@ -93,6 +93,7 @@ value_channel.interlacer_interlaced <- function(x) {
   cls <- class(x)
   cls_idx <- match("vctrs_vctr", cls)
   if (cls_idx == length(cls)) {
+    # When this uses vec_size(), it generates a stack overflow...
     x <- unspecified(length(x))
   } else {
     class(x) <- cls[(cls_idx+1):length(cls)]
@@ -460,10 +461,7 @@ vec_arith.logical.interlacer_interlaced <- function(op, x, y, ...) {
 # Coercion ----------------------------------------------------------------
 
 ptype2_helper <- function(x, bare, ...) {
-  new_interlaced(
-    vec_ptype2(value_channel(x), bare),
-    na_channel(x),
-  )
+  map_value_channel(x, \(v) vec_ptype2(v, bare))
 }
 
 #' @export
@@ -526,10 +524,7 @@ vec_ptype2.factor.interlacer_interlaced <- function(x, y, ...) {
 # Casting -----------------------------------------------------------------
 
 cast_lift <- function(x, to, ...) {
-  new_interlaced(
-    vec_cast(x, value_channel(to)),
-    rep_along(x, vec_cast(NA, na_channel(to)))
-  )
+  bimap2_interlaced(x, to, vec_cast)
 }
 
 #' @export
