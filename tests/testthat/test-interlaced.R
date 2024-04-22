@@ -13,6 +13,17 @@ test_that("interlaced type cannot construct with existing 'na_values' attr", {
   expect_error(new_interlaced(foo, c(NA, NA)))
 })
 
+test_that("parse_interlaced returns unspecified types", {
+  expect_equal(
+    parse_interlaced("a", NA_character_),
+    new_interlaced("a", unspecified(1))
+  )
+  expect_equal(
+    parse_interlaced("a", "a"),
+    new_interlaced(unspecified(1), "a")
+  )
+})
+
 test_that("annoying things are still annoying", {
   # Right combining with base type doesn't become interlaced
   # (use vec_c instead)

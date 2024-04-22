@@ -14,13 +14,8 @@ parse_interlaced <- function(
     sc$value_channel, .value_col, na = character()
   )
 
-  if (all(is.na(v))) {
-    v <- unspecified(length(v))
-  }
-
   na_conv <- type_convert_col(na, .na_col, na = character())
   m <- na_conv[match(sc$na_channel, na)]
-
 
   new_interlaced(v, m)
 }

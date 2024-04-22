@@ -14,7 +14,12 @@ withWarnings <- function(expr) {
 
 ## Misc internal functions from readr
 type_convert_col <- function(x, col, na) {
-  readr::type_convert(tibble(x), col_types = list(x = col), na=na)$x
+  out <- readr::type_convert(tibble(x), col_types = list(x = col), na=na)$x
+  if (all(is.na(out))) {
+    unspecified(length(out))
+  } else {
+    out
+  }
 }
 
 type_to_col <- function(x, ...) UseMethod("type_to_col")
