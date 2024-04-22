@@ -460,66 +460,46 @@ vec_arith.logical.interlacer_interlaced <- function(op, x, y, ...) {
 
 # Coercion ----------------------------------------------------------------
 
-ptype2_helper <- function(x, bare, ...) {
-  map_value_channel(x, \(v) vec_ptype2(v, bare))
-}
-
-#' @export
-vec_ptype2.interlacer_interlaced.character <- function(x, y, ...) {
-  ptype2_helper(x, y)
-}
-
-#' @export
-vec_ptype2.interlacer_interlaced.double <- function(x, y, ...) {
-  ptype2_helper(x, y)
-}
-
-#' @export
-vec_ptype2.interlacer_interlaced.integer <- function(x, y, ...) {
-  ptype2_helper(x, y)
-}
-
-#' @export
-vec_ptype2.interlacer_interlaced.logical <- function(x, y, ...) {
-  ptype2_helper(x, y)
-}
-
-#' @export
-vec_ptype2.interlacer_interlaced.factor <- function(x, y, ...) {
-  ptype2_helper(x, y)
-}
-
-#' @export
-vec_ptype2.interlacer_interlaced.interlacer_interlaced <- function(x, y, ...) {
+vec_ptype2_interlaced <- function(x, y, ...) {
   bimap2_interlaced(x, y, vec_ptype2)
 }
+
+#' @export
+vec_ptype2.interlacer_interlaced.character <- vec_ptype2_interlaced
+
+#' @export
+vec_ptype2.interlacer_interlaced.double <- vec_ptype2_interlaced
+
+#' @export
+vec_ptype2.interlacer_interlaced.integer <- vec_ptype2_interlaced
+
+#' @export
+vec_ptype2.interlacer_interlaced.logical <- vec_ptype2_interlaced
+
+#' @export
+vec_ptype2.interlacer_interlaced.factor <- vec_ptype2_interlaced
 
 #######
 
 #' @export
-vec_ptype2.character.interlacer_interlaced <- function(x, y, ...) {
-  ptype2_helper(y, x)
-}
+vec_ptype2.interlacer_interlaced.interlacer_interlaced <- vec_ptype2_interlaced
+
+#######
 
 #' @export
-vec_ptype2.integer.interlacer_interlaced <- function(x, y, ...) {
-  ptype2_helper(y, x)
-}
+vec_ptype2.character.interlacer_interlaced <- vec_ptype2_interlaced
 
 #' @export
-vec_ptype2.double.interlacer_interlaced <- function(x, y, ...) {
-  ptype2_helper(y, x)
-}
+vec_ptype2.integer.interlacer_interlaced <- vec_ptype2_interlaced
 
 #' @export
-vec_ptype2.logical.interlacer_interlaced <- function(x, y, ...) {
-  ptype2_helper(y, x)
-}
+vec_ptype2.double.interlacer_interlaced <- vec_ptype2_interlaced
 
 #' @export
-vec_ptype2.factor.interlacer_interlaced <- function(x, y, ...) {
-  ptype2_helper(y, x)
-}
+vec_ptype2.logical.interlacer_interlaced <- vec_ptype2_interlaced
+
+#' @export
+vec_ptype2.factor.interlacer_interlaced <- vec_ptype2_interlaced
 
 # Casting -----------------------------------------------------------------
 
@@ -528,65 +508,45 @@ cast_lift <- function(x, to, ...) {
 }
 
 #' @export
-vec_cast.interlacer_interlaced.character <- function(x, to, ...) {
-  cast_lift(x, to, ...)
-}
+vec_cast.interlacer_interlaced.character <- cast_lift
 
 #' @export
-vec_cast.interlacer_interlaced.double <- function(x, to, ...) {
-  cast_lift(x, to, ...)
-}
+vec_cast.interlacer_interlaced.double <- cast_lift
 
 #' @export
-vec_cast.interlacer_interlaced.integer <- function(x, to, ...) {
-  cast_lift(x, to, ...)
-}
+vec_cast.interlacer_interlaced.integer <- cast_lift
 
 #' @export
-vec_cast.interlacer_interlaced.logical <- function(x, to, ...) {
-  cast_lift(x, to, ...)
-}
+vec_cast.interlacer_interlaced.logical <- cast_lift
 
 #' @export
-vec_cast.interlacer_interlaced.factor <- function(x, to, ...) {
-  cast_lift(x, to, ...)
-}
+vec_cast.interlacer_interlaced.factor <- cast_lift
+
+####
 
 #' @export
-vec_cast.interlacer_interlaced.interlacer_interlaced <- function(x, to, ...) {
-  bimap2_interlaced(x, to, vec_cast)
-}
+vec_cast.interlacer_interlaced.interlacer_interlaced <- cast_lift
 
-##
+####
 
 cast_unwrap <- function(x, to, ...) {
   vec_cast(value_channel(x), to, ...)
 }
 
 #' @export
-vec_cast.character.interlacer_interlaced <- function(x, to, ...) {
-  cast_unwrap(x, to, ...)
-}
+vec_cast.character.interlacer_interlaced <- cast_unwrap
 
 #' @export
-vec_cast.double.interlacer_interlaced <- function(x, to, ...) {
-  cast_unwrap(x, to, ...)
-}
+vec_cast.double.interlacer_interlaced <- cast_unwrap
 
 #' @export
-vec_cast.integer.interlacer_interlaced <- function(x, to, ...) {
-  cast_unwrap(x, to, ...)
-}
+vec_cast.integer.interlacer_interlaced <- cast_unwrap
 
 #' @export
-vec_cast.logical.interlacer_interlaced <- function(x, to, ...) {
-  cast_unwrap(x, to, ...)
-}
+vec_cast.logical.interlacer_interlaced <- cast_unwrap
 
 #' @export
-vec_cast.factor.interlacer_interlaced <- function(x, to, ...) {
-  cast_unwrap(x, to, ...)
-}
+vec_cast.factor.interlacer_interlaced <- cast_unwrap
 
 # Helpers -----------------------------------------------------------------
 
