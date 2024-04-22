@@ -4,14 +4,25 @@ parse_interlaced <- function(
   .value_col = col_guess(),
   .na_col = col_guess()
 ) {
+  if (!is.character(x) || !is.character(na)) {
+    cli_abort("{.arg x} and {.arg na} must both be character vectors")
+  }
+
   sc <- separate_channels(x, na)
 
-  na_conv <- type_convert_col(na, .na_col, na = character())
-
-  new_interlaced(
-    type_convert_col(sc$value_channel, .value_col, na = character()),
-    na_conv[match(sc$na_channel, na)]
+  v <- type_convert_col(
+    sc$value_channel, .value_col, na = character()
   )
+
+  if (all(is.na(v))) {
+    v <- unspecified(length(v))
+  }
+
+  na_conv <- type_convert_col(na, .na_col, na = character())
+  m <- na_conv[match(sc$na_channel, na)]
+
+
+  new_interlaced(v, m)
 }
 
 separate_channels <- function(x, na) {
@@ -24,6 +35,7 @@ separate_channels <- function(x, na) {
 
 #' @export
 interlaced <- function(x, na=NULL) {
+  x <- c(x, vec_ptype(na))
   sc <- separate_channels(x, na)
   new_interlaced(sc$value_channel, sc$na_channel)
 }
