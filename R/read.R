@@ -344,10 +344,13 @@ interlaced_vroom <- function(
 
     if (inherits(na_collector, "collector_skip")) {
       out_value <- values
+      used_na_collector <- na_collector
     } else {
       all_na_values_conv <- type_convert_col(all_na_values, na_collector)
       na_values <- all_na_values_conv[match(df_chr[[i]], all_na_values)]
+
       out_value <- new_interlaced(values, na_values)
+      used_na_collector <- type_to_col(na_values)
     }
 
     vroom_cols <- spec(value_df)$cols
@@ -356,13 +359,7 @@ interlaced_vroom <- function(
       vroom_cols, \(x) inherits(x, "collector_skip"), logical(1)
     )
 
-    vroom_collector <- vroom_cols[which(!spec_is_skip)][[1]]
-
-    if (inherits(collector, "collector_guess")) {
-      collector_used <- vroom_collector
-    } else {
-      collector_used <- collector
-    }
+    used_collector <- vroom_cols[which(!spec_is_skip)][[1]]
 
     if (progress) {
       cli_progress_update(id = p)
@@ -371,8 +368,8 @@ interlaced_vroom <- function(
     list(
       values = out_value,
       problems = vroom_call$warnings,
-      spec = collector_used,
-      na_spec = na_collector
+      spec = used_collector,
+      na_spec = used_na_collector
     )
   })
 
