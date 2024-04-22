@@ -262,7 +262,6 @@ interlaced_vroom <- function(
   )
 
   col_spec <- as.col_spec(col_types)
-  is_unnamed_col_spec <- is.null(names(col_spec$cols))
 
   if (length(col_spec$cols) > 0 && !is_unnamed_col_spec) {
     if (any(names(col_spec$cols) == "")) {
@@ -299,27 +298,7 @@ interlaced_vroom <- function(
   names(df_chr) <- vars
 
   # Set names of unnamed col_specs according to the columns vroom found
-  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
-    col_spec_names <- names(spec(df_chr)$cols)
-
-    if (length(col_spec$cols) != length(col_spec_names)) {
-      cli_warn(
-        paste0(
-          "mismatch between number of unnamed columns defined in ",
-          "{.arg col_types} ({length(col_spec$cols)}) and columns found in ",
-          "file ({length(col_spec_names)})"
-        )
-      )
-    }
-
-    col_spec$cols <- col_spec$cols[seq_along(col_spec_names)]
-
-    col_spec_is_null <- vapply(col_spec$cols, is.null, logical(1))
-
-    col_spec$cols[col_spec_is_null] <- list(col_guess())
-
-    names(col_spec$cols) <- names(spec(df_chr)$cols)
-  }
+  col_spec <- fix_col_spec_names(col_spec, spec(df_chr))
 
   # Step 2: For each of the resulting columns, go back and convert values
 
@@ -418,3 +397,29 @@ interlaced_vroom <- function(
   df
 }
 
+fix_col_spec_names <- function(col_spec, spec_df_chr) {
+  is_unnamed_col_spec <- is.null(names(col_spec$cols))
+
+  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
+    col_spec_names <- names(spec_df_chr$cols)
+
+    if (length(col_spec$cols) != length(col_spec_names)) {
+      cli_warn(
+        paste0(
+          "mismatch between number of unnamed columns defined in ",
+          "{.arg col_types} ({length(col_spec$cols)}) and columns found in ",
+          "file ({length(col_spec_names)})"
+        )
+      )
+    }
+
+    col_spec$cols <- col_spec$cols[seq_along(col_spec_names)]
+
+    col_spec_is_null <- vapply(col_spec$cols, is.null, logical(1))
+
+    col_spec$cols[col_spec_is_null] <- list(col_guess())
+
+    names(col_spec$cols) <- names(spec_df_chr$cols)
+  }
+  col_spec
+}
