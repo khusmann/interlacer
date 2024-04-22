@@ -273,9 +273,11 @@ interlaced_vroom <- function(
   )
 
   col_spec <- as.col_spec(col_types)
+  is_unnamed_col_spec <- is.null(names(col_spec$cols))
+
   na_col_spec <- as.col_spec(na_col_types)
 
-  if (length(col_spec$cols) > 0 && !is_unnamed_col_spec) {
+  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
     if (any(names(col_spec$cols) == "")) {
       cli_abort(
         "{.arg col_type} cannot have a mix of named and unnamed values"
@@ -353,13 +355,10 @@ interlaced_vroom <- function(
       used_na_collector <- type_to_col(na_values)
     }
 
-    vroom_cols <- spec(value_df)$cols
-
-    spec_is_skip <- vapply(
-      vroom_cols, \(x) inherits(x, "collector_skip"), logical(1)
-    )
-
-    used_collector <- vroom_cols[which(!spec_is_skip)][[1]]
+    used_collector <- discard(
+      spec(value_df)$cols,
+      \(x) inherits(x, "collector_skip")
+    )[[1]]
 
     if (progress) {
       cli_progress_update(id = p)
@@ -431,25 +430,22 @@ fix_col_spec_names <- function(col_spec, spec_df_chr, arg) {
   is_unnamed_col_spec <- is.null(names(col_spec$cols))
 
   if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
-    col_spec_names <- names(spec_df_chr$cols)
+    spec_names <- names(spec_df_chr$cols)
 
-    if (length(col_spec$cols) != length(col_spec_names)) {
+    if (length(col_spec$cols) != length(spec_names)) {
       cli_warn(
         paste0(
           "mismatch between number of unnamed columns defined in ",
           "{.arg arg} ({length(col_spec$cols)}) and columns found in ",
-          "file ({length(col_spec_names)})"
+          "file ({length(spec_names)})"
         )
       )
     }
 
-    col_spec$cols <- col_spec$cols[seq_along(col_spec_names)]
-
-    col_spec_is_null <- vapply(col_spec$cols, is.null, logical(1))
-
-    col_spec$cols[col_spec_is_null] <- list(col_guess())
-
-    names(col_spec$cols) <- names(spec_df_chr$cols)
+    col_spec$cols <- lapply(
+      set_names(seq_along(spec_names), spec_names),
+      \(i) col_spec$cols[[i]] %||% col_guess()
+    )
   }
   col_spec
 }
