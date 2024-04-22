@@ -120,7 +120,7 @@ flatten_channels.data.frame <- function(x, ...) {
 }
 
 #' @export
-flatten_channels.interlacer_interlaced <- function(x, fct_as_char = TRUE, ...) {
+flatten_channels.interlacer_interlaced <- function(x, fct_as_chr = TRUE, ...) {
   v <- value_channel(x)
   m <- na_channel(x)
 

@@ -8,6 +8,8 @@
 #' @inheritParams readr::read_delim
 #' @inheritParams vroom::vroom
 #'
+#' @param na_col_types TODO
+#'
 #' @return A [tibble()], with interlaced columns.
 #'
 #' @export
@@ -21,6 +23,7 @@ read_interlaced_delim <- function(
   escape_double = TRUE,
   col_names = TRUE,
   col_types = NULL,
+  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -42,6 +45,7 @@ read_interlaced_delim <- function(
     delim = delim,
     col_names = col_names,
     col_types = col_types,
+    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -69,6 +73,7 @@ read_interlaced_csv <- function(
   file,
   col_names = TRUE,
   col_types = NULL,
+  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -91,6 +96,7 @@ read_interlaced_csv <- function(
     delim = ",",
     col_names = col_names,
     col_types = col_types,
+    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -118,6 +124,7 @@ read_interlaced_csv2 <- function(
   file,
   col_names = TRUE,
   col_types = NULL,
+  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -140,6 +147,7 @@ read_interlaced_csv2 <- function(
     delim = ";",
     col_names = col_names,
     col_types = col_types,
+    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -167,6 +175,7 @@ read_interlaced_tsv <- function(
   file,
   col_names = TRUE,
   col_types = NULL,
+  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -189,6 +198,7 @@ read_interlaced_tsv <- function(
     delim = "\t",
     col_names = col_names,
     col_types = col_types,
+    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -217,6 +227,7 @@ interlaced_vroom <- function(
   delim = NULL,
   col_names = TRUE,
   col_types = NULL,
+  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   skip = 0,
@@ -262,6 +273,7 @@ interlaced_vroom <- function(
   )
 
   col_spec <- as.col_spec(col_types)
+  na_col_spec <- as.col_spec(na_col_types)
 
   if (length(col_spec$cols) > 0 && !is_unnamed_col_spec) {
     if (any(names(col_spec$cols) == "")) {
@@ -298,7 +310,8 @@ interlaced_vroom <- function(
   names(df_chr) <- vars
 
   # Set names of unnamed col_specs according to the columns vroom found
-  col_spec <- fix_col_spec_names(col_spec, spec(df_chr))
+  col_spec <- fix_col_spec_names(col_spec, spec(df_chr), "col_types")
+  na_col_spec <- fix_col_spec_names(na_col_spec, spec(df_chr), "na_col_types")
 
   # Step 2: For each of the resulting columns, go back and convert values
 
@@ -308,8 +321,9 @@ interlaced_vroom <- function(
 
   out <- lapply(set_names(vars, vars), function(i) {
     collector <- col_spec$cols[[i]] %||% col_spec$default
+    na_collector <- na_col_spec$cols[[i]] %||% na_col_spec$default
 
-    all_na_values <- unique(c(collector$na, na))
+    all_na_values <- unique(vec_c(collector$na, na))
 
     vroom_call <- withWarnings(
       inject(
@@ -328,10 +342,13 @@ interlaced_vroom <- function(
 
     values <- value_df[[1]]
 
-    na_values <- factor(
-      if_else(df_chr[[i]] %in% all_na_values, df_chr[[i]], NA),
-      levels = all_na_values
-    )
+    if (inherits(na_collector, "collector_skip")) {
+      out_value <- values
+    } else {
+      all_na_values_conv <- type_convert_col(all_na_values, na_collector)
+      na_values <- all_na_values_conv[match(df_chr[[i]], all_na_values)]
+      out_value <- new_interlaced(values, na_values)
+    }
 
     vroom_cols <- spec(value_df)$cols
 
@@ -352,19 +369,24 @@ interlaced_vroom <- function(
     }
 
     list(
-      values = new_interlaced(values, na_values),
+      values = out_value,
       problems = vroom_call$warnings,
-      spec = collector_used
+      spec = collector_used,
+      na_spec = na_collector
     )
   })
 
   df <- as_tibble(lapply(out, `[[`, "values"), .name_repair = .name_repair)
 
   # Replace spec cols from chr spec into values col specs
-  values_spec <- spec(df_chr)
-  values_spec$cols[names(out)] <- lapply(out, `[[`, "spec")
-  values_spec$default <- col_spec$default
-  attr(df, "spec") <- values_spec
+  attr(df, "spec") <- update_col_spec(
+    spec(df_chr), lapply(out, `[[`, "spec"), col_spec$default
+  )
+
+  # Replace na_spec cols from chr spec into na_values col spec
+  attr(df, "na_spec") <- update_col_spec(
+    spec(df_chr), lapply(out, `[[`, "na_spec"), na_col_spec$default
+  )
 
   # Rename result to names from col_select
   names(df) <- names(vars)
@@ -397,7 +419,18 @@ interlaced_vroom <- function(
   df
 }
 
-fix_col_spec_names <- function(col_spec, spec_df_chr) {
+#' @export
+na_spec <- function(df) {
+  attr(df, "na_spec")
+}
+
+update_col_spec <- function(col_spec, update_list, default) {
+  col_spec$cols[names(update_list)] <- update_list
+  col_spec$default <- default
+  col_spec
+}
+
+fix_col_spec_names <- function(col_spec, spec_df_chr, arg) {
   is_unnamed_col_spec <- is.null(names(col_spec$cols))
 
   if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
@@ -407,7 +440,7 @@ fix_col_spec_names <- function(col_spec, spec_df_chr) {
       cli_warn(
         paste0(
           "mismatch between number of unnamed columns defined in ",
-          "{.arg col_types} ({length(col_spec$cols)}) and columns found in ",
+          "{.arg arg} ({length(col_spec$cols)}) and columns found in ",
           "file ({length(col_spec_names)})"
         )
       )
