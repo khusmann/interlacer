@@ -6,8 +6,8 @@ parse_interlaced <- function(
 ) {
   sc <- separate_channels(x, na)
   new_interlaced(
-    type_convert_col(sc$value_channel, .value_col),
-    type_convert_col(sc$na_channel, .na_col)
+    type_convert_col(sc$value_channel, .value_col, na = character()),
+    type_convert_col(sc$na_channel, .na_col, na = character())
   )
 }
 
