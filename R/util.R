@@ -13,8 +13,8 @@ withWarnings <- function(expr) {
 }
 
 ## Misc internal functions from readr
-type_convert_col <- function(x, col) {
-  readr::type_convert(tibble(x), col_types = list(x = col))$x
+type_convert_col <- function(x, col, na) {
+  readr::type_convert(tibble(x), col_types = list(x = col), na=na)$x
 }
 
 type_to_col <- function(x, ...) UseMethod("type_to_col")

@@ -350,7 +350,11 @@ interlaced_vroom <- function(
       out_value <- values
       used_na_collector <- na_collector
     } else {
-      all_na_values_conv <- type_convert_col(all_na_values, na_collector)
+      all_na_values_conv <- type_convert_col(
+        all_na_values,
+        na_collector,
+        na = character()
+      )
       na_values <- all_na_values_conv[match(df_chr[[i]], all_na_values)]
 
       out_value <- new_interlaced(values, na_values)
