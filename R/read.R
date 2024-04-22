@@ -273,17 +273,10 @@ interlaced_vroom <- function(
   )
 
   col_spec <- as.col_spec(col_types)
-  is_unnamed_col_spec <- is.null(names(col_spec$cols))
-
   na_col_spec <- as.col_spec(na_col_types)
 
-  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
-    if (any(names(col_spec$cols) == "")) {
-      cli_abort(
-        "{.arg col_type} cannot have a mix of named and unnamed values"
-      )
-    }
-  }
+  check_col_spec(col_spec, "col_types")
+  check_col_spec(na_col_spec, "na_col_types")
 
   if (!is.null(id)) {
     cli_abort(
@@ -312,8 +305,17 @@ interlaced_vroom <- function(
   names(df_chr) <- vars
 
   # Set names of unnamed col_specs according to the columns vroom found
-  col_spec <- fix_col_spec_names(col_spec, spec(df_chr), "col_types")
-  na_col_spec <- fix_col_spec_names(na_col_spec, spec(df_chr), "na_col_types")
+  col_spec <- fix_col_spec_names(
+    col_spec,
+    names(spec(df_chr)$cols),
+    "col_types"
+  )
+
+  na_col_spec <- fix_col_spec_names(
+    na_col_spec,
+    names(spec(df_chr)$cols),
+    "na_col_types"
+  )
 
   # Step 2: For each of the resulting columns, go back and convert values
 
@@ -355,10 +357,12 @@ interlaced_vroom <- function(
       used_na_collector <- type_to_col(na_values)
     }
 
-    used_collector <- discard(
-      spec(value_df)$cols,
-      \(x) inherits(x, "collector_skip")
-    )[[1]]
+    # If collector is not collector_guess, we want to use that because it
+    # might be an icol_*. Otherwise just use the vroom collector
+    used_collector <- detect(
+      c(collector, spec(value_df)$cols),
+      \(x) !inherits(x, "collector_skip") && !inherits(x, "collector_guess")
+    )
 
     if (progress) {
       cli_progress_update(id = p)
@@ -420,18 +424,28 @@ na_spec <- function(df) {
   attr(df, "na_spec")
 }
 
+check_col_spec <- function(col_spec, arg) {
+  is_unnamed_col_spec <- is.null(names(col_spec$cols))
+
+  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
+    if (any(names(col_spec$cols) == "")) {
+      cli_abort(
+        "{.arg arg} cannot have a mix of named and unnamed values"
+      )
+    }
+  }
+}
+
 update_col_spec <- function(col_spec, update_list, default) {
   col_spec$cols[names(update_list)] <- update_list
   col_spec$default <- default
   col_spec
 }
 
-fix_col_spec_names <- function(col_spec, spec_df_chr, arg) {
+fix_col_spec_names <- function(col_spec, spec_names, arg) {
   is_unnamed_col_spec <- is.null(names(col_spec$cols))
 
   if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
-    spec_names <- names(spec_df_chr$cols)
-
     if (length(col_spec$cols) != length(spec_names)) {
       cli_warn(
         paste0(
