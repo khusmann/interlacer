@@ -429,34 +429,26 @@ vec_arith.interlacer_interlaced <- function(op, x, y, ...) {
 }
 
 arith_unwrap <- function(op, x, y, ...) {
-  vec_arith(op, value_channel(x), y)
+  vec_arith(op, value_channel(x), value_channel(y))
 }
 
 #' @export
 #' @method vec_arith.interlacer_interlaced default
-vec_arith.interlacer_interlaced.default <- function(op, x, y, ...) {
-  arith_unwrap(op, x, y)
-}
+vec_arith.interlacer_interlaced.default <- arith_unwrap
 
 #' @export
 #' @method vec_arith.interlacer_interlaced interlacer_interlaced
-vec_arith.interlacer_interlaced.interlacer_interlaced <- function(op, x, y, ...) {
-  vec_arith(op, value_channel(x), value_channel(y))
-}
+vec_arith.interlacer_interlaced.interlacer_interlaced <- arith_unwrap
 
 ##
 
 #' @export
 #' @method vec_arith.numeric interlacer_interlaced
-vec_arith.numeric.interlacer_interlaced <- function(op, x, y, ...) {
-  arith_unwrap(op, y, x)
-}
+vec_arith.numeric.interlacer_interlaced <- arith_unwrap
 
 #' @export
 #' @method vec_arith.logical interlacer_interlaced
-vec_arith.logical.interlacer_interlaced <- function(op, x, y, ...) {
-  arith_unwrap(op, y, x)
-}
+vec_arith.logical.interlacer_interlaced <- arith_unwrap
 
 # Coercion ----------------------------------------------------------------
 
