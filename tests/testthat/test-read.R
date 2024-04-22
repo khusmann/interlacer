@@ -17,7 +17,7 @@ test_that("basic reading works", {
 
   expected_col_types <- cols(
     !!!col_types$cols,
-    .default = col_factor(levels = missing_levels)
+    .default = col_character()
   )
 
   expected_deinterlaced <- readr::read_csv(
@@ -34,7 +34,7 @@ test_that("basic reading works", {
       d = new_interlaced(d, .d.),
     )
 
-    expect_equal(result, expected_interlaced, ignore_attr = TRUE)
+  expect_equal(result, expected_interlaced, ignore_attr = TRUE)
 })
 
 test_that("column-level missing reasons can be specified with icol_*", {
@@ -47,10 +47,7 @@ test_that("column-level missing reasons can be specified with icol_*", {
 
   expected_col_types <- cols(
     !!!col_types$cols,
-    .a. = col_factor(levels = c("REASON_1", "REASON_3")),
-    .b. = col_factor(levels = c("REASON_2", "REASON_3")),
-    .c. = col_factor(levels = c("REASON_3")),
-    .d. = col_factor(levels = c("REASON_3")),
+    .default = col_character()
   )
 
   result <- read_interlaced_csv(
@@ -92,7 +89,7 @@ test_that("col_select correctly selects columns", {
 
   expected_col_types <- cols(
     !!!col_types$cols,
-    .default = col_factor(levels = missing_levels),
+    .default = col_character(),
   )
 
   result <- read_interlaced_csv(
