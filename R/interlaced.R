@@ -5,9 +5,12 @@ parse_interlaced <- function(
   .na_col = col_guess()
 ) {
   sc <- separate_channels(x, na)
+
+  na_conv <- type_convert_col(na, .na_col, na = character())
+
   new_interlaced(
     type_convert_col(sc$value_channel, .value_col, na = character()),
-    type_convert_col(sc$na_channel, .na_col, na = character())
+    na_conv[match(sc$na_channel, na)]
   )
 }
 
