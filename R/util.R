@@ -1,4 +1,6 @@
-
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
 
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning

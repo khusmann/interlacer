@@ -396,7 +396,7 @@ interlaced_vroom <- function(
   names(df) <- names(vars)
 
   # Show col types if requested
-  if (vroom_should_show_col_types(!is.null(col_types), show_col_types)) {
+  if (!is_testing() && vroom_should_show_col_types(!is.null(col_types), show_col_types)) {
     vroom_show_col_types(df, locale)
   }
 
