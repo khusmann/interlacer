@@ -420,10 +420,10 @@ test_that("all read & write fn variants work", {
       read_interlaced_tsv
     ),
     write_fn = list(
-      \(f, o) write_interlaced_delim(f, o, delim = "Z"),
-      write_interlaced_csv,
-      write_interlaced_csv2,
-      write_interlaced_tsv
+      list(\(f, o) write_interlaced_delim(f, o, delim = "Z")),
+      list(write_interlaced_csv, write_interlaced_excel_csv),
+      list(write_interlaced_csv2, write_interlaced_csv2),
+      list(write_interlaced_tsv)
     )
   )
 
@@ -432,21 +432,23 @@ test_that("all read & write fn variants work", {
     b = vec_c(2, na(""), 6),
   )
 
-  pmap(test_fns, function(txt, read_fn, write_fn) {
+  pmap(test_fns, function(txt, read_fn, write_fns) {
     # Test read
     result <- read_fn(I(txt))
     expect_equal(result, expected, ignore_attr = TRUE)
 
     # Test write
-    out <- tempfile()
-    on.exit(unlink(out))
+    for (write_fn in write_fns) {
+      out <- tempfile()
+      on.exit(unlink(out))
 
-    out_inv <- write_fn(result, out)
+      out_inv <- write_fn(result, out)
 
-    expect_equal(out_inv, result) # Write fns return invisible(x)
-    expect_equal(txt, readr::read_file(out))
+      expect_equal(out_inv, result) # Write fns return invisible(x)
+      expect_equal(txt, readr::read_file(out))
 
-    unlink(out)
+      unlink(out)
+    }
   })
 })
 
