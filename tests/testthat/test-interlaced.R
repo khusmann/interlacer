@@ -44,6 +44,24 @@ test_that("map_value_channel works", {
   )
 })
 
+test_that("rep() works", {
+  foo <- vec_c("a", na("b"))
+  expect_equal(
+    rep(foo, 3),
+    vec_c("a", na("b"), "a", na("b"), "a", na("b"))
+  )
+})
+
+test_that("length<-() works", {
+  foo <- new_interlaced(c("a", NA, "c"), c(NA, "b", NA))
+
+  length(foo) <- 5
+
+  expect_equal(
+    foo, vec_c("a", na("b"), "c", NA, NA)
+  )
+})
+
 test_that("levels() returns and sets levels of values channel", {
   foo <- new_interlaced(factor(c("a", "b", "c")), c(NA, NA, NA))
 
