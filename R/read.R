@@ -462,7 +462,7 @@ fix_col_spec_names <- function(col_spec, spec_names, arg) {
 
     col_spec$cols <- lapply(
       set_names(seq_along(spec_names), spec_names),
-      \(i) col_spec$cols[[i]] %||% col_guess()
+      \(i) col_spec$cols[i][[1]] %||% col_guess()
     )
   }
   col_spec
