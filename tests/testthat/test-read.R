@@ -403,11 +403,26 @@ test_that("cannot mix unnamed and named na_col_types", {
   )
 })
 
+# special cases
 
-# Special cases
+test_that("all read fn variants work", {
+  expected <- tibble(
+    a = c(1, 5),
+    b = c(2, 6),
+  )
+  results <- list(
+    read_interlaced_delim(I("a,b\n1,2\n5,6"), delim = ","),
+    read_interlaced_csv(I("a,b\n1,2\n5,6")),
+    read_interlaced_csv2(I("a;b\n1;2\n5;6")),
+    read_interlaced_tsv(I("a\tb\n1\t2\n5\t6"))
+  )
+  for (i in results) {
+    expect_equal(i, expected, ignore_attr = TRUE)
+  }
+})
 
 test_that("columns with NA as the na reason read properly", {
-  result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6"), show_col_types = FALSE)
+  result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6"))
   expected <- tibble(
     a = c(NA, "NA", NA),
     b = c(NA, "", NA)
@@ -417,6 +432,6 @@ test_that("columns with NA as the na reason read properly", {
 
 test_that("duplicate columns fail", {
   expect_error(
-    read_interlaced_csv(I("a,a\n1,2\nNA,\n5,6"), show_col_types = FALSE)
+    read_interlaced_csv(I("a,a\n1,2\nNA,\n5,6"))
   )
 })
