@@ -364,7 +364,7 @@ interlaced_vroom <- function(
     # If collector is not collector_guess, we want to use that because it
     # might be an icol_*. Otherwise just use the vroom collector
     used_collector <- detect(
-      c(collector, spec(value_df)$cols),
+      c(list(collector), spec(value_df)$cols),
       \(x) !inherits(x, "collector_skip") && !inherits(x, "collector_guess")
     )
 
