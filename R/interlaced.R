@@ -152,7 +152,7 @@ flatten_channels.interlacer_interlaced <- function(x, fct_as_chr = TRUE, ...) {
 
   isect <- na.omit(intersect(v, m))
   if (length(isect) > 0) {
-    cli_warn("value and na channels have items that overlap: {isect}")
+    cli_abort("value and na channels have items that overlap: {isect}")
   }
 
   # Use base::ifelse to allow sloppy type conversion
