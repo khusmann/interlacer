@@ -110,6 +110,23 @@ test_that("overcomplete unnamed col_types work with warning", {
   expect_equal(result, expected, ignore_attr = TRUE)
 })
 
+test_that("cannot mix unnamed and named col_types", {
+  expect_error(
+     read_interlaced_csv(
+      test_path("basic-df.csv"),
+      na = c("REASON_1", "REASON_2", "REASON_3"),
+      col_types = list("c", a = "b")
+    )
+  )
+  expect_error(
+     read_interlaced_csv(
+      test_path("basic-df.csv"),
+      na = c("REASON_1", "REASON_2", "REASON_3"),
+      na_col_types = list("c", a = "b")
+    )
+  )
+})
+
 # Special case
 
 test_that("columns with NA as the na reason read properly", {
