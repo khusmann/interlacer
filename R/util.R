@@ -16,8 +16,8 @@ withWarnings <- function(expr) {
 
 type_convert_col <- function(x, col, na) {
   out <- readr::type_convert(tibble(x), col_types = list(x = col), na=na)$x
-  if (all(is.na(out))) {
-    unspecified(length(out)) # TODO: only do this if col_guess
+  if (all(is.na(out)) && inherits(col, "collector_guess")) {
+    unspecified(length(out))
   } else {
     out
   }

@@ -466,3 +466,19 @@ test_that("duplicate columns fail", {
     read_interlaced_csv(I("a,a\n1,2\nNA,\n5,6\n"))
   )
 })
+
+test_that("type_convert_col() returns unspecified", {
+  chr_values <- rep("", 5)
+  expect_equal(
+    type_convert_col(chr_values, col_guess(), na = character()),
+    unspecified(5)
+  )
+  expect_equal(
+    type_convert_col(chr_values, col_integer(), na = character()),
+    rep(NA_integer_, 5)
+  )
+  expect_equal(
+    type_convert_col(chr_values, col_logical(), na = character()),
+    rep(NA, 5)
+  )
+})
