@@ -113,7 +113,7 @@ value_channel.interlacer_interlaced <- function(x) {
 
 #' @export
 value_channel.data.frame <- function(df) {
-  df[] <- lapply(df, value_channel)
+  df[] <- map(df, value_channel)
   df
 }
 
@@ -185,7 +185,7 @@ na_channel.interlacer_interlaced <- function(x) {
 
 #' @export
 na_channel.data.frame <- function(df) {
-  df[] <- lapply(df, na_channel)
+  df[] <- map(df, na_channel)
   df
 }
 
@@ -225,7 +225,7 @@ vec_ptype_abbr.interlacer_interlaced <- function(x, ...) {
 
 #' @export
 format.interlacer_interlaced <- function(x, ...) {
-  sapply(x, function(i) {
+  map_chr(x, function(i) {
     if (is.empty(i)) {
       return(paste0("<<", format(na_channel(i)), ">>"))
     }
@@ -245,7 +245,7 @@ style_empty <- function(x) {
 #' @export
 pillar_shaft.interlacer_interlaced <- function(x, ...) {
   align <- if (is_character(x)) "left" else "right"
-  items <- lapply(x, function(i) {
+  items <- map(x, function(i) {
     if (is.empty(i)) {
       return(style_empty(format(i)))
     }
@@ -274,7 +274,7 @@ vec_restore.interlacer_interlaced <- function(x, to, ...) {
 
 #' @export
 vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
-  lapply(x, function(i) {
+  map(x, function(i) {
     if (is.empty(i)) {
       return(NULL)
     }

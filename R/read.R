@@ -323,7 +323,7 @@ interlaced_vroom <- function(
     p <- cli_progress_bar("Loading", total = length(vars))
   }
 
-  out <- lapply(set_names(vars, vars), function(i) {
+  out <- map(set_names(vars, vars), function(i) {
     collector <- col_spec$cols[[i]] %||% col_spec$default
     na_collector <- na_col_spec$cols[[i]] %||% na_col_spec$default
 
@@ -380,16 +380,16 @@ interlaced_vroom <- function(
     )
   })
 
-  df <- as_tibble(lapply(out, `[[`, "values"), .name_repair = .name_repair)
+  df <- as_tibble(map(out, `[[`, "values"), .name_repair = .name_repair)
 
   # Replace spec cols from chr spec into values col specs
   attr(df, "spec") <- update_col_spec(
-    spec(df_chr), lapply(out, `[[`, "spec"), col_spec$default
+    spec(df_chr), map(out, `[[`, "spec"), col_spec$default
   )
 
   # Replace na_spec cols from chr spec into na_values col spec
   attr(df, "na_spec") <- update_col_spec(
-    spec(df_chr), lapply(out, `[[`, "na_spec"), na_col_spec$default
+    spec(df_chr), map(out, `[[`, "na_spec"), na_col_spec$default
   )
 
   # Rename result to names from col_select
@@ -460,7 +460,7 @@ fix_col_spec_names <- function(col_spec, spec_names, arg) {
       )
     }
 
-    col_spec$cols <- lapply(
+    col_spec$cols <- map(
       set_names(seq_along(spec_names), spec_names),
       \(i) col_spec$cols[i][[1]] %||% col_guess()
     )
