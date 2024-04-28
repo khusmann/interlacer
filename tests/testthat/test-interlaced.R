@@ -25,11 +25,10 @@ test_that("parse_interlaced returns unspecified types", {
 })
 
 
-test_that("is.empty() detects empty values", {
-  expect_equal(
-    is.empty(new_interlaced(c("a", NA, NA), c(NA, "reason", NA))),
-    c(FALSE, FALSE, TRUE)
-  )
+test_that("is.na() and is.empty() detect correct values", {
+  foo <- new_interlaced(c("a", NA, NA), c(NA, "reason", NA))
+  expect_equal(is.empty(foo), c(FALSE, FALSE, TRUE))
+  expect_equal(is.na(foo), c(FALSE, TRUE, TRUE))
 })
 
 test_that("map_value_channel works", {
@@ -102,3 +101,4 @@ test_that("indexing assignment casts & operates on underlying channels", {
 
   expect_error(foo[[c(1, 4)]] <- 5)
 })
+
