@@ -405,24 +405,53 @@ test_that("cannot mix unnamed and named na_col_types", {
 
 # special cases
 
-test_that("all read fn variants work", {
+test_that("all read & write fn variants work", {
+  test_fns <- tibble(
+    txt = list(
+      "aZb\n1Z2\nNAZ\n5Z6\n",
+      "a,b\n1,2\nNA,\n5,6\n",
+      "a;b\n1;2\nNA;\n5;6\n",
+      "a\tb\n1\t2\nNA\t\n5\t6\n"
+    ),
+    read_fn = list(
+      \(f) read_interlaced_delim(f, delim = "Z"),
+      read_interlaced_csv,
+      read_interlaced_csv2,
+      read_interlaced_tsv
+    ),
+    write_fn = list(
+      \(f, o) write_interlaced_delim(f, o, delim = "Z"),
+      write_interlaced_csv,
+      write_interlaced_csv2,
+      write_interlaced_tsv
+    )
+  )
+
   expected <- tibble(
-    a = c(1, 5),
-    b = c(2, 6),
+    a = vec_c(1, na("NA"), 5),
+    b = vec_c(2, na(""), 6),
   )
-  results <- list(
-    read_interlaced_delim(I("a,b\n1,2\n5,6"), delim = ","),
-    read_interlaced_csv(I("a,b\n1,2\n5,6")),
-    read_interlaced_csv2(I("a;b\n1;2\n5;6")),
-    read_interlaced_tsv(I("a\tb\n1\t2\n5\t6"))
-  )
-  for (i in results) {
-    expect_equal(i, expected, ignore_attr = TRUE)
-  }
+
+  pmap(test_fns, function(txt, read_fn, write_fn) {
+    # Test read
+    result <- read_fn(I(txt))
+    expect_equal(result, expected, ignore_attr = TRUE)
+
+    # Test write
+    out <- tempfile()
+    on.exit(unlink(out))
+
+    out_inv <- write_fn(result, out)
+
+    expect_equal(out_inv, result) # Write fns return invisible(x)
+    expect_equal(txt, readr::read_file(out))
+
+    unlink(out)
+  })
 })
 
 test_that("columns with NA as the na reason read properly", {
-  result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6"))
+  result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6\n"))
   expected <- tibble(
     a = c(NA, "NA", NA),
     b = c(NA, "", NA)
@@ -432,6 +461,6 @@ test_that("columns with NA as the na reason read properly", {
 
 test_that("duplicate columns fail", {
   expect_error(
-    read_interlaced_csv(I("a,a\n1,2\nNA,\n5,6"))
+    read_interlaced_csv(I("a,a\n1,2\nNA,\n5,6\n"))
   )
 })

@@ -29,6 +29,7 @@ write_interlaced_delim <- function(
 ) {
   readr::write_delim(
     x = flatten_channels(x),
+    file = file,
     delim = delim,
     na = empty,
     append = append,
