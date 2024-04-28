@@ -43,17 +43,61 @@ test_that("column-level missing reasons can be specified with icol_*", {
   expect_equal(result, expected, ignore_attr = TRUE)
 })
 
-test_that("col_select correctly selects columns", {
+### col_select
+
+test_that("col_select selects columns", {
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
     na = c("REASON_1", "REASON_2", "REASON_3"),
     col_select = a,
   )
 
-  expected <- basic_df_expected()["a"]
+  expected <- basic_df_expected() |>
+    dplyr::select(a)
 
   expect_equal(result, expected, ignore_attr = TRUE)
 })
+
+test_that("col_select renameds columns", {
+  result <- read_interlaced_csv(
+    test_path("basic-df.csv"),
+    na = c("REASON_1", "REASON_2", "REASON_3"),
+    col_select = c(z = a),
+  )
+
+  expected <- basic_df_expected() |>
+    dplyr::select(z = a)
+
+  expect_equal(result, expected, ignore_attr = TRUE)
+})
+
+test_that("col_select reorders columns", {
+  result <- read_interlaced_csv(
+    test_path("basic-df.csv"),
+    na = c("REASON_1", "REASON_2", "REASON_3"),
+    col_select = c(b, c, a),
+  )
+
+  expected <- basic_df_expected() |>
+    dplyr::select(b, c, a)
+
+  expect_equal(result, expected, ignore_attr = TRUE)
+})
+
+test_that("col_select reorders and renames columns", {
+  result <- read_interlaced_csv(
+    test_path("basic-df.csv"),
+    na = c("REASON_1", "REASON_2", "REASON_3"),
+    col_select = c(x = b, y = c, z = a),
+  )
+
+  expected <- basic_df_expected() |>
+    dplyr::select(x = b, y = c, z = a)
+
+  expect_equal(result, expected, ignore_attr = TRUE)
+})
+
+### Unnamed cols
 
 test_that("unnamed col_types work", {
    result <- read_interlaced_csv(
