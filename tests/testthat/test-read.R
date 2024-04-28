@@ -31,6 +31,26 @@ test_that("basic reading works", {
   expected <- basic_df_expected()
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_logical(),
+      b = col_double(),
+      c = col_double(),
+      d = col_character()
+    )
+  )
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_character(),
+      c = col_character(),
+      d = col_character()
+    )
+  )
 })
 
 
@@ -68,6 +88,26 @@ test_that("col_select selects columns", {
     dplyr::select(a)
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+ expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_logical(),
+      b = col_skip(),
+      c = col_skip(),
+      d = col_skip()
+    )
+  )
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_skip(),
+      c = col_skip(),
+      d = col_skip()
+    )
+  )
 })
 
 test_that("col_select renames columns", {
@@ -81,6 +121,26 @@ test_that("col_select renames columns", {
     dplyr::select(z = a)
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_logical(),
+      b = col_skip(),
+      c = col_skip(),
+      d = col_skip()
+    )
+  )
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_skip(),
+      c = col_skip(),
+      d = col_skip()
+    )
+  )
 })
 
 test_that("col_select reorders columns", {
@@ -94,6 +154,26 @@ test_that("col_select reorders columns", {
     dplyr::select(b, c, a)
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_logical(),
+      b = col_double(),
+      c = col_double(),
+      d = col_skip()
+    )
+  )
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_character(),
+      c = col_character(),
+      d = col_skip()
+    )
+  )
 })
 
 test_that("col_select reorders and renames columns", {
@@ -107,6 +187,26 @@ test_that("col_select reorders and renames columns", {
     dplyr::select(x = b, y = c, z = a)
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_logical(),
+      b = col_double(),
+      c = col_double(),
+      d = col_skip()
+    )
+  )
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_character(),
+      c = col_character(),
+      d = col_skip()
+    )
+  )
 })
 
 ### Unnamed col_types
