@@ -404,7 +404,7 @@ test_that("cannot mix unnamed and named na_col_types", {
 })
 
 
-# Special case
+# Special cases
 
 test_that("columns with NA as the na reason read properly", {
   result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6"), show_col_types = FALSE)
@@ -413,4 +413,10 @@ test_that("columns with NA as the na reason read properly", {
     b = c(NA, "", NA)
   )
   expect_equal(na_channel(result), expected, ignore_attr = TRUE)
+})
+
+test_that("duplicate columns fail", {
+  expect_error(
+    read_interlaced_csv(I("a,a\n1,2\nNA,\n5,6"), show_col_types = FALSE)
+  )
 })
