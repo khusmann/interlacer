@@ -1,3 +1,11 @@
+all_na_reasons <- function() {
+  c("REASON_1", "REASON_2", "REASON_3")
+}
+
+to_na_reason_factor <- function(c) {
+  factor(c, all_na_reasons())
+}
+
 basic_df_expected <- function() {
   tibble(
     a = vec_c(na("REASON_1"), TRUE, TRUE, na("REASON_3")),
@@ -17,7 +25,7 @@ basic_df_expected <- function() {
 test_that("basic reading works", {
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_1", "REASON_2", "REASON_3")
+    na = all_na_reasons()
   )
 
   expected <- basic_df_expected()
@@ -48,7 +56,7 @@ test_that("column-level missing reasons can be specified with icol_*", {
 test_that("col_select selects columns", {
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_1", "REASON_2", "REASON_3"),
+    na = all_na_reasons(),
     col_select = a,
   )
 
@@ -58,10 +66,10 @@ test_that("col_select selects columns", {
   expect_equal(result, expected, ignore_attr = TRUE)
 })
 
-test_that("col_select renameds columns", {
+test_that("col_select renames columns", {
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_1", "REASON_2", "REASON_3"),
+    na = all_na_reasons(),
     col_select = c(z = a),
   )
 
@@ -74,7 +82,7 @@ test_that("col_select renameds columns", {
 test_that("col_select reorders columns", {
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_1", "REASON_2", "REASON_3"),
+    na = all_na_reasons(),
     col_select = c(b, c, a),
   )
 
@@ -87,7 +95,7 @@ test_that("col_select reorders columns", {
 test_that("col_select reorders and renames columns", {
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_1", "REASON_2", "REASON_3"),
+    na = all_na_reasons(),
     col_select = c(x = b, y = c, z = a),
   )
 
@@ -97,22 +105,22 @@ test_that("col_select reorders and renames columns", {
   expect_equal(result, expected, ignore_attr = TRUE)
 })
 
-### Unnamed cols
+### Unnamed col_types
 
 test_that("unnamed col_types work", {
    result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_1", "REASON_2", "REASON_3"),
+    na = all_na_reasons(),
     col_types = "cccc"
   )
 
-  expected <- dplyr::mutate(
-    basic_df_expected(),
-    dplyr::across(
-      everything(),
-      \(v) map_value_channel(v, as.character)
+  expected <- basic_df_expected() |>
+    dplyr::mutate(
+      dplyr::across(
+        everything(),
+        \(v) map_value_channel(v, as.character)
+      )
     )
-  )
 
   expect_equal(result, expected, ignore_attr = TRUE)
 })
@@ -121,15 +129,15 @@ test_that("incomplete unnamed col_types work with warning", {
   expect_warning(
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = c("REASON_1", "REASON_2", "REASON_3"),
+      na = all_na_reasons(),
       col_types = "c"
     )
   )
 
-  expected <- dplyr::mutate(
-    basic_df_expected(),
-    a = map_value_channel(a, as.character)
-  )
+  expected <- basic_df_expected() |>
+    dplyr::mutate(
+      a = map_value_channel(a, as.character)
+    )
 
   expect_equal(result, expected, ignore_attr = TRUE)
 })
@@ -138,18 +146,18 @@ test_that("overcomplete unnamed col_types work with warning", {
   expect_warning(
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = c("REASON_1", "REASON_2", "REASON_3"),
+      na = all_na_reasons(),
       col_types = "ccccc"
     )
   )
 
-  expected <- dplyr::mutate(
-    basic_df_expected(),
-    dplyr::across(
-      everything(),
-      \(v) map_value_channel(v, as.character)
+  expected <- basic_df_expected() |>
+    dplyr::mutate(
+      dplyr::across(
+        everything(),
+        \(v) map_value_channel(v, as.character)
+      )
     )
-  )
 
   expect_equal(result, expected, ignore_attr = TRUE)
 })
@@ -158,18 +166,79 @@ test_that("cannot mix unnamed and named col_types", {
   expect_error(
      read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = c("REASON_1", "REASON_2", "REASON_3"),
+      na = all_na_reasons(),
       col_types = list("c", a = "b")
     )
   )
+})
+
+# Unnamed na_col_types
+
+test_that("unnamed na_col_types work", {
+   result <- read_interlaced_csv(
+    test_path("basic-df.csv"),
+    na = all_na_reasons(),
+    na_col_types = "ffff"
+  )
+
+  expected <- basic_df_expected() |>
+    dplyr::mutate(
+      dplyr::across(
+        everything(),
+        \(c) map_na_channel(c, to_na_reason_factor)
+      )
+    )
+
+  expect_equal(result, expected, ignore_attr = TRUE)
+})
+
+test_that("incomplete unnamed na_col_types work with warning", {
+  expect_warning(
+     result <- read_interlaced_csv(
+      test_path("basic-df.csv"),
+      na = all_na_reasons(),
+      na_col_types = "f"
+    )
+  )
+
+  expected <- basic_df_expected() |>
+    dplyr::mutate(
+      a = map_na_channel(a, to_na_reason_factor)
+    )
+
+  expect_equal(result, expected, ignore_attr = TRUE)
+})
+
+test_that("overcomplete unnamed na_col_types work with warning", {
+  expect_warning(
+     result <- read_interlaced_csv(
+      test_path("basic-df.csv"),
+      na = all_na_reasons(),
+      na_col_types = "fffff"
+    )
+  )
+
+  expected <- basic_df_expected() |>
+    dplyr::mutate(
+      dplyr::across(
+        everything(),
+        \(v) map_na_channel(v, to_na_reason_factor)
+      )
+    )
+
+  expect_equal(result, expected, ignore_attr = TRUE)
+})
+
+test_that("cannot mix unnamed and named na_col_types", {
   expect_error(
      read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = c("REASON_1", "REASON_2", "REASON_3"),
+      na = all_na_reasons(),
       na_col_types = list("c", a = "b")
     )
   )
 })
+
 
 # Special case
 
