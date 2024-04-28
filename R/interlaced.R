@@ -189,22 +189,6 @@ na_channel.data.frame <- function(df) {
   df
 }
 
-#' @export
-is.empty <- function(x) {
-  UseMethod("is.empty")
-}
-
-#' @export
-is.empty.default <- function(x) {
-  stop_unsupported(x, "is.empty")
-}
-
-#' @export
-is.empty.interlacer_interlaced <- function(x) {
-  is.na(value_channel(x)) & is.na(na_channel(x))
-}
-
-
 # Display ---------------------------------------------------------------
 
 #' @export
@@ -395,6 +379,21 @@ levels.interlacer_interlaced <- function(x) {
 
 
 # NA functions ---------------------------------------------------------
+
+#' @export
+is.empty <- function(x) {
+  UseMethod("is.empty")
+}
+
+#' @export
+is.empty.default <- function(x) {
+  stop_unsupported(x, "is.empty")
+}
+
+#' @export
+is.empty.interlacer_interlaced <- function(x) {
+  is.na(value_channel(x)) & is.na(na_channel(x))
+}
 
 #' @export
 is.na.interlacer_interlaced <- function(x) {
