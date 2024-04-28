@@ -1,39 +1,4 @@
-#' @export
-parse_interlaced <- function(
-  x, na,
-  .value_col = col_guess(),
-  .na_col = col_guess()
-) {
-  if (!is.character(x) || !is.character(na)) {
-    cli_abort("{.arg x} and {.arg na} must both be character vectors")
-  }
-
-  sc <- separate_channels(x, na)
-
-  v <- type_convert_col(
-    sc$value_channel, .value_col, na = character()
-  )
-
-  na_conv <- type_convert_col(na, .na_col, na = character())
-  m <- na_conv[match(sc$na_channel, na)]
-
-  new_interlaced(v, m)
-}
-
-separate_channels <- function(x, na) {
-  x_is_na <- x %in% na
-  list(
-    value_channel = if_else(x_is_na, unspecified(1), x),
-    na_channel = if_else(x_is_na, x, unspecified(1))
-  )
-}
-
-#' @export
-interlaced <- function(x, na=NULL) {
-  x <- c(x, vec_ptype(na))
-  sc <- separate_channels(x, na)
-  new_interlaced(sc$value_channel, sc$na_channel)
-}
+### Constructors
 
 #' @export
 new_interlaced <- function(value_channel, na_channel, ...) {
@@ -76,6 +41,49 @@ new_interlaced <- function(value_channel, na_channel, ...) {
   v
 }
 
+#' @export
+parse_interlaced <- function(
+  x, na,
+  .value_col = col_guess(),
+  .na_col = col_guess()
+) {
+  if (!is.character(x) || !is.character(na)) {
+    cli_abort("{.arg x} and {.arg na} must both be character vectors")
+  }
+
+  sc <- separate_channels(x, na)
+
+  v <- type_convert_col(
+    sc$value_channel, .value_col, na = character()
+  )
+
+  na_conv <- type_convert_col(na, .na_col, na = character())
+  m <- na_conv[match(sc$na_channel, na)]
+
+  new_interlaced(v, m)
+}
+
+#' @export
+interlaced <- function(x, na=NULL) {
+  x <- c(x, vec_ptype(na))
+  sc <- separate_channels(x, na)
+  new_interlaced(sc$value_channel, sc$na_channel)
+}
+
+separate_channels <- function(x, na) {
+  x_is_na <- x %in% na
+  list(
+    value_channel = if_else(x_is_na, unspecified(1), x),
+    na_channel = if_else(x_is_na, x, unspecified(1))
+  )
+}
+
+#' @export
+na <- function(x = unspecified()) {
+  new_interlaced(unspecified(vec_size(x)), x)
+}
+
+#' @export
 as.interlaced <- function(x) {
   new_interlaced(
     value_channel(x),
@@ -83,9 +91,12 @@ as.interlaced <- function(x) {
   )
 }
 
+#' @export
 is.interlaced <- function(x) {
   inherits(x, "interlacer_interlaced")
 }
+
+### Channel fns
 
 #' @export
 value_channel <- function(x, ...) {
@@ -129,9 +140,7 @@ flatten_channels.default <- function(x, ...) {
 
 #' @export
 flatten_channels.data.frame <- function(x, ...) {
-  for (i in names(x)) {
-    x[[i]] <- flatten_channels(x[[i]])
-  }
+  x[] <- map(x, flatten_channels)
   x
 }
 
@@ -161,11 +170,6 @@ flatten_channels.interlacer_interlaced <- function(x, fct_as_chr = TRUE, ...) {
   # num + chr = chr
   # etc.
   ifelse(!is.na(v), v, m)
-}
-
-#' @export
-na <- function(x = unspecified()) {
-  new_interlaced(unspecified(vec_size(x)), x)
 }
 
 #' @export
