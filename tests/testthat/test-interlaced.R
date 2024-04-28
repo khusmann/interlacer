@@ -102,3 +102,20 @@ test_that("indexing assignment casts & operates on underlying channels", {
   expect_error(foo[[c(1, 4)]] <- 5)
 })
 
+
+test_that("comparisons and ordering works", {
+  foo <- vec_c(10, 2, na("reason 1"), 3, na("reason 2"), 9, 1)
+
+  expect_equal(min(foo, na.rm=TRUE), 1)
+  expect_equal(max(foo, na.rm=TRUE), 10)
+  expect_equal(range(foo, na.rm=TRUE), c(1, 10))
+  expect_equal(median(foo, na.rm=TRUE), 3)
+  expect_equal(quantile(foo, na.rm=TRUE), c(1,2,3,9,10), ignore_attr=TRUE)
+  expect_equal(xtfrm(foo), c(10, 2, NA, 3, NA, 9, 1))
+
+  expect_equal(min(foo), NA_real_)
+  expect_equal(max(foo), NA_real_)
+  expect_equal(range(foo), c(NA_real_, NA_real_))
+  expect_equal(median(foo), NA_real_)
+  expect_error(quantile(foo))
+})
