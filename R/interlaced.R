@@ -265,8 +265,9 @@ vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
   map(x, function(i) {
     if (is.empty(i)) {
       return(NULL)
+    } else {
+      as.list(i)
     }
-    as.list(i)
   })
 }
 
