@@ -119,3 +119,27 @@ test_that("comparisons and ordering works", {
   expect_equal(median(foo), NA_real_)
   expect_error(quantile(foo))
 })
+
+test_that("vec_math works", {
+  foo <- vec_c(10, 2, na("reason 1"), 3, na("reason 2"), 9, 1)
+  expect_equal(mean(foo, na.rm=TRUE), 5)
+  expect_equal(var(foo, na.rm=TRUE), 17.5)
+
+  expect_equal(mean(foo), NA_real_)
+  expect_equal(var(foo), NA_real_)
+})
+
+test_that("vec_arith works", {
+  foo <- vec_c(10, 2, na("reason 1"), 3, na("reason 2"), 9, 1)
+  foo_plus_one <- c(11, 3, NA, 4, NA, 10, 2)
+
+  expect_equal(foo + 1, foo_plus_one)
+  expect_equal(1 + foo, foo_plus_one)
+  expect_equal(foo + TRUE, foo_plus_one)
+  expect_equal(TRUE + foo, foo_plus_one)
+
+  expect_equal(
+    foo + foo,
+    c(20, 4, NA, 6, NA, 18, 2)
+  )
+})
