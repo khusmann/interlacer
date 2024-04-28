@@ -35,20 +35,24 @@ test_that("basic reading works", {
 
 
 test_that("column-level missing reasons can be specified with icol_*", {
+  col_types <- cols(
+    a = icol_logical(na = "REASON_1"),
+    b = icol_double(na = "REASON_2"),
+    c = col_double(),
+    d = col_character(),
+  )
+
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
     na = c("REASON_3"),
-    col_types = cols(
-      a = icol_logical(na = "REASON_1"),
-      b = icol_double(na = "REASON_2"),
-      c = col_double(),
-      d = col_character(),
-    ),
+    col_types = col_types,
   )
 
   expected <- basic_df_expected()
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(spec(result)$cols, col_types$cols)
 })
 
 ### col_select
@@ -123,6 +127,16 @@ test_that("unnamed col_types work", {
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_character(),
+      c = col_character(),
+      d = col_character()
+    )
+  )
 })
 
 test_that("incomplete unnamed col_types work with warning", {
@@ -140,6 +154,16 @@ test_that("incomplete unnamed col_types work with warning", {
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_double(),
+      c = col_double(),
+      d = col_character()
+    )
+  )
 })
 
 test_that("overcomplete unnamed col_types work with warning", {
@@ -160,6 +184,16 @@ test_that("overcomplete unnamed col_types work with warning", {
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    spec(result)$cols,
+    list(
+      a = col_character(),
+      b = col_character(),
+      c = col_character(),
+      d = col_character()
+    )
+  )
 })
 
 test_that("cannot mix unnamed and named col_types", {
@@ -190,6 +224,16 @@ test_that("unnamed na_col_types work", {
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_factor(all_na_reasons()),
+      b = col_factor(all_na_reasons()),
+      c = col_factor(all_na_reasons()),
+      d = col_factor(all_na_reasons())
+    )
+  )
 })
 
 test_that("incomplete unnamed na_col_types work with warning", {
@@ -207,6 +251,16 @@ test_that("incomplete unnamed na_col_types work with warning", {
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_factor(all_na_reasons()),
+      b = col_character(),
+      c = col_character(),
+      d = col_character()
+    )
+  )
 })
 
 test_that("overcomplete unnamed na_col_types work with warning", {
@@ -227,6 +281,16 @@ test_that("overcomplete unnamed na_col_types work with warning", {
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
+
+  expect_equal(
+    na_spec(result)$cols,
+    list(
+      a = col_factor(all_na_reasons()),
+      b = col_factor(all_na_reasons()),
+      c = col_factor(all_na_reasons()),
+      d = col_factor(all_na_reasons())
+    )
+  )
 })
 
 test_that("cannot mix unnamed and named na_col_types", {
