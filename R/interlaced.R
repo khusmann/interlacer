@@ -65,7 +65,6 @@ parse_interlaced <- function(
 
 #' @export
 interlaced <- function(x, na=NULL) {
-  x <- c(x, vec_ptype(na))
   sc <- separate_channels(x, na)
   new_interlaced(sc$value_channel, sc$na_channel)
 }
@@ -84,11 +83,24 @@ na <- function(x = unspecified()) {
 }
 
 #' @export
-as.interlaced <- function(x) {
-  new_interlaced(
-    value_channel(x),
-    na_channel(x)
-  )
+as.interlaced <- function(x, na = NULL, ...) {
+  UseMethod("as.interlaced")
+}
+
+#' @export
+as.interlaced.default <- function(x, na = NULL, ...) {
+  interlaced(x, na)
+}
+
+#' @export
+as.interlaced.interlacer_interlaced <- function(x, ...) {
+  x
+}
+
+#' @export
+as.interlaced.data.frame <- function(df, ...) {
+  df[] <- map(df, \(c) as.interlaced(c, ...))
+  df
 }
 
 #' @export
