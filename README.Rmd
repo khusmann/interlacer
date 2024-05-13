@@ -10,7 +10,6 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-"
 )
-library(dplyr)
 ```
 
 # interlacer <img src="man/figures/logo.svg" align="right" height="140" />
@@ -18,8 +17,6 @@ library(dplyr)
 [![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![R-CMD-check](https://github.com/khusmann/interlacer/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/khusmann/interlacer/actions/workflows/check-standard.yaml)
 [![codecov](https://codecov.io/gh/khusmann/interlacer/graph/badge.svg?token=R4WNWH5NXU)](https://codecov.io/gh/khusmann/interlacer)
-
-## Overview
 
 When a value is missing in your data, sometimes you want to know *why* it is
 missing. Many textual tabular data sources will encode missing reasons as
@@ -30,30 +27,35 @@ with missing reasons in R traditionally requires loading variables
 as character vectors and doing a bunch of string
 comparisons and type conversions to make sense of them.
 
-Interlacer was created based on the insight that values and missing reasons
-can be handled as separate *channels* of the same variable. Interlacer
-provides functions that load variables from interlaced data sources into two
-separate columns:
-One containing the variable's values, the other containing its missing reasons.
-As it turns out, this structure gives us an extremely powerful and expressive
-way to simultaneously work with values and missing reasons in tidy pipelines,
-as described in `vignette("interlacer")`. (tldr: It allows us to interact with
-a variable as a [`Result` type](https://en.wikipedia.org/wiki/Result_type),
-an abstraction often found in functional programming)
+Interlacer provides functions that load variables from interlaced data sources
+into a new `interlaced` column type that holds values and `NA`
+reasons in separate *channels* of the same variables. In most contexts you 
+can treat `interlaced` columns as if they were regular values: if you take
+the `mean` of an interlaced column,
+you get the mean of its values, without its missing reasons interfering in
+the computation.
+
+But unlike a regular column, the missing reasons are still
+available. This means you can still generate 
+summary statistics with 
+breakdowns by missing reason, or filter data frames on variables
+by specific missing reasons. In other words, you no longer have to constantly
+manually include / exclude missing reasons in computations by filtering them
+with awkward string comparisons or type conversions... everything just works!
 
 Although this may seem like a simple premise on the surface, it has deep
-implications! In addition to `vignette("interlacer")`, be sure to also
-check out:
+implications. In addition to the introduction in `#vignette("interlacer")`
+be sure to also check out:
 
-- `vignette("mutations")` for a discussion on how to motify data frames when in
+- `#vignette("mutations")` for a discussion on how to motify data frames when in
 this format
 
-- `vignette("column-types")` to see how to handle variable-level missing reasons
+- `#vignette("column-types")` to see how to handle variable-level missing reasons
 
-- `vignette("coded-data")` for some recipies for working with coded data (e.g.
+- `#vignette("coded-data")` for some recipies for working with coded data (e.g.
 data produced by SPSS, SAS or Stata)
 
-- `vignette("other-approaches")` for a deep dive into how interlacer's approach
+- `#vignette("other-approaches")` for a deep dive into how interlacer's approach
 compares to other approaches for representing and manipulating missing reasons
 alongside data values
 
@@ -91,6 +93,7 @@ functions, which extend the `readr::read_*()` family of functions:
 As a quick demo, consider the following example file bundled with interlacer:
 
 ```{r}
+library(dplyr)
 library(readr)
 
 read_file(interlacer_example("colors.csv")) |>
@@ -100,12 +103,14 @@ read_file(interlacer_example("colors.csv")) |>
 In this csv file, values are interlaced with three possible missing reasons:
 `REFUSED`, `OMITTED`, and `N/A`.
 
-With readr, loading these data would result in a data frame like this:
+With readr, loading these data would result in a data frame where all missing
+reasons are replaced with `NA`:
 
 ```{r}
 read_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A")
+  na = c("REFUSED", "OMITTED", "N/A"),
+  show_col_types = FALSE,
 )
 ```
 
@@ -114,7 +119,8 @@ With interlacer, we get a "deinterlaced data frame" instead:
 ```{r}
 (ex <- read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A")
+  na = c("REFUSED", "OMITTED", "N/A"),
+  show_col_types = FALSE,
 ))
 ```
 
@@ -135,8 +141,9 @@ ex |>
   summarize(
     mean_age = mean(age, na.rm=T),
     n = n(),
-    .by = .favorite_color.
-  )
+    .by = favorite_color
+  ) %>%
+  arrange(favorite_color)
 ```
 
 (Note that the `<NA>` category in the result refers to the mean age of responses
@@ -144,6 +151,13 @@ ex |>
 
 But this just scratches the surface of what can be done with interlacer...
 check out `vignette("interlacer")` for a more complete overview!
+
+## Related Work
+
+In other words, `interlaced` columns
+are effectively an implementation of generic
+[`Result` type vectors](https://en.wikipedia.org/wiki/Result_type) in R.
+
 
 ## Known Issues
 
