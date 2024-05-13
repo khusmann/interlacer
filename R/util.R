@@ -2,6 +2,10 @@ is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }
 
+#' @importFrom vctrs vec_c
+#' @export
+vctrs::vec_c
+
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
 withWarnings <- function(expr) {
