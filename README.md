@@ -18,36 +18,29 @@ type. Working with missing reasons in R traditionally requires loading
 variables as character vectors and doing a bunch of string comparisons
 and type conversions to make sense of them.
 
-Interlacer provides functions that load variables from interlaced data
-sources into a new `interlaced` column type that simultaneously holds
-values and `NA` reasons as separate *channels* of the same variables. In
-most contexts you can treat `interlaced` columns as if they were regular
-values: if you take the `mean` of an interlaced column, you get the mean
-of its values, without its missing reasons interfering in the
+`interlacer` provides functions that load variables from interlaced data
+sources into a new `interlaced` column type that holds values and `NA`
+reasons in separate *channels* of the same variable. In most contexts,
+you can treat `interlaced` columns as if they were regular values: if
+you take the `mean` of an interlaced column, for example, you get the
+mean of its values, without its missing reasons interfering in the
 computation.
 
-But unlike a regular column, the missing reasons are still available in
-an `interlaced` column. This means you can still generate summary
-statistics with breakdowns by missing reason, or filter data frames on
-variables by specific missing reasons. In other words, you no longer
-have to constantly manually include / exclude missing reasons in
-computations by filtering them with awkward string comparisons or type
-conversions… everything just works!
+Unlike a regular column, however, the missing reasons are still
+available. This means you can still filter data frames on variables by
+specific missing reasons, or generate summary statistics with breakdowns
+by missing reason. In other words, you no longer have to constantly
+manually include / exclude missing reasons in computations by filtering
+them with awkward string comparisons or type conversions… everything
+just works!
 
-Although this may seem like a simple premise on the surface, it has deep
-implications. In addition to the introduction in
-`#vignette("interlacer")` be sure to also check out:
+In addition to the introduction in `vignette("interlacer")` be sure to
+also check out:
 
-- `#vignette("mutations")` for a discussion on how to motify data frames
-  when in this format
+- `vignette("coded-data")` for some recipies for working with coded data
+  (e.g. data produced by SPSS, SAS or Stata)
 
-- `#vignette("column-types")` to see how to handle variable-level
-  missing reasons
-
-- `#vignette("coded-data")` for some recipies for working with coded
-  data (e.g. data produced by SPSS, SAS or Stata)
-
-- `#vignette("other-approaches")` for a deep dive into how interlacer’s
+- `vignette("other-approaches")` for a deep dive into how interlacer’s
   approach compares to other approaches for representing and
   manipulating missing reasons alongside data values
 
@@ -86,16 +79,8 @@ As a quick demo, consider the following example file bundled with
 interlacer:
 
 ``` r
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 #> Warning: package 'dplyr' was built under R version 4.2.3
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(readr)
 #> Warning: package 'readr' was built under R version 4.2.3
 
@@ -118,21 +103,15 @@ read_file(interlacer_example("colors.csv")) |>
 In this csv file, values are interlaced with three possible missing
 reasons: `REFUSED`, `OMITTED`, and `N/A`.
 
-With readr, loading these data would result in a data frame like this:
+With readr, loading these data would result in a data frame where all
+missing reasons are replaced with `NA`:
 
 ``` r
 read_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A")
+  na = c("REFUSED", "OMITTED", "N/A"),
+  show_col_types = FALSE,
 )
-#> Rows: 11 Columns: 3
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> chr (1): favorite_color
-#> dbl (2): person_id, age
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 11 × 3
 #>    person_id   age favorite_color
 #>        <dbl> <dbl> <chr>         
@@ -149,21 +128,14 @@ read_csv(
 #> 11        11    10 <NA>
 ```
 
-With interlacer, we get a “deinterlaced data frame” instead:
+With interlacer, missing reasons are preserved:
 
 ``` r
 (ex <- read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A")
+  na = c("REFUSED", "OMITTED", "N/A"),
+  show_col_types = FALSE,
 ))
-#> Rows: 11 Columns: 3
-#> ── Column specification ────────────────────────────────────────────────────────
-#> Delimiter: ","
-#> chr (1): favorite_color
-#> dbl (2): person_id, age
-#> 
-#> ℹ Use `spec()` to retrieve the full column specification for this data.
-#> ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 #> # A tibble: 11 × 3
 #>    person_id       age favorite_color
 #>    <dbl,chr> <dbl,chr> <chr,chr>     
@@ -180,17 +152,43 @@ With interlacer, we get a “deinterlaced data frame” instead:
 #> 11        11        10 <REFUSED>
 ```
 
-Deinterlaced data frames have two columns for each variable: one for
-values, and another for missing reasons. Missing reason columns are
-denoted by column names surrounded by dots (e.g. `.age.` is the missing
-reason for the `age` column). When a value is `NA`, it always has a
-reason in the missing reason column. Similarly, when a missing reason is
-`NA`, it always has a value in the value column.
+As you can see, in the printout above each column is defined by *two*
+types: a type for values, and a type for missing reasons. The `age`
+column, for example, has type `double` for its values, and type
+`character` for its missing reasons:
 
-This allows us to separately reference values and missing reasons in a
-tidy and type-aware manner. For example, if I wanted to get a breakdown
-of the mean age of respondents missing a report of their favorite color,
-grouped by the missing reason, it would simply be:
+``` r
+ex$age
+#> <interlaced<double, character>[11]>
+#>  [1] 20        <REFUSED> 21        30        1         41        50       
+#>  [8] 30        <REFUSED> <OMITTED> 10
+```
+
+Computations automatically operate on values:
+
+``` r
+mean(ex$age, na.rm=TRUE)
+#> [1] 25.375
+```
+
+But the missing reasons can still be utilized! The following, for
+example, will filter the data set for all individuals that `REFUSED` to
+give their favorite color:
+
+``` r
+ex |>
+  filter(favorite_color == na("REFUSED"))
+#> # A tibble: 3 × 3
+#>   person_id       age favorite_color
+#>   <dbl,chr> <dbl,chr> <chr,chr>     
+#> 1         3        21 <REFUSED>     
+#> 2         9 <REFUSED> <REFUSED>     
+#> 3        11        10 <REFUSED>
+```
+
+And here’s a pipeline that will compute a breakdown of the mean age of
+respondents for each favorite color, with separate categories for each
+missing reason:
 
 ``` r
 ex |>
@@ -211,42 +209,94 @@ ex |>
 #> 6 <REFUSED>          15.5     3
 ```
 
-(Note that the `<NA>` category in the result refers to the mean age of
-responses *without* missing color values, i.e. with available favorite
-color responses).
-
 But this just scratches the surface of what can be done with interlacer…
 check out `vignette("interlacer")` for a more complete overview!
 
-## Related Work
-
-In other words, `interlaced` columns are effectively an implementation
-of generic [`Result` type
-vectors](https://en.wikipedia.org/wiki/Result_type) in R.
-
 ## Known Issues
 
-Large data frames (many columns & rows) are slow to run and print with
-interlacer. Deinterlaced data frames are validated to check that they
-conform to the rule of “one value OR missing reason per row”, and this
-check is done completely in R. There are a few key places (noted in the
-source) that would extremely benefit from a native implementation, and
-make the library much more snappy. Before I invest the time in that
-though, I want to get enough feedback from users of this package to
-stabilize the current approach / API. (If you find this package useful,
-please [let me know](mailto:kdh38@psu.edu)!)
+1.  Interlaced vectors cannot be constructed with `c()`
 
-In the meantime, if your deinterlaced data frames are too slow to print,
-you can disable row-level validation by setting this option in your
-current session:
+Due to a [fundamental limitation of
+R](https://vctrs.r-lib.org/#motivation), interlaced vectors cannot be
+constructed with `c()`. For example, the following will return a regular
+vector:
 
 ``` r
-options(interlacer.print_validation = FALSE)
+c(5, 6, na("OMITTED"))
+#> [1]  5  6 NA
 ```
 
-When `interlacer.print_validation = FALSE`, you will need to be extra
-careful during mutations, because if you create an invalid state you
-won’t get a warning!
+Instead, use `vctrs::vec_c()` (reexported by `interlacer`):
+
+``` r
+vec_c(5, 6, na("OMITTED"))
+#> <interlaced<double, character>[3]>
+#> [1] 5         6         <OMITTED>
+```
+
+2.  `ifelse()` does not promote interlaced types
+
+For similar reasons as the above issue, using `base::ifelse()` with
+`interlaced` columns will convert them into regular vectors:
+
+``` r
+ex |>
+  mutate(
+    favorite_color = ifelse(age < 18, na("REDACTED"), favorite_color)
+  )
+#> # A tibble: 11 × 3
+#>    person_id       age favorite_color
+#>    <dbl,chr> <dbl,chr> <chr>         
+#>  1         1        20 BLUE          
+#>  2         2 <REFUSED> <NA>          
+#>  3         3        21 <NA>          
+#>  4         4        30 <NA>          
+#>  5         5         1 <NA>          
+#>  6         6        41 RED           
+#>  7         7        50 <NA>          
+#>  8         8        30 YELLOW        
+#>  9         9 <REFUSED> <NA>          
+#> 10        10 <OMITTED> <NA>          
+#> 11        11        10 <NA>
+```
+
+Instead, use `dplyr::if_else()`:
+
+``` r
+ex |>
+  mutate(
+    favorite_color = if_else(
+      age < 18,
+      na("REDACTED_UNDERAGE"),
+      favorite_color,
+      missing = na("REDACTED_MISSING_AGE")
+    )
+  )
+#> # A tibble: 11 × 3
+#>    person_id       age favorite_color        
+#>    <dbl,chr> <dbl,chr> <chr,chr>             
+#>  1         1        20 BLUE                  
+#>  2         2 <REFUSED> <REDACTED_MISSING_AGE>
+#>  3         3        21 <REFUSED>             
+#>  4         4        30 <OMITTED>             
+#>  5         5         1 <REDACTED_UNDERAGE>   
+#>  6         6        41 RED                   
+#>  7         7        50 <OMITTED>             
+#>  8         8        30 YELLOW                
+#>  9         9 <REFUSED> <REDACTED_MISSING_AGE>
+#> 10        10 <OMITTED> <REDACTED_MISSING_AGE>
+#> 11        11        10 <REDACTED_UNDERAGE>
+```
+
+3.  Perfomance with large data sets
+
+You may notice that on large datasets `interlacer` runs significantly
+slower than `readr` / `vroom`. Although `interlacer` uses `vroom` under
+the hood to load delimited data it is not able to take advantage of many
+of its optimizations because `vroom` does not [does not currently
+support](https://github.com/tidyverse/vroom/issues/532) column-level
+missing values. As soon as `vroom` supports column-level missing values,
+I will be able to remedy this!
 
 ## Acknowledgements
 
