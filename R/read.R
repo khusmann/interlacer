@@ -284,6 +284,10 @@ interlaced_vroom <- function(
     )
   }
 
+  if (is.numeric(na)) {
+    na <- as.character(na)
+  }
+
   # Step 1: Read everything as string
 
   df_chr <- inject(
