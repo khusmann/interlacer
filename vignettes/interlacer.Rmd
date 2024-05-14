@@ -112,13 +112,13 @@ really complex when different columns have different sets of possible missing
 reasons. It means you have to do a lot of type conversion
 gymnastics to switch between value types and missing types.
 
-### The `interlacer` approach
+### The interlacer approach
 
-`interlacer` was built based on the insight that everything becomes much more
+interlacer was built based on the insight that everything becomes much more
 tidy, simple, and expressive when we explicitly work with values and missing
-reasons as separate *channels* of the same variable. `interlacer`
+reasons as separate *channels* of the same variable. interlacer
 introduces a new `interlaced` column type that facilitates this. 
-The `read_interlaced_*` functions in `interlacer` import data with this new
+The `read_interlaced_*` functions in interlacer import data with this new
 column type.
 
 ```{r}
@@ -353,7 +353,7 @@ df |>
 ## Writing interlaced files
 
 After you've made made changes to your data, you probably want to save them.
-`interlacer` provides the `write_interlaced_*` family of functions for this:
+interlacer provides the `write_interlaced_*` family of functions for this:
 
 ```{r, eval = FALSE}
 write_interlaced_csv(df, "interlaced_output.csv")
@@ -382,7 +382,7 @@ na_channel(df)
 
 ## Next steps
 
-So far, we've covered how `interlacer`'s `read_interlaced_*` family
+So far, we've covered how interlacer's `read_interlaced_*` family
 of functions enabled us to load `interlaced` columns that contain
 separate challens for value and missing reasons. The `interlaced` type enables
 us to create tidy and type-aware pipelines that can flexibly consider a
@@ -390,6 +390,6 @@ variable's value AND missing reasons.
 
 In all the examples in this vignette, column types were automatically detected.
 To explicitly specify value and missing column types, (and specify individual
-missing reasons for specific columns), `interlacer` extends
+missing reasons for specific columns), interlacer extends
 `readr`'s `collector()` system. This will be covered in the next vignette,
 `vignette("column-types")`
