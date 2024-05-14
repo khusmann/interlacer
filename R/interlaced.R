@@ -404,7 +404,7 @@ is.empty <- function(x) {
 
 #' @export
 is.empty.default <- function(x) {
-  stop_unsupported(x, "is.empty")
+  is.na(x)
 }
 
 #' @export
