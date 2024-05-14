@@ -50,9 +50,9 @@ try it out and [let me know what you think](mailto:kdh38@psu.edu)!
 
 ## Installation
 
-``` r
-# The easiest way to get interlacer is to install via devtools:
+The easiest way to get `interlacer` is to install via devtools:
 
+``` r
 install.packages("devtools") # If devtools is not already installed
 
 devtools::install_github("khusmann/interlacer")
@@ -80,9 +80,7 @@ interlacer:
 
 ``` r
 library(dplyr, warn.conflicts = FALSE)
-#> Warning: package 'dplyr' was built under R version 4.2.3
 library(readr)
-#> Warning: package 'readr' was built under R version 4.2.3
 
 read_file(interlacer_example("colors.csv")) |>
   cat()
@@ -103,7 +101,7 @@ read_file(interlacer_example("colors.csv")) |>
 In this csv file, values are interlaced with three possible missing
 reasons: `REFUSED`, `OMITTED`, and `N/A`.
 
-With readr, loading these data would result in a data frame where all
+With `readr`, loading these data would result in a data frame where all
 missing reasons are replaced with `NA`:
 
 ``` r
@@ -171,9 +169,10 @@ mean(ex$age, na.rm=TRUE)
 #> [1] 25.375
 ```
 
-But the missing reasons can still be utilized! The following, for
-example, will filter the data set for all individuals that `REFUSED` to
-give their favorite color:
+But the missing reasons are still there! To indicate a value should be
+treated as a missing reason instead of a regular value, you can use the
+`na()` function. The following, for example, will filter the data set
+for all individuals that `REFUSED` to give their favorite color:
 
 ``` r
 ex |>
@@ -288,15 +287,32 @@ ex |>
 #> 11        11        10 <REDACTED_UNDERAGE>
 ```
 
-3.  Perfomance with large data sets
+3.  Performance with large data sets
 
 You may notice that on large datasets `interlacer` runs significantly
 slower than `readr` / `vroom`. Although `interlacer` uses `vroom` under
-the hood to load delimited data it is not able to take advantage of many
-of its optimizations because `vroom` does not [does not currently
+the hood to load delimited data, it is not able to take advantage of
+many of its optimizations because `vroom` does not [does not currently
 support](https://github.com/tidyverse/vroom/issues/532) column-level
 missing values. As soon as `vroom` supports column-level missing values,
 I will be able to remedy this!
+
+## Related work
+
+`interlacer` was inspired by the
+[`haven`](https://haven.tidyverse.org/),
+[`labelled`](https://larmarange.github.io/labelled/), and
+[`declared`](https://dusadrian.github.io/declared/) packages. These
+packages provide similar functionality to `interlacer`, but are more
+focused on providing compatibility with missing reason data imported
+from SPSS, SAS, and Stata. `interlacer`, by contrast, aims to be more
+generic: In addition to having the ability to model SPSS, SAS, and Stata
+missing value labels, it allows you to compose *any* two R types into an
+`interlaced` vector that can be easily manipulated in tidy pipelines.
+For a more detailed discussion, see `vignette("other-approaches")`.
+
+Future versions will include conversion functions to and from the types
+provided by these other packages!
 
 ## Acknowledgements
 
