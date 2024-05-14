@@ -256,7 +256,6 @@ df |>
       "ADULT",
       missing = na("AGE_UNAVAILABLE")
     ),
-    .after = person_id
   )
 ```
 
@@ -265,7 +264,7 @@ instead of R's `base::ifelse()` function, because the base function strips out
 the missing reason channel due to a
 [fundamental limitation in base R](https://vctrs.r-lib.org/#motivation).
 
-## `NA` missing reasons
+## Empty cells (`NA` missing reasons)
 
 When a cell in a column is missing both a value and a missing reason, the cell
 is considered "empty". Such values can occur when missing reasons are not
@@ -338,8 +337,7 @@ these show up as empty values when we join the data frame to our sample:
 
 ```{r}
 df |>
-  left_join(conditions, by = join_by(person_id)) |>
-  relocate(condition, .after = person_id)
+  left_join(conditions, by = join_by(person_id))
 ```
 
 We can remedy this by replacing these empty values after the join:
@@ -347,7 +345,6 @@ We can remedy this by replacing these empty values after the join:
 ```{r}
 df |>
   left_join(conditions, by = join_by(person_id)) |>
-  relocate(condition, .after = person_id) |>
   mutate(
     condition = if_else(is.empty(condition), na("LEFT_STUDY"), condition),
   )
