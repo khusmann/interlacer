@@ -18,13 +18,13 @@ type. Working with missing reasons in R traditionally requires loading
 variables as character vectors and doing a bunch of string comparisons
 and type conversions to make sense of them.
 
-`interlacer` provides functions that load variables from interlaced data
-sources into a new `interlaced` column type that holds values and `NA`
-reasons in separate *channels* of the same variable. In most contexts,
-you can treat `interlaced` columns as if they were regular values: if
-you take the `mean` of an interlaced column, for example, you get the
-mean of its values, without its missing reasons interfering in the
-computation.
+interlacer provides functions that load variables from interlaced data
+sources into a special `interlaced` column type that holds values and
+`NA` reasons in separate *channels* of the same variable. In most
+contexts, you can treat `interlaced` columns as if they were regular
+values: if you take the `mean` of an interlaced column, for example, you
+get the mean of its values, without its missing reasons interfering in
+the computation.
 
 Unlike a regular column, however, the missing reasons are still
 available. This means you can still filter data frames on variables by
@@ -50,7 +50,7 @@ try it out and [let me know what you think](mailto:kdh38@psu.edu)!
 
 ## Installation
 
-The easiest way to get `interlacer` is to install via devtools:
+The easiest way to get interlacer is to install via devtools:
 
 ``` r
 install.packages("devtools") # If devtools is not already installed

@@ -26,8 +26,8 @@ library(interlacer)
 ))
 ```
 
-As with readr, these column type guess can be overridden using the `col_types`,
-using readr's `readr::col_*()` column specifiers:
+As with readr, these column type guess can be overridden using the `col_types`
+parameter with readr's `readr::col_*()` column specifiers:
 
 ```{r}
 library(readr)
@@ -95,42 +95,59 @@ unique to that particular variable:
     "N/A"
   )
 ))
-
 ```
 
-The `icol_factor()` column spec works just like
-`readr::col_factor()`, but additionally accepts an `na` argument for specifying
-missing values at the variable level. When you specify missing
-reasons at the variable-level like this, the available levels in the resulting
-missing reason column correctly show only the possible missing reasons for
-that variable:
+## Setting missing reason types with `na_col_types`
+
+interlacer will automatically guess the type of missing values as well. For
+example, when we load a dataset that uses numeric codes for missing reasons,
+it results in numeric missing reason channels.
 
 ```{r}
-levels(df_stress$.person_id.)
-levels(df_stress$.current_stress.)
-levels(df_stress$.time_management.)
+read_interlaced_csv(
+  interlacer_example("colors_coded.csv"),
+  na = c(-99, -98, -97)
+)
 ```
 
-For comparison, if we loaded all of these variable-level missing reasons as
-file-level level missing reasons, each variable would have ALL missing
-reasons as possible levels, even if they didn't apply to that particular
-variable:
+The type of missing reason channels can be explicitly set via the `na_col_types`
+parameter, which accepts a `cols()` specification. The following will read
+each missing reason channel as a character column:
 
 ```{r}
-df_stress_file <- read_interlaced_csv(
-  interlacer_example("stress.csv"),
-  na = c(
-    "REFUSED",
-    "OMITTED",
-    "N/A",
-    "DONT_KNOW",
-    "DONT_UNDERSTAND",
-    "NA_VACATION",
-    "NA_OTHER"
+read_interlaced_csv(
+  interlacer_example("colors_coded.csv"),
+  na = c(-99, -98, -97),
+  na_col_types = cols(
+    person_id = col_character(),
+    age = col_character(),
+    favorite_color = col_character(),
   )
 )
-
-levels(df_stress_file$.person_id.)
-levels(df_stress_file$.current_stress.)
-levels(df_stress_file$.time_management.)
 ```
+
+`col_skip()` can be used to omit the missing reason channel loading the column
+as a regular type instead of an `interlaced` one. `.default` also can be used
+to set the default column type:
+
+```{r}
+read_interlaced_csv(
+  interlacer_example("colors_coded.csv"),
+  na = c(-99, -98, -97),
+  na_col_types = cols(
+    person_id = col_skip(),
+    .default = col_integer(),
+  )
+)
+```
+
+## Next steps
+
+In this vignette we covered how the column types for values and missing reasons
+can be explicitly specified using collectors. We also illustrated how
+column-level missing values can be specified using the `icol_*` collector types.
+
+In the final example, we used an example data set with coded values and missing
+reasons. Coded values are especially common in data sets produced by SPSS, SAS,
+and Stata. For some recipes for working with coded data like this, check
+out the next vignette, `vignette("coded-data")`.
