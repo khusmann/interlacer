@@ -77,14 +77,14 @@ library(dplyr, warn.conflicts = FALSE)
 
 df_coded |>
   mutate(
-    favorite_color_missing = if_else(favorite_color < 0, favorite_color, NA),
     age = if_else(age > 0, age, NA)
   ) |>
   summarize(
     mean_age = mean(age, na.rm=T),
     n = n(),
-    .by = favorite_color_missing
-  )
+    .by = favorite_color
+  ) |>
+  arrange(favorite_color)
 ```
 
 The downsides of this approach are twofold: 1) all of your values and 
@@ -99,14 +99,14 @@ compute aggregations using the negative numbers!
 ```{r}
 df_coded |>
   mutate(
-    favorite_color_missing = if_else(favorite_color < 0, favorite_color, NA),
 #    age = if_else(age > 0, age, NA)
   ) |>
   summarize(
     mean_age = mean(age, na.rm=T),
     n = n(),
-    .by = favorite_color_missing
-  )
+    .by = favorite_color
+  ) |>
+  arrange(favorite_color)
 ```
 
 In fact, ANY math you do without filtering for missing codes potentially ruins
@@ -118,14 +118,12 @@ the integrity of your data:
 df_coded |>
   mutate(
     age_next_year = age + 1,
-    .after = person_id
   )
 
 # This will give you your intended result, but it's easy to forget
 df_coded |>
   mutate(
     age_next_year = if_else(age < 0, age, age + 1),
-    .after = person_id
   )
 ```
 
@@ -133,31 +131,44 @@ Have you ever thought you had a significant result, only to find that it's
 only because there are some stray missing reason codes still interlaced with
 your values? It's a bad time.
 
-You're much better off loading these formats with interlacer, then converting
-the codes into labelled factor levels:
+You're much better off loading these formats with interlacer as factors, then
+converting the codes into labels:
 
 ```{r}
 library(forcats)
 
-(df_decoded_deinterlaced <- read_interlaced_csv(
+(df_decoded <- read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
-  na = c("-99", "-98", "-97")
+  na = c(-99, -98, -97),
+  col_types = cols(
+    favorite_color = col_factor(),
+  ),
+  na_col_types = cols(
+    .default = col_factor(),
+  )
 ) |>
   mutate(
     across(
-      missing_cols(),
-      \(x) fct_recode(x,
-        `N/A` = "-99",
-        REFUSED = "-98",
-        OMITTED = "-97",
+      everything(),
+      \(x) map_na_channel(
+        x,
+        \(v) fct_recode(
+          v,
+          `N/A` = "-99",
+          REFUSED = "-98",
+          OMITTED = "-97",
+        )
       )
     ),
-    favorite_color = fct_recode(
-      as.character(favorite_color),
-      BLUE = "1",
-      RED = "2",
-      YELLOW = "3",
-    )
+    favorite_color = map_value_channel(
+      favorite_color,
+      \(v) fct_recode(
+        v,
+        BLUE = "1",
+        RED = "2",
+        YELLOW = "3",
+      )
+    ),
   ))
 ```
 
@@ -165,23 +176,22 @@ Now aggregations won't mix up values and missing codes, and you won't have to
 keep cross-referencing your codebook to know what values mean:
 
 ```{r}
-df_decoded_deinterlaced |>
+df_decoded |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm=TRUE),
     n = n(),
-    .by = .favorite_color.
-  )
+    .by = favorite_color
+  ) |>
+  arrange(favorite_color)
 ```
 
 Other operations work with similar ease:
 
 ```{r}
-df_decoded_deinterlaced |>
+df_decoded |>
   mutate(
     age_next_year = age + 1,
-    .after = person_id
-  ) |>
-  coalesce_channels(missing_reason = "AGE_UNAVAILABLE")
+  )
 ```
 
 
@@ -225,18 +235,14 @@ you know it's a missing code. If it is successful, you know it's a coded value.
 ```{r}
 df_coded_char |>
   mutate(
-    favorite_color_missing = if_else(
-      is.na(as.numeric(favorite_color)),
-      favorite_color,
-      NA
-    ),
     age = if_else(!is.na(as.numeric(age)), as.numeric(age), NA)
   ) |>
   summarize(
     mean_age = mean(age, na.rm=T),
     n = n(),
-    .by = favorite_color_missing
-  )
+    .by = favorite_color
+  ) |>
+  arrange(favorite_color)
 ```
 
 Although the character missing codes help prevent us from mistakenly including
@@ -248,46 +254,64 @@ decode the values and missing reasons:
 ```{r}
 read_interlaced_csv(
   interlacer_example("colors_coded_char.csv"),
-  na = c(".", ".a", ".b")
+  na = c(".", ".a", ".b"),
+  col_types = cols(
+    favorite_color = col_factor(),
+  ),
+  na_col_types = cols(
+    .default = col_factor(),
+  )
 ) |>
   mutate(
     across(
-      missing_cols(),
-      \(x) fct_recode(x,
-        `N/A` = ".",
-        REFUSED = ".a",
-        OMITTED = ".b",
+      everything(),
+      \(x) map_na_channel(
+        x,
+        \(v) fct_recode(v,
+          `N/A` = ".",
+          REFUSED = ".a",
+          OMITTED = ".b",
+        )
       )
     ),
-    favorite_color = fct_recode(
-      as.character(favorite_color),
-      BLUE = "1",
-      RED = "2",
-      YELLOW = "3",
+    favorite_color = map_value_channel(
+      favorite_color,
+      \(v) fct_recode(
+        v,
+        BLUE = "1",
+        RED = "2",
+        YELLOW = "3",
+      )
     )
   )
 ```
 
 ## Encoding a decoded & deinterlaced data frame.
 
-Re-coding and re-interlacing a data frame is easily done as follows:
+Re-coding and re-interlacing a data frame can be done as follows:
 
 ```{r, eval = FALSE}
-df_decoded_deinterlaced |>
+df_decoded |>
   mutate(
     across(
-      missing_cols(),
-      \(x) fct_recode(x,
-        `-99` = "N/A",
-        `-98` = "REFUSED",
-        `-97` = "OMITTED"
+      everything(),
+      \(x) map_na_channel(
+        x,
+        \(v) fct_recode(v,
+          `-99` = "N/A",
+          `-98` = "REFUSED",
+          `-97` = "OMITTED"
+        )
       )
     ),
-    favorite_color = fct_recode(
+    favorite_color = map_value_channel(
       favorite_color,
-      `1` = "BLUE",
-      `2` = "RED",
-      `3` = "YELLOW"
+      \(v) fct_recode(
+        v,
+        `1` = "BLUE",
+        `2` = "RED",
+        `3` = "YELLOW"
+      )
     )
   ) |>
   write_interlaced_csv("output.csv")

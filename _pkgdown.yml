@@ -11,5 +11,5 @@ articles:
   navbar: ~
   contents:
     - column-types
-#  - coded-data
+    - coded-data
 #  - other-approaches
