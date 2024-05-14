@@ -8,6 +8,8 @@
 #' @inheritParams readr::read_delim
 #' @inheritParams vroom::vroom
 #'
+#' @param na 	Character or numeric vector of values to interpret as missing
+#' values. Set this option to character() to indicate no missing values.
 #' @param na_col_types TODO
 #'
 #' @return A [tibble()], with interlaced columns.
