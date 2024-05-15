@@ -152,21 +152,19 @@ library(forcats)
       everything(),
       \(x) map_na_channel(
         x,
-        \(v) fct_recode(
+        \(v) factor(
           v,
-          `N/A` = "-99",
-          REFUSED = "-98",
-          OMITTED = "-97",
+          levels = c(-99, -98, -97),
+          labels = c("N/A", "REFUSED", "OMITTED"),
         )
       )
     ),
     favorite_color = map_value_channel(
       favorite_color,
-      \(v) fct_recode(
+      \(v) factor(
         v,
-        BLUE = "1",
-        RED = "2",
-        YELLOW = "3",
+        levels = c(1, 2, 3),
+        labels = c("BLUE", "RED", "YELLOW")
       )
     ),
   ))
@@ -267,20 +265,19 @@ read_interlaced_csv(
       everything(),
       \(x) map_na_channel(
         x,
-        \(v) fct_recode(v,
-          `N/A` = ".",
-          REFUSED = ".a",
-          OMITTED = ".b",
+        \(v) factor(
+          v,
+          levels = c(".", ".a", ".b"),
+          labels = c("N/A", "REFUSED", "OMITTED")
         )
       )
     ),
     favorite_color = map_value_channel(
       favorite_color,
-      \(v) fct_recode(
+      \(v) factor(
         v,
-        BLUE = "1",
-        RED = "2",
-        YELLOW = "3",
+        levels = c(1, 2, 3),
+        labels = c("BLUE", "RED", "YELLOW")
       )
     )
   )
