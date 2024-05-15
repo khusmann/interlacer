@@ -19,6 +19,8 @@
 # )
 #
 
+# TODO: Make all attr calls exact = TRUE
+
 #' @export
 cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
   obj_check_vector(x)
@@ -71,15 +73,12 @@ fix_codes_arg <- function(codes) {
 
 #' @export
 is.cfactor <- function(x) {
-  is.active.cfactor(x)
+  inherits(x, "interlacer_cfactor")
 }
 
+#' @export
 is.active.cfactor <- function(x) {
-  inherits(x, "interlacer_cfactor") && !is.null(codes(x))
-}
-
-is.latent.cfactor <- function(x) {
-  inherits(x, "interlacer_cfactor") && is.null(codes(x))
+  is.cfactor(x) && !is.null(codes(x))
 }
 
 #' @export
@@ -90,13 +89,45 @@ levels.interlacer_cfactor <- function(x) {
 }
 
 #' @export
-codes <- function(x) {
+`levels<-.interlacer_cfactor` <- function(x, value) {
+  x <- as.factor(x)
+  levels(x) <- value
+  x
+}
+
+#' @export
+codes <- function(x, ...) {
+  UseMethod("codes")
+}
+
+#' @export
+codes.default <- function(x) {
   attr(attr(x, "levels"), "codes")
 }
 
 #' @export
+set_codes <- function(x, value) {
+  codes(x) <- value
+  x
+}
+
+#' @export
 `codes<-` <- function(x, value) {
+  UseMethod("codes<-")
+}
+
+#' @export
+`codes<-.default` <- function(x, value) {
   as.cfactor(x, value)
+}
+
+#' @export
+`codes<-.cfactor` <- function(x, value) {
+  if (is.null(value)) {
+    as.factor(x)
+  } else {
+    as.cfactor(x, value)
+  }
 }
 
 #' @export
@@ -116,11 +147,20 @@ as.cfactor <- function(x, ...) {
 }
 
 #' @export
-as.cfactor.default <- cfactor
+as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
+  if (is.null(codes)) {
+    if (is.factor(x)) {
+      codes <- set_names(seq_along(levels(x), levels(x)))
+    } else {
+      codes <- set_names(seq_along(unique(x)), unique(x))
+    }
+  } else {
+    codes <- fix_codes_arg(codes)
+  }
 
-#' @export
-as.cfactor.factor <- function(x, codes, ordered = is.ordered(x)) {
-  codes <- fix_codes_arg(codes)
+  if (!is.factor(x)) {
+    x <- factor(x, levels = names(codes), ordered = ordered)
+  }
 
   if (!setequal(levels(x), names(codes))) {
     cli_abort("mismatch between factor levels and supplied codes")
@@ -128,7 +168,7 @@ as.cfactor.factor <- function(x, codes, ordered = is.ordered(x)) {
 
   attr(attr(x, "levels"), "codes") <- codes
 
-  if (!is.active.cfactor(x) && !is.latent.cfactor(x)) {
+  if (!is.cfactor(x)) {
     class(x) <- c("interlacer_cfactor", class(x))
   }
 
@@ -138,7 +178,7 @@ as.cfactor.factor <- function(x, codes, ordered = is.ordered(x)) {
 #' @importFrom generics as.factor
 #' @export
 as.factor.interlacer_cfactor <- function(x, ...) {
-  if (is.active.cfactor(x) || is.latent.cfactor(x)) {
+  if (is.cfactor(x)) {
     attr(attr(x, "levels"), "codes") <- NULL
     class(x) <- class(x)[-1]
   }
@@ -198,10 +238,10 @@ as.codes.default <- function(x, ...) {
 
 #' @export
 as.codes.interlacer_cfactor <- function(x, ...) {
-  if (is.null(codes(x))) {
-    x
-  } else {
+  if (is.active.cfactor(x)) {
     unname(codes(x)[as.character(x)])
+  } else {
+    x
   }
 }
 
@@ -209,7 +249,7 @@ as.codes.interlacer_cfactor <- function(x, ...) {
 
 #' @export
 vec_ptype_full.interlacer_cfactor <- function(x, ...) {
-  if (is.cfactor(x)) {
+  if (is.active.cfactor(x)) {
     paste0(
       "cfactor<",
       vec_ptype_full(codes(x)),
@@ -242,7 +282,12 @@ obj_print_footer.interlacer_cfactor <- function(x, ...) {
     code = codes(x)
   )
 
-  cat("\nLevels:\n")
+  if (is.ordered(x)) {
+    cat("\nOrdinal levels:\n")
+  } else {
+    cat("\nCategorical levels:\n")
+  }
+
   print(lvls, row.names=FALSE)
 
   invisible(x)
