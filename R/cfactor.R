@@ -195,16 +195,6 @@ type_sum.interlacer_cfactor <- function(x) {
   vec_ptype_abbr(x)
 }
 
-#' @importFrom pillar pillar_shaft
-#' @export
-pillar_shaft.interlacer_cfactor <- function(x, ...) {
-  items <- paste0(
-    as.character(x), pillar::style_subtle(paste0(" [", as.codes(x), "]"))
-  )
-  pillar::new_pillar_shaft_simple(items, align = "left")
-}
-
-
 #' @export
 obj_print_footer.interlacer_cfactor <- function(x, ...) {
   if (all(levels(x) == codes(x))) {
