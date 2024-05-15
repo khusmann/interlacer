@@ -10,7 +10,14 @@ S3method("length<-",interlacer_interlaced)
 S3method("levels<-",interlacer_interlaced)
 S3method(as.cfactor,default)
 S3method(as.cfactor,factor)
+<<<<<<< HEAD
 S3method(as.character,interlacer_interlaced)
+=======
+S3method(as.codes,data.frame)
+S3method(as.codes,default)
+S3method(as.codes,interlacer_cfactor)
+S3method(as.codes,interlacer_interlaced)
+>>>>>>> sharpen as.codes
 S3method(as.double,interlacer_cfactor)
 S3method(as.double,interlacer_interlaced)
 S3method(as.integer,interlacer_cfactor)
