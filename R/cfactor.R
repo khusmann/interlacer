@@ -25,6 +25,12 @@ cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
 
   codes <- fix_codes_arg(codes)
 
+  if (is.factor(x)) {
+    cli_abort(
+      "(re)code factors using {.fn as.cfactor} instead"
+    )
+  }
+
   if (length(setdiff(na.omit(x), codes)) > 0) {
     cli_abort("some values in {.arg x} are not valid codes")
   }
@@ -65,7 +71,15 @@ fix_codes_arg <- function(codes) {
 
 #' @export
 is.cfactor <- function(x) {
+  is.active.cfactor(x)
+}
+
+is.active.cfactor <- function(x) {
   inherits(x, "interlacer_cfactor") && !is.null(codes(x))
+}
+
+is.latent.cfactor <- function(x) {
+  inherits(x, "interlacer_cfactor") && is.null(codes(x))
 }
 
 #' @export
@@ -81,8 +95,8 @@ codes <- function(x) {
 }
 
 #' @export
-`codes<-` <- function(x, new_codes) {
-  as.cfactor(x, new_codes)
+`codes<-` <- function(x, value) {
+  as.cfactor(x, value)
 }
 
 #' @export
@@ -114,7 +128,7 @@ as.cfactor.factor <- function(x, codes, ordered = is.ordered(x)) {
 
   attr(attr(x, "levels"), "codes") <- codes
 
-  if (!inherits(x, "interlacer_cfactor")) {
+  if (!is.active.cfactor(x) && !is.latent.cfactor(x)) {
     class(x) <- c("interlacer_cfactor", class(x))
   }
 
@@ -124,7 +138,7 @@ as.cfactor.factor <- function(x, codes, ordered = is.ordered(x)) {
 #' @importFrom generics as.factor
 #' @export
 as.factor.interlacer_cfactor <- function(x, ...) {
-  if (inherits(x, "interlacer_cfactor")) {
+  if (is.active.cfactor(x) || is.latent.cfactor(x)) {
     attr(attr(x, "levels"), "codes") <- NULL
     class(x) <- class(x)[-1]
   }
@@ -163,10 +177,32 @@ as.integer.interlacer_cfactor <- function(x, ...) {
 
 #' @export
 as.codes <- function(x, ...) {
+  UseMethod("as.codes")
+}
+
+#' @export
+as.codes.data.frame <- function(df, ...) {
+  df[] <- map(df, \(c) as.codes(c, ...))
+  df
+}
+
+#' @export
+as.codes.interlacer_interlaced <- function(x, ...) {
+  bimap_interlaced(x, as.codes)
+}
+
+#' @export
+as.codes.default <- function(x, ...) {
+  x
+}
+
+#' @export
+as.codes.interlacer_cfactor <- function(x, ...) {
   if (is.null(codes(x))) {
-    cli_abort("no codes avilable")
+    x
+  } else {
+    unname(codes(x)[as.character(x)])
   }
-  unname(codes(x)[as.character(x)])
 }
 
 ## Display ---------------------------------------------------------------
