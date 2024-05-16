@@ -21,6 +21,7 @@
 
 # TODO: Make all attr calls exact = TRUE
 # TODO: Add vec_cast and vec_ptype2 fns
+# TODO: Add tests that test for construction w names
 
 #' @export
 cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
@@ -42,8 +43,8 @@ cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
 }
 
 new_cfactor_from_codes <- function(x, codes, ordered) {
-  x_labels <- unname(set_names(names(codes), codes)[as.character(x)])
-  new_cfactor_from_labels(x_labels, codes, ordered)
+  x_labels <- set_names(names(codes), codes)[as.character(x)]
+  new_cfactor_from_labels(set_names(x_labels, names(x)), codes, ordered)
 }
 
 new_cfactor_from_labels <- function(x, codes, ordered) {
@@ -156,7 +157,7 @@ as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   } else {
     codes <- fix_codes_arg(codes)
     if (length(setdiff(na.omit(x), names(codes))) > 0) {
-      cli_abort("some values in {.arg x} are not valid codes")
+      cli_abort("some values in {.arg x} are not valid labels")
     }
   }
 
