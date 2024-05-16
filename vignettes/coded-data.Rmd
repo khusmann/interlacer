@@ -135,17 +135,10 @@ You're much better off loading these formats with interlacer as factors, then
 converting the codes into labels:
 
 ```{r}
-library(forcats)
-
 (df_decoded <- read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
   na = c(-99, -98, -97),
-  col_types = cols(
-    favorite_color = col_factor(),
-  ),
-  na_col_types = cols(
-    .default = col_factor(),
-  )
+  show_col_types = FALSE,
 ) |>
   mutate(
     across(
@@ -253,12 +246,7 @@ decode the values and missing reasons:
 read_interlaced_csv(
   interlacer_example("colors_coded_char.csv"),
   na = c(".", ".a", ".b"),
-  col_types = cols(
-    favorite_color = col_factor(),
-  ),
-  na_col_types = cols(
-    .default = col_factor(),
-  )
+  show_col_types = FALSE,
 ) |>
   mutate(
     across(
@@ -288,6 +276,8 @@ read_interlaced_csv(
 Re-coding and re-interlacing a data frame can be done as follows:
 
 ```{r, eval = FALSE}
+library(forcats)
+
 df_decoded |>
   mutate(
     across(
