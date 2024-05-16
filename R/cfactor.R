@@ -153,7 +153,7 @@ as.cfactor <- function(x, ...) {
 #' @export
 as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   if (is.null(codes)) {
-    codes <- set_names(seq_along(unique(na.omit(x))), unique(na.omit(x)))
+    codes <- set_names(seq_along(unique(na.omit(x)))-1, unique(na.omit(x)))
   } else {
     codes <- fix_codes_arg(codes)
     if (length(setdiff(na.omit(x), names(codes))) > 0) {
@@ -167,7 +167,7 @@ as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
 #' @export
 as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   if (is.null(codes)) {
-    codes <- set_names(seq_along(levels(x)), levels(x))
+    codes <- set_names(seq_along(levels(x))-1, levels(x))
   } else {
     codes <- fix_codes_arg(codes)
     if (!setequal(levels(x), names(codes))) {
