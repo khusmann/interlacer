@@ -140,14 +140,6 @@ set_codes <- function(x, value) {
   }
 }
 
-#' @export
-print.interlacer_cfactor <- function(x, ...) {
-  if (is.cfactor(x)) {
-    obj_print(x, ...)
-  } else {
-    NextMethod()
-  }
-}
 
 ## Casting
 
@@ -257,6 +249,15 @@ as.codes.interlacer_cfactor <- function(x, ...) {
 ## Display ---------------------------------------------------------------
 
 #' @export
+print.interlacer_cfactor <- function(x, ...) {
+  if (is.active.cfactor(x)) {
+    obj_print(x, ...)
+  } else {
+    NextMethod()
+  }
+}
+
+#' @export
 vec_ptype_full.interlacer_cfactor <- function(x, ...) {
   if (is.active.cfactor(x)) {
     paste0(
@@ -282,7 +283,7 @@ type_sum.interlacer_cfactor <- function(x) {
 
 #' @export
 obj_print_footer.interlacer_cfactor <- function(x, ...) {
-  if (all(levels(x) == codes(x))) {
+  if (!is.active.cfactor(x)) {
     return(obj_print_footer(as.factor(x)))
   }
 
