@@ -14,6 +14,15 @@ fix_non_syntactic <- function(x) {
   x
 }
 
+hash_label <- function (x, length = 5) {
+  if (length(x) == 0) {
+    ""
+  }
+  else {
+    substr(rlang::hash(x), 1, length)
+  }
+}
+
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
 withWarnings <- function(expr) {

@@ -20,6 +20,7 @@
 #
 
 # TODO: Make all attr calls exact = TRUE
+# TODO: Add vec_cast and vec_ptype2 fns
 
 #' @export
 cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
@@ -263,8 +264,10 @@ vec_ptype_full.interlacer_cfactor <- function(x, ...) {
     vec_ptype_full(as.factor(x))
   } else {
     paste0(
-      "cfactor<",
-      vec_ptype_full(codes(x)),
+      "cfactor_",
+      vec_ptype_abbr(codes(x)),
+      "<",
+      hash_label(codes(x)),
       ">"
     )
   }
