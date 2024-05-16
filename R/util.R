@@ -6,6 +6,14 @@ is_testing <- function() {
 #' @export
 vctrs::vec_c
 
+is_syntactic <- function(x) make.names(x) == x
+
+fix_non_syntactic <- function(x) {
+  non_syntactic <- !is_syntactic(x)
+  x[non_syntactic] <- paste0("`", gsub("`", "\\\\`", x[non_syntactic]), "`")
+  x
+}
+
 # Source:
 # https://stackoverflow.com/questions/3903157/how-can-i-check-whether-a-function-call-results-in-a-warning
 withWarnings <- function(expr) {

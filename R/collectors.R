@@ -1,3 +1,164 @@
+#' @export
+as.na_col_spec <- function(x) {
+  UseMethod("as.na_col_spec")
+}
+
+#' @export
+as.na_col_spec.default <- function(x) {
+  na_col_spec(list(), .default = x)
+}
+
+#' @export
+as.na_col_spec.interlacer_na_col_spec <- function(x) {
+  x
+}
+
+#' @export
+as.na_col_spec.list <- function(x) {
+  do.call(na_cols, x)
+}
+
+#' @export
+na_cols <- function(..., .default = NULL) {
+  # TODO: allow magic like tibbles do:
+  # na_cols(.default = c("NA", "REFUSED"), a = c(.default, "EXTRA"))
+  na_list <- list2(...)
+  na_col_spec(na_list, .default)
+}
+
+na_col_spec <- function(na_list, .default) {
+  structure(
+    list(cols = map(na_list, na_collector), default = na_collector(.default)),
+    class = "interlacer_na_col_spec"
+  )
+}
+
+#' @export
+is.na_col_spec <- function(x) {
+  inherits(x, "interlacer_na_col_spec")
+}
+
+#' @export
+print.interlacer_na_col_spec <- function (x, ...) {
+  cat(format(x))
+  invisible(x)
+}
+
+#' @export
+format.interlacer_na_col_spec <- function (x, ...) {
+  cols <- x$cols
+
+  cols_args <- c(
+    paste0(".default = ", format(x$default)),
+    map_chr(seq_along(cols), function(i) {
+      col_value <- format(cols[[i]])
+      col_name <- names(cols)[[i]] %||% ""
+
+      if (col_name != "") {
+        col_name <- paste0(fix_non_syntactic(col_name), " = ")
+      }
+
+      paste0(col_name, col_value)
+    })
+  )
+
+  out <- paste0(
+    "na_cols(\n",
+    "  ", paste0(cols_args, collapse = ",\n  "),
+    "\n)\n"
+  )
+}
+
+#' @export
+na_collector <- function(values) {
+  UseMethod("na_collector")
+}
+
+#' @export
+na_collector.default <- function(values) {
+  cli_abort("NA collector type not supported: {class(na)[[1]]}")
+}
+
+#' @export
+na_collector.NULL <- function(values) {
+  new_na_collector("skip", NULL, NULL)
+}
+
+#' @export
+na_collector.integer <- function(values) {
+  new_na_collector("integer", values, as.character(values))
+}
+
+#' @export
+na_collector.double <- function(values) {
+  new_na_collector(
+    "integer", vec_cast(values, integer()), as.character(values)
+  )
+}
+
+#' @export
+na_collector.character <- function(values) {
+  new_na_collector("character", values, values)
+}
+
+#' @export
+na_collector.factor <- function(values) {
+  new_na_collector(
+    "factor",
+    factor(levels(values), levels(values), ordered = is.ordered(values)),
+    levels(values)
+  )
+}
+
+#' @export
+format.interlacer_na_collector <- function(x, ...) {
+  if (is.null(x$values)) {
+    col_red("NULL")
+  } else if (is.integer(x$values)) {
+    col_green(fmt_vec(x$chr_values, quote = FALSE))
+  } else if (is.character(x$values)) {
+    col_red(fmt_vec(x$chr_values, quote = TRUE))
+  } else if (is.factor(x$values)) {
+    col_red(
+      paste0(
+        "factor(levels = ",
+        fmt_vec(x$chr_values, quote = TRUE),
+        ")"
+      )
+    )
+  } else {
+    "???"
+  }
+}
+
+fmt_vec <- function(x, quote) {
+  if (quote) {
+    x <- paste0("\"", x, "\"")
+  }
+  paste0(
+    "c(", paste0(x, collapse= ", "), ")"
+  )
+}
+
+#' @export
+print.interlacer_na_collector <- function(x, ...) {
+  cat(paste0("<", class(x)[[1]], ">\n"))
+  cat(format(x), "\n")
+  invisible(x)
+}
+
+new_na_collector <- function(type, values, chr_values) {
+  structure(
+    list(
+      values = values,
+      chr_values = chr_values
+    ),
+    class = c("interlacer_na_collector")
+  )
+}
+
+#################################
+
 interlaced_collector <- function(col_type, na) {
   col_type_name <- class(col_type)[[1]]
   class(col_type) <- c(col_type_name, "interlaced_collector", "collector")
