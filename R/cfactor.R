@@ -64,7 +64,7 @@ fix_codes_arg <- function(codes) {
   names(codes)[empty_labels] <- codes[empty_labels]
 
   if (is.numeric(codes)) {
-    codes[] <- vec_cast(codes, integer())
+    codes <- set_names(vec_cast(codes, integer()), names(codes))
   }
 
   if (length(codes) != length(unique(codes))) {
