@@ -87,8 +87,8 @@ is.cfactor <- function(x) {
 }
 
 #' @export
-is.active.cfactor <- function(x) {
-  is.cfactor(x) && !is.null(codes(x))
+is.latent.cfactor <- function(x) {
+  is.cfactor(x) && is.null(codes(x))
 }
 
 #' @export
@@ -239,40 +239,44 @@ as.codes.default <- function(x, ...) {
 
 #' @export
 as.codes.interlacer_cfactor <- function(x, ...) {
-  if (is.active.cfactor(x)) {
-    unname(codes(x)[as.character(x)])
-  } else {
-    x
+  if (is.latent.cfactor(x)) {
+    return(x)
   }
+
+  unname(codes(x)[as.character(x)])
 }
 
 ## Display ---------------------------------------------------------------
 
 #' @export
 print.interlacer_cfactor <- function(x, ...) {
-  if (is.active.cfactor(x)) {
-    obj_print(x, ...)
-  } else {
+  if (is.latent.cfactor(x)) {
     NextMethod()
+  } else {
+    obj_print(x, ...)
   }
 }
 
 #' @export
 vec_ptype_full.interlacer_cfactor <- function(x, ...) {
-  if (is.active.cfactor(x)) {
+  if (is.latent.cfactor(x)) {
+    vec_ptype_full(as.factor(x))
+  } else {
     paste0(
       "cfactor<",
       vec_ptype_full(codes(x)),
       ">"
     )
-  } else {
-    vec_ptype_full(as.factor(x))
   }
 }
 
 #' @export
 vec_ptype_abbr.interlacer_cfactor <- function(x, ...) {
-  "cfct"
+  if (is.latent.cfactor(x)) {
+    vec_ptype_abbr(as.factor(x))
+  } else {
+    "cfct"
+  }
 }
 
 #' @importFrom pillar type_sum
@@ -283,22 +287,22 @@ type_sum.interlacer_cfactor <- function(x) {
 
 #' @export
 obj_print_footer.interlacer_cfactor <- function(x, ...) {
-  if (!is.active.cfactor(x)) {
-    return(obj_print_footer(as.factor(x)))
-  }
-
-  lvls <- data.frame(
-    label = levels(x),
-    code = codes(x)
-  )
-
-  if (is.ordered(x)) {
-    cat("\nOrdinal levels:\n")
+  if (is.latent.cfactor(x)) {
+    obj_print_footer(as.factor(x))
   } else {
-    cat("\nCategorical levels:\n")
+    lvls <- data.frame(
+      label = levels(x),
+      code = codes(x)
+    )
+
+    if (is.ordered(x)) {
+      cat("\nOrdinal levels:\n")
+    } else {
+      cat("\nCategorical levels:\n")
+    }
+
+    print(lvls, row.names=FALSE)
+
+    invisible(x)
   }
-
-  print(lvls, row.names=FALSE)
-
-  invisible(x)
 }
