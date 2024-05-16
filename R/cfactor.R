@@ -29,7 +29,7 @@ cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
 
   if (is.factor(x)) {
     cli_abort(
-      "(re)code factors using {.fn as.cfactor} instead"
+      "add codes to factors using {.fn as.cfactor} instead"
     )
   }
 
@@ -37,12 +37,18 @@ cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
     cli_abort("some values in {.arg x} are not valid codes")
   }
 
-  v <- factor(x, codes, names(codes), ordered = ordered)
+  new_cfactor_from_codes(x, codes, ordered)
+}
 
+new_cfactor_from_codes <- function(x, codes, ordered) {
+  x_labels <- set_names(names(codes), codes)[x]
+  new_cfactor_from_labels(x_labels, codes, ordered)
+}
+
+new_cfactor_from_labels <- function(x, codes, ordered) {
+  v <- factor(x, levels = names(codes), ordered = ordered)
   attr(attr(v, "levels"), "codes") <- codes
-
   class(v) <- c("interlacer_cfactor", class(v))
-
   v
 }
 
@@ -66,6 +72,10 @@ fix_codes_arg <- function(codes) {
 
   if (length(names(codes)) != length(unique(names(codes)))) {
     cli_abort("labels are not unique")
+  }
+
+  if (is.numeric(codes) && !identical(codes, sort(codes))) {
+    cli_warn("codes are not in numerical order")
   }
 
   codes
@@ -149,30 +159,29 @@ as.cfactor <- function(x, ...) {
 #' @export
 as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   if (is.null(codes)) {
-    if (is.factor(x)) {
-      codes <- set_names(seq_along(levels(x), levels(x)))
-    } else {
-      codes <- set_names(seq_along(unique(x)), unique(x))
-    }
+    codes <- set_names(seq_along(unique(na.omit(x))), unique(na.omit(x)))
   } else {
     codes <- fix_codes_arg(codes)
+    if (length(setdiff(na.omit(x), names(codes))) > 0) {
+      cli_abort("some values in {.arg x} are not valid codes")
+    }
   }
 
-  if (!is.factor(x)) {
-    x <- factor(x, levels = names(codes), ordered = ordered)
+  new_cfactor_from_labels(x, codes, ordered)
+}
+
+#' @export
+as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
+  if (is.null(codes)) {
+    codes <- set_names(seq_along(levels(x)), levels(x))
+  } else {
+    codes <- fix_codes_arg(codes)
+    if (!setequal(levels(x), names(codes))) {
+      cli_abort("mismatch between factor levels and code labels")
+    }
   }
 
-  if (!setequal(levels(x), names(codes))) {
-    cli_abort("mismatch between factor levels and supplied codes")
-  }
-
-  attr(attr(x, "levels"), "codes") <- codes
-
-  if (!is.cfactor(x)) {
-    class(x) <- c("interlacer_cfactor", class(x))
-  }
-
-  x
+  new_cfactor_from_labels(x, codes, ordered)
 }
 
 #' @importFrom generics as.factor
