@@ -192,32 +192,24 @@ as.factor.interlacer_cfactor <- function(x, ...) {
 
 #' @export
 as.double.interlacer_cfactor <- function(x, ...) {
-  if (is.cfactor(x)) {
-    stop_incompatible_cast(
-      x,
-      double(),
-      x_arg = "",
-      to_arg = "",
-      details = "To obtain a coded representation, use as.codes() instead."
-    )
-  } else {
-    NextMethod()
+  if (is.numeric(codes(x))) {
+    cli_warn(c(
+      "Converting cfactor to double: values will not necessarily match codes",
+      i = "To obtain a coded representation, use as.codes() instead."
+    ))
   }
+  NextMethod()
 }
 
 #' @export
 as.integer.interlacer_cfactor <- function(x, ...) {
-   if (is.cfactor(x)) {
-     stop_incompatible_cast(
-      x,
-      integer(),
-      x_arg = "",
-      to_arg = "",
-      details = "To obtain a coded representation, use as.codes() instead."
-    )
-  } else {
-    NextMethod()
+  if (is.numeric(codes(x))) {
+    cli_warn(c(
+      "Converting cfactor to integer: values will not necessarily match codes",
+      i = "To obtain a coded representation, use as.codes() instead."
+    ))
   }
+  NextMethod()
 }
 
 #' @export
