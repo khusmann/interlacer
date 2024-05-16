@@ -42,7 +42,7 @@ cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
 }
 
 new_cfactor_from_codes <- function(x, codes, ordered) {
-  x_labels <- unname(set_names(names(codes), codes)[x])
+  x_labels <- unname(set_names(names(codes), codes)[as.character(x)])
   new_cfactor_from_labels(x_labels, codes, ordered)
 }
 
