@@ -152,6 +152,8 @@ as.cfactor <- function(x, ...) {
 
 #' @export
 as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
+  obj_check_vector(x)
+
   if (is.null(codes)) {
     codes <- set_names(seq_along(unique(na.omit(x)))-1, unique(na.omit(x)))
   } else {
