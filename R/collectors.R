@@ -76,7 +76,7 @@ na_collector <- function(values) {
 
 #' @export
 na_collector.default <- function(values) {
-  cli_abort("NA collector type not supported: {class(na)[[1]]}")
+  cli_abort("NA collector type not supported: {class(values)[[1]]}")
 }
 
 #' @export
