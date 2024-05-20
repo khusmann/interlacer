@@ -61,9 +61,10 @@ parse_interlaced <- function(
 
 #' @export
 interlaced <- function(x, na=NULL) {
-  m <- na[match(x, na)]
+  na <- na_collector(na)
+  m <- na$values[match(x, na$values)]
   v <- x
-  v[x %in% na] <- NA
+  v[x %in% na$values] <- NA
   new_interlaced(list_c(v), m)
 }
 
