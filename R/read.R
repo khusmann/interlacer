@@ -10,7 +10,6 @@
 #'
 #' @param na 	Character or numeric vector of values to interpret as missing
 #' values. Set this option to character() to indicate no missing values.
-#' @param na_col_types TODO
 #'
 #' @return A [tibble()], with interlaced columns.
 #'
@@ -25,7 +24,6 @@ read_interlaced_delim <- function(
   escape_double = TRUE,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -47,7 +45,6 @@ read_interlaced_delim <- function(
     delim = delim,
     col_names = col_names,
     col_types = col_types,
-    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -75,7 +72,6 @@ read_interlaced_csv <- function(
   file,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -98,7 +94,6 @@ read_interlaced_csv <- function(
     delim = ",",
     col_names = col_names,
     col_types = col_types,
-    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -126,7 +121,6 @@ read_interlaced_csv2 <- function(
   file,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -149,7 +143,6 @@ read_interlaced_csv2 <- function(
     delim = ";",
     col_names = col_names,
     col_types = col_types,
-    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -177,7 +170,6 @@ read_interlaced_tsv <- function(
   file,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -200,7 +192,6 @@ read_interlaced_tsv <- function(
     delim = "\t",
     col_names = col_names,
     col_types = col_types,
-    na_col_types = na_col_types,
     col_select = {{col_select}},
     id = id,
     skip = skip,
@@ -229,7 +220,6 @@ interlaced_vroom <- function(
   delim = NULL,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   skip = 0,
@@ -275,7 +265,7 @@ interlaced_vroom <- function(
   )
 
   col_spec <- as.col_spec(col_types)
-  na_col_spec <- as.col_spec(na_col_types)
+  na_col_spec <- as.na_col_spec(na)
 
   check_col_spec(col_spec, "col_types")
   check_col_spec(na_col_spec, "na_col_types")
@@ -314,13 +304,15 @@ interlaced_vroom <- function(
   col_spec <- fix_col_spec_names(
     col_spec,
     names(spec(df_chr)$cols),
+    col_guess(),
     "col_types"
   )
 
   na_col_spec <- fix_col_spec_names(
     na_col_spec,
     names(spec(df_chr)$cols),
-    "na_col_types"
+    na_collector(NULL),
+    "na"
   )
 
   # Step 2: For each of the resulting columns, go back and convert values
@@ -333,8 +325,6 @@ interlaced_vroom <- function(
     collector <- col_spec$cols[[i]] %||% col_spec$default
     na_collector <- na_col_spec$cols[[i]] %||% na_col_spec$default
 
-    all_na_values <- unique(vec_c(collector$na, na))
-
     vroom_call <- withWarnings(
       inject(
         vroom::vroom(
@@ -342,7 +332,7 @@ interlaced_vroom <- function(
           col_types = col_spec,
           col_select = tidyselect::all_of(i),
           id = NULL,
-          na = all_na_values
+          na = na_collector$chr_values,
           # num_threads = 1
         )
       )
@@ -350,29 +340,16 @@ interlaced_vroom <- function(
 
     value_df <- vroom_call$value
 
+    used_value_collector <- spec(value_df)$cols[[i]]
     values <- value_df[[1]]
 
-    if (inherits(na_collector, "collector_skip")) {
+    if (is.null(na_collector$values)) {
       out_value <- values
-      used_na_collector <- na_collector
     } else {
-      all_na_values_conv <- type_convert_col(
-        all_na_values,
-        na_collector,
-        na = character()
-      )
-      na_values <- all_na_values_conv[match(df_chr[[i]], all_na_values)]
-
+      na_idx <- match(df_chr[[i]], na_collector$chr_values)
+      na_values <- na_collector$values[na_idx]
       out_value <- new_interlaced(values, na_values)
-      used_na_collector <- type_to_col(na_values)
     }
-
-    # If collector is not collector_guess, we want to use that because it
-    # might be an icol_*. Otherwise just use the vroom collector
-    used_collector <- detect(
-      c(list(collector), spec(value_df)$cols),
-      \(x) !inherits(x, "collector_skip") && !inherits(x, "collector_guess")
-    )
 
     if (progress) {
       cli_progress_update(id = p)
@@ -381,8 +358,7 @@ interlaced_vroom <- function(
     list(
       values = out_value,
       problems = vroom_call$warnings,
-      spec = used_collector,
-      na_spec = used_na_collector
+      spec = used_value_collector
     )
   })
 
@@ -393,10 +369,7 @@ interlaced_vroom <- function(
     spec(df_chr), map(out, \(i) i$spec), col_spec$default
   )
 
-  # Replace na_spec cols from chr spec into na_values col spec
-  attr(df, "na_spec") <- update_col_spec(
-    spec(df_chr), map(out, \(i) i$na_spec), na_col_spec$default
-  )
+  attr(df, "na_spec") <- na_col_spec
 
   # Rename result to names from col_select
   names(df) <- names(vars)
@@ -438,14 +411,10 @@ na_spec <- function(df) {
 }
 
 check_col_spec <- function(col_spec, arg) {
-  is_unnamed_col_spec <- is.null(names(col_spec$cols))
-
-  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
-    if (any(names(col_spec$cols) == "")) {
-      cli_abort(
-        "{.arg arg} cannot have a mix of named and unnamed values"
-      )
-    }
+  if (any(names(col_spec$cols) == "")) {
+    cli_abort(
+      "{.arg arg} cannot have a mix of named and unnamed values"
+    )
   }
 }
 
@@ -455,7 +424,7 @@ update_col_spec <- function(col_spec, update_list, default) {
   col_spec
 }
 
-fix_col_spec_names <- function(col_spec, spec_names, arg) {
+fix_col_spec_names <- function(col_spec, spec_names, default, arg) {
   is_unnamed_col_spec <- is.null(names(col_spec$cols))
 
   if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
@@ -463,7 +432,7 @@ fix_col_spec_names <- function(col_spec, spec_names, arg) {
       cli_warn(
         paste0(
           "mismatch between number of unnamed columns defined in ",
-          "{.arg arg} ({length(col_spec$cols)}) and columns found in ",
+          "`{arg}` ({length(col_spec$cols)}) and columns found in ",
           "file ({length(spec_names)})"
         )
       )
@@ -471,7 +440,7 @@ fix_col_spec_names <- function(col_spec, spec_names, arg) {
 
     col_spec$cols <- map(
       set_names(seq_along(spec_names), spec_names),
-      \(i) col_spec$cols[i][[1]] %||% col_guess()
+      \(i) col_spec$cols[i][[1]] %||% default
     )
   }
   col_spec

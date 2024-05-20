@@ -43,28 +43,27 @@ test_that("basic reading works", {
   )
 
   expect_equal(
-    na_spec(result)$cols,
-    list(
-      a = col_character(),
-      b = col_character(),
-      c = col_character(),
-      d = col_character()
-    )
+    na_spec(result)$default,
+    na_collector(all_na_reasons())
   )
 })
 
 
-test_that("column-level missing reasons can be specified with icol_*", {
+test_that("column-level missing reasons can be specified na arg", {
   col_types <- cols(
-    a = icol_logical(na = "REASON_1"),
-    b = icol_double(na = "REASON_2"),
+    a = col_logical(),
+    b = col_double(),
     c = col_double(),
     d = col_character(),
   )
 
   result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = c("REASON_3"),
+    na = na_cols(
+      .default = c("REASON_3"),
+      a = c("REASON_3", "REASON_1"),
+      b = c("REASON_3", "REASON_2"),
+    ),
     col_types = col_types,
   )
 
@@ -100,13 +99,8 @@ test_that("col_select selects columns", {
   )
 
   expect_equal(
-    na_spec(result)$cols,
-    list(
-      a = col_character(),
-      b = col_skip(),
-      c = col_skip(),
-      d = col_skip()
-    )
+    na_spec(result)$default,
+    na_collector(all_na_reasons())
   )
 })
 
@@ -133,13 +127,8 @@ test_that("col_select renames columns", {
   )
 
   expect_equal(
-    na_spec(result)$cols,
-    list(
-      a = col_character(),
-      b = col_skip(),
-      c = col_skip(),
-      d = col_skip()
-    )
+    na_spec(result)$default,
+    na_collector(all_na_reasons())
   )
 })
 
@@ -166,13 +155,8 @@ test_that("col_select reorders columns", {
   )
 
   expect_equal(
-    na_spec(result)$cols,
-    list(
-      a = col_character(),
-      b = col_character(),
-      c = col_character(),
-      d = col_skip()
-    )
+    na_spec(result)$default,
+    na_collector(all_na_reasons())
   )
 })
 
@@ -199,13 +183,8 @@ test_that("col_select reorders and renames columns", {
   )
 
   expect_equal(
-    na_spec(result)$cols,
-    list(
-      a = col_character(),
-      b = col_character(),
-      c = col_character(),
-      d = col_skip()
-    )
+    na_spec(result)$default,
+    na_collector(all_na_reasons())
   )
 })
 
@@ -266,7 +245,7 @@ test_that("incomplete unnamed col_types work with warning", {
   )
 })
 
-test_that("overcomplete unnamed col_types work with warning", {
+test_that("overcomplete na spec work with warning", {
   expect_warning(
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
@@ -306,13 +285,10 @@ test_that("cannot mix unnamed and named col_types", {
   )
 })
 
-# Unnamed na_col_types
-
-test_that("unnamed na_col_types work", {
+test_that("factor na values works", {
    result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = all_na_reasons(),
-    na_col_types = "ffff"
+    na = factor(levels=all_na_reasons()),
   )
 
   expected <- basic_df_expected() |>
@@ -326,13 +302,8 @@ test_that("unnamed na_col_types work", {
   expect_equal(result, expected, ignore_attr = TRUE)
 
   expect_equal(
-    na_spec(result)$cols,
-    list(
-      a = col_factor(all_na_reasons()),
-      b = col_factor(all_na_reasons()),
-      c = col_factor(all_na_reasons()),
-      d = col_factor(all_na_reasons())
-    )
+    na_spec(result)$default,
+    na_collector(factor(levels=all_na_reasons()))
   )
 })
 
@@ -340,14 +311,16 @@ test_that("incomplete unnamed na_col_types work with warning", {
   expect_warning(
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = all_na_reasons(),
-      na_col_types = "f"
+      na = list(factor(levels=all_na_reasons()))
     )
   )
 
   expected <- basic_df_expected() |>
     dplyr::mutate(
-      a = map_na_channel(a, to_na_reason_factor)
+      a = map_na_channel(a, to_na_reason_factor),
+      b = flatten_channels(b),
+      c = flatten_channels(c),
+      d = flatten_channels(d)
     )
 
   expect_equal(result, expected, ignore_attr = TRUE)
@@ -355,10 +328,10 @@ test_that("incomplete unnamed na_col_types work with warning", {
   expect_equal(
     na_spec(result)$cols,
     list(
-      a = col_factor(all_na_reasons()),
-      b = col_character(),
-      c = col_character(),
-      d = col_character()
+      a = na_collector(factor(all_na_reasons())),
+      b = na_collector(NULL),
+      c = na_collector(NULL),
+      d = na_collector(NULL)
     )
   )
 })
@@ -367,8 +340,13 @@ test_that("overcomplete unnamed na_col_types work with warning", {
   expect_warning(
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = all_na_reasons(),
-      na_col_types = "fffff"
+      na = list(
+        factor(levels=all_na_reasons()),
+        factor(levels=all_na_reasons()),
+        factor(levels=all_na_reasons()),
+        factor(levels=all_na_reasons()),
+        factor(levels=all_na_reasons())
+      )
     )
   )
 
@@ -385,10 +363,10 @@ test_that("overcomplete unnamed na_col_types work with warning", {
   expect_equal(
     na_spec(result)$cols,
     list(
-      a = col_factor(all_na_reasons()),
-      b = col_factor(all_na_reasons()),
-      c = col_factor(all_na_reasons()),
-      d = col_factor(all_na_reasons())
+      a = na_collector(factor(all_na_reasons())),
+      b = na_collector(factor(all_na_reasons())),
+      c = na_collector(factor(all_na_reasons())),
+      d = na_collector(factor(all_na_reasons()))
     )
   )
 })
@@ -397,8 +375,7 @@ test_that("cannot mix unnamed and named na_col_types", {
   expect_error(
      read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = all_na_reasons(),
-      na_col_types = list("c", a = "b")
+      na = list("c", a = "b")
     )
   )
 })

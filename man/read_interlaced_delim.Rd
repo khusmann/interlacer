@@ -16,7 +16,6 @@ read_interlaced_delim(
   escape_double = TRUE,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -36,7 +35,6 @@ read_interlaced_csv(
   file,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -57,7 +55,6 @@ read_interlaced_csv2(
   file,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -78,7 +75,6 @@ read_interlaced_tsv(
   file,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
@@ -100,7 +96,6 @@ interlaced_vroom(
   delim = NULL,
   col_names = TRUE,
   col_types = NULL,
-  na_col_types = NULL,
   col_select = NULL,
   id = NULL,
   skip = 0,
@@ -196,8 +191,6 @@ character represents one column:
 By default, reading a file without a column specification will print a
 message showing what \code{readr} guessed they were. To remove this message,
 set \code{show_col_types = FALSE} or set \code{options(readr.show_col_types = FALSE)}.}
-
-\item{na_col_types}{TODO}
 
 \item{col_select}{Columns to include in the results. You can use the same
 mini-language as \code{dplyr::select()} to refer to the columns by name. Use
