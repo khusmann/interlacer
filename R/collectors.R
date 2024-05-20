@@ -19,16 +19,34 @@ as.na_col_spec.list <- function(x) {
 }
 
 #' @export
-na_cols <- function(..., .default = NULL) {
-  # TODO: allow magic like tibbles do:
-  # na_cols(.default = c("NA", "REFUSED"), a = c(.default, "EXTRA"))
-  na_list <- list2(...)
-  na_col_spec(na_list, .default)
+na_cols <- function(...) {
+  xs <- quos(...)
+
+  col_names <- names2(xs)
+
+  output <- set_names(rep_along(xs, list()), col_names)
+
+  env <- new_environment()
+  mask <- new_data_mask(env)
+
+  for (j in seq_along(xs)) {
+    res <- eval_tidy(xs[[j]], mask)
+
+    output[j] <- list(res)
+
+    if (col_names[[j]] != "") {
+      env[[col_names[[j]]]] <- res
+    }
+  }
+
+  default <- output$.default
+  output$.default <- NULL
+  na_col_spec(output, default)
 }
 
-na_col_spec <- function(na_list, .default) {
+na_col_spec <- function(na_list, default) {
   structure(
-    list(cols = map(na_list, na_collector), default = na_collector(.default)),
+    list(cols = map(na_list, na_collector), default = na_collector(default)),
     class = "interlacer_na_col_spec"
   )
 }
