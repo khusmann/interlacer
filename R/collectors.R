@@ -69,9 +69,9 @@ format.interlacer_na_col_spec <- function (x, ...) {
   if (is.null(x$default$value)) {
     header <- "na_cols_only(\n"
   } else {
-    header <- paste0(
-      "na_cols(\n",
-      "  .default = ", format(x$default), ",\n"
+    header <- "na_cols(\n"
+    cols_args <- c(
+      paste0(".default = ", format(x$default)), cols_args
     )
   }
 
@@ -136,6 +136,7 @@ format.interlacer_na_collector <- function(x, ...) {
       paste0(
         "factor(levels = ",
         fmt_vec(x$chr_values, quote = TRUE),
+        ", ordered = ", is.ordered(x$value),
         ")"
       )
     )
