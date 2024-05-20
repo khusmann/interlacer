@@ -81,7 +81,11 @@ na_collector <- function(values) {
 
 #' @export
 na_collector.default <- function(values) {
-  cli_abort("NA collector type not supported: {class(values)[[1]]}")
+  if (any(is.na(values))) {
+    cli_abort("na_collectors cannot contain missing values")
+  }
+
+  cli_abort("na_collector type not supported: {class(values)[[1]]}")
 }
 
 #' @export
@@ -154,6 +158,10 @@ print.interlacer_na_collector <- function(x, ...) {
 }
 
 new_na_collector <- function(type, values, chr_values) {
+  if (any(is.na(values))) {
+    cli_abort("na_collectors cannot contain missing values")
+  }
+
   structure(
     list(
       values = values,
