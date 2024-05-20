@@ -44,37 +44,27 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #' @export
 parse_interlaced <- function(
   x, na,
-  .value_col = col_guess(),
-  .na_col = col_guess()
+  .value_col = col_guess()
 ) {
-  if (!is.character(x) || !is.character(na)) {
-    cli_abort("{.arg x} and {.arg na} must both be character vectors")
+  if (!is.character(x)) {
+    cli_abort("{.arg x} must be a character vector")
   }
 
-  sc <- separate_channels(x, na)
+  na <- na_collector(na)
 
-  v <- type_convert_col(
-    sc$value_channel, .value_col, na = character()
-  )
+  v <- type_convert_col(x, .value_col, na = na$chr_values)
 
-  na_conv <- type_convert_col(na, .na_col, na = character())
-  m <- na_conv[match(sc$na_channel, na)]
+  m <- na$values[match(x, na$chr_values)]
 
   new_interlaced(v, m)
 }
 
 #' @export
 interlaced <- function(x, na=NULL) {
-  sc <- separate_channels(x, na)
-  new_interlaced(sc$value_channel, sc$na_channel)
-}
-
-separate_channels <- function(x, na) {
-  x_is_na <- x %in% na
-  list(
-    value_channel = if_else(x_is_na, unspecified(1), x),
-    na_channel = if_else(x_is_na, x, unspecified(1))
-  )
+  m <- na[match(x, na)]
+  v <- x
+  v[x %in% na] <- NA
+  new_interlaced(list_c(v), m)
 }
 
 #' @export

@@ -14,9 +14,8 @@ test_that("interlaced type cannot construct with existing 'na_values' attr", {
 })
 
 test_that("parse_interlaced returns unspecified types", {
-  expect_equal(
-    parse_interlaced("a", NA_character_),
-    new_interlaced("a", unspecified(1))
+  expect_error(
+    parse_interlaced("a", NA),
   )
   expect_equal(
     parse_interlaced("a", "a"),
