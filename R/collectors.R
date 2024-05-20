@@ -15,7 +15,7 @@ as.na_col_spec.interlacer_na_col_spec <- function(x) {
 
 #' @export
 as.na_col_spec.list <- function(x) {
-  do.call(na_cols, x)
+  do.call(na_cols_only, x)
 }
 
 #' @export
@@ -28,6 +28,11 @@ na_cols <- function(..., .default) {
 
 #' @export
 na_cols_only <- function(...) {
+  if (".default" %in% names(list2(...))) {
+    cli_abort(
+      "to specify a .default na_collector type, use {.fn na_cols} instead"
+    )
+  }
   na_cols(..., .default = NULL)
 }
 
