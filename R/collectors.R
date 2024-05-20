@@ -19,11 +19,16 @@ as.na_col_spec.list <- function(x) {
 }
 
 #' @export
-na_cols <- function(..., .default = NULL) {
+na_cols <- function(..., .default) {
   # TODO: allow magic like tibbles do:
   # na_cols(.default = c("NA", "REFUSED"), a = c(.default, "EXTRA"))
   na_list <- list2(...)
   na_col_spec(na_list, .default)
+}
+
+#' @export
+na_cols_only <- function(...) {
+  na_cols(..., .default = NULL)
 }
 
 na_col_spec <- function(na_list, .default) {
@@ -49,7 +54,6 @@ format.interlacer_na_col_spec <- function (x, ...) {
   cols <- x$cols
 
   cols_args <- c(
-    paste0(".default = ", format(x$default)),
     map_chr(seq_along(cols), function(i) {
       col_value <- format(cols[[i]])
       col_name <- names(cols)[[i]] %||% ""
@@ -62,8 +66,17 @@ format.interlacer_na_col_spec <- function (x, ...) {
     })
   )
 
+  if (is.null(x$default$value)) {
+    header <- "na_cols_only(\n"
+  } else {
+    header <- paste0(
+      "na_cols(\n",
+      "  .default = ", format(x$default), ",\n"
+    )
+  }
+
   out <- paste0(
-    "na_cols(\n",
+    header,
     "  ", paste0(cols_args, collapse = ",\n  "),
     "\n)\n"
   )
