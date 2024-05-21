@@ -165,26 +165,10 @@ check out `vignette("interlacer")` for a more complete overview!
 
 ## Known Issues
 
-1. Interlaced vectors cannot be constructed with `c()`
+1. `ifelse()` does not promote interlaced types
 
-Due to a [fundamental limitation of R](https://vctrs.r-lib.org/#motivation),
-interlaced vectors cannot be constructed with `c()`. For example, the following
-will return a regular vector:
-
-```{r}
-c(5, 6, na("OMITTED"))
-```
-
-Instead, use `vctrs::vec_c()` (reexported by `interlacer`):
-
-```{r}
-vec_c(5, 6, na("OMITTED"))
-```
-
-2. `ifelse()` does not promote interlaced types
-
-For similar reasons as the above issue, using `base::ifelse()` with `interlaced`
-columns will convert them into regular vectors:
+Due to a [limitation of R](https://vctrs.r-lib.org/#motivation), some base R
+functions, like `base::ifelse()` will strip `interlaced` columns into regular vectors:
 
 ```{r}
 ex |>
@@ -193,7 +177,8 @@ ex |>
   )
 ```
 
-Instead, use `dplyr::if_else()`:
+If you run into this, use the tidyverse equivalent of the function that promotes
+types properly. In this case,`dplyr::if_else()`:
 
 ```{r}
 ex |>
@@ -207,7 +192,7 @@ ex |>
   )
 ```
 
-3. Performance with large data sets
+2. Performance with large data sets
 
 You may notice that on large datasets `interlacer` runs significantly slower
 than `readr` / `vroom`. Although `interlacer` uses `vroom` under the hood to load 
@@ -219,20 +204,19 @@ missing values, I will be able to remedy this!
 
 ## Related work
 
-`interlacer` was inspired by the [`haven`](https://haven.tidyverse.org/),
+interlacer was inspired by the [`haven`](https://haven.tidyverse.org/),
 [`labelled`](https://larmarange.github.io/labelled/), and
 [`declared`](https://dusadrian.github.io/declared/) packages. These packages
-provide similar functionality to `interlacer`, but are more focused on
-providing compatibility
-with missing reason data imported from SPSS, SAS, and Stata. `interlacer`, by
-contrast, aims to be more generic: In addition to having the ability to
-model SPSS, SAS, and Stata
-missing value labels, it allows you to compose *any* two R types into an
-`interlaced` vector that can be easily manipulated in tidy pipelines.
-For a more detailed discussion, see `vignette("other-approaches")`.
+provide similar functionality to interlacer, but are more focused on
+providing compatibility with missing reason data imported from SPSS, SAS, and
+Stata. interlacer has slightly different aims:
 
-Future versions will include conversion functions to and from the types provided
-by these other packages!
+1. Wrap *any* R type with a missing value channel.
+2. Provide functions for reading / writing interlaced CSV files (not just SPSS
+/ SAS / Stata files)
+3. Provide a functional API that integrates well into tidy pipelines
+
+For a more detailed discussion, see `vignette("other-approaches")`.
 
 ## Acknowledgements
 

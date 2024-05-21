@@ -139,7 +139,7 @@ With interlacer, missing reasons are preserved:
 ))
 #> # A tibble: 11 × 3
 #>    person_id       age favorite_color
-#>    <dbl,chr> <dbl,chr> <chr,chr>     
+#>    <dbl,fct> <dbl,fct> <chr,fct>     
 #>  1         1        20 BLUE          
 #>  2         2 <REFUSED> BLUE          
 #>  3         3        21 <REFUSED>     
@@ -160,9 +160,10 @@ column, for example, has type `double` for its values, and type
 
 ``` r
 ex$age
-#> <interlaced<double, character>[11]>
+#> <interlaced<dbl, fct>[11]>
 #>  [1] 20        <REFUSED> 21        30        1         41        50       
-#>  [8] 30        <REFUSED> <OMITTED> 10
+#>  [8] 30        <REFUSED> <OMITTED> 10       
+#> NA levels: REFUSED OMITTED N/A
 ```
 
 Computations automatically operate on values:
@@ -182,7 +183,7 @@ ex |>
   filter(favorite_color == na("REFUSED"))
 #> # A tibble: 3 × 3
 #>   person_id       age favorite_color
-#>   <dbl,chr> <dbl,chr> <chr,chr>     
+#>   <dbl,fct> <dbl,fct> <chr,fct>     
 #> 1         3        21 <REFUSED>     
 #> 2         9 <REFUSED> <REFUSED>     
 #> 3        11        10 <REFUSED>
@@ -202,13 +203,13 @@ ex |>
   arrange(favorite_color)
 #> # A tibble: 6 × 3
 #>   favorite_color mean_age     n
-#>   <chr,chr>         <dbl> <int>
+#>   <chr,fct>         <dbl> <int>
 #> 1 BLUE               20       2
 #> 2 RED                41       2
 #> 3 YELLOW             30       1
-#> 4 <N/A>               1       1
+#> 4 <REFUSED>          15.5     3
 #> 5 <OMITTED>          40       2
-#> 6 <REFUSED>          15.5     3
+#> 6 <N/A>               1       1
 ```
 
 But this just scratches the surface of what can be done with interlacer…
@@ -216,30 +217,11 @@ check out `vignette("interlacer")` for a more complete overview!
 
 ## Known Issues
 
-1.  Interlaced vectors cannot be constructed with `c()`
+1.  `ifelse()` does not promote interlaced types
 
-Due to a [fundamental limitation of
-R](https://vctrs.r-lib.org/#motivation), interlaced vectors cannot be
-constructed with `c()`. For example, the following will return a regular
-vector:
-
-``` r
-c(5, 6, na("OMITTED"))
-#> [1]  5  6 NA
-```
-
-Instead, use `vctrs::vec_c()` (reexported by `interlacer`):
-
-``` r
-vec_c(5, 6, na("OMITTED"))
-#> <interlaced<double, character>[3]>
-#> [1] 5         6         <OMITTED>
-```
-
-2.  `ifelse()` does not promote interlaced types
-
-For similar reasons as the above issue, using `base::ifelse()` with
-`interlaced` columns will convert them into regular vectors:
+Due to a [limitation of R](https://vctrs.r-lib.org/#motivation), some
+base R functions, like `base::ifelse()` will strip `interlaced` columns
+into regular vectors:
 
 ``` r
 ex |>
@@ -248,7 +230,7 @@ ex |>
   )
 #> # A tibble: 11 × 3
 #>    person_id       age favorite_color
-#>    <dbl,chr> <dbl,chr> <chr>         
+#>    <dbl,fct> <dbl,fct> <chr>         
 #>  1         1        20 BLUE          
 #>  2         2 <REFUSED> <NA>          
 #>  3         3        21 <NA>          
@@ -262,7 +244,8 @@ ex |>
 #> 11        11        10 <NA>
 ```
 
-Instead, use `dplyr::if_else()`:
+If you run into this, use the tidyverse equivalent of the function that
+promotes types properly. In this case,`dplyr::if_else()`:
 
 ``` r
 ex |>
@@ -276,7 +259,7 @@ ex |>
   )
 #> # A tibble: 11 × 3
 #>    person_id       age favorite_color        
-#>    <dbl,chr> <dbl,chr> <chr,chr>             
+#>    <dbl,fct> <dbl,fct> <chr,fct>             
 #>  1         1        20 BLUE                  
 #>  2         2 <REFUSED> <REDACTED_MISSING_AGE>
 #>  3         3        21 <REFUSED>             
@@ -290,7 +273,7 @@ ex |>
 #> 11        11        10 <REDACTED_UNDERAGE>
 ```
 
-3.  Performance with large data sets
+2.  Performance with large data sets
 
 You may notice that on large datasets `interlacer` runs significantly
 slower than `readr` / `vroom`. Although `interlacer` uses `vroom` under
@@ -302,20 +285,19 @@ I will be able to remedy this!
 
 ## Related work
 
-`interlacer` was inspired by the
-[`haven`](https://haven.tidyverse.org/),
+interlacer was inspired by the [`haven`](https://haven.tidyverse.org/),
 [`labelled`](https://larmarange.github.io/labelled/), and
 [`declared`](https://dusadrian.github.io/declared/) packages. These
-packages provide similar functionality to `interlacer`, but are more
+packages provide similar functionality to interlacer, but are more
 focused on providing compatibility with missing reason data imported
-from SPSS, SAS, and Stata. `interlacer`, by contrast, aims to be more
-generic: In addition to having the ability to model SPSS, SAS, and Stata
-missing value labels, it allows you to compose *any* two R types into an
-`interlaced` vector that can be easily manipulated in tidy pipelines.
-For a more detailed discussion, see `vignette("other-approaches")`.
+from SPSS, SAS, and Stata. interlacer has slightly different aims:
 
-Future versions will include conversion functions to and from the types
-provided by these other packages!
+1.  Wrap *any* R type with a missing value channel.
+2.  Provide functions for reading / writing interlaced CSV files (not
+    just SPSS / SAS / Stata files)
+3.  Provide an API that integrates well into tidy pipelines
+
+For a more detailed discussion, see `vignette("other-approaches")`.
 
 ## Acknowledgements
 
