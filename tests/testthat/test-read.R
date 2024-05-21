@@ -8,17 +8,17 @@ to_na_reason_factor <- function(c) {
 
 basic_df_expected <- function() {
   tibble(
-    a = vec_c(na("REASON_1"), TRUE, TRUE, na("REASON_3")),
-    b = vec_c(7, na("REASON_2"), 8, 10),
-    c = vec_cast(
+    a = interlaced(list("REASON_1", TRUE, TRUE, "REASON_3"), na = all_na_reasons()),
+    b = interlaced(list(7, "REASON_2", 8, 10), na = all_na_reasons()),
+    c = interlaced(
       c(
         0.181526642525569,
         0.833227441413328,
         0.926790483295918,
         0.375270307529718
-      ), new_interlaced(double(), character())
+      ), na = all_na_reasons()
     ),
-    d = vec_c("m", "z", "r", na("REASON_3"))
+    d = interlaced(list("m", "z", "r", "REASON_3"), na = all_na_reasons())
   )
 }
 
@@ -44,7 +44,7 @@ test_that("basic reading works", {
 
   expect_equal(
     na_spec(result)$default,
-    na_collector(all_na_reasons())
+    all_na_reasons()
   )
 })
 
@@ -61,13 +61,19 @@ test_that("column-level missing reasons can be specified na arg", {
     test_path("basic-df.csv"),
     na = na_cols(
       .default = c("REASON_3"),
-      a = c("REASON_3", "REASON_1"),
-      b = c("REASON_3", "REASON_2"),
+      a = c(.default, "REASON_1"),
+      b = c(.default, "REASON_2"),
     ),
     col_types = col_types,
   )
 
-  expected <- basic_df_expected()
+  expected <- basic_df_expected() |>
+    mutate(
+      a = map_na_channel(a, \(v) vec_cast(v, factor(levels=c("REASON_3", "REASON_1")))),
+      b = map_na_channel(b, \(v) vec_cast(v, factor(levels=c("REASON_3", "REASON_2")))),
+      c = map_na_channel(c, \(v) vec_cast(v, factor(levels="REASON_3"))),
+      d = map_na_channel(d, \(v) vec_cast(v, factor(levels="REASON_3")))
+    )
 
   expect_equal(result, expected, ignore_attr = TRUE)
 
@@ -100,7 +106,7 @@ test_that("col_select selects columns", {
 
   expect_equal(
     na_spec(result)$default,
-    na_collector(all_na_reasons())
+    all_na_reasons()
   )
 })
 
@@ -128,7 +134,7 @@ test_that("col_select renames columns", {
 
   expect_equal(
     na_spec(result)$default,
-    na_collector(all_na_reasons())
+    all_na_reasons()
   )
 })
 
@@ -156,7 +162,7 @@ test_that("col_select reorders columns", {
 
   expect_equal(
     na_spec(result)$default,
-    na_collector(all_na_reasons())
+    all_na_reasons()
   )
 })
 
@@ -184,7 +190,7 @@ test_that("col_select reorders and renames columns", {
 
   expect_equal(
     na_spec(result)$default,
-    na_collector(all_na_reasons())
+    all_na_reasons()
   )
 })
 
@@ -288,22 +294,14 @@ test_that("cannot mix unnamed and named col_types", {
 test_that("factor na values works", {
    result <- read_interlaced_csv(
     test_path("basic-df.csv"),
-    na = factor(levels=all_na_reasons()),
+    na = all_na_reasons(),
   )
 
-  expected <- basic_df_expected() |>
-    dplyr::mutate(
-      dplyr::across(
-        everything(),
-        \(c) map_na_channel(c, to_na_reason_factor)
-      )
-    )
-
-  expect_equal(result, expected, ignore_attr = TRUE)
+  expect_equal(result, basic_df_expected(), ignore_attr = TRUE)
 
   expect_equal(
     na_spec(result)$default,
-    na_collector(factor(levels=all_na_reasons()))
+    all_na_reasons()
   )
 })
 
@@ -311,7 +309,7 @@ test_that("incomplete unnamed na_col_types work with warning", {
   expect_warning(
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
-      na = list(factor(levels=all_na_reasons()))
+      na = list(all_na_reasons())
     )
   )
 
@@ -319,7 +317,7 @@ test_that("incomplete unnamed na_col_types work with warning", {
     dplyr::mutate(
       a = map_na_channel(a, to_na_reason_factor),
       b = flatten_channels(b),
-      c = flatten_channels(c),
+      c = as.numeric(flatten_channels(c)),
       d = flatten_channels(d)
     )
 
@@ -328,10 +326,10 @@ test_that("incomplete unnamed na_col_types work with warning", {
   expect_equal(
     na_spec(result)$cols,
     list(
-      a = na_collector(factor(all_na_reasons())),
-      b = na_collector(NULL),
-      c = na_collector(NULL),
-      d = na_collector(NULL)
+      a = all_na_reasons(),
+      b = NULL,
+      c = NULL,
+      d = NULL
     )
   )
 })
@@ -341,32 +339,24 @@ test_that("overcomplete unnamed na_col_types work with warning", {
      result <- read_interlaced_csv(
       test_path("basic-df.csv"),
       na = list(
-        factor(levels=all_na_reasons()),
-        factor(levels=all_na_reasons()),
-        factor(levels=all_na_reasons()),
-        factor(levels=all_na_reasons()),
-        factor(levels=all_na_reasons())
+        all_na_reasons(),
+        all_na_reasons(),
+        all_na_reasons(),
+        all_na_reasons(),
+        all_na_reasons()
       )
     )
   )
 
-  expected <- basic_df_expected() |>
-    dplyr::mutate(
-      dplyr::across(
-        everything(),
-        \(v) map_na_channel(v, to_na_reason_factor)
-      )
-    )
-
-  expect_equal(result, expected, ignore_attr = TRUE)
+  expect_equal(result, basic_df_expected(), ignore_attr = TRUE)
 
   expect_equal(
     na_spec(result)$cols,
     list(
-      a = na_collector(factor(all_na_reasons())),
-      b = na_collector(factor(all_na_reasons())),
-      c = na_collector(factor(all_na_reasons())),
-      d = na_collector(factor(all_na_reasons()))
+      a = all_na_reasons(),
+      b = all_na_reasons(),
+      c = all_na_reasons(),
+      d = all_na_reasons()
     )
   )
 })
@@ -432,8 +422,8 @@ test_that("all read & write fn variants work", {
 test_that("columns with NA as the na reason read properly", {
   result <- read_interlaced_csv(I("a,b\n1,2\nNA,\n5,6\n"))
   expected <- tibble(
-    a = c(NA, "NA", NA),
-    b = c(NA, "", NA)
+    a = factor(c(NA, "NA", NA), levels = c("", "NA")),
+    b = factor(c(NA, "", NA), levels = c("", "NA"))
   )
   expect_equal(na_channel(result), expected, ignore_attr = TRUE)
 })

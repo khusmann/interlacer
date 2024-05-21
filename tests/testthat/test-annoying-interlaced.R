@@ -54,12 +54,12 @@ test_that("tibble subassign loses NA reason", {
     a = vec_c(1, na("z"), 3)
   )
 
-  bar[1, "a"] <- na("y")
+  bar[1, "a"] <- na("z")
 
   expect_equal(bar$a, vec_c(NA, na("z"), 3))
 
   # Interestingly, using `$` for this situation works!
-  bar$a[1] <- na("y")
+  bar$a[1] <- na("z")
 
-  expect_equal(bar$a, vec_c(na("y"), na("z"), 3))
+  expect_equal(bar$a, vec_c(na("z"), na("z"), 3))
 })

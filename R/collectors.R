@@ -5,7 +5,7 @@ as.na_col_spec <- function(x) {
 
 #' @export
 as.na_col_spec.default <- function(x) {
-  na_col_spec(list(), default = x)
+  na_col_spec(list(.default = x))
 }
 
 #' @export
@@ -39,14 +39,26 @@ na_cols <- function(...) {
     }
   }
 
-  default <- output$.default
-  output$.default <- NULL
-  na_col_spec(output, default)
+  na_col_spec(output)
 }
 
-na_col_spec <- function(na_list, default) {
+na_col_spec <- function(na_list) {
+  for (j in seq_along(na_list)) {
+    if (!is.numeric(j) && !is.character(j)) {
+      cli_abort(
+        paste0(
+          "na collector `{names(na_list)[[j]]}` is not a numeric",
+          " or character vector"
+        )
+      )
+    }
+  }
+
+  default <- na_list$.default
+  na_list$.default <- NULL
+
   structure(
-    list(cols = map(na_list, na_collector), default = na_collector(default)),
+    list(cols = na_list, default = default),
     class = "interlacer_na_col_spec"
   )
 }
@@ -68,7 +80,7 @@ format.interlacer_na_col_spec <- function (x, ...) {
 
   cols_args <- c(
     map_chr(seq_along(cols), function(i) {
-      col_value <- format(cols[[i]])
+      col_value <- format_na_collector(cols[[i]])
       col_name <- names(cols)[[i]] %||% ""
 
       if (col_name != "") {
@@ -79,9 +91,9 @@ format.interlacer_na_col_spec <- function (x, ...) {
     })
   )
 
-  if (!is.null(x$default$value)) {
+  if (!is.null(x$default)) {
     cols_args <- c(
-      paste0(".default = ", format(x$default)), cols_args
+      paste0(".default = ", format_na_collector(x$default)), cols_args
     )
   }
 
@@ -92,68 +104,13 @@ format.interlacer_na_col_spec <- function (x, ...) {
   )
 }
 
-#' @export
-na_collector <- function(values) {
-  UseMethod("na_collector")
-}
-
-#' @export
-na_collector.default <- function(values) {
-  if (any(is.na(values))) {
-    cli_abort("na_collectors cannot contain missing values")
-  }
-
-  cli_abort("na_collector type not supported: {class(values)[[1]]}")
-}
-
-#' @export
-na_collector.NULL <- function(values) {
-  new_na_collector("skip", NULL, character())
-}
-
-#' @export
-na_collector.integer <- function(values) {
-  new_na_collector("integer", values, as.character(values))
-}
-
-#' @export
-na_collector.double <- function(values) {
-  new_na_collector(
-    "integer", vec_cast(values, integer()), as.character(values)
-  )
-}
-
-#' @export
-na_collector.character <- function(values) {
-  new_na_collector("character", values, values)
-}
-
-#' @export
-na_collector.factor <- function(values) {
-  new_na_collector(
-    "factor",
-    factor(levels(values), levels(values), ordered = is.ordered(values)),
-    levels(values)
-  )
-}
-
-#' @export
-format.interlacer_na_collector <- function(x, ...) {
-  if (is.null(x$values)) {
+format_na_collector <- function(x, ...) {
+  if (is.null(x)) {
     col_red("NULL")
-  } else if (is.integer(x$values)) {
-    col_green(fmt_vec(x$chr_values, quote = FALSE))
-  } else if (is.character(x$values)) {
-    col_red(fmt_vec(x$chr_values, quote = TRUE))
-  } else if (is.factor(x$values)) {
-    col_red(
-      paste0(
-        "factor(levels = ",
-        fmt_vec(x$chr_values, quote = TRUE),
-        ", ordered = ", is.ordered(x$value),
-        ")"
-      )
-    )
+  } else if (is.numeric(x)) {
+    col_green(fmt_vec(x, quote = FALSE))
+  } else if (is.character(x)) {
+    col_magenta(fmt_vec(x, quote = TRUE))
   } else {
     "???"
   }
@@ -165,27 +122,6 @@ fmt_vec <- function(x, quote) {
   }
   paste0(
     "c(", paste0(x, collapse= ", "), ")"
-  )
-}
-
-#' @export
-print.interlacer_na_collector <- function(x, ...) {
-  cat(paste0("<", class(x)[[1]], ">\n"))
-  cat(format(x), "\n")
-  invisible(x)
-}
-
-new_na_collector <- function(type, values, chr_values) {
-  if (any(is.na(values))) {
-    cli_abort("na_collectors cannot contain missing values")
-  }
-
-  structure(
-    list(
-      values = values,
-      chr_values = chr_values
-    ),
-    class = c("interlacer_na_collector")
   )
 }
 

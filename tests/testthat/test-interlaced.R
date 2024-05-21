@@ -62,7 +62,7 @@ test_that("length<-() works", {
 })
 
 test_that("levels() returns and sets levels of values channel", {
-  foo <- new_interlaced(factor(c("a", "b", "c")), c(NA, NA, NA))
+  foo <- interlaced(factor(c("a", "b", "c")), na="reason")
 
   expect_equal(
     levels(foo),
@@ -77,7 +77,7 @@ test_that("levels() returns and sets levels of values channel", {
   )
 
   expect_null(
-    levels(new_interlaced(1, NA))
+    levels(interlaced(1, na="reason"))
   )
 })
 
@@ -85,8 +85,8 @@ test_that("indexing operates on underlying channels", {
   foo <- vec_c(1, 2, 3, na("reason"))
 
   expect_equal(foo[], foo)
-  expect_equal(foo[2], new_interlaced(2, NA_character_))
-  expect_equal(foo[[2]], new_interlaced(2, NA_character_))
+  expect_equal(foo[2], interlaced(2, na = "reason"))
+  expect_equal(foo[[2]], interlaced(2, na = "reason"))
 
   expect_equal(foo[c(2, 4)], vec_c(2, na("reason")))
   expect_error(foo[[c(2, 4)]])

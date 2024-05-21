@@ -19,6 +19,22 @@ new_interlaced <- function(value_channel, na_channel, ...) {
     cli_abort("interlaced types cannot be nested")
   }
 
+  if (is.character(na_channel)) {
+    na_channel <- vec_cast(na_channel, factor(levels=unique(na_channel)))
+  }
+
+  if (is.numeric(na_channel)) {
+    na_channel <- vec_cast(na_channel, integer())
+  }
+
+  if (
+    !is.factor(na_channel) &&
+    !is.integer(na_channel) &&
+    !inherits(na_channel, "vctrs_unspecified")
+  ) {
+    cli_abort("na_channel must be factor or integer")
+  }
+
   v <- new_vctr(
     value_channel,
     na_channel_values = na_channel,
@@ -50,26 +66,31 @@ parse_interlaced <- function(
     cli_abort("{.arg x} must be a character vector")
   }
 
-  na <- na_collector(na)
+  v <- type_convert_col(x, .value_col, na = as.character(na))
 
-  v <- type_convert_col(x, .value_col, na = na$chr_values)
-
-  m <- na$values[match(x, na$chr_values)]
+  m <- na[match(x, na)]
 
   new_interlaced(v, m)
 }
 
 #' @export
 interlaced <- function(x, na=NULL) {
-  na <- na_collector(na)
-  m <- na$values[match(x, na$values)]
+  if (is.character(na)) {
+    na <- factor(na, levels = unique(na))
+  }
+
+  m <- na[match(x, na)]
   v <- x
-  v[x %in% na$values] <- NA
+  v[x %in% na] <- NA
   new_interlaced(list_c(v), m)
+
 }
 
 #' @export
 na <- function(x = unspecified()) {
+  if (is.logical(x) && all(is.na(x))) {
+    x <- unspecified(vec_size(x))
+  }
   new_interlaced(unspecified(vec_size(x)), x)
 }
 
@@ -148,18 +169,13 @@ flatten_channels.data.frame <- function(x, ...) {
 }
 
 #' @export
-flatten_channels.interlacer_interlaced <- function(x, fct_as_chr = TRUE, ...) {
+flatten_channels.interlacer_interlaced <- function(x, ...) {
   v <- value_channel(x)
   m <- na_channel(x)
 
-  if (fct_as_chr) {
-    if (is.factor(v) && !is.factor(m)) {
-      v <- as.character(v)
-    }
-
-    if (!is.factor(v) && is.factor(m)) {
-      m <- as.character(m)
-    }
+  if (!(is.numeric(v) && is.numeric(m)) && !(is.factor(v) && is.factor(m))) {
+    v <- as.character(v)
+    m <- as.character(m)
   }
 
   isect <- na.omit(intersect(v, m))
@@ -167,12 +183,7 @@ flatten_channels.interlacer_interlaced <- function(x, fct_as_chr = TRUE, ...) {
     cli_abort("value and na channels have items that overlap: {isect}")
   }
 
-  # Use base::ifelse to allow sloppy type conversion
-  # fct + num = num
-  # fct + chr = chr
-  # num + chr = chr
-  # etc.
-  ifelse(!is.na(v), v, m)
+  if_else(!is.na(v), v, m)
 }
 
 #' @export
@@ -202,9 +213,9 @@ na_channel.data.frame <- function(df) {
 vec_ptype_full.interlacer_interlaced <- function(x, ...) {
   paste0(
     "interlaced<",
-    vec_ptype_full(value_channel(x)),
+    vec_ptype_abbr(value_channel(x)),
     ", ",
-    vec_ptype_full(na_channel(x)),
+    vec_ptype_abbr(na_channel(x)),
     ">"
   )
 }
@@ -225,6 +236,16 @@ format.interlacer_interlaced <- function(x, ...) {
     }
     format(value_channel(i))
   })
+}
+
+#' @export
+obj_print_footer.interlacer_interlaced <- function(x, ...) {
+  if (!is.null(levels(x))) {
+    cat("Levels:", paste(levels(x), collapse = " "), "\n")
+  }
+  if (!is.null(na_levels(x))) {
+    cat("NA levels:", paste(na_levels(x), collapse = " "), "\n")
+  }
 }
 
 #' @export
@@ -347,7 +368,7 @@ bimap2_interlaced <- function(x, y, fn) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-  bimap2_interlaced(x, value, \(v, new_v) `[<-`(v, i, new_v))
+  bimap2_interlaced(x, value, \(v, new_v) `[<-`(v, i, value=new_v))
 }
 
 #' @export
@@ -355,7 +376,7 @@ bimap2_interlaced <- function(x, y, fn) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
-  bimap2_interlaced(x, value, \(v, new_v) `[[<-`(v, i, new_v))
+  bimap2_interlaced(x, value, \(v, new_v) `[[<-`(v, i, value=new_v))
 }
 
 #' @export
@@ -373,6 +394,16 @@ rep.interlacer_interlaced <- function(x, ...) {
 #' @export
 `length<-.interlacer_interlaced` <- function(x, value) {
   bimap_interlaced(x, \(v) `length<-`(v, value))
+}
+
+#' @export
+na_levels <- function(x) {
+  levels(na_channel(x))
+}
+
+#' @export
+`na_levels<-` <- function(x, value) {
+  map_na_channel(x, \(v) `levels<-`(v, value))
 }
 
 #' @export

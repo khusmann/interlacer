@@ -276,10 +276,6 @@ interlaced_vroom <- function(
     )
   }
 
-  if (is.numeric(na)) {
-    na <- as.character(na)
-  }
-
   # Step 1: Read everything as string
 
   df_chr <- inject(
@@ -311,7 +307,7 @@ interlaced_vroom <- function(
   na_col_spec <- fix_col_spec_names(
     na_col_spec,
     names(spec(df_chr)$cols),
-    na_collector(NULL),
+    NULL,
     "na"
   )
 
@@ -332,7 +328,7 @@ interlaced_vroom <- function(
           col_types = col_spec,
           col_select = tidyselect::all_of(i),
           id = NULL,
-          na = na_collector$chr_values,
+          na = as.character(na_collector),
           # num_threads = 1
         )
       )
@@ -343,11 +339,11 @@ interlaced_vroom <- function(
     used_value_collector <- spec(value_df)$cols[[i]]
     values <- value_df[[1]]
 
-    if (is.null(na_collector$values)) {
+    if (is.null(na_collector)) {
       out_value <- values
     } else {
-      na_idx <- match(df_chr[[i]], na_collector$chr_values)
-      na_values <- na_collector$values[na_idx]
+      na_idx <- match(df_chr[[i]], na_collector)
+      na_values <- factor(na_collector[na_idx], levels=na_collector)
       out_value <- new_interlaced(values, na_values)
     }
 
@@ -411,7 +407,7 @@ na_spec <- function(df) {
 }
 
 check_col_spec <- function(col_spec, arg) {
-  if (any(names(col_spec$cols) == "")) {
+  if (any(names2(col_spec$cols) == "") && any(names2(col_spec$cols) != "")) {
     cli_abort(
       "{.arg arg} cannot have a mix of named and unnamed values"
     )
@@ -425,7 +421,7 @@ update_col_spec <- function(col_spec, update_list, default) {
 }
 
 fix_col_spec_names <- function(col_spec, spec_names, default, arg) {
-  is_unnamed_col_spec <- is.null(names(col_spec$cols))
+  is_unnamed_col_spec <- all(names2(col_spec$cols) == "")
 
   if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
     if (length(col_spec$cols) != length(spec_names)) {
