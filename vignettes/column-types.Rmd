@@ -23,6 +23,7 @@ library(interlacer)
 (read_interlaced_csv(
   interlacer_example("colors.csv"),
   na = c("REFUSED", "OMITTED", "N/A"),
+  show_col_types = FALSE
 ))
 ```
 
@@ -43,11 +44,11 @@ library(readr)
 ))
 ```
 
-## Interlaced Column Types
+## `NA` collector types
 
 In addition to the standard `readr::col_*` column specification types, 
-interlacer provides *interlaced* column types that enable you to specify missing
-reasons at the column level.
+interlacer provides the ability to specify missing
+reasons at the column level, using the `na` parameter.
 
 This is useful when you have missing reasons that only apply to particular items
 as opposed to the file as a whole. For example, say we had a measure with the
@@ -69,75 +70,42 @@ following two items:
 > f. Does not apply (Other reason)
 
 As you can see, both items have two selection choices that should be mapped to
-missing reasons. To specify missing reasons at the variable level, the 
-`icol_*()` family
-of column specification types can be used. These extend all of readr's
-`col_*()` column types by adding a parameter for specifying missing values
-unique to that particular variable:
+missing reasons. These can be specified with the `na_cols()` function, which
+works similarly to readr's `cols()` function:
 
 ```{r}
 (df_stress <- read_interlaced_csv(
   interlacer_example("stress.csv"),
   col_types = cols(
     person_id = col_integer(),
-    current_stress = icol_factor(
-      levels = c("LOW", "MODERATE", "HIGH"),
-      na = c("DONT_KNOW", "DONT_UNDERSTAND")
+    current_stress = col_factor(
+      levels = c("LOW", "MODERATE", "HIGH")
     ),
-    time_management = icol_factor(
-      levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL"),
-      na = c("NA_VACATION", "NA_OTHER")
+    time_management = col_factor(
+      levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL")
     )
   ),
-  na = c(
-    "REFUSED",
-    "OMITTED",
-    "N/A"
+  na = na_cols(
+    .default = c("REFUSED", "OMITTED", "N/A"),
+    current_stress = c(.default, "DONT_KNOW", "DONT_UNDERSTAND"),
+    time_management = c(.default, "NA_VACATION", "NA_OTHER")
   )
 ))
 ```
 
-## Setting missing reason types with `na_col_types`
 
-interlacer will automatically guess the type of missing values as well. For
-example, when we load a dataset that uses numeric codes for missing reasons,
-it results in numeric missing reason channels.
-
-```{r}
-read_interlaced_csv(
-  interlacer_example("colors_coded.csv"),
-  na = c(-99, -98, -97)
-)
-```
-
-The type of missing reason channels can be explicitly set via the `na_col_types`
-parameter, which accepts a `cols()` specification. The following will read
-each missing reason channel as a character column:
+Setting na type to `NULL` indicates the column should be loaded
+as a regular type instead of an `interlaced` one. The following
+will load `person_id` as a regular, non-interlaced type:
 
 ```{r}
 read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
-  na = c(-99, -98, -97),
-  na_col_types = cols(
-    person_id = col_character(),
-    age = col_character(),
-    favorite_color = col_character(),
-  )
-)
-```
-
-`col_skip()` can be used to omit the missing reason channel loading the column
-as a regular type instead of an `interlaced` one. `.default` also can be used
-to set the default column type:
-
-```{r}
-read_interlaced_csv(
-  interlacer_example("colors_coded.csv"),
-  na = c(-99, -98, -97),
-  na_col_types = cols(
-    person_id = col_skip(),
-    .default = col_integer(),
-  )
+  na = na_cols(
+    .default = c(-99, -98, -97),
+    person_id = NULL,
+  ),
+  show_col_types = FALSE
 )
 ```
 
@@ -145,7 +113,8 @@ read_interlaced_csv(
 
 In this vignette we covered how the column types for values and missing reasons
 can be explicitly specified using collectors. We also illustrated how
-column-level missing values can be specified using the `icol_*` collector types.
+column-level missing values can be specified by creating a missing channel
+specification using `na_cols()`.
 
 In the final example, we used an example data set with coded values and missing
 reasons. Coded values are especially common in data sets produced by SPSS, SAS,
