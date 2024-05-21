@@ -5,7 +5,7 @@ as.na_col_spec <- function(x) {
 
 #' @export
 as.na_col_spec.default <- function(x) {
-  na_col_spec(list(), .default = x)
+  na_col_spec(list(), default = x)
 }
 
 #' @export
