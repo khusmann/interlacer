@@ -96,7 +96,7 @@ write_interlaced_tsv(
 \item{delim}{Delimiter used to separate values. Defaults to \code{" "} for \code{write_delim()}, \code{","} for \code{write_excel_csv()} and
 \code{";"} for \code{write_excel_csv2()}. Must be a single character.}
 
-\item{empty}{String used for empty values (or `NA` values in non-interlaced
+\item{empty}{String used for empty values (or \code{NA} values in non-interlaced
 columns). Defaults to NA.}
 
 \item{append}{If \code{FALSE}, will overwrite existing file. If \code{TRUE},
@@ -136,11 +136,11 @@ time is 5 seconds or more. The automatic progress bar can be disabled by
 setting option \code{readr.show_progress} to \code{FALSE}.}
 }
 \value{
-`write_interlaced_*` returns the input x invisibly
+\verb{write_interlaced_*} returns the input x invisibly
 }
 \description{
-The `write_interlaced_*()` family of functions will take a data frame
+The \verb{write_interlaced_*()} family of functions will take a data frame
 with interlaced columns, flatten all interlaced columns, then write it to
 a file. Non-interlaced columns just pass through. The behavior of these
-functions match their similarly named counterparts in [readr].
+functions match their similarly named counterparts in \link{readr}.
 }

@@ -210,8 +210,8 @@ The default locale is US-centric (like R), but you can use
 the default time zone, encoding, decimal mark, big mark, and day/month
 names.}
 
-\item{na}{Character or numeric vector of values to interpret as missing
-values. Set this option to character() to indicate no missing values.}
+\item{na}{A NA col spec defined by \code{na_cols()} or a character or numeric
+vector of values to interpret as missing values.}
 
 \item{comment}{A string used to identify comments. Any text after the
 comment characters will be silently ignored.}
@@ -262,13 +262,13 @@ option is \code{TRUE} then blank rows will not be represented at all.  If it is
 \code{FALSE} then they will be represented by \code{NA} values in all the columns.}
 }
 \value{
-A [tibble()], with interlaced columns.
+A \code{\link[=tibble]{tibble()}}, with interlaced columns.
 }
 \description{
-The `read_interlaced_*()`, family of functions extend `readr`'s
-`read_delim()`, `read_csv`, etc. functions for use on data sources where
+The \verb{read_interlaced_*()}, family of functions extend \code{readr}'s
+\code{read_delim()}, \code{read_csv}, etc. functions for use on data sources where
 values are interlaced with missing reasons. These functions return a tibble
-with interlaced columns.
+with \code{interlaced} columns.
 }
 \examples{
 # Beep boop

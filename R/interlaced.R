@@ -1,6 +1,86 @@
-### Constructors
-
+#' Construct an `interlaced` vector
+#'
+#' The `interlaced` type extends vectors by adding a "missing reason" channel
+#' which can be used to distinguish different types of missingness. The
+#' `interlaced()` function constructs a new `interlaced` vector from a vector
+#' or list of values.
+#'
+#' @param x A vector or list of values
+#' @param na A vector of values to interpret as missing values
+#'
+#' @returns An `interlaced` vector
+#'
 #' @export
+interlaced <- function(x, na=NULL) {
+  if (is.character(na)) {
+    na <- factor(na, levels = unique(na))
+  }
+
+  m <- na[match(x, na)]
+  v <- x
+  v[x %in% na] <- NA
+  new_interlaced(list_c(v), m)
+
+}
+
+#' @rdname interlaced
+#' @export
+as.interlaced <- function(x, na = NULL, ...) {
+  UseMethod("as.interlaced")
+}
+
+#' @rdname interlaced
+#' @export
+as.interlaced.default <- function(x, na = NULL, ...) {
+  interlaced(x, na)
+}
+
+#' @rdname interlaced
+#' @export
+as.interlaced.interlacer_interlaced <- function(x, ...) {
+  x
+}
+
+#' @rdname interlaced
+#' @export
+as.interlaced.data.frame <- function(df, ...) {
+  df[] <- map(df, \(c) as.interlaced(c, ...))
+  df
+}
+
+#' @rdname interlaced
+#' @export
+is.interlaced <- function(x) {
+  inherits(x, "interlacer_interlaced")
+}
+
+#' Parse a `character` vector into an `interlaced` vector type
+#'
+#' `parse_interlaced` converts a character vector to an `interlaced` vector
+#' by parsing it with a readr `collector` type.
+#'
+#' @param x A character vector
+#' @param na A vector of values to interpret as missing values
+#' @param .value_col A collector to parse the character values
+#'
+#' @returns An `interlaced` vector
+#'
+#' @export
+parse_interlaced <- function(
+  x, na,
+  .value_col = col_guess()
+) {
+  if (!is.character(x)) {
+    cli_abort("{.arg x} must be a character vector")
+  }
+
+  v <- type_convert_col(x, .value_col, na = as.character(na))
+
+  m <- na[match(x, na)]
+
+  new_interlaced(v, m)
+}
+
 new_interlaced <- function(value_channel, na_channel, ...) {
   obj_check_vector(value_channel)
   obj_check_vector(na_channel)
@@ -57,35 +137,14 @@ new_interlaced <- function(value_channel, na_channel, ...) {
   v
 }
 
-#' @export
-parse_interlaced <- function(
-  x, na,
-  .value_col = col_guess()
-) {
-  if (!is.character(x)) {
-    cli_abort("{.arg x} must be a character vector")
-  }
-
-  v <- type_convert_col(x, .value_col, na = as.character(na))
-
-  m <- na[match(x, na)]
-
-  new_interlaced(v, m)
-}
-
-#' @export
-interlaced <- function(x, na=NULL) {
-  if (is.character(na)) {
-    na <- factor(na, levels = unique(na))
-  }
-
-  m <- na[match(x, na)]
-  v <- x
-  v[x %in% na] <- NA
-  new_interlaced(list_c(v), m)
-
-}
-
+#' Lift values to missing reasons
+#'
+#' `na()` lifts a value into an `interlaced()` missing reason channel.
+#'
+#' @param x A character or numeric value
+#'
+#' @returns An `interlaced` value
+#'
 #' @export
 na <- function(x = unspecified()) {
   if (is.logical(x) && all(is.na(x))) {
@@ -94,34 +153,15 @@ na <- function(x = unspecified()) {
   new_interlaced(unspecified(vec_size(x)), x)
 }
 
-#' @export
-as.interlaced <- function(x, na = NULL, ...) {
-  UseMethod("as.interlaced")
-}
-
-#' @export
-as.interlaced.default <- function(x, na = NULL, ...) {
-  interlaced(x, na)
-}
-
-#' @export
-as.interlaced.interlacer_interlaced <- function(x, ...) {
-  x
-}
-
-#' @export
-as.interlaced.data.frame <- function(df, ...) {
-  df[] <- map(df, \(c) as.interlaced(c, ...))
-  df
-}
-
-#' @export
-is.interlaced <- function(x) {
-  inherits(x, "interlacer_interlaced")
-}
-
-### Channel fns
-
+#' Access the channels of an `interlaced` vector
+#'
+#' * `value_channel()` returns the value channel of an `interlaced` vector
+#' * `na_channel()` returns the missing reason channel of an `interlaced` vector
+#'
+#' @param x An `interlaced` vector
+#'
+#' @returns The value or missing reasons channel
+#'
 #' @export
 value_channel <- function(x, ...) {
   UseMethod("value_channel")
@@ -152,6 +192,38 @@ value_channel.data.frame <- function(df) {
   df
 }
 
+#' @rdname value_channel
+#' @export
+na_channel <- function(x, ...) {
+  UseMethod("na_channel")
+}
+
+#' @export
+na_channel.default <- function(x, ...) {
+  unspecified(vec_size(x))
+}
+
+#' @export
+na_channel.interlacer_interlaced <- function(x) {
+  attr(x, "na_channel_values")
+}
+
+#' @export
+na_channel.data.frame <- function(df) {
+  df[] <- map(df, na_channel)
+  df
+}
+
+#' Flatten a `interlaced` vector
+#'
+#' `flatten_channels()` flattens an `interlaced` vector into a single channel.
+#' This is useful as a step right before writing an `interlaced` vector to a
+#' file, for example.
+#'
+#' @param x An `interlaced` vector
+#'
+#' @returns The vector, flattened
+#'
 #' @export
 flatten_channels <- function(x, ...) {
   UseMethod("flatten_channels")
@@ -186,25 +258,50 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
   if_else(!is.na(v), v, m)
 }
 
+
+# Functional utilities ----------------------------------------------------
+
+#' `interlaced` functional utilities
+#'
+#' `map_value_channel()` modifies the values of an `interlaced`
+#' vector. `map_na_channel()` modifies the missing reason channel of an
+#' `interlaced` vector.
+#'
+#' @param x an interlaced vector
+#' @param fn a function that maps values or missing reasons to new values
+#'
+#' @returns a new interlaced vector, modified according to the supplied function
 #' @export
-na_channel <- function(x, ...) {
-  UseMethod("na_channel")
+map_value_channel <- function(x, fn) {
+  new_interlaced(
+    fn(value_channel(x)),
+    na_channel(x)
+  )
 }
 
+
+#' @rdname map_value_channel
 #' @export
-na_channel.default <- function(x, ...) {
-  unspecified(vec_size(x))
+map_na_channel <- function(x, fn) {
+  new_interlaced(
+    value_channel(x),
+    fn(na_channel(x))
+  )
 }
 
-#' @export
-na_channel.interlacer_interlaced <- function(x) {
-  attr(x, "na_channel_values")
+# Utility helper, not exported
+bimap_interlaced <- function(x, fn) {
+  new_interlaced(
+    fn(value_channel(x)),
+    fn(na_channel(x))
+  )
 }
 
-#' @export
-na_channel.data.frame <- function(df) {
-  df[] <- map(df, na_channel)
-  df
+bimap2_interlaced <- function(x, y, fn) {
+  new_interlaced(
+    fn(value_channel(x), value_channel(y)),
+    fn(na_channel(x), na_channel(y)),
+  )
 }
 
 # Display ---------------------------------------------------------------
@@ -305,39 +402,6 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
   vec_proxy(x)
 }
 
-# Functional utilities ----------------------------------------------------
-
-#' @export
-map_value_channel <- function(x, fn) {
-  new_interlaced(
-    fn(value_channel(x)),
-    na_channel(x)
-  )
-}
-
-
-#' @export
-map_na_channel <- function(x, fn) {
-  new_interlaced(
-    value_channel(x),
-    fn(na_channel(x))
-  )
-}
-
-# Utility helper, not exported
-bimap_interlaced <- function(x, fn) {
-  new_interlaced(
-    fn(value_channel(x)),
-    fn(na_channel(x))
-  )
-}
-
-bimap2_interlaced <- function(x, y, fn) {
-  new_interlaced(
-    fn(value_channel(x), value_channel(y)),
-    fn(na_channel(x), na_channel(y)),
-  )
-}
 
 # Subsetting --------------------------------------------------------------
 

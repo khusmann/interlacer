@@ -10,7 +10,7 @@ interlacer_example(file = NULL)
 \item{file}{Name of file. If \code{NULL}, the example files will be listed.}
 }
 \description{
-interlacer comes bundled with a number of sample files in its `inst/extdata`
+interlacer comes bundled with a number of sample files in its \code{inst/extdata}
 directory. This function make them easy to access
 }
 \examples{

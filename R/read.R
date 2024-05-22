@@ -3,13 +3,13 @@
 #' The `read_interlaced_*()`, family of functions extend `readr`'s
 #' `read_delim()`, `read_csv`, etc. functions for use on data sources where
 #' values are interlaced with missing reasons. These functions return a tibble
-#' with interlaced columns.
+#' with `interlaced` columns.
 #'
 #' @inheritParams readr::read_delim
 #' @inheritParams vroom::vroom
 #'
-#' @param na 	Character or numeric vector of values to interpret as missing
-#' values. Set this option to character() to indicate no missing values.
+#' @param na 	A NA col spec defined by `na_cols()` or a character or numeric
+#' vector of values to interpret as missing values.
 #'
 #' @return A [tibble()], with interlaced columns.
 #'

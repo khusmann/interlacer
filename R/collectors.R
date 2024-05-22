@@ -1,23 +1,15 @@
-#' @export
-as.na_col_spec <- function(x) {
-  UseMethod("as.na_col_spec")
-}
-
-#' @export
-as.na_col_spec.default <- function(x) {
-  na_col_spec(list(.default = x))
-}
-
-#' @export
-as.na_col_spec.interlacer_na_col_spec <- function(x) {
-  x
-}
-
-#' @export
-as.na_col_spec.list <- function(x) {
-  do.call(na_cols, x)
-}
-
+#' Create an NA column specification
+#'
+#' `na_cols()` creates a specification for the NA channel missing reason when
+#' loading data with the `read_interlaced_*()` family of functions.
+#'
+#' @param ... Named vectors to use as missing reasons when loading interlaced
+#' columns
+#' @param x Named list to construct a NA spec with, or a vector of values that
+#' should be used in a spec with `.default` equal to those values.
+#' @param .default Any named columns not explicitly overridden will use these
+#' values as `NA` values for the column
+#'
 #' @export
 na_cols <- function(...) {
   xs <- quos(...)
@@ -41,6 +33,28 @@ na_cols <- function(...) {
 
   na_col_spec(output)
 }
+
+#' @export
+#' @rdname na_cols
+as.na_col_spec <- function(x) {
+  UseMethod("as.na_col_spec")
+}
+
+#' @export
+as.na_col_spec.default <- function(x) {
+  na_col_spec(list(.default = x))
+}
+
+#' @export
+as.na_col_spec.interlacer_na_col_spec <- function(x) {
+  x
+}
+
+#' @export
+as.na_col_spec.list <- function(x) {
+  do.call(na_cols, x)
+}
+
 
 na_col_spec <- function(na_list) {
   for (j in seq_along(na_list)) {
