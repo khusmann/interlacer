@@ -19,7 +19,7 @@ values or codes. For example, consider the following CSV:
 
 ```{r}
 library(readr)
-library(interlacer)
+library(interlacer, warn.conflicts = FALSE)
 
 read_file(interlacer_example("colors.csv")) |>
   cat()

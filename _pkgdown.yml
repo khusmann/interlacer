@@ -20,6 +20,7 @@ reference:
   - starts_with("read_")
   - starts_with("write_")
   - na_cols
+  - na_spec
   - parse_interlaced
   - interlacer_example
 - title: The `interlaced` type
@@ -28,6 +29,7 @@ reference:
   - interlaced
   - na
   - value_channel
+  - is.empty
   - na_levels
   - map_value_channel
   - flatten_channels

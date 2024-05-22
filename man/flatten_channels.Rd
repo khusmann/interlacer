@@ -8,6 +8,8 @@ flatten_channels(x, ...)
 }
 \arguments{
 \item{x}{An \code{interlaced} vector}
+
+\item{...}{Additional arguments, not used}
 }
 \value{
 The vector, flattened

@@ -2,15 +2,23 @@
 % Please edit documentation in R/interlaced.R
 \name{na_levels}
 \alias{na_levels}
+\alias{na_levels<-}
 \alias{levels.interlacer_interlaced}
+\alias{levels<-.interlacer_interlaced}
 \title{Get the factor levels of the value or missing reason channel}
 \usage{
 na_levels(x)
 
+na_levels(x) <- value
+
 \method{levels}{interlacer_interlaced}(x)
+
+\method{levels}{interlacer_interlaced}(x) <- value
 }
 \arguments{
 \item{x}{an \code{interlaced} vector}
+
+\item{value}{new levels to set}
 }
 \value{
 The levels of the values or missing reason channel

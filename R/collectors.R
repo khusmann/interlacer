@@ -4,11 +4,9 @@
 #' loading data with the `read_interlaced_*()` family of functions.
 #'
 #' @param ... Named vectors to use as missing reasons when loading interlaced
-#' columns
+#' columns. Use name `.default` to set default `NA` values for the columns.
 #' @param x Named list to construct a NA spec with, or a vector of values that
 #' should be used in a spec with `.default` equal to those values.
-#' @param .default Any named columns not explicitly overridden will use these
-#' values as `NA` values for the column
 #'
 #' @export
 na_cols <- function(...) {
@@ -34,8 +32,8 @@ na_cols <- function(...) {
   na_col_spec(output)
 }
 
-#' @export
 #' @rdname na_cols
+#' @export
 as.na_col_spec <- function(x) {
   UseMethod("as.na_col_spec")
 }
@@ -77,6 +75,7 @@ na_col_spec <- function(na_list) {
   )
 }
 
+#' @rdname na_cols
 #' @export
 is.na_col_spec <- function(x) {
   inherits(x, "interlacer_na_col_spec")

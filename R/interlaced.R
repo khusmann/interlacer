@@ -7,6 +7,7 @@
 #'
 #' @param x A vector or list of values
 #' @param na A vector of values to interpret as missing values
+#' @param ... Additional arguments, not used
 #'
 #' @returns An `interlaced` vector
 #'
@@ -42,9 +43,9 @@ as.interlaced.interlacer_interlaced <- function(x, ...) {
 
 #' @rdname interlaced
 #' @export
-as.interlaced.data.frame <- function(df, ...) {
-  df[] <- map(df, \(c) as.interlaced(c, ...))
-  df
+as.interlaced.data.frame <- function(x, ...) {
+  x[] <- map(x, \(c) as.interlaced(c, ...))
+  x
 }
 
 #' @rdname interlaced
@@ -159,6 +160,7 @@ na <- function(x = unspecified()) {
 #' * `na_channel()` returns the missing reason channel of an `interlaced` vector
 #'
 #' @param x An `interlaced` vector
+#' @param ... Additional arguments, not used
 #'
 #' @returns The value or missing reasons channel
 #'
@@ -173,7 +175,7 @@ value_channel.default <- function(x, ...) {
 }
 
 #' @export
-value_channel.interlacer_interlaced <- function(x) {
+value_channel.interlacer_interlaced <- function(x, ...) {
   attr(x, "na_channel_values") <- NULL
   cls <- class(x)
   cls_idx <- match("vctrs_vctr", cls)
@@ -187,9 +189,9 @@ value_channel.interlacer_interlaced <- function(x) {
 }
 
 #' @export
-value_channel.data.frame <- function(df) {
-  df[] <- map(df, value_channel)
-  df
+value_channel.data.frame <- function(x, ...) {
+  x[] <- map(x, value_channel)
+  x
 }
 
 #' @rdname value_channel
@@ -204,14 +206,14 @@ na_channel.default <- function(x, ...) {
 }
 
 #' @export
-na_channel.interlacer_interlaced <- function(x) {
+na_channel.interlacer_interlaced <- function(x, ...) {
   attr(x, "na_channel_values")
 }
 
 #' @export
-na_channel.data.frame <- function(df) {
-  df[] <- map(df, na_channel)
-  df
+na_channel.data.frame <- function(x, ...) {
+  x[] <- map(x, na_channel)
+  x
 }
 
 #' Flatten a `interlaced` vector
@@ -221,6 +223,7 @@ na_channel.data.frame <- function(df) {
 #' file, for example.
 #'
 #' @param x An `interlaced` vector
+#' @param ... Additional arguments, not used
 #'
 #' @returns The vector, flattened
 #'
@@ -345,7 +348,6 @@ obj_print_footer.interlacer_interlaced <- function(x, ...) {
   }
 }
 
-#' @export
 style_empty <- function(x) {
   cli::col_blue(x)
 }
@@ -428,7 +430,7 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
 }
 
 #' @export
-`[<-.interlacer_interlaced` <- function(x, i, value, ...) {
+`[<-.interlacer_interlaced` <- function(x, i, ..., value) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
@@ -436,7 +438,7 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
 }
 
 #' @export
-`[[<-.interlacer_interlaced` <- function(x, i, value, ...) {
+`[[<-.interlacer_interlaced` <- function(x, i, ..., value) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
@@ -468,6 +470,7 @@ rep.interlacer_interlaced <- function(x, ...) {
 #' channel, when it is a `factor` type.
 #'
 #' @param x an `interlaced` vector
+#' @param value new levels to set
 #'
 #' @returns The levels of the values or missing reason channel
 #'
@@ -476,6 +479,7 @@ na_levels <- function(x) {
   levels(na_channel(x))
 }
 
+#' @rdname na_levels
 #' @export
 `na_levels<-` <- function(x, value) {
   map_na_channel(x, \(v) `levels<-`(v, value))
@@ -487,6 +491,7 @@ levels.interlacer_interlaced <- function(x) {
   levels(value_channel(x))
 }
 
+#' @rdname na_levels
 #' @export
 `levels<-.interlacer_interlaced` <- function(x, value) {
   map_value_channel(x, \(v) `levels<-`(v, value))
@@ -495,6 +500,17 @@ levels.interlacer_interlaced <- function(x) {
 
 # NA functions ---------------------------------------------------------
 
+#' NA missing reasons
+#'
+#' When a value is missing both a value and a missing reason, it is considered
+#' "empty". `is.empty()` checks for these type of values. Regular `NA` values
+#' (with no missing reasons) are also considered "empty".
+#'
+#' @param x a vector
+#'
+#' @returns a logical vector the same length as x, containing TRUE for all
+#' empty elements, and FALSE otherwise.
+#'
 #' @export
 is.empty <- function(x) {
   UseMethod("is.empty")
@@ -517,24 +533,22 @@ is.na.interlacer_interlaced <- function(x) {
   is.na(value_channel(x))
 }
 
+#' @importFrom stats na.omit
 #' @export
 na.omit.interlacer_interlaced <- function(object, ...) {
   na.omit(value_channel(object), ...)
 }
 
+#' @importFrom stats na.exclude
 #' @export
 na.exclude.interlacer_interlaced <- function(object, ...) {
   na.exclude(value_channel(object), ...)
 }
 
+#' @importFrom stats na.fail
 #' @export
 na.fail.interlacer_interlaced <- function(object, ...) {
   na.fail(value_channel(object), ...)
-}
-
-#' @export
-na.pass.interlacer_interlaced <- function(object, ...) {
-  na.pass(value_channel(object), ...)
 }
 
 # Comparison & Order ----------------------------------------------------
@@ -738,8 +752,20 @@ as.double.interlacer_interlaced <- function(x, ...) {
 
 #' @importFrom generics as.factor
 #' @export
+generics::as.factor
+
+#' @export
 as.factor.interlacer_interlaced <- function(x, ...) {
   as.factor(value_channel(x), ...)
+}
+
+#' @importFrom generics as.ordered
+#' @export
+generics::as.ordered
+
+#' @export
+as.ordered.interlacer_interlaced <- function(x, ...) {
+  as.ordered(value_channel(x), ...)
 }
 
 # Helpers -----------------------------------------------------------------

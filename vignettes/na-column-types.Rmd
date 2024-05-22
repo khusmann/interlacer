@@ -18,7 +18,7 @@ Like the `readr::read_*()` family of functions, `read_interlaced_*()` will
 automatically guess column types by default:
 
 ```{r}
-library(interlacer)
+library(interlacer, warn.conflicts = FALSE)
 
 (read_interlaced_csv(
   interlacer_example("colors.csv"),

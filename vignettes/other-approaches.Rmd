@@ -43,7 +43,7 @@ When SPSS files are loaded with haven via `haven::read_spss()`, values
 and missing reasons are loaded into a single interlaced numeric vector:
 
 ```{r}
-library(interlacer)
+library(interlacer, warn.conflicts = FALSE)
 library(haven)
 library(dplyr)
 

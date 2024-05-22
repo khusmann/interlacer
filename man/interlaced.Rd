@@ -17,7 +17,7 @@ as.interlaced(x, na = NULL, ...)
 
 \method{as.interlaced}{interlacer_interlaced}(x, ...)
 
-\method{as.interlaced}{data.frame}(df, ...)
+\method{as.interlaced}{data.frame}(x, ...)
 
 is.interlaced(x)
 }
@@ -25,6 +25,8 @@ is.interlaced(x)
 \item{x}{A vector or list of values}
 
 \item{na}{A vector of values to interpret as missing values}
+
+\item{...}{Additional arguments, not used}
 }
 \value{
 An \code{interlaced} vector

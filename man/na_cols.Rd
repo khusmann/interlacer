@@ -3,21 +3,21 @@
 \name{na_cols}
 \alias{na_cols}
 \alias{as.na_col_spec}
+\alias{is.na_col_spec}
 \title{Create an NA column specification}
 \usage{
 na_cols(...)
 
 as.na_col_spec(x)
+
+is.na_col_spec(x)
 }
 \arguments{
 \item{...}{Named vectors to use as missing reasons when loading interlaced
-columns}
+columns. Use name \code{.default} to set default \code{NA} values for the columns.}
 
 \item{x}{Named list to construct a NA spec with, or a vector of values that
 should be used in a spec with \code{.default} equal to those values.}
-
-\item{.default}{Any named columns not explicitly overridden will use these
-values as \code{NA} values for the column}
 }
 \description{
 \code{na_cols()} creates a specification for the NA channel missing reason when

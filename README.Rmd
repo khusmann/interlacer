@@ -79,7 +79,7 @@ devtools::install_github("khusmann/interlacer")
 To use interlacer, load it into your current R session:
 
 ```{r}
-library(interlacer)
+library(interlacer, warn.conflicts = FALSE)
 ```
 
 interlacer supports the following file formats with these `read_interlaced_*()`

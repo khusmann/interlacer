@@ -401,9 +401,18 @@ interlaced_vroom <- function(
   df
 }
 
+#' Examine the NA spec of a data frame
+#'
+#' Like `readr::spec()`, `na_spec()` extracts the NA column specification from
+#' a tibble created by `read_interlaced_*`
+#'
+#' @param x The data frame object to extract from
+#'
+#' @returns An `na_col_spec` object
+#'
 #' @export
-na_spec <- function(df) {
-  attr(df, "na_spec")
+na_spec <- function(x) {
+  attr(x, "na_spec")
 }
 
 check_col_spec <- function(col_spec, arg) {

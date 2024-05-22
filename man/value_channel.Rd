@@ -11,6 +11,8 @@ na_channel(x, ...)
 }
 \arguments{
 \item{x}{An \code{interlaced} vector}
+
+\item{...}{Additional arguments, not used}
 }
 \value{
 The value or missing reasons channel

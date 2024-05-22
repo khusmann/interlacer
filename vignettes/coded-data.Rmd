@@ -37,7 +37,7 @@ example:
 
 ```{r}
 library(readr)
-library(interlacer)
+library(interlacer, warn.conflicts = FALSE)
 
 read_file(
   interlacer_example("colors_coded.csv")
