@@ -248,6 +248,10 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
   v <- value_channel(x)
   m <- na_channel(x)
 
+  if (all(is.na(m))) {
+    return(v)
+  }
+
   if (!(is.numeric(v) && is.numeric(m)) && !(is.factor(v) && is.factor(m))) {
     v <- as.character(v)
     m <- as.character(m)
