@@ -669,6 +669,34 @@ vec_cast.logical.interlacer_interlaced <- cast_unwrap
 #' @export
 vec_cast.factor.interlacer_interlaced <- cast_unwrap
 
+# Override as.* casts ----------------------------------------------------
+
+#' @export
+as.logical.interlacer_interlaced <- function(x, ...) {
+  as.logical(value_channel(x), ...)
+}
+
+#' @export
+as.character.interlacer_interlaced <- function(x, ...) {
+  as.character(value_channel(x), ...)
+}
+
+#' @export
+as.integer.interlacer_interlaced <- function(x, ...) {
+  as.integer(value_channel(x), ...)
+}
+
+#' @export
+as.double.interlacer_interlaced <- function(x, ...) {
+  as.double(value_channel(x), ...)
+}
+
+#' @importFrom generics as.factor
+#' @export
+as.factor.interlacer_interlaced <- function(x, ...) {
+  as.factor(value_channel(x), ...)
+}
+
 # Helpers -----------------------------------------------------------------
 
 stop_unsupported <- function(x, method) {

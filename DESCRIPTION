@@ -16,6 +16,7 @@ Depends:
 Imports: 
     cli,
     dplyr,
+    generics,
     pillar,
     readr,
     rlang,
