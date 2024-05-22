@@ -168,10 +168,10 @@ check out `vignette("interlacer")` for a more complete overview!
 
 ## Known Issues
 
-1. `ifelse()` does not promote interlaced types
+1. Some base functions, like `base::ifelse()`, drop the missing reason channel
+on interlaced types, converting them into regular vectors
 
-Due to a [limitation of R](https://vctrs.r-lib.org/#motivation), some base R
-functions, like `base::ifelse()` will strip `interlaced` columns into regular vectors:
+For example:
 
 ```{r}
 ex |>
@@ -180,8 +180,10 @@ ex |>
   )
 ```
 
-If you run into this, use the tidyverse equivalent of the function that promotes
-types properly. In this case,`dplyr::if_else()`:
+This is due to a [limitation of R](https://vctrs.r-lib.org/#motivation).
+If you run into this, use the tidyverse equivalent of the function. Tidyverse
+functions are designed to more correctly handle type conversions. 
+In this example, we can use `dplyr::if_else()`:
 
 ```{r}
 ex |>
@@ -218,6 +220,9 @@ Stata. interlacer has slightly different aims:
 2. Provide functions for reading / writing interlaced CSV files (not just SPSS
 / SAS / Stata files)
 3. Provide a functional API that integrates well into tidy pipelines
+
+Future versions of interlacer will provide functions to convert to and from
+these other packages' types.
 
 For a more detailed discussion, see `vignette("other-approaches")`.
 
