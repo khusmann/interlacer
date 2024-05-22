@@ -319,7 +319,13 @@ interlaced_vroom <- function(
 
   out <- map(set_names(vars, vars), function(i) {
     collector <- col_spec$cols[[i]] %||% col_spec$default
-    na_collector <- na_col_spec$cols[[i]] %||% na_col_spec$default
+
+    if (i %in% names2(na_col_spec$cols)) {
+      # Col is explicitly overridden; don't use .default
+      na_collector <- na_col_spec$cols[[i]]
+    } else {
+      na_collector <- na_col_spec$cols[[i]] %||% na_col_spec$default
+    }
 
     vroom_call <- withWarnings(
       inject(

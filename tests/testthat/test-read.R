@@ -48,6 +48,17 @@ test_that("basic reading works", {
   )
 })
 
+test_that("NULL column-level missing reasons override default", {
+  df <- read_interlaced_csv(
+    interlacer_example("colors_coded.csv"),
+    na = na_cols(
+      .default = c(-99, -98, -97),
+      person_id = NULL,
+    ),
+  )
+
+  expect_false(is.interlaced(df$person_id))
+})
 
 test_that("column-level missing reasons can be specified na arg", {
   col_types <- cols(
