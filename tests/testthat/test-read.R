@@ -68,7 +68,7 @@ test_that("column-level missing reasons can be specified na arg", {
   )
 
   expected <- basic_df_expected() |>
-    mutate(
+    dplyr::mutate(
       a = map_na_channel(a, \(v) vec_cast(v, factor(levels=c("REASON_3", "REASON_1")))),
       b = map_na_channel(b, \(v) vec_cast(v, factor(levels=c("REASON_3", "REASON_2")))),
       c = map_na_channel(c, \(v) vec_cast(v, factor(levels="REASON_3"))),
