@@ -1,4 +1,4 @@
-#' Get path to interlacer example
+#' Get a path to one of interlacer's example data sets
 #'
 #' interlacer comes bundled with a number of sample files in its `inst/extdata`
 #' directory. This function make them easy to access

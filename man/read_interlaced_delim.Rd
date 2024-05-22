@@ -5,73 +5,270 @@
 \alias{read_interlaced_csv}
 \alias{read_interlaced_csv2}
 \alias{read_interlaced_tsv}
+\alias{interlaced_vroom}
 \title{Read an delimited file with interlaced missing reasons into a tibble}
 \usage{
 read_interlaced_delim(
   file,
   delim = NULL,
+  quote = "\\"",
+  escape_backslash = FALSE,
+  escape_double = TRUE,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = readr::default_locale(),
   na = c("", "NA"),
-  ...
+  comment = "",
+  trim_ws = FALSE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
+  skip_empty_rows = TRUE
 )
 
 read_interlaced_csv(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = readr::default_locale(),
   na = c("", "NA"),
-  ...
+  quote = "\\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
+  skip_empty_rows = TRUE
 )
 
 read_interlaced_csv2(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = readr::default_locale(),
   na = c("", "NA"),
-  ...
+  quote = "\\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
+  skip_empty_rows = TRUE
 )
 
 read_interlaced_tsv(
   file,
+  col_names = TRUE,
   col_types = NULL,
   col_select = NULL,
+  id = NULL,
+  locale = readr::default_locale(),
   na = c("", "NA"),
-  ...
+  quote = "\\"",
+  comment = "",
+  trim_ws = TRUE,
+  skip = 0,
+  n_max = Inf,
+  guess_max = min(1000, n_max),
+  name_repair = "unique",
+  progress = readr::show_progress(),
+  show_col_types = readr::should_show_types(),
+  skip_empty_rows = TRUE
+)
+
+interlaced_vroom(
+  file,
+  delim = NULL,
+  col_names = TRUE,
+  col_types = NULL,
+  col_select = NULL,
+  id = NULL,
+  skip = 0,
+  n_max = Inf,
+  na = c("", "NA"),
+  quote = "\\"",
+  comment = "",
+  skip_empty_rows = TRUE,
+  trim_ws = TRUE,
+  escape_double = TRUE,
+  escape_backslash = FALSE,
+  locale = vroom::default_locale(),
+  guess_max = 100,
+  progress = vroom::vroom_progress(),
+  show_col_types = NULL,
+  .name_repair = "unique"
 )
 }
 \arguments{
-\item{file}{Either a path to a file, a connection, or literal data (either
-a single string or a raw vector).}
+\item{file}{Either a path to a file, a connection, or literal data
+(either a single string or a raw vector).
+
+Files ending in \code{.gz}, \code{.bz2}, \code{.xz}, or \code{.zip} will
+be automatically uncompressed. Files starting with \verb{http://},
+\verb{https://}, \verb{ftp://}, or \verb{ftps://} will be automatically
+downloaded. Remote gz files can also be automatically downloaded and
+decompressed.
+
+Literal data is most useful for examples and tests. To be recognised as
+literal data, the input must be either wrapped with \code{I()}, be a string
+containing at least one new line, or be a vector containing at least one
+string with a new line.
+
+Using a value of \code{\link[readr:clipboard]{clipboard()}} will read from the system clipboard.}
 
 \item{delim}{Single character used to separate fields within a record.}
 
-\item{col_types}{One of `NULL`, a [readr::cols()] specification, or a string. In
-addition to the `col_*` specifiers provided by `readr`, `icol_*()`
-specifiers may be used. See `vignette("interlacer")` for more details.}
+\item{quote}{Single character used to quote strings.}
 
-\item{col_select}{Columns to include in the results. As with
-[reader::read_delim], you can use the same mini-language as
-[dplyr::select()] to refer to the columns by name.}
+\item{escape_backslash}{Does the file use backslashes to escape special
+characters? This is more general than \code{escape_double} as backslashes
+can be used to escape the delimiter character, the quote character, or
+to add special characters like \verb{\\\\n}.}
 
-\item{na}{Character vector of strings to interpret as missing values. These
-values will become the factor levels of the missing reason column.}
+\item{escape_double}{Does the file escape quotes by doubling them?
+i.e. If this option is \code{TRUE}, the value \verb{""""} represents
+a single quote, \verb{\\"}.}
 
-\item{...}{Additional parameters to pass to `read_delim`}
+\item{col_names}{Either \code{TRUE}, \code{FALSE} or a character vector
+of column names.
+
+If \code{TRUE}, the first row of the input will be used as the column
+names, and will not be included in the data frame. If \code{FALSE}, column
+names will be generated automatically: X1, X2, X3 etc.
+
+If \code{col_names} is a character vector, the values will be used as the
+names of the columns, and the first row of the input will be read into
+the first row of the output data frame.
+
+Missing (\code{NA}) column names will generate a warning, and be filled
+in with dummy names \code{...1}, \code{...2} etc. Duplicate column names
+will generate a warning and be made unique, see \code{name_repair} to control
+how this is done.}
+
+\item{col_types}{One of \code{NULL}, a \code{\link[readr:cols]{cols()}} specification, or
+a string. See \code{vignette("readr")} for more details.
+
+If \code{NULL}, all column types will be inferred from \code{guess_max} rows of the
+input, interspersed throughout the file. This is convenient (and fast),
+but not robust. If the guessed types are wrong, you'll need to increase
+\code{guess_max} or supply the correct types yourself.
+
+Column specifications created by \code{\link[=list]{list()}} or \code{\link[readr:cols]{cols()}} must contain
+one column specification for each column. If you only want to read a
+subset of the columns, use \code{\link[readr:cols_only]{cols_only()}}.
+
+Alternatively, you can use a compact string representation where each
+character represents one column:
+\itemize{
+\item c = character
+\item i = integer
+\item n = number
+\item d = double
+\item l = logical
+\item f = factor
+\item D = date
+\item T = date time
+\item t = time
+\item ? = guess
+\item _ or - = skip
+}
+
+By default, reading a file without a column specification will print a
+message showing what \code{readr} guessed they were. To remove this message,
+set \code{show_col_types = FALSE} or set \code{options(readr.show_col_types = FALSE)}.}
+
+\item{col_select}{Columns to include in the results. You can use the same
+mini-language as \code{dplyr::select()} to refer to the columns by name. Use
+\code{c()} to use more than one selection expression. Although this
+usage is less common, \code{col_select} also accepts a numeric column index. See
+\code{\link[tidyselect:language]{?tidyselect::language}} for full details on the
+selection language.}
+
+\item{id}{The name of a column in which to store the file path. This is
+useful when reading multiple input files and there is data in the file
+paths, such as the data collection date. If \code{NULL} (the default) no extra
+column is created.}
+
+\item{locale}{The locale controls defaults that vary from place to place.
+The default locale is US-centric (like R), but you can use
+\code{\link[readr:locale]{locale()}} to create your own locale that controls things like
+the default time zone, encoding, decimal mark, big mark, and day/month
+names.}
+
+\item{na}{A NA col spec defined by \code{na_cols()} or a character or numeric
+vector of values to interpret as missing values.}
+
+\item{comment}{A string used to identify comments. Any text after the
+comment characters will be silently ignored.}
+
+\item{trim_ws}{Should leading and trailing whitespace (ASCII spaces and tabs) be trimmed from
+each field before parsing it?}
+
+\item{skip}{Number of lines to skip before reading data. If \code{comment} is
+supplied any commented lines are ignored \emph{after} skipping.}
+
+\item{n_max}{Maximum number of lines to read.}
+
+\item{guess_max}{Maximum number of lines to use for guessing column types.
+Will never use more than the number of lines read.
+See \code{vignette("column-types", package = "readr")} for more details.}
+
+\item{name_repair, .name_repair}{Handling of column names. The default behaviour is to
+ensure column names are \code{"unique"}. Various repair strategies are
+supported:
+\itemize{
+\item \code{"minimal"}: No name repair or checks, beyond basic existence of names.
+\item \code{"unique"} (default value): Make sure names are unique and not empty.
+\item \code{"check_unique"}: No name repair, but check they are \code{unique}.
+\item \code{"unique_quiet"}: Repair with the \code{unique} strategy, quietly.
+\item \code{"universal"}: Make the names \code{unique} and syntactic.
+\item \code{"universal_quiet"}: Repair with the \code{universal} strategy, quietly.
+\item A function: Apply custom name repair (e.g., \code{name_repair = make.names}
+for names in the style of base R).
+\item A purrr-style anonymous function, see \code{\link[rlang:as_function]{rlang::as_function()}}.
+}
+
+This argument is passed on as \code{repair} to \code{\link[vctrs:vec_as_names]{vctrs::vec_as_names()}}.
+See there for more details on these terms and the strategies used
+to enforce them.}
+
+\item{progress}{Display a progress bar? By default it will only display
+in an interactive session and not while knitting a document. The automatic
+progress bar can be disabled by setting option \code{readr.show_progress} to
+\code{FALSE}.}
+
+\item{show_col_types}{If \code{FALSE}, do not show the guessed column types. If
+\code{TRUE} always show the column types, even if they are supplied. If \code{NULL}
+(the default) only show the column types if they are not explicitly supplied
+by the \code{col_types} argument.}
+
+\item{skip_empty_rows}{Should blank rows be ignored altogether? i.e. If this
+option is \code{TRUE} then blank rows will not be represented at all.  If it is
+\code{FALSE} then they will be represented by \code{NA} values in all the columns.}
 }
 \value{
-A deinterlaced [tibble()], that is, a tibble with separate columns
-for values and missing reasonskfor each variable.
+A \code{\link[=tibble]{tibble()}}, with interlaced columns.
 }
 \description{
-The `read_interlaced_*()`, family of functions extend `readr`'s
-`read_delim()`, `read_csv`, etc. functions for use on data sources where
+The \verb{read_interlaced_*()}, family of functions extend \code{readr}'s
+\code{read_delim()}, \code{read_csv}, etc. functions for use on data sources where
 values are interlaced with missing reasons. These functions return a tibble
-with two columns for each interlaced source column: a column with
-values, and a column with missing reasons. Missing reason columns are named
-by taking the value column name and surrounding it by dots
-(e.g. missing reasons for "col_name" are read into a column named
-".col_name.")
+with \code{interlaced} columns.
 }
 \examples{
 # Beep boop

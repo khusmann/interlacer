@@ -9,34 +9,138 @@
 \alias{write_interlaced_tsv}
 \title{Interlace a deinterlaced data frame and write it to a file}
 \usage{
-write_interlaced_delim(x, file, delim = " ", ...)
+write_interlaced_delim(
+  x,
+  file,
+  delim = " ",
+  empty = "NA",
+  append = FALSE,
+  col_names = !append,
+  quote = c("needed", "all", "none"),
+  escape = c("double", "backslash", "none"),
+  eol = "\\n",
+  num_threads = readr::readr_threads(),
+  progress = readr::show_progress()
+)
 
-write_interlaced_csv(x, file, ...)
+write_interlaced_csv(
+  x,
+  file,
+  empty = "NA",
+  append = FALSE,
+  col_names = !append,
+  quote = c("needed", "all", "none"),
+  escape = c("double", "backslash", "none"),
+  eol = "\\n",
+  num_threads = readr::readr_threads(),
+  progress = readr::show_progress()
+)
 
-write_interlaced_csv2(x, file, ...)
+write_interlaced_csv2(
+  x,
+  file,
+  empty = "NA",
+  append = FALSE,
+  col_names = !append,
+  quote = c("needed", "all", "none"),
+  escape = c("double", "backslash", "none"),
+  eol = "\\n",
+  num_threads = readr::readr_threads(),
+  progress = readr::show_progress()
+)
 
-write_interlaced_excel_csv(x, file, ...)
+write_interlaced_excel_csv(
+  x,
+  file,
+  empty = "NA",
+  append = FALSE,
+  col_names = !append,
+  quote = c("needed", "all", "none"),
+  escape = c("double", "backslash", "none"),
+  eol = "\\n",
+  num_threads = readr::readr_threads(),
+  progress = readr::show_progress()
+)
 
-write_interlaced_excel_csv2(x, file, ...)
+write_interlaced_excel_csv2(
+  x,
+  file,
+  empty = "NA",
+  append = FALSE,
+  col_names = !append,
+  quote = c("needed", "all", "none"),
+  escape = c("double", "backslash", "none"),
+  eol = "\\n",
+  num_threads = readr::readr_threads(),
+  progress = readr::show_progress()
+)
 
-write_interlaced_tsv(x, file, ...)
+write_interlaced_tsv(
+  x,
+  file,
+  empty = "NA",
+  append = FALSE,
+  col_names = !append,
+  quote = c("needed", "all", "none"),
+  escape = c("double", "backslash", "none"),
+  eol = "\\n",
+  num_threads = readr::readr_threads(),
+  progress = readr::show_progress()
+)
 }
 \arguments{
-\item{x}{A data frame or tibble to write to disk}
+\item{x}{A data frame or tibble to write to disk.}
 
-\item{file}{File or connection to write to}
+\item{file}{File or connection to write to.}
 
-\item{delim}{Delimiter used to separate values. Defaults to " " for
-`write_interlaced_delim()`, "," for `write_interlaced_excel_csv()` and ";"
-for `write_interlaced_excel_csv2()`. Must be a single character.}
+\item{delim}{Delimiter used to separate values. Defaults to \code{" "} for \code{write_delim()}, \code{","} for \code{write_excel_csv()} and
+\code{";"} for \code{write_excel_csv2()}. Must be a single character.}
 
-\item{...}{Additional parameters to pass to [readr]}
+\item{empty}{String used for empty values (or \code{NA} values in non-interlaced
+columns). Defaults to NA.}
+
+\item{append}{If \code{FALSE}, will overwrite existing file. If \code{TRUE},
+will append to existing file. In both cases, if the file does not exist a new
+file is created.}
+
+\item{col_names}{If \code{FALSE}, column names will not be included at the top of the file. If \code{TRUE},
+column names will be included. If not specified, \code{col_names} will take the opposite value given to \code{append}.}
+
+\item{quote}{How to handle fields which contain characters that need to be
+quoted.
+\itemize{
+\item \code{needed} - Values are only quoted if needed: if they contain a delimiter,
+quote, or newline.
+\item \code{all} - Quote all fields.
+\item \code{none} - Never quote fields.
+}}
+
+\item{escape}{The type of escape to use when quotes are in the data.
+\itemize{
+\item \code{double} - quotes are escaped by doubling them.
+\item \code{backslash} - quotes are escaped by a preceding backslash.
+\item \code{none} - quotes are not escaped.
+}}
+
+\item{eol}{The end of line character to use. Most commonly either \code{"\n"} for
+Unix style newlines, or \code{"\r\n"} for Windows style newlines.}
+
+\item{num_threads}{Number of threads to use when reading and materializing
+vectors. If your data contains newlines within fields the parser will
+automatically be forced to use a single thread only.}
+
+\item{progress}{Display a progress bar? By default it will only display
+in an interactive session and not while knitting a document. The display
+is updated every 50,000 values and will only display if estimated reading
+time is 5 seconds or more. The automatic progress bar can be disabled by
+setting option \code{readr.show_progress} to \code{FALSE}.}
 }
 \value{
-`write_interlaced_*` returns the input x invisibly
+\verb{write_interlaced_*} returns the input x invisibly
 }
 \description{
-The `write_interlaced_*()` family of functions will take a deinterlaced
-data frame, re-interlace it, and write it to a flie. The behavior of these
-functions match their similarly named counterparts in [readr].
+The \verb{write_interlaced_*()} family of functions will take a data frame
+with interlaced columns, flatten all interlaced columns, then write it to
+a file. Non-interlaced columns just pass through. The behavior of these
+functions match their similarly named counterparts in \link{readr}.
 }
