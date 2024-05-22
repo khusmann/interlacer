@@ -13,3 +13,20 @@ articles:
     - na-column-types
     - coded-data
     - other-approaches
+
+reference:
+- title: Reading and writing interlaced data
+- contents:
+  - starts_with("read_")
+  - starts_with("write_")
+  - na_cols
+  - parse_interlaced
+  - interlacer_example
+- title: The `interlaced` type
+  desc:  Functions for working with the `interlaced` type
+- contents:
+  - interlaced
+  - na
+  - value_channel
+  - map_value_channel
+  - flatten_channels
