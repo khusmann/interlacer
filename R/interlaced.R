@@ -20,7 +20,6 @@ interlaced <- function(x, na=NULL) {
   v <- x
   v[x %in% na] <- NA
   new_interlaced(list_c(v), m)
-
 }
 
 #' @rdname interlaced
@@ -61,7 +60,8 @@ is.interlaced <- function(x) {
 #'
 #' @param x A character vector
 #' @param na A vector of values to interpret as missing values
-#' @param .value_col A collector to parse the character values
+#' @param .value_col A collector to parse the character values (e.g.
+#' `readr::col_double()`, `readr::col_integer()`, etc.)
 #'
 #' @returns An `interlaced` vector
 #'
@@ -139,7 +139,7 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 
 #' Lift values to missing reasons
 #'
-#' `na()` lifts a value into an `interlaced()` missing reason channel.
+#' `na()` lifts a value into an `interlaced` missing reason channel.
 #'
 #' @param x A character or numeric value
 #'

@@ -13,5 +13,5 @@ na(x = unspecified())
 An \code{interlaced} value
 }
 \description{
-\code{na()} lifts a value into an \code{interlaced()} missing reason channel.
+\code{na()} lifts a value into an \code{interlaced} missing reason channel.
 }

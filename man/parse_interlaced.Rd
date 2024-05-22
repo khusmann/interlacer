@@ -11,7 +11,8 @@ parse_interlaced(x, na, .value_col = col_guess())
 
 \item{na}{A vector of values to interpret as missing values}
 
-\item{.value_col}{A collector to parse the character values}
+\item{.value_col}{A collector to parse the character values (e.g.
+\code{readr::col_double()}, \code{readr::col_integer()}, etc.)}
 }
 \value{
 An \code{interlaced} vector
