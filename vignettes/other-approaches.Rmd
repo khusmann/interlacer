@@ -1,0 +1,363 @@
+---
+title: "Other Approaches"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Other Approaches}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+interlacer was inspired by the [haven](https://haven.tidyverse.org/),
+[labelled](https://larmarange.github.io/labelled/), and
+[declared](https://dusadrian.github.io/declared/) packages. These packages
+provide similar functionality to interlacer, but are more focused on
+providing compatibility with missing reason data imported from SPSS, SAS, and
+Stata. 
+
+In this section I discuss some of the particularities of these 
+approaches, and how they compare with interlacer.
+
+(Note: Future versions of interlacer will have the ability to convert 
+`haven_labelled` and `declared` types to and from `interlaced` types.)
+
+## haven and labelled
+
+The [haven](https://haven.tidyverse.org/) and
+[labelled](https://larmarange.github.io/labelled/) packages rely on two
+functions
+for creating vectors that interlace values and missing reasons:
+`haven::labelled_spss()` and `haven::tagged_na()`. Although they both create
+`haven_labelled` vectors, they use very different methods for representing
+missing values.
+
+### "Labelled" missing values (`haven::labelled_spss()`)
+
+When SPSS files are loaded with haven via `haven::read_spss()`, values
+and missing reasons are loaded into a single interlaced numeric vector:
+
+```{r}
+library(interlacer)
+library(haven)
+library(dplyr)
+
+(df_spss <- read_spss(
+  interlacer_example("colors.sav"), user_na = TRUE
+))
+```
+
+Not just any numeric vector though, a `haven::labelled_spss()` numeric vector,
+with attributes describing its value and missing value codes:
+
+```{r}
+attributes(df_spss$favorite_color)
+```
+
+These attributes adjust the behavior of functions like `is.na()`:
+
+```{r}
+is.na(df_spss$favorite_color)
+```
+
+
+This makes it easy to check if a value is a missing reason,
+but you still have to filter out missing reasons before you do any aggregations:
+
+```{r}
+df_spss |>
+  mutate(
+    age_values = if_else(is.na(age), NA, age),
+    favorite_color_missing_reasons = if_else(
+      is.na(favorite_color), favorite_color, NA
+    )
+  ) |>
+  summarize(
+    mean_age = mean(age_values, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing_reasons
+  )
+
+df_spss |>
+  mutate(
+    age_next_year = if_else(is.na(age), NA, age + 1),
+    .after = person_id
+  )
+```
+
+It's a little bit of an improvement to working with raw coded values, because
+you can use `is.na()`, and your codes get labels, so you don't have be
+constantly looking up codes in your codebook. But it still falls short of 
+interlacer's functionality for two key reasons:
+
+Reason 1: With interlacer, your value column
+can be whatever type you want: numeric, character, factor, etc. With labelled
+missing reasons,
+values and missing reasons need to be the same type, usually numeric codes.
+This creates a lot more type gymnastics and potential errors when you're
+manipulating them.
+
+Reason 2: Even when the missing values are labelled in the `labelled_spss` type,
+aggregations and other math operatiosn are not protected. If you forget
+to take out your missing values, you get incorrect results / corrupted data:
+
+```{r}
+df_spss |>
+  mutate(
+    favorite_color_missing_reasons = if_else(
+      is.na(favorite_color), favorite_color, NA
+    )
+  ) |>
+  summarize(
+    mean_age = mean(age, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing_reasons
+  )
+
+df_spss |>
+  mutate(
+    age_next_year = age + 1,
+    .after = person_id
+  )
+```
+
+
+### "Tagged" missing values (`haven::tagged_na()`)
+
+For loading Stata and SAS files, haven uses a "tagged missingness" approach to
+mirror how these values are handled in Stata and SAS:
+
+```{r}
+(df_stata <- read_stata(
+  interlacer_example("colors.dta")
+))
+```
+
+This approach is deviously clever. It takes advantage of the way `NaN` floating
+point values are stored in memory, to make it possible to have different
+"flavors" of `NA` values. (For more info on how this is done, check out
+[tagged_na.c](https://github.com/tidyverse/haven/blob/main/src/tagged_na.c) in
+the source code for haven)
+
+They still all act like regular `NA` values... but now they can include a single
+character "tag" (usually a letter from a-z). This means that they work with
+`is.na()` AND will not include missing reason codes in aggregations!
+
+```{r}
+is.na(df_stata$age)
+
+mean(df_stata$age, na.rm=TRUE)
+```
+
+Unfortunately, you can't group by them, because `dplyr::group_by()` is not
+missing tag-aware :(
+
+```{r}
+df_stata |>
+  mutate(
+    favorite_color_missing_reasons = if_else(
+      is.na(favorite_color), favorite_color, NA
+    )
+  ) |>
+  summarize(
+    mean_age = mean(age, na.rm=T),
+    n = n(),
+    .by = favorite_color_missing_reasons
+  )
+```
+
+Another limitation of this approach is that it requires values types to be
+numeric, because the trick of "tagging" the `NA` values depends on the
+peculiarities of how floating point values are stored in memory.
+
+## declared
+
+The [declared](https://dusadrian.github.io/declared/) package uses the
+function`declared::declared()` for constructing interlaced vectors:
+
+```{r}
+library(declared)
+
+(dcl <- declared(c(1, 2, 3, -99, -98), na_values = c(-99, -98)))
+```
+
+`declared` vectors are similar to `haven_labelled_spss` vectors, except with
+a critical innovation: they store actual `NA` values where there are missing
+values, and then keep track of the missing reasons entirely in the attributes
+of the object:
+
+```{r}
+# All the missing reason info is tracked in the attributes
+attributes(dcl)
+
+
+# The data stored has actual NA values, so it works as you would expect
+# with summary stats like `mean()`, etc.
+attributes(dcl) <- NULL
+dcl
+```
+
+This means aggregations work exactly as you would expect!
+
+```{r}
+sum(declared(c(1, 2, 3, -99, -98), na_values = c(-99, -98)), na.rm=TRUE)
+```
+
+## interlacer
+
+interlacer builds on the ideas of haven, labelled, and declared with following
+goals:
+
+1. Be fully generic: Add a missing value channel to *any* vector type.
+
+As mentioned above, `haven::labelled_spss()` only works with `numeric`
+and `character` types, and `haven::tagged_na()` only works with `numeric` types. 
+`declared::declared()` supports `numeric`, `character` and `date` types.
+
+`interlaced` types, by contrast, can imbue *any* vector type with a missing value
+channel:
+
+```{r}
+interlaced(list(TRUE, FALSE, "reason"), na = "reason")
+
+interlaced(c("2020-01-01", "2020-01-02", "reason"), na = "reason") |>
+  map_value_channel(as.Date)
+
+
+interlaced(c("red", "green", "reason"), na = "reason") |>
+  map_value_channel(factor)
+```
+
+Like `declared` vectors, the missing reasons are tracked in the attributes. But
+unlike `declared`, missing reasons are stored as an entirely separate *channel*
+rather than by tracking their indices:
+
+```{r}
+(int <- interlaced(c(1,2,3, -99, -98), na = c(-99, -98)))
+
+attributes(int)
+
+attributes(int) <- NULL
+int
+```
+
+This data structure drives their functional API, described in (3) below.
+
+2. Provide functions for reading / writing interlaced CSV files (not just SPSS
+/ SAS / Stata files)
+
+(See `interlacer::read_interlaced_csv()`, etc.)
+
+3. Provide a functional API that integrates well into tidy pipelines
+
+interlacer provides functions to facilitate working with the `interlaced` type
+as a [Result type](https://en.wikipedia.org/wiki/Result_type),
+a well-understood abstraction in functional programming. The functions `na()`
+`map_value_channel()` and `map_na_channel()` all come from this influence.
+
+The `na()` function creates an `interlaced` type by "lifting" a value into
+the missing reason channel. This approach helps create a safer separation between
+the value and missing reason channels, because it's always clear which channel
+you're making comparisons on.
+
+For example:
+
+```{r}
+# haven
+labelled_spss(c(-99, 1, 2), na_values = -99) == 1 # value channel comparison
+labelled_spss(c(-99, 1, 2), na_values = -99) == -99 # na channel comparison
+
+# declared
+declared(c(-99, 1, 2), na_values = -99) == 1 # value channel comparison
+declared(c(-99, 1, 2), na_values = -99) == -99 # na channel comparison
+
+# interlacer 
+interlaced(c(-99, 1, 2), na = -99) == 1 # value channel comparison
+interlaced(c(-99, 1, 2), na = -99) == na(-99) # na channel comparison
+```
+
+Similarly, `map_value_channel()` and `map_na_channel()` allow you to safely
+apply a function to a particular channel, without touching the values of the
+other channel, which are especially useful in tidy pipelines.
+
+Finally, because the `interlaced` type is based on a `vctrs::vctrs_vctr`, it
+plays nicely with all the packages in the tidyverse.
+
+## Questions for the future
+
+1. More flexible missing reason channel types?
+
+Earlier versions allowed arbitrary types to occupy
+the missing reason channel (i.e. it was a fully generic Result<Value, Missing>
+type). I ended
+up constricting the missing reason channel to only allow `integer` or `factor`
+types to help simplify the `na_cols()` specifications. When arbitrary types
+are allowed, the `na_cols()` specs become quite long (e.g.
+`column_name = factor(levels=c("REASON_1", "REASON_2")))`). As far as I can
+tell, in 99.9% of the time, it is preferable to use `integer` and `factor`
+missing reason channels over `double` and `character` ones, so for now I've
+made the executive decision to only allow `integer` and `factor` types.
+
+2. A better `na_cols()` specification?
+
+Right now, missing values are supplied in `na` a separate argument from
+`col_types`. This means custom missing values get pretty far separated from
+their `col_type` definitions:
+
+```{r}
+read_interlaced_csv(
+  interlacer_example("stress.csv"),
+  col_types = cols(
+    person_id = col_integer(),
+    current_stress = col_factor(
+      levels = c("LOW", "MODERATE", "HIGH")
+    ),
+    time_management = col_factor(
+      levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL")
+    )
+  ),
+  na = na_cols(
+    .default = c("REFUSED", "OMITTED", "N/A"),
+    current_stress = c(.default, "DONT_KNOW", "DONT_UNDERSTAND"),
+    time_management = c(.default, "NA_VACATION", "NA_OTHER")
+  )
+)
+```
+
+In an earlier version I created an extension of readr collectors, a family
+of `icol_*` types, that allowed you to do something like this:
+
+```{r, eval=FALSE}
+read_interlaced_csv(
+  interlacer_example("stress.csv"),
+  col_types = cols(
+    person_id = col_integer(),
+    current_stress = icol_factor(
+      levels = c("LOW", "MODERATE", "HIGH"),
+      na = c("DONT_KNOW", "DONT_UNDERSTAND")
+    ),
+    time_management = col_factor(
+      levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL"),
+      na = c("NA_VACATION", "NA_OTHER")
+    )
+  ),
+  na = c("REFUSED", "OMITTED", "N/A")
+)
+```
+
+...I can't decide which interface I like better. Although the latter approach
+feels cleaner because it folds custom missing reasons into the `cols`
+definition, one disadvantage is that it cannot overwrite missing values (e.g.
+I cannot set the missing reason on `person_id` to `NULL` as long as there's a
+default missing reason specified).
+It also feels a little "hackish" to extend readr's types in this way; I think
+making use of the `na` parameter in my own `na_cols()` function provides me
+with a little bit more insulation to changes from readr.
+
+Anyway, if you have thoughts or opinions on any of these things, I'd really
+[appreciate your feedback](mailto:kdh38@psu.edu)!

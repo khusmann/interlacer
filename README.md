@@ -47,9 +47,12 @@ also check out:
   approach compares to other approaches for representing and
   manipulating missing reasons alongside data values
 
+### ⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️
+
 This library is currently in its experimental stages, so be aware that
-its interface is likely to change in the future. In the meantime, please
-try it out and [let me know what you think](mailto:kdh38@psu.edu)!
+its interface is quite likely to change in the future. In the meantime,
+please try it out and [let me know what you
+think](mailto:kdh38@psu.edu)!
 
 ## Installation
 
@@ -292,10 +295,10 @@ packages provide similar functionality to interlacer, but are more
 focused on providing compatibility with missing reason data imported
 from SPSS, SAS, and Stata. interlacer has slightly different aims:
 
-1.  Wrap *any* R type with a missing value channel.
+1.  Be fully generic: Add a missing value channel to *any* vector type.
 2.  Provide functions for reading / writing interlaced CSV files (not
     just SPSS / SAS / Stata files)
-3.  Provide an API that integrates well into tidy pipelines
+3.  Provide a functional API that integrates well into tidy pipelines
 
 For a more detailed discussion, see `vignette("other-approaches")`.
 
