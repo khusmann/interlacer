@@ -10,6 +10,6 @@ articles:
 - title: Articles
   navbar: ~
   contents:
-    - column-types
+    - na-column-types
     - coded-data
     - other-approaches

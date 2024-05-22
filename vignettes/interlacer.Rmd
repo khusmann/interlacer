@@ -392,4 +392,4 @@ In all the examples in this vignette, column types were automatically detected.
 To explicitly specify value and missing column types, (and specify individual
 missing reasons for specific columns), interlacer extends
 `readr`'s `collector()` system. This will be covered in the next vignette,
-`vignette("column-types")`
+`vignette("na-column-types")`

@@ -37,8 +37,8 @@ just works!
 In addition to the introduction in `vignette("interlacer")` be sure to
 also check out:
 
-- `vignette("column-types")` to see how to handle variable-level missing
-  reasons
+- `vignette("na-column-types")` to see how to handle variable-level
+  missing reasons
 
 - `vignette("coded-data")` for some recipies for working with coded data
   (e.g. data produced by SPSS, SAS or Stata)
