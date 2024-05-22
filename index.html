@@ -17,7 +17,7 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Read Tabular Data With Interlaced Values And Missing Reasons">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Read Tabular Data With Interlaced Values And Missing Reasons">
 <meta property="og:description" content="Textual tabular data sources often encode values and missing reasons into the same texkual column. This packages loads such data and deinterlaces the tabular source into a dataframe with two columns per variable: one for values, and one for missing reasons. This representation provides a tidy and typesafe interface for working with values and missing reasons in R.">
 <meta property="og:image" content="http://kylehusmann.com/interlacer/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,8 +51,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/mutations.html">Mutating Values and Missing Reasons</a>
-    <a class="dropdown-item" href="articles/column-types.html">Interlaced Column Types</a>
+    <a class="dropdown-item" href="articles/na-column-types.html">NA Column Types</a>
     <a class="dropdown-item" href="articles/coded-data.html">Coded Data</a>
     <a class="dropdown-item" href="articles/other-approaches.html">Other Approaches</a>
   </div>
@@ -75,27 +74,26 @@
 </h1>
 </div>
 <p><a href="https://www.repostatus.org/#wip" class="external-link"><img src="https://www.repostatus.org/badges/latest/wip.svg" alt="Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public."></a> <a href="https://github.com/khusmann/interlacer/actions/workflows/check-standard.yaml" class="external-link"><img src="https://github.com/khusmann/interlacer/actions/workflows/check-standard.yaml/badge.svg" alt="R-CMD-check"></a> <a href="https://codecov.io/gh/khusmann/interlacer" class="external-link"><img src="https://codecov.io/gh/khusmann/interlacer/graph/badge.svg?token=R4WNWH5NXU" alt="codecov"></a></p>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
 <p>When a value is missing in your data, sometimes you want to know <em>why</em> it is missing. Many textual tabular data sources will encode missing reasons as special values <em>interlaced</em> with the regular values in a column (e.g. <code>N/A</code>, <code>REFUSED</code>, <code>-99</code>, etc.). Unfortunately, the missing reasons are lost when these values are all converted into a single <code>NA</code> type. Working with missing reasons in R traditionally requires loading variables as character vectors and doing a bunch of string comparisons and type conversions to make sense of them.</p>
-<p>Interlacer was created based on the insight that values and missing reasons can be handled as separate <em>channels</em> of the same variable. Interlacer provides functions that load variables from interlaced data sources into two separate columns: One containing the variable’s values, the other containing its missing reasons. As it turns out, this structure gives us an extremely powerful and expressive way to simultaneously work with values and missing reasons in tidy pipelines, as described in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>. (tldr: It allows us to interact with a variable as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link"><code>Result</code> type</a>, an abstraction often found in functional programming)</p>
-<p>Although this may seem like a simple premise on the surface, it has deep implications! In addition to <code><a href="articles/interlacer.html">vignette("interlacer")</a></code>, be sure to also check out:</p>
+<p>interlacer provides functions that load variables from interlaced data sources into a special <code>interlaced</code> column type that holds values and <code>NA</code> reasons in separate <em>channels</em> of the same variable. In most contexts, you can treat <code>interlaced</code> columns as if they were regular values: if you take the <code>mean</code> of an interlaced column, for example, you get the mean of its values, without its missing reasons interfering in the computation.</p>
+<p>Unlike a regular column, however, the missing reasons are still available. This means you can still filter data frames on variables by specific missing reasons, or generate summary statistics with breakdowns by missing reason. In other words, you no longer have to constantly manually include / exclude missing reasons in computations by filtering them with awkward string comparisons or type conversions… everything just works!</p>
+<p>In addition to the introduction in <code><a href="articles/interlacer.html">vignette("interlacer")</a></code> be sure to also check out:</p>
 <ul>
-<li><p><code><a href="articles/mutations.html">vignette("mutations")</a></code> for a discussion on how to motify data frames when in this format</p></li>
-<li><p><code><a href="articles/column-types.html">vignette("column-types")</a></code> to see how to handle variable-level missing reasons</p></li>
+<li><p><code><a href="articles/na-column-types.html">vignette("na-column-types")</a></code> to see how to handle variable-level missing reasons</p></li>
 <li><p><code><a href="articles/coded-data.html">vignette("coded-data")</a></code> for some recipies for working with coded data (e.g. data produced by SPSS, SAS or Stata)</p></li>
 <li><p><code><a href="articles/other-approaches.html">vignette("other-approaches")</a></code> for a deep dive into how interlacer’s approach compares to other approaches for representing and manipulating missing reasons alongside data values</p></li>
 </ul>
-<p>This library is currently in its experimental stages, so be aware that its interface is likely to change in the future. In the meantime, please try it out and <a href="mailto:kdh38@psu.edu">let me know what you think</a>!</p>
+<div class="section level3">
+<h3 id="id_️-️-️-warning-️-️-️">⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️<a class="anchor" aria-label="anchor" href="#id_%EF%B8%8F-%EF%B8%8F-%EF%B8%8F-warning-%EF%B8%8F-%EF%B8%8F-%EF%B8%8F"></a>
+</h3>
+<p>This library is currently in its experimental stages, so be aware that its interface is quite likely to change in the future. In the meantime, please try it out and <a href="mailto:kdh38@psu.edu">let me know what you think</a>!</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<p>The easiest way to get interlacer is to install via devtools:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># The easiest way to get interlacer is to install via devtools:</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># If devtools is not already installed</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span> <span class="co"># If devtools is not already installed</span></span>
 <span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"khusmann/interlacer"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -104,7 +102,7 @@
 </h2>
 <p>To use interlacer, load it into your current R session:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://kylehusmann.com/interlacer/">interlacer</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <p>interlacer supports the following file formats with these <code>read_interlaced_*()</code> functions, which extend the <code>readr::read_*()</code> family of functions:</p>
 <ul>
 <li><code><a href="reference/read_interlaced_delim.html">read_interlaced_csv()</a></code></li>
@@ -114,7 +112,8 @@
 </ul>
 <p>As a quick demo, consider the following example file bundled with interlacer:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span>, warn.conflicts <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org" class="external-link">readr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_file.html" class="external-link">read_file</a></span><span class="op">(</span><span class="fu"><a href="reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -131,20 +130,13 @@
 <span><span class="co">#&gt; 10,OMITTED,RED</span></span>
 <span><span class="co">#&gt; 11,10,REFUSED</span></span></code></pre></div>
 <p>In this csv file, values are interlaced with three possible missing reasons: <code>REFUSED</code>, <code>OMITTED</code>, and <code>N/A</code>.</p>
-<p>With readr, loading these data would result in a data frame like this:</p>
+<p>With <code>readr</code>, loading these data would result in a data frame where all missing reasons are replaced with <code>NA</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
-<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Rows: 11 Columns: 3</span></span>
-<span><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; Delimiter: ","</span></span>
-<span><span class="co">#&gt; chr (1): favorite_color</span></span>
-<span><span class="co">#&gt; dbl (2): person_id, age</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">#&gt; ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
 <span><span class="co">#&gt; # A tibble: 11 × 3</span></span>
 <span><span class="co">#&gt;    person_id   age favorite_color</span></span>
 <span><span class="co">#&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;         </span></span>
@@ -159,53 +151,135 @@
 <span><span class="co">#&gt;  9         9    NA &lt;NA&gt;          </span></span>
 <span><span class="co">#&gt; 10        10    NA RED           </span></span>
 <span><span class="co">#&gt; 11        11    10 &lt;NA&gt;</span></span></code></pre></div>
-<p>With interlacer, we get a “deinterlaced data frame” instead:</p>
+<p>With interlacer, missing reasons are preserved:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">ex</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.csv"</span><span class="op">)</span>,</span>
-<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span></span>
+<span>  na <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"REFUSED"</span>, <span class="st">"OMITTED"</span>, <span class="st">"N/A"</span><span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A deinterlaced tibble: 11 × 6</span></span>
-<span><span class="co">#&gt;    person_id .person_id.   age .age.   favorite_color .favorite_color.</span></span>
-<span><span class="co">#&gt;        &lt;dbl&gt; &lt;fct&gt;       &lt;dbl&gt; &lt;fct&gt;   &lt;chr&gt;          &lt;fct&gt;           </span></span>
-<span><span class="co">#&gt;  1         1 &lt;NA&gt;           20 &lt;NA&gt;    BLUE           &lt;NA&gt;            </span></span>
-<span><span class="co">#&gt;  2         2 &lt;NA&gt;           NA REFUSED BLUE           &lt;NA&gt;            </span></span>
-<span><span class="co">#&gt;  3         3 &lt;NA&gt;           21 &lt;NA&gt;    &lt;NA&gt;           REFUSED         </span></span>
-<span><span class="co">#&gt;  4         4 &lt;NA&gt;           30 &lt;NA&gt;    &lt;NA&gt;           OMITTED         </span></span>
-<span><span class="co">#&gt;  5         5 &lt;NA&gt;            1 &lt;NA&gt;    &lt;NA&gt;           N/A             </span></span>
-<span><span class="co">#&gt;  6         6 &lt;NA&gt;           41 &lt;NA&gt;    RED            &lt;NA&gt;            </span></span>
-<span><span class="co">#&gt;  7         7 &lt;NA&gt;           50 &lt;NA&gt;    &lt;NA&gt;           OMITTED         </span></span>
-<span><span class="co">#&gt;  8         8 &lt;NA&gt;           30 &lt;NA&gt;    YELLOW         &lt;NA&gt;            </span></span>
-<span><span class="co">#&gt;  9         9 &lt;NA&gt;           NA REFUSED &lt;NA&gt;           REFUSED         </span></span>
-<span><span class="co">#&gt; 10        10 &lt;NA&gt;           NA OMITTED RED            &lt;NA&gt;            </span></span>
-<span><span class="co">#&gt; 11        11 &lt;NA&gt;           10 &lt;NA&gt;    &lt;NA&gt;           REFUSED</span></span></code></pre></div>
-<p>Deinterlaced data frames have two columns for each variable: one for values, and another for missing reasons. Missing reason columns are denoted by column names surrounded by dots (e.g. <code>.age.</code> is the missing reason for the <code>age</code> column). When a value is <code>NA</code>, it always has a reason in the missing reason column. Similarly, when a missing reason is <code>NA</code>, it always has a value in the value column.</p>
-<p>This allows us to separately reference values and missing reasons in a tidy and type-aware manner. For example, if I wanted to get a breakdown of the mean age of respondents missing a report of their favorite color, grouped by the missing reason, it would simply be:</p>
+<span><span class="co">#&gt; # A tibble: 11 × 3</span></span>
+<span><span class="co">#&gt;    person_id       age favorite_color</span></span>
+<span><span class="co">#&gt;    &lt;dbl,fct&gt; &lt;dbl,fct&gt; &lt;chr,fct&gt;     </span></span>
+<span><span class="co">#&gt;  1         1        20 BLUE          </span></span>
+<span><span class="co">#&gt;  2         2 &lt;REFUSED&gt; BLUE          </span></span>
+<span><span class="co">#&gt;  3         3        21 &lt;REFUSED&gt;     </span></span>
+<span><span class="co">#&gt;  4         4        30 &lt;OMITTED&gt;     </span></span>
+<span><span class="co">#&gt;  5         5         1 &lt;N/A&gt;         </span></span>
+<span><span class="co">#&gt;  6         6        41 RED           </span></span>
+<span><span class="co">#&gt;  7         7        50 &lt;OMITTED&gt;     </span></span>
+<span><span class="co">#&gt;  8         8        30 YELLOW        </span></span>
+<span><span class="co">#&gt;  9         9 &lt;REFUSED&gt; &lt;REFUSED&gt;     </span></span>
+<span><span class="co">#&gt; 10        10 &lt;OMITTED&gt; RED           </span></span>
+<span><span class="co">#&gt; 11        11        10 &lt;REFUSED&gt;</span></span></code></pre></div>
+<p>As you can see, in the printout above each column is defined by <em>two</em> types: a type for values, and a type for missing reasons. The <code>age</code> column, for example, has type <code>double</code> for its values, and type <code>factor</code> for its missing reasons:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ex</span><span class="op">$</span><span class="va">age</span></span>
+<span><span class="co">#&gt; &lt;interlaced&lt;dbl, fct&gt;[11]&gt;</span></span>
+<span><span class="co">#&gt;  [1] 20        &lt;REFUSED&gt; 21        30        1         41        50       </span></span>
+<span><span class="co">#&gt;  [8] 30        &lt;REFUSED&gt; &lt;OMITTED&gt; 10       </span></span>
+<span><span class="co">#&gt; NA levels: REFUSED OMITTED N/A</span></span></code></pre></div>
+<p>Computations automatically operate on values:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 25.375</span></span></code></pre></div>
+<p>But the missing reasons are still there! To indicate a value should be treated as a missing reason instead of a regular value, you can use the <code><a href="reference/na.html">na()</a></code> function. The following, for example, will filter the data set for all individuals that <code>REFUSED</code> to give their favorite color:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">summarize</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">favorite_color</span> <span class="op">==</span> <span class="fu"><a href="reference/na.html">na</a></span><span class="op">(</span><span class="st">"REFUSED"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 3 × 3</span></span>
+<span><span class="co">#&gt;   person_id       age favorite_color</span></span>
+<span><span class="co">#&gt;   &lt;dbl,fct&gt; &lt;dbl,fct&gt; &lt;chr,fct&gt;     </span></span>
+<span><span class="co">#&gt; 1         3        21 &lt;REFUSED&gt;     </span></span>
+<span><span class="co">#&gt; 2         9 &lt;REFUSED&gt; &lt;REFUSED&gt;     </span></span>
+<span><span class="co">#&gt; 3        11        10 &lt;REFUSED&gt;</span></span></code></pre></div>
+<p>And here’s a pipeline that will compute a breakdown of the mean age of respondents for each favorite color, with separate categories for each missing reason:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
 <span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
-<span>    n <span class="op">=</span> <span class="fu">n</span><span class="op">(</span><span class="op">)</span>,</span>
-<span>    .by <span class="op">=</span> <span class="va">.favorite_color.</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 4 × 3</span></span>
-<span><span class="co">#&gt;   .favorite_color. mean_age     n</span></span>
-<span><span class="co">#&gt;   &lt;fct&gt;               &lt;dbl&gt; &lt;int&gt;</span></span>
-<span><span class="co">#&gt; 1 &lt;NA&gt;                 30.3     5</span></span>
-<span><span class="co">#&gt; 2 REFUSED              15.5     3</span></span>
-<span><span class="co">#&gt; 3 OMITTED              40       2</span></span>
-<span><span class="co">#&gt; 4 N/A                   1       1</span></span></code></pre></div>
-<p>(Note that the <code>&lt;NA&gt;</code> category in the result refers to the mean age of responses <em>without</em> missing color values, i.e. with available favorite color responses).</p>
+<span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span><span class="co">#&gt;   favorite_color mean_age     n</span></span>
+<span><span class="co">#&gt;   &lt;chr,fct&gt;         &lt;dbl&gt; &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 BLUE               20       2</span></span>
+<span><span class="co">#&gt; 2 RED                41       2</span></span>
+<span><span class="co">#&gt; 3 YELLOW             30       1</span></span>
+<span><span class="co">#&gt; 4 &lt;REFUSED&gt;          15.5     3</span></span>
+<span><span class="co">#&gt; 5 &lt;OMITTED&gt;          40       2</span></span>
+<span><span class="co">#&gt; 6 &lt;N/A&gt;               1       1</span></span></code></pre></div>
 <p>But this just scratches the surface of what can be done with interlacer… check out <code><a href="articles/interlacer.html">vignette("interlacer")</a></code> for a more complete overview!</p>
 </div>
 <div class="section level2">
 <h2 id="known-issues">Known Issues<a class="anchor" aria-label="anchor" href="#known-issues"></a>
 </h2>
-<p>Large data frames (many columns &amp; rows) are slow to run and print with interlacer. Deinterlaced data frames are validated to check that they conform to the rule of “one value OR missing reason per row”, and this check is done completely in R. There are a few key places (noted in the source) that would extremely benefit from a native implementation, and make the library much more snappy. Before I invest the time in that though, I want to get enough feedback from users of this package to stabilize the current approach / API. (If you find this package useful, please <a href="mailto:kdh38@psu.edu">let me know</a>!)</p>
-<p>In the meantime, if your deinterlaced data frames are too slow to print, you can disable row-level validation by setting this option in your current session:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>interlacer.print_validation <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p>When <code>interlacer.print_validation = FALSE</code>, you will need to be extra careful during mutations, because if you create an invalid state you won’t get a warning!</p>
+<ol style="list-style-type: decimal">
+<li>Some base functions, like <code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">base::ifelse()</a></code>, drop the missing reason channel on interlaced types, converting them into regular vectors</li>
+</ol>
+<p>For example:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span>, <span class="fu"><a href="reference/na.html">na</a></span><span class="op">(</span><span class="st">"REDACTED"</span><span class="op">)</span>, <span class="va">favorite_color</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 3</span></span>
+<span><span class="co">#&gt;    person_id       age favorite_color</span></span>
+<span><span class="co">#&gt;    &lt;dbl,fct&gt; &lt;dbl,fct&gt; &lt;chr&gt;         </span></span>
+<span><span class="co">#&gt;  1         1        20 BLUE          </span></span>
+<span><span class="co">#&gt;  2         2 &lt;REFUSED&gt; &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt;  3         3        21 &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt;  4         4        30 &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt;  5         5         1 &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt;  6         6        41 RED           </span></span>
+<span><span class="co">#&gt;  7         7        50 &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt;  8         8        30 YELLOW        </span></span>
+<span><span class="co">#&gt;  9         9 &lt;REFUSED&gt; &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt; 10        10 &lt;OMITTED&gt; &lt;NA&gt;          </span></span>
+<span><span class="co">#&gt; 11        11        10 &lt;NA&gt;</span></span></code></pre></div>
+<p>This is due to a <a href="https://vctrs.r-lib.org/#motivation" class="external-link">limitation of R</a>. If you run into this, use the tidyverse equivalent of the function. Tidyverse functions are designed to more correctly handle type conversions. In this example, we can use <code><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">dplyr::if_else()</a></code>:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
+<span>      <span class="va">age</span> <span class="op">&lt;</span> <span class="fl">18</span>,</span>
+<span>      <span class="fu"><a href="reference/na.html">na</a></span><span class="op">(</span><span class="st">"REDACTED_UNDERAGE"</span><span class="op">)</span>,</span>
+<span>      <span class="va">favorite_color</span>,</span>
+<span>      missing <span class="op">=</span> <span class="fu"><a href="reference/na.html">na</a></span><span class="op">(</span><span class="st">"REDACTED_MISSING_AGE"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 3</span></span>
+<span><span class="co">#&gt;    person_id       age favorite_color        </span></span>
+<span><span class="co">#&gt;    &lt;dbl,fct&gt; &lt;dbl,fct&gt; &lt;chr,fct&gt;             </span></span>
+<span><span class="co">#&gt;  1         1        20 BLUE                  </span></span>
+<span><span class="co">#&gt;  2         2 &lt;REFUSED&gt; &lt;REDACTED_MISSING_AGE&gt;</span></span>
+<span><span class="co">#&gt;  3         3        21 &lt;REFUSED&gt;             </span></span>
+<span><span class="co">#&gt;  4         4        30 &lt;OMITTED&gt;             </span></span>
+<span><span class="co">#&gt;  5         5         1 &lt;REDACTED_UNDERAGE&gt;   </span></span>
+<span><span class="co">#&gt;  6         6        41 RED                   </span></span>
+<span><span class="co">#&gt;  7         7        50 &lt;OMITTED&gt;             </span></span>
+<span><span class="co">#&gt;  8         8        30 YELLOW                </span></span>
+<span><span class="co">#&gt;  9         9 &lt;REFUSED&gt; &lt;REDACTED_MISSING_AGE&gt;</span></span>
+<span><span class="co">#&gt; 10        10 &lt;OMITTED&gt; &lt;REDACTED_MISSING_AGE&gt;</span></span>
+<span><span class="co">#&gt; 11        11        10 &lt;REDACTED_UNDERAGE&gt;</span></span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Performance with large data sets</li>
+</ol>
+<p>You may notice that on large datasets <code>interlacer</code> runs significantly slower than <code>readr</code> / <code>vroom</code>. Although <code>interlacer</code> uses <code>vroom</code> under the hood to load delimited data, it is not able to take advantage of many of its optimizations because <code>vroom</code> does not <a href="https://github.com/tidyverse/vroom/issues/532" class="external-link">does not currently support</a> column-level missing values. As soon as <code>vroom</code> supports column-level missing values, I will be able to remedy this!</p>
+</div>
+<div class="section level2">
+<h2 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>
+</h2>
+<p>interlacer was inspired by the <a href="https://haven.tidyverse.org/" class="external-link"><code>haven</code></a>, <a href="https://larmarange.github.io/labelled/" class="external-link"><code>labelled</code></a>, and <a href="https://dusadrian.github.io/declared/" class="external-link"><code>declared</code></a> packages. These packages provide similar functionality to interlacer, but are more focused on providing compatibility with missing reason data imported from SPSS, SAS, and Stata. interlacer has slightly different aims:</p>
+<ol style="list-style-type: decimal">
+<li>Be fully generic: Add a missing value channel to <em>any</em> vector type.</li>
+<li>Provide functions for reading / writing interlaced CSV files (not just SPSS / SAS / Stata files)</li>
+<li>Provide a functional API that integrates well into tidy pipelines</li>
+</ol>
+<p>Future versions of interlacer will provide functions to convert to and from these other packages’ types.</p>
+<p>For a more detailed discussion, see <code><a href="articles/other-approaches.html">vignette("other-approaches")</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="acknowledgements">Acknowledgements<a class="anchor" aria-label="anchor" href="#acknowledgements"></a>
@@ -243,13 +317,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p></p>
-<p>Developed by Kyle Husmann.</p>
+  <p>Developed by Kyle Husmann.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
     </footer>
