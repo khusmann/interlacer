@@ -498,12 +498,32 @@ is.empty.interlacer_interlaced <- function(x) {
   is.na(value_channel(x)) & is.na(na_channel(x))
 }
 
+# TODO: Remove these if not inheriting from vctrs_vctr
+
 #' @export
 is.na.interlacer_interlaced <- function(x) {
   is.na(value_channel(x))
 }
 
-# TODO: implement na.actions
+#' @export
+na.omit.interlacer_interlaced <- function(object, ...) {
+  na.omit(value_channel(object), ...)
+}
+
+#' @export
+na.exclude.interlacer_interlaced <- function(object, ...) {
+  na.exclude(value_channel(object), ...)
+}
+
+#' @export
+na.fail.interlacer_interlaced <- function(object, ...) {
+  na.fail(value_channel(object), ...)
+}
+
+#' @export
+na.pass.interlacer_interlaced <- function(object, ...) {
+  na.pass(value_channel(object), ...)
+}
 
 # Comparison & Order ----------------------------------------------------
 
