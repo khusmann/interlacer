@@ -205,7 +205,9 @@ dcl
 This means aggregations work exactly as you would expect!
 
 ```{r}
-sum(declared(c(1, 2, 3, -99, -98), na_values = c(-99, -98)), na.rm=TRUE)
+dcl <- declared(c(1, 2, 3, -99, -98), na_values = c(-99, -98))
+
+sum(dcl, na.rm=TRUE)
 ```
 
 ## interlacer
@@ -282,10 +284,10 @@ interlaced(c(-99, 1, 2), na = -99) == na(-99) # na channel comparison
 ```
 
 Similarly, `map_value_channel()` and `map_na_channel()` allow you to safely
-apply a function to a particular channel, without touching the values of the
-other channel, which are especially useful in tidy pipelines.
+mutate a particular channel, without touching the values of the
+other channel. This interface is especially useful in tidy pipelines.
 
-Finally, because the `interlaced` type is based on a `vctrs::vctrs_vctr`, it
+Finally, because the `interlaced` type is based on the `vctrs` type system, it
 plays nicely with all the packages in the tidyverse.
 
 ## Questions for the future

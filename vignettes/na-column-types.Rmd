@@ -1,5 +1,5 @@
 ---
-title: "Interlaced Column Types"
+title: "NA Column Types"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Interlaced Column Types}

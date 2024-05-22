@@ -2,7 +2,7 @@
 % Please edit documentation in R/example.R
 \name{interlacer_example}
 \alias{interlacer_example}
-\title{Get path to interlacer example}
+\title{Get a path to one of interlacer's example data sets}
 \usage{
 interlacer_example(file = NULL)
 }
