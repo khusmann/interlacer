@@ -132,7 +132,7 @@ column type.
 As you can see by the column headers, each column loaded is composed of two
 channels: a value channel,
 and missing reason channel. Each channel can have its own type. The `age`
-column, for example, has `double` values and `character` missing reasons:
+column, for example, has `double` values and `factor` missing reasons:
 
 ```{r}
 df$age

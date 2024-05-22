@@ -28,5 +28,6 @@ reference:
   - interlaced
   - na
   - value_channel
+  - na_levels
   - map_value_channel
   - flatten_channels

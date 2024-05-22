@@ -126,7 +126,7 @@ With interlacer, missing reasons are preserved:
 
 As you can see, in the printout above each column is defined by *two* types: a type
 for values, and a type for missing reasons. The `age` column, for example, has type
-`double` for its values, and type `character` for its missing reasons:
+`double` for its values, and type `factor` for its missing reasons:
 
 ```{r}
 ex$age
