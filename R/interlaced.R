@@ -669,7 +669,20 @@ vec_cast.logical.interlacer_interlaced <- cast_unwrap
 #' @export
 vec_cast.factor.interlacer_interlaced <- cast_unwrap
 
-# Override as.* casts ----------------------------------------------------
+# Override misc operations carried from vctrs_vctr that cause problems
+#
+# TODO: Maybe we should move away from vctrs_vctr so it more reliably uses
+# the functions for the base type?
+
+#' @export
+is.infinite.interlacer_interlaced <- function(x, ...) {
+  is.infinite(value_channel(x), ...)
+}
+
+#' @export
+is.finite.interlacer_interlaced <- function(x, ...) {
+  is.finite(value_channel(x), ...)
+}
 
 #' @export
 as.logical.interlacer_interlaced <- function(x, ...) {
