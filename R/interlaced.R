@@ -248,6 +248,10 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
   v <- value_channel(x)
   m <- na_channel(x)
 
+  if (all(is.na(m))) {
+    return(v)
+  }
+
   if (!(is.numeric(v) && is.numeric(m)) && !(is.factor(v) && is.factor(m))) {
     v <- as.character(v)
     m <- as.character(m)
@@ -355,17 +359,39 @@ style_empty <- function(x) {
 #' @importFrom pillar pillar_shaft
 #' @export
 pillar_shaft.interlacer_interlaced <- function(x, ...) {
-  align <- if (is_character(x)) "left" else "right"
-  items <- map(x, function(i) {
-    if (is.empty(i)) {
-      return(style_empty(format(i)))
-    }
-    if (is.na(i)) {
-      return(pillar::style_na(format(i)))
-    }
-    format(i)
-  })
-  pillar::new_pillar_shaft_simple(items, align = align)
+  v <- pillar_shaft(value_channel(x), ...)
+  m <- pillar_shaft(na_channel(x), ...)
+
+  width <- max(attr(v, "width"), attr(m, "width"))
+
+  if (!is.null(attr(v, "min_width")) || !is.null(attr(v, "min_width"))) {
+    min_width <- max(attr(v, "min_width"), attr(m, "min_width"))
+  } else {
+    min_width <- NULL
+  }
+
+  pillar::new_pillar_shaft(
+    list(
+      v = v,
+      m = m,
+      empty = is.empty(x),
+      na = is.na(x)
+    ),
+    width = width,
+    min_width = min_width,
+    class = "interlacer_interlaced_pillar"
+  )
+}
+
+#' @export
+format.interlacer_interlaced_pillar <- function(x, width, ...) {
+  out <- format(x$v, width, ...)
+  out_na <- ansi_strip(format(x$m, width, ...))
+
+  out[x$na] <- pillar::style_na(paste0("<", out_na[x$na], ">"))
+  out[x$empty] <- style_empty(paste0("<<", out_na[x$empty], ">>"))
+
+  out
 }
 
 # Proxies --------------------------------------------------------------
