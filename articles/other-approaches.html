@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -533,16 +533,16 @@ definitions:</p>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
-<span><span class="co">#&gt;   person_id    current_stress time_management</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int,fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         1               LOW       VERY_WELL</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         2          MODERATE          POORLY</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         3       <span style="color: #BB0000;">&lt;DONT_KNOW&gt;</span>      <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         4              HIGH          POORLY</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         5 <span style="color: #BB0000;">&lt;DONT_UNDERSTAND&gt;</span>      <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         6               LOW   <span style="color: #BB0000;">&lt;NA_VACATION&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>         7          MODERATE            WELL</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>         8         <span style="color: #BB0000;">&lt;OMITTED&gt;</span>     FAIRLY_WELL</span></span></code></pre></div>
+<span><span class="co">#&gt;   person_id current_stress    time_management</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         1 LOW               VERY_WELL      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         2 MODERATE          POORLY         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         3 <span style="color: #BB0000;">&lt;DONT_KNOW&gt;</span>       <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         4 HIGH              POORLY         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         5 <span style="color: #BB0000;">&lt;DONT_UNDERSTAND&gt;</span> <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         6 LOW               <span style="color: #BB0000;">&lt;NA_VACATION&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>         7 MODERATE          WELL           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>         8 <span style="color: #BB0000;">&lt;OMITTED&gt;</span>         FAIRLY_WELL</span></span></code></pre></div>
 <p>In an earlier version I created an extension of readr collectors, a
 family of <code>icol_*</code> types, that allowed you to do something
 like this:</p>

@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -124,18 +124,18 @@ by default:</p>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">#&gt;    person_id       age favorite_color</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1        20           BLUE</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">&lt;REFUSED&gt;</span>           BLUE</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3        21      <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4        30      <span style="color: #BB0000;">&lt;OMITTED&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5         1          <span style="color: #BB0000;">&lt;N/A&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6        41            RED</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7        50      <span style="color: #BB0000;">&lt;OMITTED&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8        30         YELLOW</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">&lt;REFUSED&gt;</span>      <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">&lt;OMITTED&gt;</span>            RED</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11        10      <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>         1        20 BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>         2 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> BLUE          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>         3        21 <span style="color: #BB0000;">&lt;REFUSED&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>         4        30 <span style="color: #BB0000;">&lt;OMITTED&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>         5         1 <span style="color: #BB0000;">&lt;N/A&gt;</span>         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>         6        41 RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>         7        50 <span style="color: #BB0000;">&lt;OMITTED&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>         8        30 YELLOW        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> <span style="color: #BB0000;">&lt;REFUSED&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">&lt;OMITTED&gt;</span> RED           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11        10 <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span></code></pre></div>
 <div class="section level2">
 <h2 id="na-collector-types">
 <code>NA</code> collector types<a class="anchor" aria-label="anchor" href="#na-collector-types"></a>
@@ -193,16 +193,16 @@ mapped to missing reasons. These can be specified with the
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 8 × 3</span></span></span>
-<span><span class="co">#&gt;   person_id    current_stress time_management</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int,fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         1               LOW       VERY_WELL</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         2          MODERATE          POORLY</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         3       <span style="color: #BB0000;">&lt;DONT_KNOW&gt;</span>      <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         4              HIGH          POORLY</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         5 <span style="color: #BB0000;">&lt;DONT_UNDERSTAND&gt;</span>      <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         6               LOW   <span style="color: #BB0000;">&lt;NA_VACATION&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>         7          MODERATE            WELL</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>         8         <span style="color: #BB0000;">&lt;OMITTED&gt;</span>     FAIRLY_WELL</span></span></code></pre></div>
+<span><span class="co">#&gt;   person_id current_stress    time_management</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;fct,fct&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         1 LOW               VERY_WELL      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         2 MODERATE          POORLY         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         3 <span style="color: #BB0000;">&lt;DONT_KNOW&gt;</span>       <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         4 HIGH              POORLY         </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         5 <span style="color: #BB0000;">&lt;DONT_UNDERSTAND&gt;</span> <span style="color: #BB0000;">&lt;NA_OTHER&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         6 LOW               <span style="color: #BB0000;">&lt;NA_VACATION&gt;</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">7</span>         7 MODERATE          WELL           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">8</span>         8 <span style="color: #BB0000;">&lt;OMITTED&gt;</span>         FAIRLY_WELL</span></span></code></pre></div>
 <p>Setting na type to <code>NULL</code> indicates the column should be
 loaded as a regular type instead of an <code>interlaced</code> one. The
 following will load <code>person_id</code> as a regular, non-interlaced
