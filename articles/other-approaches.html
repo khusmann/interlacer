@@ -175,7 +175,7 @@ aggregations:</p>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age_values</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age_values</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
 <span>  <span class="op">)</span></span>
@@ -217,7 +217,7 @@ values and missing reasons need to be the same type, usually numeric
 codes. This creates a lot more type gymnastics and potential errors when
 you’re manipulating them.</p>
 <p>Reason 2: Even when the missing values are labelled in the
-<code>labelled_spss</code> type, aggregations and other math operatiosn
+<code>labelled_spss</code> type, aggregations and other math operations
 are not protected. If you forget to take out your missing values, you
 get incorrect results / corrupted data:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -228,7 +228,7 @@ get incorrect results / corrupted data:</p>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
 <span>  <span class="op">)</span></span>
@@ -298,10 +298,10 @@ missing reason codes in aggregations!</p>
 <span><span class="co">#&gt;  [1] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE</span></span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">df_stata</span><span class="op">$</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">df_stata</span><span class="op">$</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 25.375</span></span></code></pre></div>
 <p>Unfortunately, you can’t group by them, because
-<code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> is not missing tag-aware :(</p>
+<code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">dplyr::group_by()</a></code> is not tag-aware. :(</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_stata</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
@@ -310,7 +310,7 @@ missing reason codes in aggregations!</p>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color_missing_reasons</span></span>
 <span>  <span class="op">)</span></span>
@@ -365,7 +365,6 @@ the attributes of the object:</p>
 <span><span class="co">#&gt; [1] "declared" "numeric"</span></span></code></pre></div>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span></span>
 <span><span class="co"># The data stored has actual NA values, so it works as you would expect</span></span>
 <span><span class="co"># with summary stats like `mean()`, etc.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">dcl</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
@@ -375,7 +374,7 @@ the attributes of the object:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/declared/man/declared.html" class="external-link">declared</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="op">-</span><span class="fl">99</span>, <span class="op">-</span><span class="fl">98</span><span class="op">)</span>, na_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">99</span>, <span class="op">-</span><span class="fl">98</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">dcl</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">dcl</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 6</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -383,10 +382,10 @@ the attributes of the object:</p>
 </h2>
 <p>interlacer builds on the ideas of haven, labelled, and declared with
 following goals:</p>
-<ol style="list-style-type: decimal">
-<li>Be fully generic: Add a missing value channel to <em>any</em> vector
-type.</li>
-</ol>
+<div class="section level3">
+<h3 id="be-fully-generic-add-a-missing-value-channel-to-any-vector-type">1. Be fully generic: Add a missing value channel to <em>any</em>
+vector type<a class="anchor" aria-label="anchor" href="#be-fully-generic-add-a-missing-value-channel-to-any-vector-type"></a>
+</h3>
 <p>As mentioned above, <code><a href="https://haven.tidyverse.org/reference/labelled_spss.html" class="external-link">haven::labelled_spss()</a></code> only works
 with <code>numeric</code> and <code>character</code> types, and
 <code><a href="https://haven.tidyverse.org/reference/tagged_na.html" class="external-link">haven::tagged_na()</a></code> only works with <code>numeric</code>
@@ -438,15 +437,18 @@ their indices:</p>
 <span><span class="co">#&gt; [1]  1  2  3 NA NA</span></span></code></pre></div>
 <p>This data structure drives their functional API, described in (3)
 below.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>Provide functions for reading / writing interlaced CSV files (not
-just SPSS / SAS / Stata files)</li>
-</ol>
-<p>(See <code><a href="../reference/read_interlaced_delim.html">interlacer::read_interlaced_csv()</a></code>, etc.)</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Provide a functional API that integrates well into tidy
-pipelines</li>
-</ol>
+</div>
+<div class="section level3">
+<h3 id="provide-functions-for-reading-writing-interlaced-csv-files-not-just-spss">2. Provide functions for reading / writing interlaced CSV files (not
+just SPSS<a class="anchor" aria-label="anchor" href="#provide-functions-for-reading-writing-interlaced-csv-files-not-just-spss"></a>
+</h3>
+<p>/ SAS / Stata files)</p>
+<p>See <code><a href="../reference/read_interlaced_delim.html">interlacer::read_interlaced_csv()</a></code>, etc.</p>
+</div>
+<div class="section level3">
+<h3 id="provide-a-functional-api-that-integrates-well-into-tidy-pipelines">3. Provide a functional API that integrates well into tidy
+pipelines<a class="anchor" aria-label="anchor" href="#provide-a-functional-api-that-integrates-well-into-tidy-pipelines"></a>
+</h3>
 <p>interlacer provides functions to facilitate working with the
 <code>interlaced</code> type as a <a href="https://en.wikipedia.org/wiki/Result_type" class="external-link">Result type</a>, a
 well-understood abstraction in functional programming. The functions
@@ -489,12 +491,13 @@ interface is especially useful in tidy pipelines.</p>
 <code>vctrs</code> type system, it plays nicely with all the packages in
 the tidyverse.</p>
 </div>
+</div>
 <div class="section level2">
 <h2 id="questions-for-the-future">Questions for the future<a class="anchor" aria-label="anchor" href="#questions-for-the-future"></a>
 </h2>
-<ol style="list-style-type: decimal">
-<li>More flexible missing reason channel types?</li>
-</ol>
+<div class="section level3">
+<h3 id="more-flexible-missing-reason-channel-types">1. More flexible missing reason channel types?<a class="anchor" aria-label="anchor" href="#more-flexible-missing-reason-channel-types"></a>
+</h3>
 <p>Earlier versions allowed arbitrary types to occupy the missing reason
 channel (i.e. it was a fully generic Result&lt;Value, Missing&gt; type).
 I ended up constricting the missing reason channel to only allow
@@ -507,13 +510,13 @@ As far as I can tell, in 99.9% of the time, it is preferable to use
 over <code>double</code> and <code>character</code> ones, so for now
 I’ve made the executive decision to only allow <code>integer</code> and
 <code>factor</code> types.</p>
-<ol start="2" style="list-style-type: decimal">
-<li>A better <code><a href="../reference/na_cols.html">na_cols()</a></code> specification?</li>
-</ol>
-<p>Right now, missing values are supplied in <code>na</code> a separate
-argument from <code>col_types</code>. This means custom missing values
-get pretty far separated from their <code>col_type</code>
-definitions:</p>
+</div>
+<div class="section level3">
+<h3 id="a-better-na_cols-specification">2. A better <code>na_cols()</code> specification?<a class="anchor" aria-label="anchor" href="#a-better-na_cols-specification"></a>
+</h3>
+<p>Right now, missing values are supplied in a separate argument from
+<code>col_types</code>. This means custom missing values get pretty far
+separated from their <code>col_type</code> definitions:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/read_interlaced_delim.html">read_interlaced_csv</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"stress.csv"</span><span class="op">)</span>,</span>
@@ -573,6 +576,7 @@ parameter in my own <code><a href="../reference/na_cols.html">na_cols()</a></cod
 little bit more insulation to changes from readr.</p>
 <p>Anyway, if you have thoughts or opinions on any of these things, I’d
 really <a href="mailto:kdh38@psu.edu">appreciate your feedback</a>!</p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

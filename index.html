@@ -181,7 +181,7 @@
 <span><span class="co">#&gt; NA levels: REFUSED OMITTED N/A</span></span></code></pre></div>
 <p>Computations automatically operate on values:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">ex</span><span class="op">$</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 25.375</span></span></code></pre></div>
 <p>But the missing reasons are still there! To indicate a value should be treated as a missing reason instead of a regular value, you can use the <code><a href="reference/na.html">na()</a></code> function. The following, for example, will filter the data set for all individuals that <code>REFUSED</code> to give their favorite color:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -197,7 +197,7 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ex</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -267,7 +267,7 @@
 <ol start="2" style="list-style-type: decimal">
 <li>Performance with large data sets</li>
 </ol>
-<p>You may notice that on large datasets <code>interlacer</code> runs significantly slower than <code>readr</code> / <code>vroom</code>. Although <code>interlacer</code> uses <code>vroom</code> under the hood to load delimited data, it is not able to take advantage of many of its optimizations because <code>vroom</code> does not <a href="https://github.com/tidyverse/vroom/issues/532" class="external-link">does not currently support</a> column-level missing values. As soon as <code>vroom</code> supports column-level missing values, I will be able to remedy this!</p>
+<p>You may notice that on large datasets <code>interlacer</code> runs significantly slower than <code>readr</code> / <code>vroom</code>. Although <code>interlacer</code> uses <code>vroom</code> under the hood to load delimited data, it is not able to take advantage of many of its optimizations because <code>vroom</code> <a href="https://github.com/tidyverse/vroom/issues/532" class="external-link">does not currently support</a> column-level missing values. As soon as <code>vroom</code> supports column-level missing values, I will be able to remedy this!</p>
 </div>
 <div class="section level2">
 <h2 id="related-work">Related work<a class="anchor" aria-label="anchor" href="#related-work"></a>

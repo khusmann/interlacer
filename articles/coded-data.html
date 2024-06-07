@@ -124,15 +124,15 @@ SPSS-formatted version of the <code>colors.csv</code> example:</p>
 <span><span class="co">#&gt; 11,10,-98</span></span></code></pre></div>
 <p>Where missing reasons are:</p>
 <blockquote>
-<p>-99: N/A</p>
-<p>-98: REFUSED</p>
-<p>-97: OMITTED</p>
+<p><code>-99</code>: N/A</p>
+<p><code>-98</code>: REFUSED</p>
+<p><code>-97</code>: OMITTED</p>
 </blockquote>
 <p>And colors are coded:</p>
 <blockquote>
-<p>1: BLUE</p>
-<p>2: RED</p>
-<p>3: YELLOW</p>
+<p><code>1</code>: BLUE</p>
+<p><code>2</code>: RED</p>
+<p><code>3</code>: YELLOW</p>
 </blockquote>
 <p>This format gives you the ability to load everything as a numeric
 type:</p>
@@ -165,7 +165,7 @@ type:</p>
 <span>    age <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="va">age</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -192,7 +192,7 @@ will still happily compute aggregations using the negative numbers!</p>
 <span><span class="co">#    age = if_else(age &gt; 0, age, NA)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -302,7 +302,7 @@ mean:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_decoded</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -363,9 +363,9 @@ given character codes:</p>
 <p>Here, the same value codes are used as the previous example, except
 the missing reasons are coded as follows:</p>
 <blockquote>
-<p>“.”: N/A</p>
-<p>“.a”: REFUSED</p>
-<p>“.b”: OMITTED</p>
+<p><code>"."</code>: N/A</p>
+<p><code>".a"</code>: REFUSED</p>
+<p><code>".b"</code>: OMITTED</p>
 </blockquote>
 <p>To handle these missing reasons without interlacer, columns must be
 loaded as character vectors:</p>
@@ -397,7 +397,7 @@ know it’s a coded value.</p>
 <span>    age <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html" class="external-link">summarize</a></span><span class="op">(</span></span>
-<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm<span class="op">=</span><span class="cn">T</span><span class="op">)</span>,</span>
+<span>    mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>    n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
