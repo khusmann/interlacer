@@ -249,8 +249,7 @@ int
 
 This data structure drives their functional API, described in (3) below.
 
-### 2. Provide functions for reading / writing interlaced CSV files (not just SPSS
-/ SAS / Stata files)
+### 2. Provide functions for reading / writing interlaced CSV files (not just SPSS / SAS / Stata files)
 
 See `interlacer::read_interlaced_csv()`, etc.
 
