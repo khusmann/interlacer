@@ -60,6 +60,15 @@ test_that("NULL column-level missing reasons override default", {
   expect_false(is.interlaced(df$person_id))
 })
 
+test_that("numeric na values are loaded in integer na channel", {
+  df <- read_interlaced_csv(
+    interlacer_example("colors_coded.csv"),
+    na = c(-99, -98, -97)
+  )
+
+  expect_true(is.integer(na_channel(df$person_id)))
+})
+
 test_that("column-level missing reasons can be specified na arg", {
   col_types <- cols(
     a = col_logical(),

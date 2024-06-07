@@ -349,7 +349,12 @@ interlaced_vroom <- function(
       out_value <- values
     } else {
       na_idx <- match(df_chr[[i]], na_collector)
-      na_values <- factor(na_collector[na_idx], levels=na_collector)
+
+      if (is.character(na_collector)) {
+        na_values <- factor(na_collector, levels=unique(na_collector))[na_idx]
+      } else {
+        na_values <- na_collector[na_idx]
+      }
       out_value <- new_interlaced(values, na_values)
     }
 
