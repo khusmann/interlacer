@@ -2,7 +2,7 @@
 title: "NA Column Types"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Interlaced Column Types}
+  %\VignetteIndexEntry{NA Column Types}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
