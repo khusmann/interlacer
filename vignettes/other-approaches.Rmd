@@ -103,7 +103,7 @@ This creates a lot more type gymnastics and potential errors when you're
 manipulating them.
 
 Reason 2: Even when the missing values are labelled in the `labelled_spss` type,
-aggregations and other math operatiosn are not protected. If you forget
+aggregations and other math operations are not protected. If you forget
 to take out your missing values, you get incorrect results / corrupted data:
 
 ```{r}
@@ -155,7 +155,7 @@ mean(df_stata$age, na.rm = TRUE)
 ```
 
 Unfortunately, you can't group by them, because `dplyr::group_by()` is not
-missing tag-aware :(
+tag-aware. :(
 
 ```{r}
 df_stata |>
@@ -306,7 +306,7 @@ made the executive decision to only allow `integer` and `factor` types.
 
 ### 2. A better `na_cols()` specification?
 
-Right now, missing values are supplied in `na` a separate argument from
+Right now, missing values are supplied in a separate argument from
 `col_types`. This means custom missing values get pretty far separated from
 their `col_type` definitions:
 
