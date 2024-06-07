@@ -54,14 +54,16 @@ This is useful when you have missing reasons that only apply to particular items
 as opposed to the file as a whole. For example, say we had a measure with the
 following two items:
 
-> 1. What is your current stress level?
+1. What is your current stress level?
+
 > a. Low
 > b. Moderate
 > c. High
 > d. I don't know
 > e. I don't understand the question
-> 
-> 2. How well do you feel you manage your time and responsibilities today?
+
+2. How well do you feel you manage your time and responsibilities today?
+
 > a. Poorly
 > b. Fairly well
 > c. Well
