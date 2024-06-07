@@ -47,19 +47,19 @@ read_file(
 
 Where missing reasons are:
 
-> -99: N/A
+> `-99`: N/A
 >
-> -98: REFUSED
+> `-98`: REFUSED
 >
-> -97: OMITTED
+> `-97`: OMITTED
 
 And colors are coded:
 
-> 1: BLUE
+> `1`: BLUE
 >
-> 2: RED
+> `2`: RED
 >
-> 3: YELLOW
+> `3`: YELLOW
 
 This format gives you the ability to load everything as a numeric type:
 
@@ -185,8 +185,6 @@ df_decoded |>
   )
 ```
 
-
-
 ## Numeric codes with character missing reasons (SAS, Stata)
 
 Like SPSS, SAS and Stata will encode factor levels as numeric values, but
@@ -203,12 +201,11 @@ read_file(
 Here, the same value codes are used as the previous example, except the missing
 reasons are coded as follows:
 
-> ".": N/A
+> `"."`: N/A
 >
-> ".a": REFUSED
+> `".a"`: REFUSED
 >
-> ".b": OMITTED
-
+> `".b"`: OMITTED
 
 To handle these missing reasons without interlacer, columns must be loaded as
 character vectors:
