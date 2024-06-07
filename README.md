@@ -172,7 +172,7 @@ ex$age
 Computations automatically operate on values:
 
 ``` r
-mean(ex$age, na.rm=TRUE)
+mean(ex$age, na.rm = TRUE)
 #> [1] 25.375
 ```
 
@@ -199,7 +199,7 @@ missing reason:
 ``` r
 ex |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) %>%

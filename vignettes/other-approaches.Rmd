@@ -78,7 +78,7 @@ df_spss |>
     )
   ) |>
   summarize(
-    mean_age = mean(age_values, na.rm=T),
+    mean_age = mean(age_values, na.rm = TRUE),
     n = n(),
     .by = favorite_color_missing_reasons
   )
@@ -114,7 +114,7 @@ df_spss |>
     )
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color_missing_reasons
   )
@@ -151,7 +151,7 @@ character "tag" (usually a letter from a-z). This means that they work with
 ```{r}
 is.na(df_stata$age)
 
-mean(df_stata$age, na.rm=TRUE)
+mean(df_stata$age, na.rm = TRUE)
 ```
 
 Unfortunately, you can't group by them, because `dplyr::group_by()` is not
@@ -165,7 +165,7 @@ df_stata |>
     )
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color_missing_reasons
   )
@@ -207,7 +207,7 @@ This means aggregations work exactly as you would expect!
 ```{r}
 dcl <- declared(c(1, 2, 3, -99, -98), na_values = c(-99, -98))
 
-sum(dcl, na.rm=TRUE)
+sum(dcl, na.rm = TRUE)
 ```
 
 ## interlacer

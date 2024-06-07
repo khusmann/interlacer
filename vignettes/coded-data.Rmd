@@ -80,7 +80,7 @@ df_coded |>
     age = if_else(age > 0, age, NA)
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -102,7 +102,7 @@ df_coded |>
 #    age = if_else(age > 0, age, NA)
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -169,7 +169,7 @@ keep cross-referencing your codebook to know what values mean:
 ```{r}
 df_decoded |>
   summarize(
-    mean_age = mean(age, na.rm=TRUE),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -229,7 +229,7 @@ df_coded_char |>
     age = if_else(!is.na(as.numeric(age)), as.numeric(age), NA)
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
