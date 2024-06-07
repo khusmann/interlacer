@@ -172,7 +172,7 @@ ex$age
 Computations automatically operate on values:
 
 ``` r
-mean(ex$age, na.rm=TRUE)
+mean(ex$age, na.rm = TRUE)
 #> [1] 25.375
 ```
 
@@ -199,7 +199,7 @@ missing reason:
 ``` r
 ex |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) %>%
@@ -282,7 +282,7 @@ ex |>
 You may notice that on large datasets `interlacer` runs significantly
 slower than `readr` / `vroom`. Although `interlacer` uses `vroom` under
 the hood to load delimited data, it is not able to take advantage of
-many of its optimizations because `vroom` does not [does not currently
+many of its optimizations because `vroom` [does not currently
 support](https://github.com/tidyverse/vroom/issues/532) column-level
 missing values. As soon as `vroom` supports column-level missing values,
 I will be able to remedy this!

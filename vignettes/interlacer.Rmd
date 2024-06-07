@@ -63,7 +63,7 @@ library(dplyr, warn.conflicts = FALSE)
 
 df_simple |>
   summarize(
-    mean_age = mean(age, na.rm = T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -98,7 +98,7 @@ df_with_missing |>
     age_values = as.numeric(if_else(age %in% reasons, NA, age)),
   ) |>
   summarize(
-    mean_age = mean(age_values, na.rm=T),
+    mean_age = mean(age_values, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -169,7 +169,7 @@ the unique missing reasons, rather than being lumped into a single `NA`:
 ```{r}
 df |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -392,4 +392,4 @@ In all the examples in this vignette, column types were automatically detected.
 To explicitly specify value and missing column types, (and specify individual
 missing reasons for specific columns), interlacer extends
 `readr`'s `collector()` system. This will be covered in the next vignette,
-`vignette("na-column-types")`
+`vignette("na-column-types")`.

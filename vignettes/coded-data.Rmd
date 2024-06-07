@@ -47,19 +47,19 @@ read_file(
 
 Where missing reasons are:
 
-> -99: N/A
+> `-99`: N/A
 >
-> -98: REFUSED
+> `-98`: REFUSED
 >
-> -97: OMITTED
+> `-97`: OMITTED
 
 And colors are coded:
 
-> 1: BLUE
+> `1`: BLUE
 >
-> 2: RED
+> `2`: RED
 >
-> 3: YELLOW
+> `3`: YELLOW
 
 This format gives you the ability to load everything as a numeric type:
 
@@ -80,7 +80,7 @@ df_coded |>
     age = if_else(age > 0, age, NA)
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -102,7 +102,7 @@ df_coded |>
 #    age = if_else(age > 0, age, NA)
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -169,7 +169,7 @@ keep cross-referencing your codebook to know what values mean:
 ```{r}
 df_decoded |>
   summarize(
-    mean_age = mean(age, na.rm=TRUE),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
@@ -184,8 +184,6 @@ df_decoded |>
     age_next_year = age + 1,
   )
 ```
-
-
 
 ## Numeric codes with character missing reasons (SAS, Stata)
 
@@ -203,12 +201,11 @@ read_file(
 Here, the same value codes are used as the previous example, except the missing
 reasons are coded as follows:
 
-> ".": N/A
+> `"."`: N/A
 >
-> ".a": REFUSED
+> `".a"`: REFUSED
 >
-> ".b": OMITTED
-
+> `".b"`: OMITTED
 
 To handle these missing reasons without interlacer, columns must be loaded as
 character vectors:
@@ -229,7 +226,7 @@ df_coded_char |>
     age = if_else(!is.na(as.numeric(age)), as.numeric(age), NA)
   ) |>
   summarize(
-    mean_age = mean(age, na.rm=T),
+    mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
   ) |>
