@@ -195,7 +195,6 @@ of the object:
 # All the missing reason info is tracked in the attributes
 attributes(dcl)
 
-
 # The data stored has actual NA values, so it works as you would expect
 # with summary stats like `mean()`, etc.
 attributes(dcl) <- NULL
@@ -215,7 +214,7 @@ sum(dcl, na.rm = TRUE)
 interlacer builds on the ideas of haven, labelled, and declared with following
 goals:
 
-1. Be fully generic: Add a missing value channel to *any* vector type.
+### 1. Be fully generic: Add a missing value channel to *any* vector type
 
 As mentioned above, `haven::labelled_spss()` only works with `numeric`
 and `character` types, and `haven::tagged_na()` only works with `numeric` types. 
@@ -250,12 +249,12 @@ int
 
 This data structure drives their functional API, described in (3) below.
 
-2. Provide functions for reading / writing interlaced CSV files (not just SPSS
+### 2. Provide functions for reading / writing interlaced CSV files (not just SPSS
 / SAS / Stata files)
 
-(See `interlacer::read_interlaced_csv()`, etc.)
+See `interlacer::read_interlaced_csv()`, etc.
 
-3. Provide a functional API that integrates well into tidy pipelines
+### 3. Provide a functional API that integrates well into tidy pipelines
 
 interlacer provides functions to facilitate working with the `interlaced` type
 as a [Result type](https://en.wikipedia.org/wiki/Result_type),
@@ -292,7 +291,7 @@ plays nicely with all the packages in the tidyverse.
 
 ## Questions for the future
 
-1. More flexible missing reason channel types?
+### 1. More flexible missing reason channel types?
 
 Earlier versions allowed arbitrary types to occupy
 the missing reason channel (i.e. it was a fully generic Result<Value, Missing>
@@ -305,7 +304,7 @@ tell, in 99.9% of the time, it is preferable to use `integer` and `factor`
 missing reason channels over `double` and `character` ones, so for now I've
 made the executive decision to only allow `integer` and `factor` types.
 
-2. A better `na_cols()` specification?
+### 2. A better `na_cols()` specification?
 
 Right now, missing values are supplied in `na` a separate argument from
 `col_types`. This means custom missing values get pretty far separated from
