@@ -2,6 +2,61 @@ is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }
 
+fmt_vec <- function(x) {
+  flat_x <- paste0(fmt_vec_args(x), collapse = ", ")
+  if (length(x) > 1 || !is.null(names(x))) {
+    paste0("c(", flat_x, ")")
+  } else {
+    flat_x
+  }
+}
+
+fmt_vec_args <- function(vec) {
+  if (is.null(vec)) {
+    return("NULL")
+  }
+
+  if (is.list(vec)) {
+    vals <- map_chr(vec, fmt_vec)
+  } else if (is.character(vec)) {
+    vals <- paste0("\"", unname(vec), "\"")
+  } else {
+    vals <- format(unname(vec))
+  }
+
+  paste0(
+    map_chr(seq_along(vec), function(i) {
+      arg_name <- names2(vec)[[i]]
+      if (arg_name == "") {
+        vals[[i]]
+      } else {
+        paste0(fix_non_syntactic(arg_name), " = ", vals[[i]])
+      }
+    }), collapse = ", "
+  )
+}
+
+readr_col_color <- function(fname) {
+  switch(
+    fname,
+    skip = ,
+    guess = col_none,
+
+    character = ,
+    factor = col_red,
+
+    logical = col_yellow,
+
+    double = ,
+    integer = ,
+    number = col_green,
+
+    date = ,
+    datetime = ,
+    time = col_blue,
+  )
+}
+
 #' @importFrom vctrs vec_c
 #' @export
 vctrs::vec_c
