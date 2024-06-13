@@ -309,7 +309,7 @@ Right now, missing values are supplied in a separate argument from
 `col_types`. This means custom missing values get pretty far separated from
 their `col_type` definitions:
 
-```{r}
+```{r, eval = FALSE}
 read_interlaced_csv(
   interlacer_example("stress.csv"),
   col_types = cols(

@@ -118,7 +118,7 @@ codes <- function(x, ...) {
 }
 
 #' @export
-codes.default <- function(x) {
+codes.default <- function(x, ...) {
   attr(attr(x, "levels"), "codes")
 }
 
@@ -151,12 +151,12 @@ set_codes <- function(x, value) {
 ## Casting
 
 #' @export
-as.cfactor <- function(x, ...) {
+as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   UseMethod("as.cfactor")
 }
 
 #' @export
-as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
+as.cfactor.default <- function(x, codes, ordered) {
   obj_check_vector(x)
 
   if (is.null(codes)) {
@@ -175,7 +175,7 @@ as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
 }
 
 #' @export
-as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
+as.cfactor.factor <- function(x, codes, ordered) {
   if (is.null(codes)) {
     codes <- set_names(
       as.integer(seq_along(levels(x))-1),
@@ -229,9 +229,9 @@ as.codes <- function(x, ...) {
 }
 
 #' @export
-as.codes.data.frame <- function(df, ...) {
-  df[] <- map(df, \(c) as.codes(c, ...))
-  df
+as.codes.data.frame <- function(x, ...) {
+  x[] <- map(x, \(c) as.codes(c, ...))
+  x
 }
 
 #' @export
@@ -334,7 +334,7 @@ vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
 ) {
   if (is.latent.cfactor(x) || is.latent.cfactor(y)) {
     return(
-      vec_ptype2(as.factor(x), as.factory(y), x_arg = x_arg, y_arg = y_arg)
+      vec_ptype2(as.factor(x), as.factor(y), x_arg = x_arg, y_arg = y_arg)
     )
   }
 
@@ -388,7 +388,7 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
   to_pairs <- code_label_pairs(to_codes)
 
   if (length(setdiff(x_pairs, to_pairs)) != 0) {
-    stop_incompatible_cast(x, to, x_arg = x_arg, y_arg = y_arg)
+    stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
   }
 
   cfactor(as.codes(x), to_codes, is.ordered(to))

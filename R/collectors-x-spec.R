@@ -112,8 +112,8 @@ print.interlacer_x_col_spec <- function(x, ...) {
 }
 
 #' @export
-summary.interlacer_x_col_spec <- function(x, ...) {
+summary.interlacer_x_col_spec <- function(object, ...) {
   # cheat for now
   # TODO: make our own summary
-  summary(suppressWarnings(as.col_spec(x)))
+  summary(suppressWarnings(as.col_spec(object)))
 }

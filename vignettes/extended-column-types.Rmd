@@ -1,8 +1,8 @@
 ---
-title: "NA Column Types"
+title: "Extended Column Types"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{NA Column Types}
+  %\VignetteIndexEntry{Extended Column Types}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -76,22 +76,22 @@ missing reasons. These can be specified with the `na_cols()` function, which
 works similarly to readr's `cols()` function:
 
 ```{r}
+usual_na_vals <- c("REFUSED", "OMITTED", "N/A")
+
 (df_stress <- read_interlaced_csv(
   interlacer_example("stress.csv"),
-  col_types = cols(
-    person_id = col_integer(),
-    current_stress = col_factor(
-      levels = c("LOW", "MODERATE", "HIGH")
+  col_types = x_cols(
+    person_id = x_col(v_col_integer(), na_col_none()),
+    current_stress = x_col(
+      v_col_factor(levels = c("LOW", "MODERATE", "HIGH")),
+      c(usual_na_vals, "DONT_KNOW", "DONT_UNDERSTAND")
     ),
-    time_management = col_factor(
-      levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL")
+    time_management = x_col(
+      v_col_factor(levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL")),
+      c(usual_na_vals, "NA_VACATION", "NA_OTHER")
     )
   ),
-  na = na_cols(
-    .default = c("REFUSED", "OMITTED", "N/A"),
-    current_stress = c(.default, "DONT_KNOW", "DONT_UNDERSTAND"),
-    time_management = c(.default, "NA_VACATION", "NA_OTHER")
-  )
+  na = usual_na_vals,
 ))
 ```
 
@@ -103,10 +103,10 @@ will load `person_id` as a regular, non-interlaced type:
 ```{r}
 read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
-  na = na_cols(
-    .default = c(-99, -98, -97),
-    person_id = NULL,
+  col_types = x_cols(
+    person_id = x_col(v_col_guess(), na_col_none())
   ),
+  na = c(-99, -98, -97),
   show_col_types = FALSE
 )
 ```
