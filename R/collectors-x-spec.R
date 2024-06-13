@@ -44,7 +44,7 @@ as.x_col_spec.list <- function(x) {
 #' @importFrom vroom as.col_spec
 #' @export
 as.col_spec.interlacer_x_col_spec <- function(x) {
-  has_col_level_na <- map_lgl(x$cols, \(v) !is.na_col_default(v$na_collector))
+  has_col_level_na <- map_lgl(x$cols, \(v) v$na_collector$type != "default")
   if (any(has_col_level_na)) {
     cli_warn("column-level na values lost in conversion from extended col types")
   }
