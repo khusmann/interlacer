@@ -404,8 +404,8 @@ format.interlacer_interlaced_pillar <- function(x, width, ...) {
   out <- format(x$v, width, ...)
   out_na <- ansi_strip(format(x$m, width, ...))
 
-  out[x$na] <- pillar::style_na(paste0("<", out_na[x$na], ">"))
-  out[x$empty] <- style_empty(paste0("<<", out_na[x$empty], ">>"))
+  out[x$na] <- pillar::style_na(paste0("<", trimws(out_na[x$na]), ">"))
+  out[x$empty] <- style_empty(paste0("<<", trimws(out_na[x$empty]), ">>"))
 
   out
 }
