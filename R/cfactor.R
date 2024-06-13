@@ -76,9 +76,10 @@ fix_codes_arg <- function(codes) {
     cli_abort("labels are not unique")
   }
 
-  if (is.numeric(codes) && !identical(codes, sort(codes))) {
-    cli_warn("codes are not in numerical order")
-  }
+  # TODO: Warn on unsorted codes? See TODO below
+  #if (is.numeric(codes) && !identical(codes, sort(codes))) {
+  #  cli_abort("codes are not in numerical order")
+  #}
 
   codes
 }
@@ -86,6 +87,11 @@ fix_codes_arg <- function(codes) {
 #' @export
 is.cfactor <- function(x) {
   inherits(x, "interlacer_cfactor")
+}
+
+#' @export
+is.cordered <- function(x) {
+  is.cfactor(x) && is.ordered(x)
 }
 
 #' @export
@@ -258,10 +264,12 @@ vec_ptype_full.interlacer_cfactor <- function(x, ...) {
   if (is.latent.cfactor(x)) {
     vec_ptype_full(as.factor(x))
   } else {
+    prefix <- if (is.ordered(x)) "cordered" else "cfactor"
     paste0(
-      "cfactor_",
-      vec_ptype_abbr(codes(x)),
+      prefix,
       "<",
+      vec_ptype_abbr(codes(x)),
+      "+",
       hash_label(codes(x)),
       ">"
     )
@@ -273,7 +281,11 @@ vec_ptype_abbr.interlacer_cfactor <- function(x, ...) {
   if (is.latent.cfactor(x)) {
     vec_ptype_abbr(as.factor(x))
   } else {
-    "cfct"
+    if (is.ordered(x)) {
+      "cord"
+    } else {
+      "cfct"
+    }
   }
 }
 
@@ -303,4 +315,65 @@ obj_print_footer.interlacer_cfactor <- function(x, ...) {
 
     invisible(x)
   }
+}
+
+code_label_pairs <- function(x_codes) {
+  map(seq_along(x_codes), function(i) {
+    list(names(x_codes)[[i]], x_codes[[i]])
+  })
+}
+
+#' @export
+vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  x_codes <- codes(x)
+  y_codes <- codes(y)
+
+  if (identical(x_codes, y_codes) && is.ordered(x) == is.ordered(y)) {
+    x
+  } else if (!is.ordered(x) && !is.ordered(y)) {
+    x_pairs <- code_label_pairs(x_codes)
+    y_pairs <- code_label_pairs(y_codes)
+
+    all_pairs <- unique(c(x_pairs, y_pairs))
+
+    new_codes <- set_names(
+      list_c(map(all_pairs, \(v) v[[2]])),
+      map_chr(all_pairs, \(v) v[[1]])
+    )
+
+    # TODO: sort codes? See related todo above
+    #if (is.numeric(new_codes)) {
+    #  new_codes <- sort(new_codes)
+    #}
+
+    if (
+      length(unique(new_codes)) != length(new_codes) ||
+      length(unique(names(new_codes))) != length(names(new_codes))
+    ) {
+      stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
+    } else {
+      cfactor(codes = new_codes, ordered = FALSE)
+    }
+  } else {
+    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
+  }
+}
+
+#' @export
+vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
+  x, to, ..., x_arg = "", y_arg = ""
+) {
+  x_codes <- codes(x)
+  to_codes <- codes(to)
+
+  x_pairs <- code_label_pairs(x_codes)
+  to_pairs <- code_label_pairs(to_codes)
+
+  if (length(setdiff(x_pairs, to_pairs)) != 0) {
+    stop_incompatible_cast(x, to, x_arg = x_arg, y_arg = y_arg)
+  }
+
+  cfactor(as.codes(x), to_codes, is.ordered(to))
 }
