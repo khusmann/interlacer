@@ -47,7 +47,7 @@ is.x_collector <- function(x) {
 
 #' @export
 format.interlacer_x_collector <- function(x, indent = 0, ...) {
-  if (is.na_col_default(x$na_collector)) {
+  if (x$na_collector$type == "default") {
     format(x$value_collector)
   } else {
     paste0(
