@@ -27,7 +27,7 @@ read_interlaced_delim <- function(
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
-  na = c("", "NA"),
+  na = na_col_none(),
   comment = "",
   trim_ws = FALSE,
   skip = 0,
@@ -75,7 +75,7 @@ read_interlaced_csv <- function(
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
-  na = c("", "NA"),
+  na = na_col_none(),
   quote = "\"",
   comment = "",
   trim_ws = TRUE,
@@ -124,7 +124,7 @@ read_interlaced_csv2 <- function(
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
-  na = c("", "NA"),
+  na = na_col_none(),
   quote = "\"",
   comment = "",
   trim_ws = TRUE,
@@ -173,7 +173,7 @@ read_interlaced_tsv <- function(
   col_select = NULL,
   id = NULL,
   locale = readr::default_locale(),
-  na = c("", "NA"),
+  na = na_col_none(),
   quote = "\"",
   comment = "",
   trim_ws = TRUE,
@@ -224,7 +224,7 @@ interlaced_vroom <- function(
   id = NULL,
   skip = 0,
   n_max = Inf,
-  na = c("", "NA"),
+  na = na_col_none(),
   quote = "\"",
   comment = "",
   skip_empty_rows = TRUE,
@@ -264,11 +264,14 @@ interlaced_vroom <- function(
     .name_repair = "check_unique",
   )
 
-  col_spec <- as.col_spec(col_types)
-  na_col_spec <- as.na_col_spec(na)
+  xcs <- as.x_col_spec(col_types)
 
-  check_col_spec(col_spec, "col_types")
-  check_col_spec(na_col_spec, "na_col_types")
+  x_collectors <- xcs$cols
+
+  default_v_col <- xcs$default
+  default_na_col <- as.na_collector(na)
+
+  default_x_col <- x_col(default_v_col, default_na_col)
 
   if (!is.null(id)) {
     cli_abort(
@@ -296,20 +299,8 @@ interlaced_vroom <- function(
   vars <- vroom_col_select_map({{col_select}}, spec(df_chr))
   names(df_chr) <- vars
 
-  # Set names of unnamed col_specs according to the columns vroom found
-  col_spec <- fix_col_spec_names(
-    col_spec,
-    names(spec(df_chr)$cols),
-    col_guess(),
-    "col_types"
-  )
-
-  na_col_spec <- fix_col_spec_names(
-    na_col_spec,
-    names(spec(df_chr)$cols),
-    NULL,
-    "na"
-  )
+  # TODO: Set names of unnamed col_specs according to the columns vroom found?
+  # (if we start allowing unnamed col_types)
 
   # Step 2: For each of the resulting columns, go back and convert values
 
@@ -318,23 +309,23 @@ interlaced_vroom <- function(
   }
 
   out <- map(set_names(vars, vars), function(i) {
-    collector <- col_spec$cols[[i]] %||% col_spec$default
+    curr_x_col <- x_collectors[[i]] %||% default_x_col
 
-    if (i %in% names2(na_col_spec$cols)) {
-      # Col is explicitly overridden; don't use .default
-      na_collector <- na_col_spec$cols[[i]]
-    } else {
-      na_collector <- na_col_spec$cols[[i]] %||% na_col_spec$default
+    curr_v_col <- curr_x_col$value_collector
+    curr_na_col <- curr_x_col$na_collector
+
+    if (curr_na_col$type == "default") {
+      curr_na_col <- default_na_col
     }
 
     vroom_call <- withWarnings(
       inject(
         vroom::vroom(
           !!!std_opts,
-          col_types = col_spec,
+          col_types = set_names(list(curr_v_col$impl), i),
           col_select = tidyselect::all_of(i),
           id = NULL,
-          na = as.character(na_collector),
+          na = as.character(curr_na_col$chr_values),
           # num_threads = 1
         )
       )
@@ -342,20 +333,23 @@ interlaced_vroom <- function(
 
     value_df <- vroom_call$value
 
-    used_value_collector <- spec(value_df)$cols[[i]]
-    values <- value_df[[1]]
+    used_vroom_collector <- spec(value_df)$cols[[i]]
 
-    if (is.null(na_collector)) {
-      out_value <- values
+    if (curr_v_col$type == "guess") {
+      used_x_collector <- x_col(used_vroom_collector, curr_na_col)
     } else {
-      na_idx <- match(df_chr[[i]], na_collector)
+      used_x_collector <- x_col(curr_v_col, curr_na_col)
+    }
 
-      if (is.character(na_collector)) {
-        na_values <- factor(na_collector, levels=unique(na_collector))[na_idx]
-      } else {
-        na_values <- na_collector[na_idx]
-      }
-      out_value <- new_interlaced(values, na_values)
+    values <- curr_v_col$value_fn(value_df[[1]])
+
+    na_idx <- match(df_chr[[i]], curr_na_col$chr_values)
+    na_values <- curr_na_col$values[na_idx]
+
+    if (curr_na_col$type == "none") {
+      out_values <- values
+    } else {
+      out_values <- new_interlaced(values, na_values)
     }
 
     if (progress) {
@@ -363,20 +357,16 @@ interlaced_vroom <- function(
     }
 
     list(
-      values = out_value,
+      values = out_values,
       problems = vroom_call$warnings,
-      spec = used_value_collector
+      x_spec = used_x_collector
     )
   })
 
   df <- as_tibble(map(out, \(i) i$values), .name_repair = .name_repair)
 
   # Replace spec cols from chr spec into values col specs
-  attr(df, "spec") <- update_col_spec(
-    spec(df_chr), map(out, \(i) i$spec), col_spec$default
-  )
-
-  attr(df, "na_spec") <- na_col_spec
+  attr(df, "x_spec") <- as.x_col_spec(map(out, \(i) i$x_spec))
 
   # Rename result to names from col_select
   names(df) <- names(vars)
@@ -410,54 +400,4 @@ interlaced_vroom <- function(
   }
 
   df
-}
-
-#' Examine the NA spec of a data frame
-#'
-#' Like `readr::spec()`, `na_spec()` extracts the NA column specification from
-#' a tibble created by `read_interlaced_*`
-#'
-#' @param x The data frame object to extract from
-#'
-#' @returns An `na_col_spec` object
-#'
-#' @export
-na_spec <- function(x) {
-  attr(x, "na_spec")
-}
-
-check_col_spec <- function(col_spec, arg) {
-  if (any(names2(col_spec$cols) == "") && any(names2(col_spec$cols) != "")) {
-    cli_abort(
-      "{.arg arg} cannot have a mix of named and unnamed values"
-    )
-  }
-}
-
-update_col_spec <- function(col_spec, update_list, default) {
-  col_spec$cols[names(update_list)] <- update_list
-  col_spec$default <- default
-  col_spec
-}
-
-fix_col_spec_names <- function(col_spec, spec_names, default, arg) {
-  is_unnamed_col_spec <- all(names2(col_spec$cols) == "")
-
-  if (length(col_spec$cols) > 0 && is_unnamed_col_spec) {
-    if (length(col_spec$cols) != length(spec_names)) {
-      cli_warn(
-        paste0(
-          "mismatch between number of unnamed columns defined in ",
-          "`{arg}` ({length(col_spec$cols)}) and columns found in ",
-          "file ({length(spec_names)})"
-        )
-      )
-    }
-
-    col_spec$cols <- map(
-      set_names(seq_along(spec_names), spec_names),
-      \(i) col_spec$cols[i][[1]] %||% default
-    )
-  }
-  col_spec
 }

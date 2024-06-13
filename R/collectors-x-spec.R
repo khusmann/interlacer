@@ -15,6 +15,12 @@ as.x_col_spec <- function(x) {
   UseMethod("as.x_col_spec")
 }
 
+
+#' @export
+as.x_col_spec.NULL <- function(x) {
+  x_col_spec(list(), v_col_guess())
+}
+
 #' @export
 as.x_col_spec.default <- function(x) {
   cli_abort("{.fn as.x_col_spec} not implemented for {class(x)[[1]]}")
