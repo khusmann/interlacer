@@ -271,6 +271,10 @@ interlaced_vroom <- function(
   default_v_col <- xcs$default
   default_na_col <- as.na_collector(na)
 
+  if (default_na_col$type == "default") {
+    cli_abort("argument {.arg na} cannot be a default na collector")
+  }
+
   default_x_col <- x_col(default_v_col, default_na_col)
 
   if (!is.null(id)) {
