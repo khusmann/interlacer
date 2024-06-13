@@ -19,8 +19,6 @@ reference:
 - contents:
   - starts_with("read_")
   - starts_with("write_")
-  - na_cols
-  - na_spec
   - parse_interlaced
   - interlacer_example
 - title: The `interlaced` type
