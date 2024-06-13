@@ -84,8 +84,8 @@ is.na_col_none <- function(x) {
 na_col_none <- function() {
   na_collector(
     "none",
-    values = NULL,
-    chr_values = NULL,
+    values = character(),
+    chr_values = character(),
     args = list(),
     color = readr_col_color("skip")
   )
