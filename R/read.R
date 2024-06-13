@@ -370,7 +370,15 @@ interlaced_vroom <- function(
   df <- as_tibble(map(out, \(i) i$values), .name_repair = .name_repair)
 
   # Replace spec cols from chr spec into values col specs
-  attr(df, "x_spec") <- as.x_col_spec(map(out, \(i) i$x_spec))
+  spec_names <- names(vroom::spec(df_chr)$cols)
+  attr(df, "x_spec") <- as.x_col_spec(
+    map(
+      set_names(spec_names, spec_names),
+      function(i) {
+        out[[i]]$x_spec %||% x_col(v_col_skip(), na_col_none())
+      }
+    )
+  )
 
   # Rename result to names from col_select
   names(df) <- names(vars)
