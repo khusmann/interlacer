@@ -265,6 +265,14 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
     class(m) <- discard(class(m), \(x) x == "ordered")
   }
 
+  if (is.cfactor(v) && !is.cfactor(m) && is.factor(m)) {
+    v <- as.factor(v)
+  }
+
+  if (is.cfactor(m) && !is.cfactor(v) && is.factor(v)) {
+    m <- as.factor(m)
+  }
+
   isect <- na.omit(intersect(v, m))
   if (length(isect) > 0) {
     cli_abort("value and na channels have items that overlap: {isect}")
