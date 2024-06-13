@@ -76,10 +76,9 @@ fix_codes_arg <- function(codes) {
     cli_abort("labels are not unique")
   }
 
-  # TODO: Warn on unsorted codes? See TODO below
-  #if (is.numeric(codes) && !identical(codes, sort(codes))) {
-  #  cli_abort("codes are not in numerical order")
-  #}
+  # We don't warn or error on unsorted codes because it allows users
+  # to construct factors for graphing with missing values all at the
+  # end, etc.
 
   codes
 }
@@ -342,11 +341,6 @@ vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
       list_c(map(all_pairs, \(v) v[[2]])),
       map_chr(all_pairs, \(v) v[[1]])
     )
-
-    # TODO: sort codes? See related todo above
-    #if (is.numeric(new_codes)) {
-    #  new_codes <- sort(new_codes)
-    #}
 
     if (
       length(unique(new_codes)) != length(new_codes) ||
