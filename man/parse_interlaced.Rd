@@ -4,7 +4,7 @@
 \alias{parse_interlaced}
 \title{Parse a \code{character} vector into an \code{interlaced} vector type}
 \usage{
-parse_interlaced(x, na, .value_col = col_guess())
+parse_interlaced(x, na, .value_col = readr::col_guess())
 }
 \arguments{
 \item{x}{A character vector}

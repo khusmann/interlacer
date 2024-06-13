@@ -69,7 +69,7 @@ is.interlaced <- function(x) {
 #' @export
 parse_interlaced <- function(
   x, na,
-  .value_col = col_guess()
+  .value_col = readr::col_guess()
 ) {
   if (!is.character(x)) {
     cli_abort("{.arg x} must be a character vector")
