@@ -160,7 +160,10 @@ as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   obj_check_vector(x)
 
   if (is.null(codes)) {
-    codes <- set_names(seq_along(unique(na.omit(x)))-1, unique(na.omit(x)))
+    codes <- set_names(
+      as.integer(seq_along(unique(na.omit(x)))-1),
+      unique(na.omit(x))
+    )
   } else {
     codes <- fix_codes_arg(codes)
     if (length(setdiff(na.omit(x), names(codes))) > 0) {
@@ -174,7 +177,10 @@ as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
 #' @export
 as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   if (is.null(codes)) {
-    codes <- set_names(seq_along(levels(x))-1, levels(x))
+    codes <- set_names(
+      as.integer(seq_along(levels(x))-1),
+      levels(x)
+    )
   } else {
     codes <- fix_codes_arg(codes)
     if (!setequal(levels(x), names(codes))) {
@@ -326,6 +332,12 @@ code_label_pairs <- function(x_codes) {
 vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
   x, y, ..., x_arg = "", y_arg = ""
 ) {
+  if (is.latent.cfactor(x) || is.latent.cfactor(y)) {
+    return(
+      vec_ptype2(as.factor(x), as.factory(y), x_arg = x_arg, y_arg = y_arg)
+    )
+  }
+
   x_codes <- codes(x)
   y_codes <- codes(y)
 
@@ -357,8 +369,18 @@ vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
 
 #' @export
 vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
-  x, to, ..., x_arg = "", y_arg = ""
+  x, to, ..., x_arg = "", to_arg = ""
 ) {
+  if (is.latent.cfactor(x)) {
+    stop_incompatible_cast(as.factor(x), to, x_arg = x_arg, to_arg = to_arg)
+  }
+
+  if (is.latent.cfactor(to)) {
+    return(
+      vec_cast(x, as.factor(to), x_arg = x_arg, to_arg = to_arg)
+    )
+  }
+
   x_codes <- codes(x)
   to_codes <- codes(to)
 
