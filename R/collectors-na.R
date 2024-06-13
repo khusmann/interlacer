@@ -57,6 +57,10 @@ na_collector <- function(type, values, chr_values, args, color) {
   )
 }
 
+is.na_collector <- function(x) {
+  inherits(x, "interlacer_na_collector")
+}
+
 #' @export
 na_col_default <- function() {
   na_collector(
@@ -66,18 +70,6 @@ na_col_default <- function() {
     args = list(),
     color = readr_col_color("guess")
   )
-}
-
-is.na_collector <- function(x) {
-  inherits(x, "interlacer_na_collector")
-}
-
-is.na_col_default <- function(x) {
-  is.na_collector(x) && x$type == "default"
-}
-
-is.na_col_none <- function(x) {
-  is.na_collector(x) && x$type == "none"
 }
 
 #' @export

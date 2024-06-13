@@ -2,33 +2,6 @@
 
 # nocov start
 
-vroom_should_show_col_types <- function(has_col_types, show_col_types) {
-  if (is.null(show_col_types)) {
-    return(isTRUE(!has_col_types))
-  }
-  isTRUE(show_col_types)
-}
-
-vroom_show_col_types <- function(x, locale) {
-  show_dims(x)
-  summary(x_spec(x), locale = locale)
-  cli_block(class = "interlacer_x_spec_message", {
-    cli::cli_verbatim("\n\n")
-    cli::cli_alert_info("Use {.fn x_spec} to retrieve the full column specification for this data.")
-    cli::cli_alert_info("Specify the column types or set {.arg show_col_types = FALSE} to quiet this message.")
-  })
-}
-
-show_dims <- function(x) {
-  cli_block(class = "vroom_dim_message", {
-    cli::cli_text("
-      {.strong Rows: }{.val {NROW(x)}}
-      {.strong Columns: }{.val {NCOL(x)}}
-      ")
-  })
-}
-
-
 cli_block <- function(expr, class = NULL, type = rlang::inform) {
   msg <- ""
   withCallingHandlers(

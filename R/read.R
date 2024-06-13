@@ -284,7 +284,7 @@ interlaced_vroom <- function(
   df_chr <- inject(
     vroom::vroom(
       !!!std_opts,
-      col_types = cols(.default = "c"),
+      col_types = vroom::cols(.default = "c"),
       col_select = {{ col_select }},
       id = NULL,
       na = character(),
@@ -296,7 +296,7 @@ interlaced_vroom <- function(
   # (We will do the final rename after loading the values)
   # `vars` has the original column names in the file, and
   # `names(vars)` is what we want to rename them to.
-  vars <- vroom_col_select_map({{col_select}}, spec(df_chr))
+  vars <- vroom_col_select_map({{col_select}}, vroom::spec(df_chr))
   names(df_chr) <- vars
 
   # TODO: Set names of unnamed col_specs according to the columns vroom found?
@@ -333,7 +333,7 @@ interlaced_vroom <- function(
 
     value_df <- vroom_call$value
 
-    used_vroom_collector <- spec(value_df)$cols[[i]]
+    used_vroom_collector <- vroom::spec(value_df)$cols[[i]]
 
     if (curr_v_col$type == "guess") {
       used_x_collector <- x_col(used_vroom_collector, curr_na_col)
@@ -374,9 +374,9 @@ interlaced_vroom <- function(
   # Show col types if requested
   if (
     !is_testing() &&
-    vroom_should_show_col_types(!is.null(col_types), show_col_types)
+    should_show_col_types(!is.null(col_types), show_col_types)
   ) {
-    vroom_show_col_types(df, locale)
+    show_col_types(df, locale)
   }
 
   # I'd like to hoover up all the vroom problems and put them together as a
@@ -400,4 +400,30 @@ interlaced_vroom <- function(
   }
 
   df
+}
+
+should_show_col_types <- function(has_col_types, show_col_types) {
+  if (is.null(show_col_types)) {
+    return(isTRUE(!has_col_types))
+  }
+  isTRUE(show_col_types)
+}
+
+show_col_types <- function(x, locale) {
+  show_dims(x)
+  summary(x_spec(x), locale = locale)
+  cli_block(class = "interlacer_x_spec_message", {
+    cli::cli_verbatim("\n\n")
+    cli::cli_alert_info("Use {.fn x_spec} to retrieve the full column specification for this data.")
+    cli::cli_alert_info("Specify the column types or set {.arg show_col_types = FALSE} to quiet this message.")
+  })
+}
+
+show_dims <- function(x) {
+  cli_block(class = "interlacer_dim_message", {
+    cli::cli_text("
+      {.strong Rows: }{.val {NROW(x)}}
+      {.strong Columns: }{.val {NCOL(x)}}
+      ")
+  })
 }
