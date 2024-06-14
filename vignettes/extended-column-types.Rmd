@@ -81,7 +81,7 @@ missing reasons. These can be specified with the `x_cols()` as follows:
   col_types = x_cols(
     person_id = x_col(
       v_col_integer(),
-      na_col_factor("REFUSED", "OMITTED", "N/A")
+      na_col_none()
     ),
     current_stress = x_col(
       v_col_factor(levels = c("LOW", "MODERATE", "HIGH")),
@@ -145,10 +145,8 @@ read_interlaced_csv(
 
 Like readr's `cols()` function, the `x_cols()` function accepts a `.default`
 argument that specifies a default value collector. The `na = ` argument is
-similarly used to specify a default missing reason collector.
-
-When value collectors are specified without missing reason collectors, they use
-`na_col_default()` by default.
+similarly used to specify a default missing reason collector to be used when
+no `na_col_*()` is specified, or when it is set to `na_col_default()`.
 
 By taking advantage of these defaults, the specification in the last example
 could have been equivalently written as:
