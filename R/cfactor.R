@@ -156,7 +156,7 @@ as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
 }
 
 #' @export
-as.cfactor.default <- function(x, codes, ordered) {
+as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   obj_check_vector(x)
 
   if (is.null(codes)) {
@@ -175,7 +175,7 @@ as.cfactor.default <- function(x, codes, ordered) {
 }
 
 #' @export
-as.cfactor.factor <- function(x, codes, ordered) {
+as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   if (is.null(codes)) {
     codes <- set_names(
       as.integer(seq_along(levels(x))-1),
