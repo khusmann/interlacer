@@ -122,7 +122,7 @@ the values to be interpreted as missing values. (e.g.
 `na_col_integer(-99, -98, -97))`)
 
 5. `na_col_cfactor()`: Use a `cfactor()` na channel. (`cfactor()` types will
-be covered in the next vignette,`vignette(coded-data)`)
+be covered in the next vignette,`vignette("coded-data")`)
 
 The following example shows some of these collectors in action. In this example
 we use a coded version of the "colors.csv" example data, to demonstrate integer
