@@ -85,7 +85,7 @@ fix_codes_arg <- function(codes) {
 
 #' @export
 is.cfactor <- function(x) {
-  inherits(x, "interlacer_cfactor")
+  inherits(x, "interlacer_cfactor") && !is.null(codes(x))
 }
 
 #' @export
@@ -93,9 +93,8 @@ is.cordered <- function(x) {
   is.cfactor(x) && is.ordered(x)
 }
 
-#' @export
 is.latent.cfactor <- function(x) {
-  is.cfactor(x) && is.null(codes(x))
+  inherits(x, "interlacer_cfactor") && is.null(codes(x))
 }
 
 #' @export
