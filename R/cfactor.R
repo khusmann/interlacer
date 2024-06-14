@@ -13,7 +13,7 @@
 #'
 #' @returns a new `cfactor`
 #'
-#' @family `cfactor` type constructors
+#' @family cfactor type constructors
 #'
 #' @export
 cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
@@ -111,7 +111,7 @@ is.latent.cfactor <- function(x) {
 #' character labels); `codes()` returns a named vector representing the codes
 #' for the `cfactor`
 #'
-#' @family cfactor utility functions
+#' @family cfactor attribute functions
 #'
 #' @export
 codes <- function(x, ...) {
@@ -166,7 +166,7 @@ levels.interlacer_cfactor <- function(x) {
 #
 #' @returns a new `cfactor`
 #'
-#' @family cfactor utility functions
+#' @family cfactor type constructors
 #'
 #' @export
 as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
@@ -252,7 +252,7 @@ as.integer.interlacer_cfactor <- function(x, ...) {
 #'
 #' @returns a vector of coded values
 #'
-#' @family cfactor utility functions
+#' @family cfactor type functions
 #'
 #' @export
 as.codes <- function(x, ...) {

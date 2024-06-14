@@ -29,9 +29,4 @@ a vector of coded values
 \description{
 TODO: Write this
 }
-\seealso{
-Other cfactor utility functions: 
-\code{\link{as.cfactor}()},
-\code{\link{codes}()}
-}
-\concept{cfactor utility functions}
+\concept{cfactor type functions}
