@@ -41,7 +41,7 @@ as.x_col_spec.list <- function(x) {
   inject(x_cols(!!!x))
 }
 
-#' @importFrom vroom as.col_spec
+#' @importFrom readr as.col_spec
 #' @export
 as.col_spec.interlacer_x_col_spec <- function(x) {
   has_col_level_na <- map_lgl(x$cols, \(v) v$na_collector$type != "default")
