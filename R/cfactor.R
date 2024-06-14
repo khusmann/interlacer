@@ -77,8 +77,8 @@ fix_codes_arg <- function(codes) {
 
 #' @rdname cfactor
 #' @export
-cordered <- function(x, ...) {
-  cfactor(x, ..., ordered =)
+cordered <- function(x, codes) {
+  cfactor(x, codes, ordered = TRUE)
 }
 
 #' @rdname cfactor
@@ -103,6 +103,9 @@ is.latent.cfactor <- function(x) {
 #' Return the levels or codes of a `cfactor`
 #'
 #' @param x a `cfactor`
+#' @param value A vector of new levels (in `levels<-()`) or codes
+#' (in `codes<-()`) to set for the `cfactor`
+#' @param ... additional arguments (not used)
 #'
 #' @returns `levels()` returns the levels of the `cfactor` (as a vector of
 #' character labels); `codes()` returns a named vector representing the codes
@@ -245,6 +248,7 @@ as.integer.interlacer_cfactor <- function(x, ...) {
 #' TODO: Write this
 #'
 #' @param x a `cfactor()`
+#' @param ... additional arguments (not used)
 #'
 #' @returns a vector of coded values
 #'

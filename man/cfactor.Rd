@@ -9,7 +9,7 @@
 \usage{
 cfactor(x = unspecified(), codes, ordered = FALSE)
 
-cordered(x, ...)
+cordered(x, codes)
 
 is.cfactor(x)
 
