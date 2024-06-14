@@ -488,7 +488,7 @@ vec_cast.interlacer_cfactor.factor <- function(
   x, to, ..., x_arg = "", to_arg = ""
 ) {
   if (is.latent.cfactor(to)) {
-    return(vec_cast(x, as.factor(to), ..., x_arg = x_arg, y_arg = y_arg))
+    return(vec_cast(x, as.factor(to), ..., x_arg = x_arg, to_arg = to_arg))
   }
 
   if (
