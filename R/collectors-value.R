@@ -150,6 +150,15 @@ v_col_integer <- function() {
 }
 
 #' @export
+v_col_big_integer <- function() {
+  value_collector(
+    "big_integer",
+    vroom::col_big_integer(),
+    color = readr_col_color("big_integer")
+  )
+}
+
+#' @export
 v_col_logical <- function() {
   value_collector(
     "logical",
