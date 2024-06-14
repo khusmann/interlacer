@@ -9,6 +9,11 @@ as.x_collector.default <- function(x) {
 }
 
 #' @export
+as.x_collector.character <- function(x) {
+  as.x_collector(col_concise(x))
+}
+
+#' @export
 as.x_collector.interlacer_x_collector <- function(x) {
   x
 }

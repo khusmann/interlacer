@@ -2,6 +2,41 @@
 
 # nocov start
 
+col_concise <- function(x) {
+  switch(x,
+         "_" = ,
+         "skip" =,
+         "NULL" =,
+         "-" = vroom::col_skip(),
+         "NA" = ,
+         "?" = vroom::col_guess(),
+         character =,
+         c = vroom::col_character(),
+         factor =,
+         f = vroom::col_factor(),
+         double =,
+         numeric =,
+         d = vroom::col_double(),
+         integer =,
+         i = vroom::col_integer(),
+         big_integer =,
+         I = vroom::col_big_integer(),
+         logical = ,
+         l = vroom::col_logical(),
+         number = ,
+         n = vroom::col_number(),
+         date = ,
+         Date = ,
+         D = vroom::col_date(),
+         datetime = ,
+         POSIXct = ,
+         T = vroom::col_datetime(),
+         time =,
+         t = vroom::col_time(),
+         stop("Unknown shortcut: ", x, call. = FALSE)
+  )
+}
+
 cli_block <- function(expr, class = NULL, type = rlang::inform) {
   msg <- ""
   withCallingHandlers(
