@@ -295,7 +295,6 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
   if_else(!is.na(v), v, m)
 }
 
-
 # Functional utilities ----------------------------------------------------
 
 #' `interlaced` functional utilities
