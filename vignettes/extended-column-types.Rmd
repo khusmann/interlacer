@@ -28,27 +28,28 @@ library(interlacer, warn.conflicts = FALSE)
 ```
 
 As with readr, these column type guess can be overridden using the `col_types`
-parameter with readr's `readr::col_*()` column specifiers:
+parameter with a `readr::cols()` column specification:
 
 ```{r}
 library(readr)
 
 (read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
   col_types = cols(
     person_id = col_integer(),
     age = col_number(),
     favorite_color = col_factor(levels = c("BLUE", "RED", "YELLOW", "GREEN"))
-  )
+  ),
+  na = c("REFUSED", "OMITTED", "N/A")
 ))
 ```
 
-## `NA` collector types
+## `x_cols`: extended `cols` specifications
 
-In addition to the standard `readr::col_*` column specification types, 
-interlacer provides the ability to specify missing
-reasons at the column level, using the `na` parameter.
+When you need more fine-grained control over value and na channel types, you
+can use an `x_cols()` specification, an extension of readr's `readr::cols()`
+system. With `x_cols()`, you can control both the value channel and na channel
+types in the columns of the resulting data frame. 
 
 This is useful when you have missing reasons that only apply to particular items
 as opposed to the file as a whole. For example, say we had a measure with the
@@ -72,42 +73,127 @@ following two items:
 > f. Does not apply (Other reason)
 
 As you can see, both items have two selection choices that should be mapped to
-missing reasons. These can be specified with the `na_cols()` function, which
-works similarly to readr's `cols()` function:
+missing reasons. These can be specified with the `x_cols()` as follows:
 
 ```{r}
-usual_na_vals <- c("REFUSED", "OMITTED", "N/A")
-
 (df_stress <- read_interlaced_csv(
   interlacer_example("stress.csv"),
   col_types = x_cols(
-    person_id = x_col(v_col_integer(), na_col_none()),
+    person_id = x_col(
+      v_col_integer(),
+      na_col_factor("REFUSED", "OMITTED", "N/A")
+    ),
     current_stress = x_col(
       v_col_factor(levels = c("LOW", "MODERATE", "HIGH")),
-      c(usual_na_vals, "DONT_KNOW", "DONT_UNDERSTAND")
+      na_col_factor("REFUSED", "OMITTED", "N/A", "DONT_KNOW", "DONT_UNDERSTAND")
     ),
     time_management = x_col(
       v_col_factor(levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL")),
-      c(usual_na_vals, "NA_VACATION", "NA_OTHER")
+      na_col_factor("REFUSED", "OMITTED", "N/A", "NA_VACATION", "NA_OTHER")
     )
-  ),
-  na = usual_na_vals,
+  )
 ))
 ```
 
+Like readr's `readr::cols()` function, each named `x_cols()` describes a column
+in the resulting data frame. Value and missing reason channel types are 
+declared via calls to `v_col_*()` and `na_col_*()` respectively, which are
+assembled by `x_col()`.
 
-Setting na type to `NULL` indicates the column should be loaded
-as a regular type instead of an `interlaced` one. The following
-will load `person_id` as a regular, non-interlaced type:
+`v_col_*()` types mirror readr's `readr::col_*` column "collectors". So
+`v_col_double()` is equivalent to `readr::col_double()`, `v_col_character()` is
+equivalent to `readr::col_character()`, etc.
+
+`na_col_*()` collectors allow you to declare missing reason channel type of the
+loaded column, and the values that should be interpreted as missing reasons.
+Currently, there are five options:
+
+1. `na_col_default()`: Use the collector defined by the `na = ` argument
+in the `read_interlaced_*()` function
+
+2. `na_col_none()`: Load the column without a missing reason channel.
+
+3. `na_col_factor()`: Use a factor missing reason channel. Character arguments
+passed form the levels of the factor.
+(e.g. `na_col_factor("REFUSED", "OMITTED", "N/A")`)
+
+4. `na_col_integer()`: Use an integer na channel. Numeric arguments passed are
+the values to be interpreted as missing values. (e.g.
+`na_col_integer(-99, -98, -97))`)
+
+5. `na_col_cfactor()`: Use a `cfactor()` na channel. (see `vignette(coded-data)`
+for )
+
+The following example shows some of these collectors in action:
 
 ```{r}
 read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
   col_types = x_cols(
-    person_id = x_col(v_col_guess(), na_col_none())
+    person_id = x_col(v_col_integer(), na_col_none()),
+    age = x_col(v_col_double(), na_col_integer(-99, -98, -97)),
+    favorite_color = x_col(v_col_integer(), na_col_integer(-99, -98, -97))
+  )
+)
+```
+
+## Shortcuts
+
+### Default collector types
+
+Like readr's `cols()` function, the `x_cols()` function accepts a `.default`
+argument that specifies a default value collector. The `na = ` argument is
+similarly used to specify a default missing reason collector.
+
+When value collectors are specified without missing reason collectors, they use
+`na_col_default()` by default.
+
+By taking advantage of these defaults, the specification in the last example
+could have been equivalently written as:
+
+```{r}
+read_interlaced_csv(
+  interlacer_example("colors_coded.csv"),
+  col_types = x_cols(
+    .default = v_col_integer(),
+    person_id = x_col(v_col_integer(), na_col_none()),
+    age = v_col_double(),
   ),
-  na = c(-99, -98, -97),
-  show_col_types = FALSE
+  na = na_col_integer(-99, -98, -97)
+)
+```
+
+### Concise value and missing reason specifications
+
+Like readr, value collectors can be specified using characters. For example,
+instead of `v_col_integer()`, you can use `"i"`. See vroom's documentation for a
+[complete list of these shortcuts](https://vroom.r-lib.org/articles/vroom.html#column-types).
+
+Similarly, missing reason collectors can be specified by providing a vector of
+the missing values; the collector type is inferred via the type of the vector.
+The conversions are as follows:
+
+- `na_col_none()`: `NULL`
+
+- `na_col_factor()`: A character vector (e.g. `c("REFUSED", "OMITTED", "N/A")`)
+
+- `na_col_integer()`: A numeric vector (e.g. `c(-99, -98, -97))`)
+
+- `na_col_cfactor()`: A named character or numeric vector (e.g.
+`c(REFUSED=-99, OMITTED=-98, ``N/A``=-97)`)
+
+Using these shortcuts, the previous example could have equivalently been written
+in more compact form as follows:
+
+```{r}
+read_interlaced_csv(
+  interlacer_example("colors_coded.csv"),
+  col_types = x_cols(
+    .default = "i",
+    person_id = x_col("i", NULL),
+    age = "d",
+  ),
+  na = c(-99, -98, -97)
 )
 ```
 
@@ -115,10 +201,11 @@ read_interlaced_csv(
 
 In this vignette we covered how the column types for values and missing reasons
 can be explicitly specified using collectors. We also illustrated how
-column-level missing values can be specified by creating a missing channel
-specification using `na_cols()`.
+column-level missing values can be specified by creating extended column type
+specifications using `x_cols()`.
 
-In the final example, we used an example data set with coded values and missing
+In the final examples, we used an example data set with coded values and missing
 reasons. Coded values are especially common in data sets produced by SPSS, SAS,
-and Stata. For some recipes for working with coded data like this, check
-out the next vignette, `vignette("coded-data")`.
+and Stata. interlacer provides a special column type to make working with this
+sort of data easier: the `cfactor()` type. This will be covered in next
+vignette, `vignette("coded-data")`.
