@@ -4,15 +4,16 @@
 \alias{parse_interlaced}
 \title{Parse a \code{character} vector into an \code{interlaced} vector type}
 \usage{
-parse_interlaced(x, na, .value_col = readr::col_guess())
+parse_interlaced(x, na, .default = v_col_guess())
 }
 \arguments{
 \item{x}{A character vector}
 
-\item{na}{A vector of values to interpret as missing values}
+\item{na}{A missing reason collector (e.g. \code{na_col_integer()}), or one of
+its shortcuts (e.g. a list of missing values)}
 
-\item{.value_col}{A collector to parse the character values (e.g.
-\code{readr::col_double()}, \code{readr::col_integer()}, etc.)}
+\item{.default}{A value collector to parse the character values (e.g.
+\code{v_col_double()}, \code{v_col_integer()}, etc.)}
 }
 \value{
 An \code{interlaced} vector
