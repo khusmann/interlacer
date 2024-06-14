@@ -35,6 +35,7 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
-URL: http://kylehusmann.com/interlacer/
+URL: https://github.com/khusmann/interlacer,https://kylehusmann.com/interlacer
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+BugReports: https://github.com/khusmann/interlacer/issues
