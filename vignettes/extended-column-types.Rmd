@@ -126,7 +126,7 @@ the values to be interpreted as missing values. (e.g.
 be covered in the next vignette,`vignette("coded-data")`)
 
 The following example shows some of these collectors in action. In this example
-we use a coded version of the "colors.csv" example data, to demonstrate integer
+we use a coded version of the `colors.csv` example data, to demonstrate integer
 missing reason types:
 
 ```{r}
