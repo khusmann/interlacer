@@ -329,6 +329,62 @@ code_label_pairs <- function(x_codes) {
 }
 
 #' @export
+vec_ptype2.interlacer_cfactor.character <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  character()
+}
+
+#' @export
+vec_ptype2.character.interlacer_cfactor <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  character()
+}
+
+#' @export
+vec_ptype2.interlacer_cfactor.factor <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  if (is.latent.cfactor(x)) {
+    return(vec_ptype2(as.factor(x), y, ..., x_arg = x_arg, y_arg = y_arg))
+  }
+
+  if (identical(levels(x), levels(y)) && is.ordered(x) == is.ordered(y)) {
+    x
+  } else if (!is.ordered(x) && !is.ordered(y)) {
+    if (all(levels(y) %in% levels(x))) {
+      x
+    } else {
+      vec_ptype2(as.factor(x), y, x_arg = x_arg, y_arg = y_arg)
+    }
+  } else {
+    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg)
+  }
+}
+
+#' @export
+vec_ptype2.factor.interlacer_cfactor <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  vec_ptype2.interlacer_cfactor.factor(y, x, ..., y_arg, x_arg)
+}
+
+#' @export
+vec_ptype2.ordered.interlacer_cfactor <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  vec_ptype2.interlacer_cfactor.factor(y, x, ..., y_arg, x_arg)
+}
+
+#' @export
+vec_ptype2.interlacer_cfactor.ordered <- function(
+  x, y, ..., x_arg = "", y_arg = ""
+) {
+  vec_ptype2.interlacer_cfactor.factor(x, y, ..., x_arg, y_arg)
+}
+
+#' @export
 vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
   x, y, ..., x_arg = "", y_arg = ""
 ) {
@@ -368,6 +424,13 @@ vec_ptype2.interlacer_cfactor.interlacer_cfactor <- function(
 }
 
 #' @export
+vec_cast.character.interlacer_cfactor <- function(
+  x, to, ..., x_arg = "", to_arg = ""
+) {
+  as.character(x)
+}
+
+#' @export
 vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
   x, to, ..., x_arg = "", to_arg = ""
 ) {
@@ -392,4 +455,55 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
   }
 
   cfactor(as.codes(x), to_codes, is.ordered(to))
+}
+
+#' @export
+vec_cast.factor.interlacer_cfactor <- function(
+  x, to, ..., x_arg = "", to_arg = ""
+) {
+  if (is.latent.cfactor(x)) {
+    return(vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg))
+  }
+
+  maybe_lossy_cast(
+    vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg),
+    x = x,
+    to = to,
+    lossy = rep_along(x, TRUE),
+    loss_type = "generality",
+    x_arg = x_arg,
+    to_arg = to_arg
+  )
+}
+
+#' @export
+vec_cast.ordered.interlacer_cfactor <- function(
+  x, to, ..., x_arg = "", to_arg = ""
+) {
+  vec_cast.factor.interlacer_cfactor(x, to, ..., x_arg = x_arg, to_arg = to_arg)
+}
+
+#' @export
+vec_cast.interlacer_cfactor.factor <- function(
+  x, to, ..., x_arg = "", to_arg = ""
+) {
+  if (is.latent.cfactor(to)) {
+    return(vec_cast(x, as.factor(to), ..., x_arg = x_arg, y_arg = y_arg))
+  }
+
+  if (
+    (identical(levels(x), levels(to)) && (is.ordered(x) == is.ordered(to))) ||
+    (!is.ordered(x) && !is.ordered(to) && all(levels(x) %in% levels(to)))
+  ) {
+    as.cfactor(as.character(x), codes = codes(to), ordered = is.ordered(to))
+  } else {
+    stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
+  }
+}
+
+#' @export
+vec_cast.interlacer_cfactor.ordered <- function(
+  x, to, ..., x_arg = "", to_arg = ""
+) {
+ vec_cast.interlacer_cfactor.factor(x, to, ..., x_arg = x_arg, to_arg = to_arg)
 }
