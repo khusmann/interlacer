@@ -46,10 +46,10 @@ library(readr)
 
 ## `x_cols`: extended `cols` specifications
 
-When you need more fine-grained control over value and na channel types, you
-can use an `x_cols()` specification, an extension of readr's `readr::cols()`
-system. With `x_cols()`, you can control both the value channel and na channel
-types in the columns of the resulting data frame. 
+When you need more fine-grained control over value and missing reason channel
+types, you can use an `x_cols()` specification, an extension of readr's 
+`readr::cols()` system. With `x_cols()`, you can control both the value channel
+and na channel types in the columns of the resulting data frame. 
 
 This is useful when you have missing reasons that only apply to particular items
 as opposed to the file as a whole. For example, say we had a measure with the
@@ -121,10 +121,12 @@ passed form the levels of the factor.
 the values to be interpreted as missing values. (e.g.
 `na_col_integer(-99, -98, -97))`)
 
-5. `na_col_cfactor()`: Use a `cfactor()` na channel. (see `vignette(coded-data)`
-for )
+5. `na_col_cfactor()`: Use a `cfactor()` na channel. (`cfactor()` types will
+be covered in the next vignette,`vignette(coded-data)`)
 
-The following example shows some of these collectors in action:
+The following example shows some of these collectors in action. In this example
+we use a coded version of the "colors.csv" example data, to demonstrate integer
+missing reason types:
 
 ```{r}
 read_interlaced_csv(
@@ -175,12 +177,12 @@ The conversions are as follows:
 
 - `na_col_none()`: `NULL`
 
-- `na_col_factor()`: A character vector (e.g. `c("REFUSED", "OMITTED", "N/A")`)
+- `na_col_factor()`: A character vector, e.g. `c("REFUSED", "OMITTED", "N/A")`
 
-- `na_col_integer()`: A numeric vector (e.g. `c(-99, -98, -97))`)
+- `na_col_integer()`: A numeric vector, e.g. `c(-99, -98, -97))`
 
-- `na_col_cfactor()`: A named character or numeric vector (e.g.
-`c(REFUSED=-99, OMITTED=-98, ``N/A``=-97)`)
+- `na_col_cfactor()`: A named character or numeric vector, e.g.
+``c(REFUSED = -99, OMITTED = -98, `N/A` = -97)``
 
 Using these shortcuts, the previous example could have equivalently been written
 in more compact form as follows:
