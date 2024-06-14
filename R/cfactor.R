@@ -174,6 +174,16 @@ as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
 }
 
 #' @rdname as.cfactor
+as.cordered <- function(x, codes = NULL) {
+  useMethod("as.cfactor")
+}
+
+#' @rdname as.cfactor
+as.cordered.default <- function(x, codes = NULL) {
+  as.cfactor(x, codes, ordered = TRUE)
+}
+
+#' @rdname as.cfactor
 #' @export
 as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   obj_check_vector(x)
