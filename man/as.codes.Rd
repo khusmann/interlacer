@@ -20,6 +20,8 @@ as.codes(x, ...)
 }
 \arguments{
 \item{x}{a \code{cfactor()}}
+
+\item{...}{additional arguments (not used)}
 }
 \value{
 a vector of coded values

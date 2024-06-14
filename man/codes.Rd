@@ -23,6 +23,11 @@ codes(x) <- value
 }
 \arguments{
 \item{x}{a \code{cfactor}}
+
+\item{...}{additional arguments (not used)}
+
+\item{value}{A vector of new levels (in \verb{levels<-()}) or codes
+(in \verb{codes<-()}) to set for the \code{cfactor}}
 }
 \value{
 \code{levels()} returns the levels of the \code{cfactor} (as a vector of
