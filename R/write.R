@@ -13,6 +13,9 @@
 #' columns). Defaults to NA.
 #'
 #' @returns `write_interlaced_*` returns the input x invisibly
+#'
+#' @family write functions
+#'
 #' @export
 write_interlaced_delim <- function(
   x,

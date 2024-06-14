@@ -18,3 +18,10 @@ When a value is missing both a value and a missing reason, it is considered
 "empty". \code{is.empty()} checks for these type of values. Regular \code{NA} values
 (with no missing reasons) are also considered "empty".
 }
+\seealso{
+Other interlaced type functions: 
+\code{\link{flatten_channels}()},
+\code{\link{map_value_channel}()},
+\code{\link{value_channel}()}
+}
+\concept{interlaced type functions}
