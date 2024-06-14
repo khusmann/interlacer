@@ -85,11 +85,11 @@ missing reasons. These can be specified with the `x_cols()` as follows:
     ),
     current_stress = x_col(
       v_col_factor(levels = c("LOW", "MODERATE", "HIGH")),
-      na_col_factor("REFUSED", "OMITTED", "N/A", "DONT_KNOW", "DONT_UNDERSTAND")
+      na_col_factor("DONT_KNOW", "DONT_UNDERSTAND")
     ),
     time_management = x_col(
       v_col_factor(levels = c("POORLY", "FAIRLY_WELL", "WELL", "VERY_WELL")),
-      na_col_factor("REFUSED", "OMITTED", "N/A", "NA_VACATION", "NA_OTHER")
+      na_col_factor("NA_VACATION", "NA_OTHER")
     )
   )
 ))
@@ -102,7 +102,8 @@ assembled by `x_col()`.
 
 `v_col_*()` types mirror readr's `readr::col_*` column "collectors". So
 `v_col_double()` is equivalent to `readr::col_double()`, `v_col_character()` is
-equivalent to `readr::col_character()`, etc.
+equivalent to `readr::col_character()`, etc. See vroom's documentation for a
+[list of available column types](https://vroom.r-lib.org/articles/vroom.html#column-types).
 
 `na_col_*()` collectors allow you to declare missing reason channel type of the
 loaded column, and the values that should be interpreted as missing reasons.
