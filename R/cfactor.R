@@ -1,26 +1,4 @@
-# cfactor(codes = c(OMITTED = ".", REFUSED = ".a")) -> na_col_cfactor_chr(na_codes=c(OMITTED = ".", REFUSED = ".a"))
-# cfactor(codes = c(OMITTED = -99L, REFUSED = -98L)) -> na_col_cfactor_int(na_codes=c(OMITTED = -99L, REFUSED = -98L))
-# cfactor(codes = c(OMITTED = -99, REFUSED = -98)) -> na_col_cfactor_dbl(na_codes=c(OMITTED = -99, REFUSED = -98))
-#
-# c("OMITTED", "REFUSED") -> na_col_character(na=c("OMITTED", "REFUSED"))
-# c(-99, -98) -> na_col_numeric(na=c(-99, -98))
-# c(-99L, -98L) -> na_col_integer(na=c(-99L, -98L))
-# factor(levels = c("OMITTED", "REFUSED")) -> na_col_factor(na_levels=c("OMITTED", "REFUSED"))
-#
-# na = na_cols(
-#   person_id = c(-98, -99),
-#   favorite_color = factor(levels = c("OMITTED", "REFUSED")),
-#   favorite_color = cfactor(codes = c(OMITTED = -99, REFUSED = -98)),
-#   .default = c(-99, -98)
-# )
-#
-# na = na_cols_only(
-#   favorite_color = factor(levels = c("OMITTED", "REFUSED"))
-# )
-#
-
-# TODO: Make all attr calls exact = TRUE
-# TODO: Add vec_cast and vec_ptype2 fns
+# TODO: Make all attr calls exact = TRUE?
 # TODO: Add tests that test for construction w names
 
 #' @export
