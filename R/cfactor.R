@@ -1,6 +1,20 @@
 # TODO: Make all attr calls exact = TRUE?
 # TODO: Add tests that test for construction w names
 
+#' `cfactor`: A coded factor type
+#'
+#' TODO: Write this
+#'
+#' @param x a vector of character or numeric codes
+#' @param codes named vector of unique codes that declares the mapping of labels
+#' to codes
+#' @param ordered logical flag to determine if the codes should be regarded as
+#' ordered (in the order given).
+#'
+#' @returns a new `cfactor`
+#'
+#' @family `cfactor` type constructors
+#'
 #' @export
 cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
   obj_check_vector(x)
@@ -61,11 +75,19 @@ fix_codes_arg <- function(codes) {
   codes
 }
 
+#' @rdname cfactor
+#' @export
+cordered <- function(x, ...) {
+  cfactor(x, ..., ordered =)
+}
+
+#' @rdname cfactor
 #' @export
 is.cfactor <- function(x) {
   inherits(x, "interlacer_cfactor") && !is.null(codes(x))
 }
 
+#' @rdname cfactor
 #' @export
 is.cordered <- function(x) {
   is.cfactor(x) && is.ordered(x)
@@ -75,6 +97,43 @@ is.latent.cfactor <- function(x) {
   inherits(x, "interlacer_cfactor") && is.null(codes(x))
 }
 
+
+#' `cfactor` attributes
+#'
+#' Return the levels or codes of a `cfactor`
+#'
+#' @param x a `cfactor`
+#'
+#' @returns `levels()` returns the levels of the `cfactor` (as a vector of
+#' character labels); `codes()` returns a named vector representing the codes
+#' for the `cfactor`
+#'
+#' @family cfactor utility functions
+#'
+#' @export
+codes <- function(x, ...) {
+  UseMethod("codes")
+}
+
+#' @rdname codes
+#' @export
+codes.default <- function(x, ...) {
+  attr(attr(x, "levels"), "codes")
+}
+
+#' @rdname codes
+#' @export
+`codes<-` <- function(x, value) {
+  UseMethod("codes")
+}
+
+#' @rdname codes
+#' @export
+`codes<-.default` <- function(x, value) {
+  as.cfactor(x, codes)
+}
+
+#' @rdname codes
 #' @export
 levels.interlacer_cfactor <- function(x) {
   lvls <- attr(x, "levels")
@@ -82,6 +141,7 @@ levels.interlacer_cfactor <- function(x) {
   lvls
 }
 
+#' @rdname codes
 #' @export
 `levels<-.interlacer_cfactor` <- function(x, value) {
   x <- as.factor(x)
@@ -89,49 +149,28 @@ levels.interlacer_cfactor <- function(x) {
   x
 }
 
-#' @export
-codes <- function(x, ...) {
-  UseMethod("codes")
-}
-
-#' @export
-codes.default <- function(x, ...) {
-  attr(attr(x, "levels"), "codes")
-}
-
-#' @export
-set_codes <- function(x, value) {
-  codes(x) <- value
-  x
-}
-
-#' @export
-`codes<-` <- function(x, value) {
-  UseMethod("codes<-")
-}
-
-#' @export
-`codes<-.default` <- function(x, value) {
-  as.cfactor(x, value)
-}
-
-#' @export
-`codes<-.cfactor` <- function(x, value) {
-  if (is.null(value)) {
-    as.factor(x)
-  } else {
-    as.cfactor(x, value)
-  }
-}
-
-
 ## Casting
 
+#' `cfactor` coercion
+#'
+#' Add codes to a vector of labels
+#'
+#' @param x a vector of values representing labels for factor levels
+#' @param codes named vector of unique codes that declares the mapping of labels
+#' to codes
+#' @param ordered logical flag to determine if the codes should be regarded as
+#' ordered (in the order given).
+#
+#' @returns a new `cfactor`
+#'
+#' @family cfactor utility functions
+#'
 #' @export
 as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   UseMethod("as.cfactor")
 }
 
+#' @rdname as.cfactor
 #' @export
 as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   obj_check_vector(x)
@@ -151,6 +190,7 @@ as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   new_cfactor_from_labels(x, codes, ordered)
 }
 
+#' @rdname as.cfactor
 #' @export
 as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   if (is.null(codes)) {
@@ -200,27 +240,41 @@ as.integer.interlacer_cfactor <- function(x, ...) {
   NextMethod()
 }
 
+#' `cfactor` re-coding functions
+#'
+#' TODO: Write this
+#'
+#' @param x a `cfactor()`
+#'
+#' @returns a vector of coded values
+#'
+#' @family cfactor utility functions
+#'
 #' @export
 as.codes <- function(x, ...) {
   UseMethod("as.codes")
 }
 
+#' @rdname as.codes
 #' @export
 as.codes.data.frame <- function(x, ...) {
   x[] <- map(x, \(c) as.codes(c, ...))
   x
 }
 
+#' @rdname as.codes
 #' @export
 as.codes.interlacer_interlaced <- function(x, ...) {
   bimap_interlaced(x, as.codes)
 }
 
+#' @rdname as.codes
 #' @export
 as.codes.default <- function(x, ...) {
   x
 }
 
+#' @rdname as.codes
 #' @export
 as.codes.interlacer_cfactor <- function(x, ...) {
   if (is.latent.cfactor(x)) {
