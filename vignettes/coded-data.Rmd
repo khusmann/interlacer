@@ -221,7 +221,9 @@ read_file(
   cat()
 ```
 
-Here, the same value codes are used as the previous example, except the missing reasons are coded as follows:
+In this example, the same value coding scheme is used for `favorite_color`
+as the previous example, except the missing reason channels are coded as
+follows:
 
 > ".": N/A
 >
