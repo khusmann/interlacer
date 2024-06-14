@@ -135,6 +135,40 @@ df_decoded |>
 as.codes(df_decoded)
 ```
 
+## SAS- and Stata-style codes
+
+Like SPSS, SAS and Stata will encode factor levels as numeric values, but instead of representing missing reasons as negative codes, they are given character codes:
+
+```{r}
+read_file(
+  interlacer_example("colors_coded_char.csv")
+) |>
+  cat()
+```
+
+In this example, the same value coding scheme is used for `favorite_color`
+as the previous example, except the missing reason channels are coded as
+follows:
+
+> ".": N/A
+>
+> ".a": REFUSED
+>
+> ".b": OMITTED
+
+These data can be easily loaded by interlacer into `cfactor()` types as
+follows:
+
+```{r}
+read_interlaced_csv(
+  interlacer_example("colors_coded_char.csv"),
+  col_types = x_cols(
+    favorite_color = v_col_cfactor(codes = c(BLUE = 1, RED = 2, YELLOW = 3)),
+  ),   
+  na = c(`N/A` = ".", REFUSED = ".a", OMITTED = ".b"),
+)
+```
+
 ## The `cfactor()` type
 
 interlacer's `cfactor()` type is an extension of base R's `factor()` type. 
@@ -207,40 +241,6 @@ can add codes to them via `as.cfactor()`:
 ```{r}
 as.cfactor(
   example_collapsed, codes = c(SOMETHING = -999, OTHER = -998)
-)
-```
-
-## SAS- and Stata-style codes
-
-Like SPSS, SAS and Stata will encode factor levels as numeric values, but instead of representing missing reasons as negative codes, they are given character codes:
-
-```{r}
-read_file(
-  interlacer_example("colors_coded_char.csv")
-) |>
-  cat()
-```
-
-In this example, the same value coding scheme is used for `favorite_color`
-as the previous example, except the missing reason channels are coded as
-follows:
-
-> ".": N/A
->
-> ".a": REFUSED
->
-> ".b": OMITTED
-
-These data can be easily loaded by interlacer into `cfactor()` types as
-follows:
-
-```{r}
-read_interlaced_csv(
-  interlacer_example("colors_coded_char.csv"),
-  col_types = x_cols(
-    favorite_color = v_col_cfactor(codes = c(BLUE = 1, RED = 2, YELLOW = 3)),
-  ),   
-  na = c(`N/A` = ".", REFUSED = ".a", OMITTED = ".b"),
 )
 ```
 
