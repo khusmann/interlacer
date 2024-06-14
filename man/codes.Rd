@@ -37,9 +37,4 @@ for the \code{cfactor}
 \description{
 Return the levels or codes of a \code{cfactor}
 }
-\seealso{
-Other cfactor utility functions: 
-\code{\link{as.cfactor}()},
-\code{\link{as.codes}()}
-}
-\concept{cfactor utility functions}
+\concept{cfactor attribute functions}

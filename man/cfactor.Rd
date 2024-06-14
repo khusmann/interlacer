@@ -30,4 +30,8 @@ a new \code{cfactor}
 \description{
 TODO: Write this
 }
-\concept{\code{cfactor} type constructors}
+\seealso{
+Other cfactor type constructors: 
+\code{\link{as.cfactor}()}
+}
+\concept{cfactor type constructors}

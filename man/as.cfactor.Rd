@@ -28,8 +28,7 @@ a new \code{cfactor}
 Add codes to a vector of labels
 }
 \seealso{
-Other cfactor utility functions: 
-\code{\link{as.codes}()},
-\code{\link{codes}()}
+Other cfactor type constructors: 
+\code{\link{cfactor}()}
 }
-\concept{cfactor utility functions}
+\concept{cfactor type constructors}

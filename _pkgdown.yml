@@ -27,3 +27,9 @@ reference:
   - has_concept("interlaced type constructors")
   - has_concept("interlaced type functions")
   - na_levels
+- title: The `cfactor` type
+  desc: Functions for working with the `cfactor` value type
+- contents:
+  - has_concept("cfactor type constructors")
+  - has_concept("cfactor attribute functions")
+  - has_concept("cfactor type functions")
