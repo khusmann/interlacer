@@ -144,3 +144,4 @@ with interlaced columns, flatten all interlaced columns, then write it to
 a file. Non-interlaced columns just pass through. The behavior of these
 functions match their similarly named counterparts in \link{readr}.
 }
+\concept{write functions}

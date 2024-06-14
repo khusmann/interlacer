@@ -15,3 +15,8 @@ An \code{interlaced} value
 \description{
 \code{na()} lifts a value into an \code{interlaced} missing reason channel.
 }
+\seealso{
+Other interlaced type constructors: 
+\code{\link{interlaced}()}
+}
+\concept{interlaced type constructors}

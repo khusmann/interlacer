@@ -23,3 +23,10 @@ The value or missing reasons channel
 \item \code{na_channel()} returns the missing reason channel of an \code{interlaced} vector
 }
 }
+\seealso{
+Other interlaced type functions: 
+\code{\link{flatten_channels}()},
+\code{\link{is.empty}()},
+\code{\link{map_value_channel}()}
+}
+\concept{interlaced type functions}

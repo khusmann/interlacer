@@ -11,6 +11,8 @@
 #'
 #' @returns An `interlaced` vector
 #'
+#' @family interlaced type constructors
+#'
 #' @export
 interlaced <- function(x, na=NULL) {
   if (is.character(na)) {
@@ -152,6 +154,8 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #'
 #' @returns An `interlaced` value
 #'
+#' @family interlaced type constructors
+#'
 #' @export
 na <- function(x = unspecified()) {
   if (is.logical(x) && all(is.na(x))) {
@@ -169,6 +173,8 @@ na <- function(x = unspecified()) {
 #' @param ... Additional arguments, not used
 #'
 #' @returns The value or missing reasons channel
+#'
+#' @family interlaced type functions
 #'
 #' @export
 value_channel <- function(x, ...) {
@@ -232,6 +238,8 @@ na_channel.data.frame <- function(x, ...) {
 #' @param ... Additional arguments, not used
 #'
 #' @returns The vector, flattened
+#'
+#' @family interlaced type functions
 #'
 #' @export
 flatten_channels <- function(x, ...) {
@@ -300,6 +308,9 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
 #' @param fn a function that maps values or missing reasons to new values
 #'
 #' @returns a new interlaced vector, modified according to the supplied function
+#'
+#' @family interlaced type functions
+#'
 #' @export
 map_value_channel <- function(x, fn) {
   new_interlaced(
@@ -558,6 +569,8 @@ levels.interlacer_interlaced <- function(x) {
 #'
 #' @returns a logical vector the same length as x, containing TRUE for all
 #' empty elements, and FALSE otherwise.
+#'
+#' @family interlaced type functions
 #'
 #' @export
 is.empty <- function(x) {
