@@ -16,27 +16,29 @@ knitr::opts_chunk$set(
 
 In addition to interlacing values and missing reasons, many statistical software
 packages will store categorical values and missing reasons as alphanumeric
-codes. These codes are often chosen so that numeric comparisons or casts can be
-used to determine if a value represents a real value or missing reason.
-Like 8-character variable name limits, this practice comes from a
-historical need to save digital storage space even if it made analyses less
-readable and more error-prone.
+codes. Working with these files can be a pain because the codes are often
+arbitrary
+[magic numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)#Unnamed_numerical_constants)
+that obfuscate the meaning of your syntax and results. To facilitate working
+with such data, interlacer provides a new `cfactor()` type. The `cfactor()`
+type allows you to attached labels to coded data and work with it as a regular
+R factor. Unlike regular R `factor()` types, however, `cfactors()` can be
+converted back into their coded representation at any time (whereas R `factor()`
+types lose their original codes).
 
-Even though storage is cheap these days, coded formats continue to be the
-standard format used
-by statistical software packages like SPSS, SAS, and Stata. This article
-will describe these common coding schemes and how they can be decoded and
-deinterlaced to make them easier to work with in R.
+### ⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️
 
-## Numeric codes with negative missing reasons (SPSS)
+`cfactors()` are an extremely experimental feature and have not been thoroughly
+tested yet! I'm sharing them in a super pre-alpha, untested state to get
+feedback on them before I invest more time polishing their implementation.
 
-It's extremely common to find data sources that encode all categorical responses
-as numeric values, with negative values representing missing reason codes. SPSS
-is one such example. Here's an SPSS-formatted version of the `colors.csv`
-example:
+## SPSS-style codes
+
+As a motivating example, consider this coded version of the `colors.csv` example:
 
 ```{r}
 library(readr)
+library(dplyr, warn.conflicts = FALSE)
 library(interlacer, warn.conflicts = FALSE)
 
 read_file(
@@ -61,135 +63,156 @@ And colors are coded:
 >
 > `3`: YELLOW
 
-This format gives you the ability to load everything as a numeric type:
+This style of coding, with positive values representing categorical levels and
+negative values representing missing values, is a common format used by SPSS.
+
+These data can be loaded as interlaced numeric values as follows:
 
 ```{r}
-(df_coded <- read_csv(
+(df_coded <- read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
-  col_types = "n"
+  na = c(-99, -98, -97),
+  show_col_types = FALSE
 ))
 ```
 
-To test if a value is a missing code, you can check if it's less than 0:
-
-```{r}
-library(dplyr, warn.conflicts = FALSE)
-
-df_coded |>
-  mutate(
-    age = if_else(age > 0, age, NA)
-  ) |>
-  summarize(
-    mean_age = mean(age, na.rm = TRUE),
-    n = n(),
-    .by = favorite_color
-  ) |>
-  arrange(favorite_color)
-```
-
-The downsides of this approach are twofold: 1) all of your values and 
-missing reasons become codes you have to remember and 2) it's really easy to
-make mistakes.
-
-What sort of mistakes? Well, because everything is numeric, there's nothing
-stopping us from treating missing reason codes as if they are regular values...
-If you forget to remove your missing reason codes, R will still happily
-compute aggregations using the negative numbers!
+This representation is awkward to work with because the codes are meaningless
+and obfuscate the significance of any code you write or any results you output.
+If you wanted select everyone with a `BLUE` favorite color, for example, you
+would write:
 
 ```{r}
 df_coded |>
-  mutate(
-#    age = if_else(age > 0, age, NA)
-  ) |>
-  summarize(
-    mean_age = mean(age, na.rm = TRUE),
-    n = n(),
-    .by = favorite_color
-  ) |>
-  arrange(favorite_color)
+  filter(favorite_color == 1)
 ```
 
-In fact, ANY math you do without filtering for missing codes potentially ruins
-the integrity of your data:
+Similarly, if you wanted to filter for `OMITTED` favorite colors, you would
+write:
 
 ```{r}
-# This will add 1 to the age values, but ALSO add one to all of the missing
-# reason codes, resulting in corrupted data!
 df_coded |>
-  mutate(
-    age_next_year = age + 1,
-  )
-
-# This will give you your intended result, but it's easy to forget
-df_coded |>
-  mutate(
-    age_next_year = if_else(age < 0, age, age + 1),
-  )
+  filter(favorite_color == na(-97))
 ```
 
-Have you ever thought you had a significant result, only to find that it's
-only because there are some stray missing reason codes still interlaced with
-your values? It's a bad time.
-
-You're much better off loading these formats with interlacer as factors, then
-converting the codes into labels:
+To make these data more ergnomic to work with, you can use interlacer's
+`v_col_cfactor()` and `na_vol_cfactor()` collector types to load these values
+as a `cfactor()` type instead, which allows you to associate codes with
+human-readable labels:
 
 ```{r}
 (df_decoded <- read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
-  na = c(-99, -98, -97),
-  show_col_types = FALSE,
-) |>
-  mutate(
-    across(
-      everything(),
-      \(x) map_na_channel(
-        x,
-        \(v) factor(
-          v,
-          levels = c(-99, -98, -97),
-          labels = c("N/A", "REFUSED", "OMITTED"),
-        )
-      )
-    ),
-    favorite_color = map_value_channel(
-      favorite_color,
-      \(v) factor(
-        v,
-        levels = c(1, 2, 3),
-        labels = c("BLUE", "RED", "YELLOW")
-      )
-    ),
-  ))
+  col_types = x_cols(
+    favorite_color = v_col_cfactor(codes = c(BLUE = 1, RED = 2, YELLOW = 3)),
+  ),
+  na = na_col_cfactor(REFUSED = -99, OMITTED = -98, `N/A` = -97)
+))
 ```
 
-Now aggregations won't mix up values and missing codes, and you won't have to
-keep cross-referencing your codebook to know what values mean:
+Now human-readable labels, instead of the magic codes, can be used when working
+with the data:
 
 ```{r}
 df_decoded |>
-  summarize(
-    mean_age = mean(age, na.rm = TRUE),
-    n = n(),
-    .by = favorite_color
-  ) |>
-  arrange(favorite_color)
+  filter(favorite_color == "BLUE")
+
+df_decoded |>
+  filter(favorite_color == na("OMITTED"))
 ```
 
-Other operations work with similar ease:
+But you can still convert the labels of values or missing reasons back to codes
+if you wish, using `as.codes()`:
 
 ```{r}
+# Selectively re-code value or missing reason channels
 df_decoded |>
   mutate(
-    age_next_year = age + 1,
+    age = map_na_channel(age, as.codes),
+    favorite_color = map_value_channel(favorite_color, as.codes)
   )
+
+# Or, re-code the entire data frame:
+as.codes(df_decoded)
 ```
 
-## Numeric codes with character missing reasons (SAS, Stata)
+## The `cfactor()` type
 
-Like SPSS, SAS and Stata will encode factor levels as numeric values, but
-instead of representing missing reasons as negative codes, they are given
-character codes:
+interlacer's `cfactor()` type is an extension of base R's `factor()` type. 
+They are created from `numeric` or `character` codes using the `cfactor()`
+function:
+
+```{r}
+(example_cfactor <- cfactor(
+  c(10, 20, 30, 10, 20, 30),
+  codes = c(LEVEL_A = 10, LEVEL_B = 20, LEVEL_C = 30)
+))
+
+(example_cfactor2 <- cfactor(
+  c("a", "b", "c", "a", "b", "c"),
+  codes = c(LEVEL_A = "a", LEVEL_B = "b", LEVEL_C = "c")
+))
+```
+
+`cfactor()` types can be used interchangably with regular `factor()` types: 
+
+```{r}
+is.factor(example_cfactor)
+levels(example_cfactor)
+
+is.factor(example_cfactor2)
+levels(example_cfactor2)
+```
+
+But unlike a regular `factor()`, a `cfactor()` additionally stores the codes
+for the factor levels. This means you can convert it back into its coded
+representation at any time, if desired:
+
+```{r}
+codes(example_cfactor)
+as.codes(example_cfactor)
+
+codes(example_cfactor2)
+as.codes(example_cfactor2)
+```
+
+IMPORTANT: The `as.numeric()` and `as.integer()` functions do not convert a
+`cfactor()` with numeric codes into its coded representation. Instead, in order
+to retain full compatibility with the base R `factor()` type, it always returns
+a result coded by the *index* of each level in the factor:
+
+```{r}
+as.numeric(example_cfactor)
+as.numeric(example_cfactor2)
+```
+
+When the levels are changed, the `cfactor()` will drop its codes and degrade
+into a regular R factor:
+
+```{r}
+library(forcats)
+
+(example_collapsed <- fct_collapse(
+  example_cfactor,
+  SOMETHING = "LEVEL_A",
+  OTHER = c("LEVEL_B", "LEVEL_C")
+))
+
+levels(example_collapsed)
+codes(example_collapsed)
+```
+
+Finally, if you have a base R `factor()` or character vector of labels, you
+can add codes to them via `as.cfactor()`:
+
+```{r}
+as.cfactor(
+  example_collapsed, codes = c(SOMETHING = -999, OTHER = -998)
+)
+```
+
+## SAS- and Stata-style codes
+
+Like SPSS, SAS and Stata will encode factor levels as numeric values, but instead of representing missing reasons as negative codes, they are given character codes:
 
 ```{r}
 read_file(
@@ -198,106 +221,35 @@ read_file(
   cat()
 ```
 
-Here, the same value codes are used as the previous example, except the missing
-reasons are coded as follows:
+Here, the same value codes are used as the previous example, except the missing reasons are coded as follows:
 
-> `"."`: N/A
+> ".": N/A
 >
-> `".a"`: REFUSED
+> ".a": REFUSED
 >
-> `".b"`: OMITTED
+> ".b": OMITTED
 
-To handle these missing reasons without interlacer, columns must be loaded as
-character vectors:
-
-```{r}
-(df_coded_char <- read_csv(
-  interlacer_example("colors_coded_char.csv"),
-  col_types = "c"
-))
-```
-
-To test if a value is missing, they can be cast to numeric types. If the cast fails,
-you know it's a missing code. If it is successful, you know it's a coded value.
-
-```{r}
-df_coded_char |>
-  mutate(
-    age = if_else(!is.na(as.numeric(age)), as.numeric(age), NA)
-  ) |>
-  summarize(
-    mean_age = mean(age, na.rm = TRUE),
-    n = n(),
-    .by = favorite_color
-  ) |>
-  arrange(favorite_color)
-```
-
-Although the character missing codes help prevent us from mistakenly including
-missing codes in value aggregations, having to cast our columns to numeric
-all the time to check for missingness is hardly ergonomic, and generates
-annoying warnings. Like before, it's easier to import with interlacer and
-decode the values and missing reasons:
+These data can be easily loaded by interlacer into `cfactor()` types as
+follows:
 
 ```{r}
 read_interlaced_csv(
   interlacer_example("colors_coded_char.csv"),
-  na = c(".", ".a", ".b"),
-  show_col_types = FALSE,
-) |>
-  mutate(
-    across(
-      everything(),
-      \(x) map_na_channel(
-        x,
-        \(v) factor(
-          v,
-          levels = c(".", ".a", ".b"),
-          labels = c("N/A", "REFUSED", "OMITTED")
-        )
-      )
-    ),
-    favorite_color = map_value_channel(
-      favorite_color,
-      \(v) factor(
-        v,
-        levels = c(1, 2, 3),
-        labels = c("BLUE", "RED", "YELLOW")
-      )
-    )
-  )
+  col_types = x_cols(
+    favorite_color = v_col_cfactor(codes = c(BLUE = 1, RED = 2, YELLOW = 3)),
+  ),   
+  na = c(`N/A` = ".", REFUSED = ".a", OMITTED = ".b"),
+)
 ```
 
-## Encoding a decoded & deinterlaced data frame.
+## Re-coding and writing a decoded & deinterlaced data frame.
 
-Re-coding and re-interlacing a data frame can be done as follows:
+Re-coding and writing an interlaced data frame is as simple as calling `as.codes()`
+and one of the `write_interlaced_*()` family of functions:
 
 ```{r, eval = FALSE}
-library(forcats)
-
 df_decoded |>
-  mutate(
-    across(
-      everything(),
-      \(x) map_na_channel(
-        x,
-        \(v) fct_recode(v,
-          `-99` = "N/A",
-          `-98` = "REFUSED",
-          `-97` = "OMITTED"
-        )
-      )
-    ),
-    favorite_color = map_value_channel(
-      favorite_color,
-      \(v) fct_recode(
-        v,
-        `1` = "BLUE",
-        `2` = "RED",
-        `3` = "YELLOW"
-      )
-    )
-  ) |>
+  as.codes() |>
   write_interlaced_csv("output.csv")
 ```
 
@@ -306,5 +258,5 @@ df_decoded |>
 The [haven](https://haven.tidyverse.org/) package has functions for loading
 native SPSS, SAS, and Stata native file formats into
 special data frames that use column attributes and special values to keep track
-of interlaced values and missing reasons. For a complete discussion of how this
+of value labels and missing reasons. For a complete discussion of how this
 compares to interlacer's approach, see `vignette("other-approaches")`.
