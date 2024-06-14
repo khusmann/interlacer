@@ -25,6 +25,11 @@ as.value_collector.interlacer_value_collector <- function(x) {
   x
 }
 
+#' @export
+as.value_collector.character <- function(x) {
+  as.value_collector(col_concise(x))
+}
+
 value_collector <- function(
   type,
   impl,
@@ -58,9 +63,9 @@ print.interlacer_value_collector <- function(x, ...) {
 #' @export
 v_col_cfactor <- function(codes, ordered = FALSE) {
   if (is.character(codes)) {
-    impl <- readr::col_character()
+    impl <- vroom::col_character()
   } else if (is.numeric(codes)) {
-    impl <- readr::col_integer()
+    impl <- vroom::col_integer()
   } else {
     cli_abort("{.arg codes} must be character or numeric")
   }
@@ -82,7 +87,7 @@ v_col_cfactor <- function(codes, ordered = FALSE) {
 v_col_character <- function() {
   value_collector(
     "character",
-    readr::col_character(),
+    vroom::col_character(),
     color = readr_col_color("character")
   )
 }
@@ -91,7 +96,7 @@ v_col_character <- function() {
 v_col_date <- function(format = "") {
   value_collector(
     "date",
-    readr::col_date(format),
+    vroom::col_date(format),
     list(format = format),
     color = readr_col_color("date")
   )
@@ -101,7 +106,7 @@ v_col_date <- function(format = "") {
 v_col_datetime <- function(format = "") {
   value_collector(
     "datetime",
-    readr::col_datetime(format),
+    vroom::col_datetime(format),
     list(format = format),
     color = readr_col_color("datetime")
   )
@@ -111,7 +116,7 @@ v_col_datetime <- function(format = "") {
 v_col_double <- function() {
   value_collector(
     "double",
-    readr::col_double(),
+    vroom::col_double(),
     color = readr_col_color("double")
   )
 }
@@ -120,7 +125,7 @@ v_col_double <- function() {
 v_col_factor <- function(levels = NULL, ordered = FALSE) {
   value_collector(
     "factor",
-    readr::col_factor(levels, ordered),
+    vroom::col_factor(levels, ordered),
     list(levels = levels, ordered = ordered),
     color = readr_col_color("factor")
   )
@@ -130,7 +135,7 @@ v_col_factor <- function(levels = NULL, ordered = FALSE) {
 v_col_guess <- function() {
   value_collector(
     "guess",
-    readr::col_guess(),
+    vroom::col_guess(),
     color = readr_col_color("guess")
   )
 }
@@ -139,7 +144,7 @@ v_col_guess <- function() {
 v_col_integer <- function() {
   value_collector(
     "integer",
-    readr::col_integer(),
+    vroom::col_integer(),
     color = readr_col_color("integer")
   )
 }
@@ -148,7 +153,7 @@ v_col_integer <- function() {
 v_col_logical <- function() {
   value_collector(
     "logical",
-    readr::col_logical(),
+    vroom::col_logical(),
     color = readr_col_color("logical")
   )
 }
@@ -157,7 +162,7 @@ v_col_logical <- function() {
 v_col_number <- function() {
   value_collector(
     "number",
-    readr::col_number(),
+    vroom::col_number(),
     color = readr_col_color("number")
   )
 }
@@ -166,12 +171,12 @@ v_col_number <- function() {
 v_col_skip <- function() {
   value_collector(
     "skip",
-    readr::col_skip(),
+    vroom::col_skip(),
     color = readr_col_color("skip")
   )
 }
 
 #' @export
 v_col_time <- function(format = "") {
-  value_collector("time", readr::col_time(format), list(format = format))
+  value_collector("time", vroom::col_time(format), list(format = format))
 }
