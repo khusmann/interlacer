@@ -231,27 +231,10 @@ as.factor.interlacer_cfactor <- function(x, ...) {
   x
 }
 
-#' @export
-as.double.interlacer_cfactor <- function(x, ...) {
-  if (is.numeric(codes(x))) {
-    cli_warn(c(
-      "Converting cfactor to double: values will not necessarily match codes",
-      i = "To obtain a coded representation, use as.codes() instead."
-    ))
-  }
-  NextMethod()
-}
-
-#' @export
-as.integer.interlacer_cfactor <- function(x, ...) {
-  if (is.numeric(codes(x))) {
-    cli_warn(c(
-      "Converting cfactor to integer: values will not necessarily match codes",
-      i = "To obtain a coded representation, use as.codes() instead."
-    ))
-  }
-  NextMethod()
-}
+## I used to warn on conversion to double / integer, but this created annoying
+## messages with functions like fct_drop() because it uses table() under the
+## hood which calls as.integer(). ggplot's geom_histogram() also converts to
+## integer
 
 #' `cfactor` re-coding functions
 #'
