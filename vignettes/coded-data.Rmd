@@ -97,7 +97,7 @@ df_coded |>
 ```
 
 To make these data more ergnomic to work with, you can use interlacer's
-`v_col_cfactor()` and `na_vol_cfactor()` collector types to load these values
+`v_col_cfactor()` and `na_col_cfactor()` collector types to load these values
 as a `cfactor()` type instead, which allows you to associate codes with
 human-readable labels:
 
