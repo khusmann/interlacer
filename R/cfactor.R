@@ -510,15 +510,16 @@ vec_cast.factor.interlacer_cfactor <- function(
     return(vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg))
   }
 
-  maybe_lossy_cast(
-    vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg),
-    x = x,
-    to = to,
-    lossy = rep_along(x, TRUE),
-    loss_type = "generality",
-    x_arg = x_arg,
-    to_arg = to_arg
-  )
+  # On the one hand, stripping codes is technically a lossy cast because
+  # we lose the codes, but on the other hand, vctrs allows casting from
+  # regular factors to character, and you could consider that lossy as well
+  # because we lose information captured by the levels() attribute!
+  #
+  # So I think we interpret "lossy" here in the same way; that is, we're not
+  # losing any information in the data (as you do when casting double->int),
+  # instead when we lose codes ore levels we're losing information about the
+  # *representation* of the data, which we care less about.
+  vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg)
 }
 
 #' @export
