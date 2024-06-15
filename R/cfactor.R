@@ -213,7 +213,7 @@ as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
     )
   } else {
     codes <- fix_codes_arg(codes)
-    if (!setequal(levels(x), names(codes))) {
+    if (!all(levels(x) %in% names(codes))) {
       cli_abort("mismatch between factor levels and code labels")
     }
   }
