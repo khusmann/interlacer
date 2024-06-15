@@ -202,7 +202,7 @@ ex |>
     mean_age = mean(age, na.rm = TRUE),
     n = n(),
     .by = favorite_color
-  ) %>%
+  ) |>
   arrange(favorite_color)
 #> # A tibble: 6 × 3
 #>   favorite_color mean_age     n
