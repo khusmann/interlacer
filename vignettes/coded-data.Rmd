@@ -19,7 +19,9 @@ packages will store categorical values and missing reasons as alphanumeric
 codes. Working with these files can be a pain because the codes are often
 arbitrary
 [magic numbers](https://en.wikipedia.org/wiki/Magic_number_(programming)#Unnamed_numerical_constants)
-that obfuscate the meaning of your syntax and results. To facilitate working
+that obfuscate the meaning of your syntax and results.
+
+To facilitate working
 with such data, interlacer provides a new `cfactor()` type. The `cfactor()`
 type allows you to attached labels to coded data and work with it as a regular
 R factor. Unlike regular R `factor()` types, however, `cfactors()` can be
@@ -132,7 +134,11 @@ df_decoded |>
   )
 
 # Or, re-code the entire data frame:
-as.codes(df_decoded)
+df_decoded |>
+  mutate(
+    across_value_channels(where_value_channel(is.cfactor), as.codes),
+    across_na_channels(where_na_channel(is.cfactor), as.codes),
+  )
 ```
 
 ## SAS- and Stata-style codes
@@ -246,12 +252,16 @@ as.cfactor(
 
 ## Re-coding and writing a decoded & deinterlaced data frame.
 
-Re-coding and writing an interlaced data frame is as simple as calling `as.codes()`
-and one of the `write_interlaced_*()` family of functions:
+Re-coding and writing an interlaced data frame is as simple as calling
+`as.codes()` on all `cfactor()` type value and missing reason channels, and then
+calling one of the `write_interlaced_*()` family of functions:
 
 ```{r, eval = FALSE}
 df_decoded |>
-  as.codes() |>
+  mutate(
+    across_value_channels(where_value_channel(is.cfactor), as.codes),
+    across_na_channels(where_na_channel(is.cfactor), as.codes),
+  ) |>
   write_interlaced_csv("output.csv")
 ```
 

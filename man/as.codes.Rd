@@ -2,19 +2,13 @@
 % Please edit documentation in R/cfactor.R
 \name{as.codes}
 \alias{as.codes}
-\alias{as.codes.data.frame}
 \alias{as.codes.interlacer_interlaced}
-\alias{as.codes.default}
 \alias{as.codes.interlacer_cfactor}
 \title{\code{cfactor} re-coding functions}
 \usage{
 as.codes(x, ...)
 
-\method{as.codes}{data.frame}(x, ...)
-
 \method{as.codes}{interlacer_interlaced}(x, ...)
-
-\method{as.codes}{default}(x, ...)
 
 \method{as.codes}{interlacer_cfactor}(x, ...)
 }
