@@ -22,17 +22,17 @@ arbitrary
 that obfuscate the meaning of your syntax and results.
 
 To facilitate working
-with such data, interlacer provides a new `cfactor()` type. The `cfactor()`
-type allows you to attached labels to coded data and work with it as a regular
-R factor. Unlike regular R `factor()` types, however, `cfactors()` can be
-converted back into their coded representation at any time (whereas R `factor()`
-types lose their original codes).
+with such data, interlacer provides a new `cfactor` type. The `cfactor`
+allows you to attached labels to coded data and work with it as a regular
+R `factor`. Unlike a regular R `factor` however, a `cfactor` can be
+converted back into its coded representation at any time (whereas R `factor`
+values lose their original codes).
 
 ### ⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️
 
-`cfactors()` are an extremely experimental feature and have not been thoroughly
-tested yet! I'm sharing them in a super pre-alpha, untested state to get
-feedback on them before I invest more time polishing their implementation.
+The `cfactor` type is an extremely experimental feature and has not been
+thoroughly tested yet! I'm sharing them in a super pre-alpha, untested state to
+get feedback on them before I invest more time polishing their implementation.
 
 ## SPSS-style codes
 
@@ -98,7 +98,7 @@ df_coded |>
 
 To make these data more ergnomic to work with, you can use interlacer's
 `v_col_cfactor()` and `na_col_cfactor()` collector types to load these values
-as a `cfactor()` type instead, which allows you to associate codes with
+as a `cfactor` instead, which allows you to associate codes with
 human-readable labels:
 
 ```{r}
@@ -162,8 +162,8 @@ follows:
 >
 > ".b": OMITTED
 
-These data can be easily loaded by interlacer into `cfactor()` types as
-follows:
+These data can be easily loaded by interlacer into a `cfactor` missing reason
+channel as follows:
 
 ```{r}
 read_interlaced_csv(
@@ -175,9 +175,9 @@ read_interlaced_csv(
 )
 ```
 
-## The `cfactor()` type
+## The `cfactor` type
 
-interlacer's `cfactor()` type is an extension of base R's `factor()` type. 
+The `cfactor` is an extension of base R's `factor` type. 
 They are created from `numeric` or `character` codes using the `cfactor()`
 function:
 
@@ -193,7 +193,7 @@ function:
 ))
 ```
 
-`cfactor()` types can be used interchangably with regular `factor()` types: 
+`cfactor` vectors can be used as if it was a regular base R `factor`: 
 
 ```{r}
 is.factor(example_cfactor)
@@ -203,7 +203,7 @@ is.factor(example_cfactor2)
 levels(example_cfactor2)
 ```
 
-But unlike a regular `factor()`, a `cfactor()` additionally stores the codes
+But unlike a regular `factor`, a `cfactor` additionally stores the codes
 for the factor levels. This means you can convert it back into its coded
 representation at any time, if desired:
 
@@ -216,8 +216,8 @@ as.codes(example_cfactor2)
 ```
 
 IMPORTANT: The `as.numeric()` and `as.integer()` functions do not convert a
-`cfactor()` with numeric codes into its coded representation. Instead, in order
-to retain full compatibility with the base R `factor()` type, it always returns
+`cfactor` with numeric codes into its coded representation. Instead, in order
+to retain full compatibility with the base R `factor` type, it always returns
 a result coded by the *index* of each level in the factor:
 
 ```{r}
@@ -225,7 +225,7 @@ as.numeric(example_cfactor)
 as.numeric(example_cfactor2)
 ```
 
-When the levels are changed, the `cfactor()` will drop its codes and degrade
+When the levels are changed, the `cfactor` will drop its codes and degrade
 into a regular R factor:
 
 ```{r}
@@ -241,7 +241,7 @@ levels(example_collapsed)
 codes(example_collapsed)
 ```
 
-Finally, if you have a base R `factor()` or character vector of labels, you
+Finally, if you have a base R `factor` or character vector of labels, you
 can add codes to them via `as.cfactor()`:
 
 ```{r}
@@ -253,7 +253,7 @@ as.cfactor(
 ## Re-coding and writing a decoded & deinterlaced data frame.
 
 Re-coding and writing an interlaced data frame is as simple as calling
-`as.codes()` on all `cfactor()` type value and missing reason channels, and then
+`as.codes()` on all `cfactor` type value and missing reason channels, and then
 calling one of the `write_interlaced_*()` family of functions:
 
 ```{r, eval = FALSE}
