@@ -1,49 +1,3 @@
-#' @export
-as.na_collector <- function(x) {
-  UseMethod("as.na_collector")
-}
-
-#' @export
-as.na_collector.default <- function(x) {
-  cli_abort("Cannot convert {class(x)[[1]]} to na collector")
-}
-
-#' @export
-as.na_collector.interlacer_na_collector <- function(x) x
-
-#' @export
-as.na_collector.NULL <- function(x) {
-  na_col_none()
-}
-
-#' @export
-as.na_collector.character <- function(x) {
-  if (is.null(names(x))) {
-    inject(na_col_factor(!!!x))
-  } else {
-    inject(na_col_cfactor(!!!x))
-  }
-}
-
-#' @export
-as.na_collector.integer <- function(x) {
-  if (is.null(names(x))) {
-    inject(na_col_integer(!!!x))
-  } else {
-    inject(na_col_cfactor(!!!x))
-  }
-}
-
-#' @export
-as.na_collector.double <- function(x) {
-  if (is.null(names(x))) {
-    inject(na_col_integer(!!!x))
-  } else {
-    inject(na_col_cfactor(!!!x))
-  }
-}
-
-#' @export
 na_collector <- function(type, values, chr_values, args, color) {
   structure(
     list(
@@ -61,6 +15,17 @@ is.na_collector <- function(x) {
   inherits(x, "interlacer_na_collector")
 }
 
+#' Missing reason collectors
+#'
+#' TODO: Write me
+#'
+#' @param ... values to interpret as missing values. In the case of
+#' `na_col_cfactor()`, arguments must be named.
+#
+#' @returns a new missing reason collector object
+#'
+#' @family missing reason collector constructors
+#'
 #' @export
 na_col_default <- function() {
   na_collector(
@@ -72,6 +37,7 @@ na_col_default <- function() {
   )
 }
 
+#' @rdname na_col_default
 #' @export
 na_col_none <- function() {
   na_collector(
@@ -83,6 +49,7 @@ na_col_none <- function() {
   )
 }
 
+#' @rdname na_col_default
 #' @export
 na_col_integer <- function(...) {
   values <- list_c(list2(...))
@@ -104,6 +71,7 @@ na_col_integer <- function(...) {
   )
 }
 
+#' @rdname na_col_default
 #' @export
 na_col_factor <- function(...) {
   values <- list_c(list2(...))
@@ -125,6 +93,7 @@ na_col_factor <- function(...) {
   )
 }
 
+#' @rdname na_col_default
 #' @export
 na_col_cfactor <- function(...) {
   values <- list_c(list2(...))
@@ -154,8 +123,65 @@ print.interlacer_na_collector <- function(x, ...) {
   cat(paste0("<interlacer_na_collector>\n", format(x)))
 }
 
+#' Missing reason collector shortcuts
+#'
+#' TODO: Write me
+#'
+#' @param x a value to convert into an `na_col_*()` object
+#
+#' @returns a new missing reason collector object
+#'
+#' @family missing reason collector shortcuts
+#'
 #' @export
-x_spec <- function(x) {
-  stopifnot(inherits(x, "tbl_df"))
-  attr(x, "x_spec")
+as.na_collector <- function(x) {
+  UseMethod("as.na_collector")
+}
+
+#' @rdname as.na_collector
+#' @export
+as.na_collector.default <- function(x) {
+  cli_abort("Cannot convert {class(x)[[1]]} to na collector")
+}
+
+#' @rdname as.na_collector
+#' @export
+as.na_collector.interlacer_na_collector <- function(x) x
+
+## Do not rdname here, because NULL creates warning in pkgdown site generation
+## More info: https://github.com/r-lib/roxygen2/issues/906
+## Fix: https://github.com/ssi-dk/SCDB/pull/51
+#' @export
+as.na_collector.NULL <- function(x) {
+  na_col_none()
+}
+
+#' @rdname as.na_collector
+#' @export
+as.na_collector.character <- function(x) {
+  if (is.null(names(x))) {
+    inject(na_col_factor(!!!x))
+  } else {
+    inject(na_col_cfactor(!!!x))
+  }
+}
+
+#' @rdname as.na_collector
+#' @export
+as.na_collector.integer <- function(x) {
+  if (is.null(names(x))) {
+    inject(na_col_integer(!!!x))
+  } else {
+    inject(na_col_cfactor(!!!x))
+  }
+}
+
+#' @rdname as.na_collector
+#' @export
+as.na_collector.double <- function(x) {
+  if (is.null(names(x))) {
+    inject(na_col_integer(!!!x))
+  } else {
+    inject(na_col_cfactor(!!!x))
+  }
 }

@@ -1,35 +1,3 @@
-#' @export
-as.value_collector <- function(x) {
-  UseMethod("as.value_collector")
-}
-
-#' @export
-as.value_collector.collector <- function(x) {
-  type <- gsub("collector_", "", class(x)[[1]])
-  value_collector(type, x, unclass(x), color = readr_col_color(type))
-}
-
-#' @export
-as.value_collector.collector_factor <- function(x) {
-  args <- unclass(x)
-  if (args$include_na) {
-    cli_warn("{.arg include_na} not supported by interlacer value collectors")
-    x$include_na <- FALSE
-  }
-  args$include_na <- NULL
-  value_collector("factor", x, args, color = readr_col_color("factor"))
-}
-
-#' @export
-as.value_collector.interlacer_value_collector <- function(x) {
-  x
-}
-
-#' @export
-as.value_collector.character <- function(x) {
-  as.value_collector(col_concise(x))
-}
-
 value_collector <- function(
   type,
   impl,
@@ -60,6 +28,32 @@ print.interlacer_value_collector <- function(x, ...) {
   cat(paste0("<interlacer_value_collector>\n", format(x)))
 }
 
+#' Value collectors
+#'
+#' TODO: Write me
+#'
+#' @param levels Character vector of the allowed levels. When levels = `NULL`
+#' (the default), levels are discovered from the unique values of x, in the
+#' order in which they appear in x.
+#' @param codes A named vector of unique codes that declares the mapping of labels
+#' to codes.
+#' @param ordered Is it an ordered factor?
+#' @param format A format specification, as described in `readr::col_datetime()`
+#
+#' @returns a new value collector object
+#'
+#' @family value collector constructors
+#'
+#' @export
+v_col_guess <- function() {
+  value_collector(
+    "guess",
+    vroom::col_guess(),
+    color = readr_col_color("guess")
+  )
+}
+
+#' @rdname v_col_guess
 #' @export
 v_col_cfactor <- function(codes, ordered = FALSE) {
   if (is.character(codes)) {
@@ -83,6 +77,7 @@ v_col_cfactor <- function(codes, ordered = FALSE) {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_character <- function() {
   value_collector(
@@ -92,6 +87,7 @@ v_col_character <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_date <- function(format = "") {
   value_collector(
@@ -102,6 +98,7 @@ v_col_date <- function(format = "") {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_datetime <- function(format = "") {
   value_collector(
@@ -112,6 +109,7 @@ v_col_datetime <- function(format = "") {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_double <- function() {
   value_collector(
@@ -121,6 +119,7 @@ v_col_double <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_factor <- function(levels = NULL, ordered = FALSE) {
   value_collector(
@@ -131,15 +130,7 @@ v_col_factor <- function(levels = NULL, ordered = FALSE) {
   )
 }
 
-#' @export
-v_col_guess <- function() {
-  value_collector(
-    "guess",
-    vroom::col_guess(),
-    color = readr_col_color("guess")
-  )
-}
-
+#' @rdname v_col_guess
 #' @export
 v_col_integer <- function() {
   value_collector(
@@ -149,6 +140,7 @@ v_col_integer <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_big_integer <- function() {
   value_collector(
@@ -158,6 +150,7 @@ v_col_big_integer <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_logical <- function() {
   value_collector(
@@ -167,6 +160,7 @@ v_col_logical <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_number <- function() {
   value_collector(
@@ -176,6 +170,7 @@ v_col_number <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_skip <- function() {
   value_collector(
@@ -185,7 +180,59 @@ v_col_skip <- function() {
   )
 }
 
+#' @rdname v_col_guess
 #' @export
 v_col_time <- function(format = "") {
   value_collector("time", vroom::col_time(format), list(format = format))
+}
+
+#' Value collector shortcuts
+#'
+#' TODO: Write me
+#'
+#' @param x a value to convert into an `v_col_*()` object
+#
+#' @returns a new value collector object
+#'
+#' @family value collector shortcuts
+#'
+#' @export
+as.value_collector <- function(x) {
+  UseMethod("as.value_collector")
+}
+
+#' @export
+as.value_collector.default <- function(x) {
+  cli_abort("Cannot convert {class(x)[[1]]} to x collector")
+}
+
+#' @rdname as.value_collector
+#' @export
+as.value_collector.collector <- function(x) {
+  type <- gsub("collector_", "", class(x)[[1]])
+  value_collector(type, x, unclass(x), color = readr_col_color(type))
+}
+
+#' @rdname as.value_collector
+#' @export
+as.value_collector.collector_factor <- function(x) {
+  args <- unclass(x)
+  if (args$include_na) {
+    cli_warn("{.arg include_na} not supported by interlacer value collectors")
+    x$include_na <- FALSE
+  }
+  args$include_na <- NULL
+  value_collector("factor", x, args, color = readr_col_color("factor"))
+}
+
+#' @rdname as.value_collector
+#' @export
+as.value_collector.interlacer_value_collector <- function(x) {
+  x
+}
+
+#' @rdname as.value_collector
+#' @export
+as.value_collector.character <- function(x) {
+  as.value_collector(col_concise(x))
 }

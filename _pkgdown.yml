@@ -21,6 +21,15 @@ reference:
   - has_concept("write functions")
   - parse_interlaced
   - interlacer_example
+- title: Extended column type specification
+- contents:
+  - has_concept("extended column specification constructors")
+  - has_concept("extended collector constructors")
+  - has_concept("value collector constructors")
+  - has_concept("missing reason collector constructors")
+  - has_concept("value collector shortcuts")
+  - has_concept("missing reason collector shortcuts")
+  - x_spec
 - title: The `interlaced` type
   desc:  Functions for working with the `interlaced` type
 - contents:
