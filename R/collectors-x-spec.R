@@ -1,15 +1,37 @@
+#' Extended column specifications
+#'
+#' TODO: Write me
+#'
+#' @param ... a named argument list of extended collector objects
+#' @param .default a default value collector
+#
+#' @returns a new extended column specification
+#'
+#' @family extended column specification constructors
+#'
 #' @export
 x_cols <- function(..., .default = v_col_guess()) {
   col_types <- list2(...)
   x_col_spec(col_types, .default)
 }
 
+#' @rdname x_cols
 #' @export
 x_cols_only <- function(...) {
   col_types <- list2(...)
   x_col_spec(col_types, v_col_skip())
 }
 
+#' Extended column specification coercions
+#'
+#' TODO: Write me
+#'
+#' @param x a value to coerce into an extended column specification
+#
+#' @returns a new extended column specification
+#'
+#' @family extended column specification constructors
+#'
 #' @export
 as.x_col_spec <- function(x) {
   UseMethod("as.x_col_spec")
@@ -26,21 +48,25 @@ as.x_col_spec.default <- function(x) {
   cli_abort("{.fn as.x_col_spec} not implemented for {class(x)[[1]]}")
 }
 
+#' @rdname as.x_col_spec
 #' @export
 as.x_col_spec.interlacer_x_col_spec <- function(x) {
   x
 }
 
+#' @rdname as.x_col_spec
 #' @export
 as.x_col_spec.col_spec <- function(x) {
   x_col_spec(x$cols, x$default)
 }
 
+#' @rdname as.x_col_spec
 #' @export
 as.x_col_spec.list <- function(x) {
   inject(x_cols(!!!x))
 }
 
+#' @rdname as.x_col_spec
 #' @importFrom readr as.col_spec
 #' @export
 as.col_spec.interlacer_x_col_spec <- function(x) {
@@ -116,4 +142,19 @@ summary.interlacer_x_col_spec <- function(object, ...) {
   # cheat for now
   # TODO: make our own summary
   summary(suppressWarnings(as.col_spec(object)))
+}
+
+
+#' Examine the extended column specifications for a data frame
+#'
+#' TODO: Write me
+#'
+#' @param x a data frame loaded by `read_interlaced_*()`
+#
+#' @returns An extended column specification object
+#'
+#' @export
+x_spec <- function(x) {
+  stopifnot(inherits(x, "tbl_df"))
+  attr(x, "x_spec")
 }
