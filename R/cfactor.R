@@ -252,32 +252,23 @@ as.codes <- function(x, ...) {
   UseMethod("as.codes")
 }
 
-#' @rdname as.codes
 #' @export
-as.codes.data.frame <- function(x, ...) {
-  x[] <- map(x, \(c) as.codes(c, ...))
-  x
+as.codes.default <- function(x, ...) {
+  cli_abort("{.fn as.codes} not implemented for type {class(x)[[1]]}")
 }
 
 #' @rdname as.codes
 #' @export
 as.codes.interlacer_interlaced <- function(x, ...) {
-  bimap_interlaced(x, as.codes)
-}
-
-#' @rdname as.codes
-#' @export
-as.codes.default <- function(x, ...) {
-  x
+  as.codes(value_channel(x))
 }
 
 #' @rdname as.codes
 #' @export
 as.codes.interlacer_cfactor <- function(x, ...) {
   if (is.latent.cfactor(x)) {
-    return(x)
+    as.codes(as.factor(x))
   }
-
   unname(codes(x)[as.character(x)])
 }
 
