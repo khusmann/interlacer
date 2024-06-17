@@ -60,3 +60,8 @@ like \code{dplyr::across()}, \code{across_value_channels()} and
 \code{dplyr::across()} that applies transformations to value or missing reason
 channels, respectively.
 }
+\seealso{
+Other interlaced tidy helpers: 
+\code{\link{where_value_channel}()}
+}
+\concept{interlaced tidy helpers}

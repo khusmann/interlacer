@@ -36,6 +36,12 @@ reference:
   - has_concept("interlaced type constructors")
   - has_concept("interlaced type functions")
   - na_levels
+- title: Tidy helpers for `interlaced` types
+  desc: |
+    Wrappers for tidyselect selectors and dplyr verbs that target value
+    or missing reason channels
+- contents:
+  - has_concept("interlaced tidy helpers")
 - title: The `cfactor` type
   desc: Functions for working with the `cfactor` value type
 - contents:
