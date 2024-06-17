@@ -24,7 +24,7 @@ that obfuscate the meaning of your syntax and results.
 
 To facilitate working
 with such data, interlacer provides a new `cfactor` type. The `cfactor`
-allows you to attached labels to coded data and work with it as a regular
+allows you to attach labels to coded data and work with it as a regular
 R `factor`. Unlike a regular R `factor`, however, a `cfactor` can be
 converted back into its coded representation at any time (whereas R `factor`
 values lose their original codes).
