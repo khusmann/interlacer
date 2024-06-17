@@ -11,6 +11,8 @@
 #' `across_na_channels()` return a tibble with one column for each column in
 #' `.cols` and each function in `.fns`
 #'
+#' @family interlaced tidy helpers
+#'
 #' @export
 across_value_channels <- function(.cols, .fns, .names = NULL, .unpack = FALSE) {
   across_lift(map_value_channel, {{.cols}}, {{.fns}}, .names, .unpack)
@@ -54,6 +56,8 @@ across_lift <- function(
 #' missing reason channel of columns, respectively.
 #'
 #' @inheritParams tidyselect::where
+#'
+#' @family interlaced tidy helpers
 #'
 #' @export
 where_value_channel <- function(fn) {

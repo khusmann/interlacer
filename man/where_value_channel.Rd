@@ -18,4 +18,8 @@ where_na_channel(fn)
 \code{tidyselect::where()} that apply the selection function to the value or
 missing reason channel of columns, respectively.
 }
+\seealso{
+Other interlaced tidy helpers: 
+\code{\link{across_value_channels}()}
+}
 \concept{interlaced tidy helpers}
