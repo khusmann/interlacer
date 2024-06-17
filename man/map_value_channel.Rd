@@ -3,7 +3,7 @@
 \name{map_value_channel}
 \alias{map_value_channel}
 \alias{map_na_channel}
-\title{\code{interlaced} functional utilities}
+\title{Apply a function to one of the channels of an \code{interlaced} vector}
 \usage{
 map_value_channel(x, fn)
 

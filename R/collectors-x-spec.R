@@ -139,7 +139,7 @@ summary.interlacer_x_col_spec <- function(object, ...) {
 }
 
 
-#' Examine the extended column specifications for a data frame
+#' Examine the extended column specification for a data frame
 #'
 #' TODO: Write me
 #'

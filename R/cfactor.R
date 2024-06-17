@@ -101,8 +101,6 @@ is.latent.cfactor <- function(x) {
 #' Return the levels or codes of a `cfactor`
 #'
 #' @param x a `cfactor`
-#' @param value A vector of new levels (in `levels<-()`) or codes
-#' (in `codes<-()`) to set for the `cfactor`
 #' @param ... additional arguments (not used)
 #'
 #' @returns `levels()` returns the levels of the `cfactor` (as a vector of
@@ -114,19 +112,17 @@ codes <- function(x, ...) {
   UseMethod("codes")
 }
 
-#' @rdname codes
 #' @export
 codes.default <- function(x, ...) {
   attr(attr(x, "levels"), "codes")
 }
 
-#' @rdname codes
+#' @keywords internal
 #' @export
 `codes<-` <- function(x, value) {
   UseMethod("codes")
 }
 
-#' @rdname codes
 #' @export
 `codes<-.default` <- function(x, value) {
   as.cfactor(x, codes)
@@ -140,7 +136,6 @@ levels.interlacer_cfactor <- function(x) {
   lvls
 }
 
-#' @rdname codes
 #' @export
 `levels<-.interlacer_cfactor` <- function(x, value) {
   x <- as.factor(x)
@@ -231,7 +226,7 @@ as.cordered.default <- function(x, codes = NULL) {
 ## as.integer.interlacer_cfactor <- ...
 ## as.double.interlacer_cfactor <- ...
 
-#' `cfactor` re-coding functions
+#' Convert a `cfactor` vector into a vector of its codes
 #'
 #' TODO: Write this
 #'
