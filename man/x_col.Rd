@@ -2,7 +2,7 @@
 % Please edit documentation in R/collectors-x.R
 \name{x_col}
 \alias{x_col}
-\title{Construct an extended collector from a value and missing reason collector}
+\title{Construct an extended collector for an extended column specification}
 \usage{
 x_col(value_collector, na_collector = na_col_default())
 }

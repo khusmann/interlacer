@@ -2,7 +2,7 @@
 % Please edit documentation in R/interlaced.R
 \name{na}
 \alias{na}
-\title{Lift values to missing reasons}
+\title{Interpret a value as a missing reason}
 \usage{
 na(x = unspecified())
 }
