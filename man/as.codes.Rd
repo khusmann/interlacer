@@ -23,4 +23,3 @@ a vector of coded values
 \description{
 TODO: Write this
 }
-\concept{cfactor type functions}

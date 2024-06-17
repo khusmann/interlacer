@@ -37,4 +37,3 @@ for the \code{cfactor}
 \description{
 Return the levels or codes of a \code{cfactor}
 }
-\concept{cfactor attribute functions}

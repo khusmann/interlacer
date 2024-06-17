@@ -5,7 +5,7 @@
 \alias{cordered}
 \alias{is.cfactor}
 \alias{is.cordered}
-\title{\code{cfactor}: A coded factor type}
+\title{Coded factors}
 \usage{
 cfactor(x = unspecified(), codes, ordered = FALSE)
 
@@ -30,8 +30,3 @@ a new \code{cfactor}
 \description{
 TODO: Write this
 }
-\seealso{
-Other cfactor type constructors: 
-\code{\link{as.cfactor}()}
-}
-\concept{cfactor type constructors}
