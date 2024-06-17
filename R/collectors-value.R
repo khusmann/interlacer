@@ -1,3 +1,27 @@
+#' Value collectors
+#'
+#' Value collectors are used in extended column specifications to specify the
+#' value type of a column. They are think wrappers around readr's `col_*()`
+#' collector types.
+#'
+#' In addition to all of the column types supported by readr, interlacer
+#' additionally can load `cfactor()` types via `v_col_cfactor()`
+#'
+#' @name value_collectors
+#' @param levels Character vector of the allowed levels. When levels = `NULL`
+#' (the default), levels are discovered from the unique values of x, in the
+#' order in which they appear in x.
+#' @param codes A named vector of unique codes that declares the mapping of labels
+#' to codes.
+#' @param ordered Is it an ordered factor?
+#' @param format A format specification, as described in `readr::col_datetime()`
+#
+#' @returns a new value collector object
+#'
+#' @family collectors
+#'
+NULL
+
 value_collector <- function(
   type,
   impl,
@@ -28,27 +52,8 @@ print.interlacer_value_collector <- function(x, ...) {
   cat(paste0("<interlacer_value_collector>\n", format(x)))
 }
 
-#' Value collectors
-#'
-#' Value collectors are used in extended column specifications to specify the
-#' value type of a column. They are think wrappers around readr's `col_*()`
-#' collector types.
-#'
-#' In addition to all of the column types supported by readr, interlacer
-#' additionally can load `cfactor()` types via `v_col_cfactor()`
-#'
-#' @param levels Character vector of the allowed levels. When levels = `NULL`
-#' (the default), levels are discovered from the unique values of x, in the
-#' order in which they appear in x.
-#' @param codes A named vector of unique codes that declares the mapping of labels
-#' to codes.
-#' @param ordered Is it an ordered factor?
-#' @param format A format specification, as described in `readr::col_datetime()`
-#
-#' @returns a new value collector object
-#'
-#' @family collectors
-#'
+
+#' @rdname value_collectors
 #' @export
 v_col_guess <- function() {
   value_collector(
@@ -58,7 +63,7 @@ v_col_guess <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_cfactor <- function(codes, ordered = FALSE) {
   if (is.character(codes)) {
@@ -82,7 +87,7 @@ v_col_cfactor <- function(codes, ordered = FALSE) {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_character <- function() {
   value_collector(
@@ -92,7 +97,7 @@ v_col_character <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_date <- function(format = "") {
   value_collector(
@@ -103,7 +108,7 @@ v_col_date <- function(format = "") {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_datetime <- function(format = "") {
   value_collector(
@@ -114,7 +119,7 @@ v_col_datetime <- function(format = "") {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_double <- function() {
   value_collector(
@@ -124,7 +129,7 @@ v_col_double <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_factor <- function(levels = NULL, ordered = FALSE) {
   value_collector(
@@ -135,7 +140,7 @@ v_col_factor <- function(levels = NULL, ordered = FALSE) {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_integer <- function() {
   value_collector(
@@ -145,7 +150,7 @@ v_col_integer <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_big_integer <- function() {
   value_collector(
@@ -155,7 +160,7 @@ v_col_big_integer <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_logical <- function() {
   value_collector(
@@ -165,7 +170,7 @@ v_col_logical <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_number <- function() {
   value_collector(
@@ -175,7 +180,7 @@ v_col_number <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_skip <- function() {
   value_collector(
@@ -185,7 +190,7 @@ v_col_skip <- function() {
   )
 }
 
-#' @rdname v_col_guess
+#' @rdname value_collectors
 #' @export
 v_col_time <- function(format = "") {
   value_collector("time", vroom::col_time(format), list(format = format))

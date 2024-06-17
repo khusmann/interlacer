@@ -1,3 +1,22 @@
+#' Missing reason collectors
+#'
+#' Missing reason collectors are used in extended column specifications to
+#' specify the type of a column's missing reason channel.
+#'
+#' `na_col_default()` is used to signal that the missing reason type should
+#' inherit the specification provided in the `na = ` argument of the
+#' calling `read_interlaced_*()` function
+#'
+#' @name na_collectors
+#' @param ... values to interpret as missing values. In the case of
+#' `na_col_cfactor()`, arguments must be named.
+#
+#' @returns a new missing reason collector object
+#'
+#' @family collectors
+#'
+NULL
+
 na_collector <- function(type, values, chr_values, args, color) {
   structure(
     list(
@@ -15,22 +34,7 @@ is.na_collector <- function(x) {
   inherits(x, "interlacer_na_collector")
 }
 
-#' Missing reason collectors
-#'
-#' Missing reason collectors are used in extended column specifications to
-#' specify the type of a column's missing reason channel.
-#'
-#' `na_col_default()` is used to signal that the missing reason type should
-#' inherit the specification provided in the `na = ` argument of the
-#' calling `read_interlaced_*()` function
-#'
-#' @param ... values to interpret as missing values. In the case of
-#' `na_col_cfactor()`, arguments must be named.
-#
-#' @returns a new missing reason collector object
-#'
-#' @family collectors
-#'
+#' @rdname na_collectors
 #' @export
 na_col_default <- function() {
   na_collector(
@@ -42,7 +46,7 @@ na_col_default <- function() {
   )
 }
 
-#' @rdname na_col_default
+#' @rdname na_collectors
 #' @export
 na_col_none <- function() {
   na_collector(
@@ -54,7 +58,7 @@ na_col_none <- function() {
   )
 }
 
-#' @rdname na_col_default
+#' @rdname na_collectors
 #' @export
 na_col_integer <- function(...) {
   values <- list_c(list2(...))
@@ -76,7 +80,7 @@ na_col_integer <- function(...) {
   )
 }
 
-#' @rdname na_col_default
+#' @rdname na_collectors
 #' @export
 na_col_factor <- function(...) {
   values <- list_c(list2(...))
@@ -98,7 +102,7 @@ na_col_factor <- function(...) {
   )
 }
 
-#' @rdname na_col_default
+#' @rdname na_collectors
 #' @export
 na_col_cfactor <- function(...) {
   values <- list_c(list2(...))
