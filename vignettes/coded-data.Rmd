@@ -265,7 +265,7 @@ as.cfactor(
 )
 ```
 
-## Re-coding and writing a decoded & deinterlaced data frame.
+## Re-coding and writing an interlaced data frame.
 
 Re-coding and writing an interlaced data frame is as simple as calling
 `as.codes()` on all `cfactor` type value and missing reason channels, and then
