@@ -173,17 +173,6 @@ as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
   UseMethod("as.cfactor")
 }
 
-#' @rdname as.cfactor
-as.cordered <- function(x, codes = NULL) {
-  useMethod("as.cfactor")
-}
-
-#' @rdname as.cfactor
-as.cordered.default <- function(x, codes = NULL) {
-  as.cfactor(x, codes, ordered = TRUE)
-}
-
-#' @rdname as.cfactor
 #' @export
 as.cfactor.default <- function(x, codes = NULL, ordered = is.ordered(x)) {
   obj_check_vector(x)
@@ -229,6 +218,17 @@ as.factor.interlacer_cfactor <- function(x, ...) {
     class(x) <- class(x)[-1]
   }
   x
+}
+
+#' @rdname as.cfactor
+#' @export
+as.cordered <- function(x, codes = NULL) {
+  UseMethod("as.cordered")
+}
+
+#' @export
+as.cordered.default <- function(x, codes = NULL) {
+  as.cfactor(x, codes, ordered = TRUE)
 }
 
 ## I used to warn on conversion to double / integer, but this created annoying

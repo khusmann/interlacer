@@ -2,21 +2,15 @@
 % Please edit documentation in R/cfactor.R
 \name{as.cfactor}
 \alias{as.cfactor}
-\alias{as.cordered}
-\alias{as.cordered.default}
-\alias{as.cfactor.default}
 \alias{as.cfactor.factor}
+\alias{as.cordered}
 \title{\code{cfactor} coercion}
 \usage{
 as.cfactor(x, codes = NULL, ordered = is.ordered(x))
 
-as.cordered(x, codes = NULL)
-
-as.cordered.default(x, codes = NULL)
-
-\method{as.cfactor}{default}(x, codes = NULL, ordered = is.ordered(x))
-
 \method{as.cfactor}{factor}(x, codes = NULL, ordered = is.ordered(x))
+
+as.cordered(x, codes = NULL)
 }
 \arguments{
 \item{x}{a vector of values representing labels for factor levels}
