@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(readr.show_col_types = FALSE)
 ```
 
 In many datasets, reasons for missing values are interlaced with data as special
@@ -36,8 +37,7 @@ To load the values of this data source, it is an easy call to the venerable
 ```{r}
 (df_simple <- read_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE,
+  na = c("REFUSED", "OMITTED", "N/A")
 ))
 ```
 
@@ -80,8 +80,7 @@ something else: the type information of the values.
 ```{r}
 (df_with_missing <- read_csv(
   interlacer_example("colors.csv"),
-  col_types = cols(.default = "c"),
-  show_col_types = FALSE
+  col_types = cols(.default = "c")
 ))
 ```
 
@@ -124,8 +123,7 @@ column type.
 ```{r}
 (df <- read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE
+  na = c("REFUSED", "OMITTED", "N/A")
 ))
 ```
 

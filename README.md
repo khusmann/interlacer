@@ -113,8 +113,7 @@ missing reasons are replaced with `NA`:
 ``` r
 read_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE,
+  na = c("REFUSED", "OMITTED", "N/A")
 )
 #> # A tibble: 11 × 3
 #>    person_id   age favorite_color
@@ -137,8 +136,7 @@ With interlacer, missing reasons are preserved:
 ``` r
 (ex <- read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE,
+  na = c("REFUSED", "OMITTED", "N/A")
 ))
 #> # A tibble: 11 × 3
 #>    person_id       age favorite_color

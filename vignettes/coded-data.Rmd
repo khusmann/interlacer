@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(readr.show_col_types = FALSE)
 ```
 
 In addition to interlacing values and missing reasons, many statistical software
@@ -30,8 +31,9 @@ values lose their original codes).
 
 ### ⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️
 
-The `cfactor` type is a highly experimental feature and has not been
-thoroughly tested yet! I'm sharing them in a super pre-alpha, not-battle-tested
+The `cfactor` type is a highly experimental feature (even compared to the 
+rest of interlacer) and has not been
+thoroughly tested! I'm sharing them in a super pre-alpha, unstable
 state to get feedback on them before I invest more time polishing their
 implementation.
 
@@ -74,8 +76,7 @@ These data can be loaded as interlaced numeric values as follows:
 ```{r}
 (df_coded <- read_interlaced_csv(
   interlacer_example("colors_coded.csv"),
-  na = c(-99, -98, -97),
-  show_col_types = FALSE
+  na = c(-99, -98, -97)
 ))
 ```
 
