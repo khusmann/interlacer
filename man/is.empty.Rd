@@ -2,7 +2,7 @@
 % Please edit documentation in R/interlaced.R
 \name{is.empty}
 \alias{is.empty}
-\title{NA missing reasons}
+\title{Test if a value is missing and lacks a missing reason}
 \usage{
 is.empty(x)
 }
@@ -21,7 +21,6 @@ When a value is missing both a value and a missing reason, it is considered
 \seealso{
 Other interlaced type functions: 
 \code{\link{flatten_channels}()},
-\code{\link{map_value_channel}()},
 \code{\link{value_channel}()}
 }
 \concept{interlaced type functions}

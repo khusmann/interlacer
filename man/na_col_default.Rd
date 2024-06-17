@@ -28,4 +28,9 @@ a new missing reason collector object
 \description{
 TODO: Write me
 }
-\concept{missing reason collector constructors}
+\seealso{
+Other collectors: 
+\code{\link{v_col_guess}()},
+\code{\link{x_col}()}
+}
+\concept{collectors}

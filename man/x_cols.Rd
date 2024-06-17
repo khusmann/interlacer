@@ -20,8 +20,3 @@ a new extended column specification
 \description{
 TODO: Write me
 }
-\seealso{
-Other extended column specification constructors: 
-\code{\link{as.x_col_spec}()}
-}
-\concept{extended column specification constructors}

@@ -2,24 +2,9 @@
 % Please edit documentation in R/collectors-x.R
 \name{x_col}
 \alias{x_col}
-\alias{as.x_collector}
-\alias{as.x_collector.character}
-\alias{as.x_collector.interlacer_x_collector}
-\alias{as.x_collector.collector}
-\alias{as.x_collector.interlacer_value_collector}
-\title{Extended collectors}
+\title{Construct an extended collector from a value and missing reason collector}
 \usage{
 x_col(value_collector, na_collector = na_col_default())
-
-as.x_collector(x)
-
-\method{as.x_collector}{character}(x)
-
-\method{as.x_collector}{interlacer_x_collector}(x)
-
-\method{as.x_collector}{collector}(x)
-
-\method{as.x_collector}{interlacer_value_collector}(x)
 }
 \arguments{
 \item{value_collector}{a value collector}
@@ -34,4 +19,9 @@ a new extended collector object
 \description{
 TODO: Write me
 }
-\concept{extended collector constructors}
+\seealso{
+Other collectors: 
+\code{\link{na_col_default}()},
+\code{\link{v_col_guess}()}
+}
+\concept{collectors}

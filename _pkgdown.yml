@@ -23,18 +23,18 @@ reference:
   - interlacer_example
 - title: Extended column type specification
 - contents:
-  - has_concept("extended column specification constructors")
-  - has_concept("extended collector constructors")
-  - has_concept("value collector constructors")
-  - has_concept("missing reason collector constructors")
-  - has_concept("value collector shortcuts")
-  - has_concept("missing reason collector shortcuts")
+  - x_cols
   - x_spec
+  - has_concept("collectors")
 - title: The `interlaced` type
   desc:  Functions for working with the `interlaced` type
 - contents:
-  - has_concept("interlaced type constructors")
-  - has_concept("interlaced type functions")
+  - interlaced
+  - na
+  - value_channel
+  - flatten_channels
+  - map_value_channel
+  - is.empty
   - na_levels
 - title: Tidy helpers for `interlaced` types
   desc: |

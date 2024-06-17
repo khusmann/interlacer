@@ -11,8 +11,6 @@
 #'
 #' @returns An `interlaced` vector
 #'
-#' @family interlaced type constructors
-#'
 #' @export
 interlaced <- function(x, na=NULL) {
   if (is.character(na)) {
@@ -308,8 +306,6 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
 #'
 #' @returns a new interlaced vector, modified according to the supplied function
 #'
-#' @family interlaced type functions
-#'
 #' @export
 map_value_channel <- function(x, fn) {
   new_interlaced(
@@ -558,7 +554,7 @@ levels.interlacer_interlaced <- function(x) {
 
 # NA functions ---------------------------------------------------------
 
-#' NA missing reasons
+#' Test if a value is missing and lacks a missing reason
 #'
 #' When a value is missing both a value and a missing reason, it is considered
 #' "empty". `is.empty()` checks for these type of values. Regular `NA` values

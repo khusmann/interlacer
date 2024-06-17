@@ -22,10 +22,3 @@ a new interlaced vector, modified according to the supplied function
 vector. \code{map_na_channel()} modifies the missing reason channel of an
 \code{interlaced} vector.
 }
-\seealso{
-Other interlaced type functions: 
-\code{\link{flatten_channels}()},
-\code{\link{is.empty}()},
-\code{\link{value_channel}()}
-}
-\concept{interlaced type functions}

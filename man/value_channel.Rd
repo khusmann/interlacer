@@ -26,7 +26,6 @@ The value or missing reasons channel
 \seealso{
 Other interlaced type functions: 
 \code{\link{flatten_channels}()},
-\code{\link{is.empty}()},
-\code{\link{map_value_channel}()}
+\code{\link{is.empty}()}
 }
 \concept{interlaced type functions}

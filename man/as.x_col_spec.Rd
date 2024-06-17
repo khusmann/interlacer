@@ -2,33 +2,17 @@
 % Please edit documentation in R/collectors-x-spec.R
 \name{as.x_col_spec}
 \alias{as.x_col_spec}
-\alias{as.x_col_spec.interlacer_x_col_spec}
-\alias{as.x_col_spec.col_spec}
-\alias{as.x_col_spec.list}
-\alias{as.col_spec.interlacer_x_col_spec}
 \title{Extended column specification coercions}
 \usage{
 as.x_col_spec(x)
-
-\method{as.x_col_spec}{interlacer_x_col_spec}(x)
-
-\method{as.x_col_spec}{col_spec}(x)
-
-\method{as.x_col_spec}{list}(x)
-
-\method{as.col_spec}{interlacer_x_col_spec}(x)
 }
 \arguments{
 \item{x}{a value to coerce into an extended column specification}
 }
 \value{
-a new extended column specification
+an extended column specification
 }
 \description{
 TODO: Write me
 }
-\seealso{
-Other extended column specification constructors: 
-\code{\link{x_cols}()}
-}
-\concept{extended column specification constructors}
+\keyword{internal}

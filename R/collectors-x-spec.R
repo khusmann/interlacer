@@ -7,8 +7,6 @@
 #
 #' @returns a new extended column specification
 #'
-#' @family extended column specification constructors
-#'
 #' @export
 x_cols <- function(..., .default = v_col_guess()) {
   col_types <- list2(...)
@@ -27,10 +25,10 @@ x_cols_only <- function(...) {
 #' TODO: Write me
 #'
 #' @param x a value to coerce into an extended column specification
-#
-#' @returns a new extended column specification
 #'
-#' @family extended column specification constructors
+#' @keywords internal
+#'
+#' @returns an extended column specification
 #'
 #' @export
 as.x_col_spec <- function(x) {
@@ -48,25 +46,21 @@ as.x_col_spec.default <- function(x) {
   cli_abort("{.fn as.x_col_spec} not implemented for {class(x)[[1]]}")
 }
 
-#' @rdname as.x_col_spec
 #' @export
 as.x_col_spec.interlacer_x_col_spec <- function(x) {
   x
 }
 
-#' @rdname as.x_col_spec
 #' @export
 as.x_col_spec.col_spec <- function(x) {
   x_col_spec(x$cols, x$default)
 }
 
-#' @rdname as.x_col_spec
 #' @export
 as.x_col_spec.list <- function(x) {
   inject(x_cols(!!!x))
 }
 
-#' @rdname as.x_col_spec
 #' @importFrom readr as.col_spec
 #' @export
 as.col_spec.interlacer_x_col_spec <- function(x) {

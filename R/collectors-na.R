@@ -24,7 +24,7 @@ is.na_collector <- function(x) {
 #
 #' @returns a new missing reason collector object
 #'
-#' @family missing reason collector constructors
+#' @family collectors
 #'
 #' @export
 na_col_default <- function() {
@@ -123,28 +123,17 @@ print.interlacer_na_collector <- function(x, ...) {
   cat(paste0("<interlacer_na_collector>\n", format(x)))
 }
 
-#' Missing reason collector shortcuts
-#'
-#' TODO: Write me
-#'
-#' @param x a value to convert into an `na_col_*()` object
-#
-#' @returns a new missing reason collector object
-#'
-#' @family missing reason collector shortcuts
-#'
+#' @rdname as.x_collector
 #' @export
 as.na_collector <- function(x) {
   UseMethod("as.na_collector")
 }
 
-#' @rdname as.na_collector
 #' @export
 as.na_collector.default <- function(x) {
   cli_abort("Cannot convert {class(x)[[1]]} to na collector")
 }
 
-#' @rdname as.na_collector
 #' @export
 as.na_collector.interlacer_na_collector <- function(x) x
 
@@ -156,7 +145,6 @@ as.na_collector.NULL <- function(x) {
   na_col_none()
 }
 
-#' @rdname as.na_collector
 #' @export
 as.na_collector.character <- function(x) {
   if (is.null(names(x))) {
@@ -166,7 +154,6 @@ as.na_collector.character <- function(x) {
   }
 }
 
-#' @rdname as.na_collector
 #' @export
 as.na_collector.integer <- function(x) {
   if (is.null(names(x))) {
@@ -176,7 +163,6 @@ as.na_collector.integer <- function(x) {
   }
 }
 
-#' @rdname as.na_collector
 #' @export
 as.na_collector.double <- function(x) {
   if (is.null(names(x))) {

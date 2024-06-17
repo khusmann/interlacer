@@ -60,4 +60,9 @@ a new value collector object
 \description{
 TODO: Write me
 }
-\concept{value collector constructors}
+\seealso{
+Other collectors: 
+\code{\link{na_col_default}()},
+\code{\link{x_col}()}
+}
+\concept{collectors}
