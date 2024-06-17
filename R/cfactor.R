@@ -117,6 +117,7 @@ codes.default <- function(x, ...) {
   attr(attr(x, "levels"), "codes")
 }
 
+#' @rdname codes
 #' @keywords internal
 #' @export
 `codes<-` <- function(x, value) {
@@ -209,6 +210,7 @@ as.factor.interlacer_cfactor <- function(x, ...) {
   x
 }
 
+#' @rdname as.cfactor
 #' @export
 as.cordered <- function(x, codes = NULL) {
   UseMethod("as.cordered")

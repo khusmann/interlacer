@@ -3,11 +3,14 @@
 \name{levels.interlacer_interlaced}
 \alias{levels.interlacer_interlaced}
 \alias{na_levels}
+\alias{na_levels<-}
 \title{Factor level attributes of \code{interlaced} vectors}
 \usage{
 \method{levels}{interlacer_interlaced}(x)
 
 na_levels(x)
+
+na_levels(x) <- value
 }
 \arguments{
 \item{x}{an \code{interlaced} vector}
@@ -21,3 +24,4 @@ when the value channel is a factor type, \code{levels()} will return its levels.
 Similarly \code{na_levels()} will return the levels for the missing reason
 channel.
 }
+\keyword{internal}

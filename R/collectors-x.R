@@ -6,7 +6,6 @@
 #'
 #' @param value_collector a value collector
 #' @param na_collector a missing reason collector
-#' @param x a value to convert into an `x_col()` object
 #
 #' @returns a new extended collector object
 #'

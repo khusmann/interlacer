@@ -493,7 +493,6 @@ levels.interlacer_interlaced <- function(x) {
   levels(value_channel(x))
 }
 
-#' @keywords internal
 #' @export
 `levels<-.interlacer_interlaced` <- function(x, value) {
   map_value_channel(x, \(v) `levels<-`(v, value))
@@ -505,6 +504,7 @@ na_levels <- function(x) {
   levels(na_channel(x))
 }
 
+#' @rdname levels.interlacer_interlaced
 #' @keywords internal
 #' @export
 `na_levels<-` <- function(x, value) {
