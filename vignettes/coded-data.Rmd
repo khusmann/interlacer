@@ -30,9 +30,10 @@ values lose their original codes).
 
 ### ⚠️ ⚠️ ⚠️ WARNING ⚠️ ⚠️ ⚠️
 
-The `cfactor` type is an extremely experimental feature and has not been
-thoroughly tested yet! I'm sharing them in a super pre-alpha, untested state to
-get feedback on them before I invest more time polishing their implementation.
+The `cfactor` type is a highly experimental feature and has not been
+thoroughly tested yet! I'm sharing them in a super pre-alpha, not-battle-tested
+state to get feedback on them before I invest more time polishing their
+implementation.
 
 ## SPSS-style codes
 
