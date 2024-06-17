@@ -1,4 +1,4 @@
-#' Construct an extended collector from a value and missing reason collector
+#' Construct an extended collector for an extended column specification
 #'
 #' TODO: Write me
 #'

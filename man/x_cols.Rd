@@ -3,7 +3,7 @@
 \name{x_cols}
 \alias{x_cols}
 \alias{x_cols_only}
-\title{Extended column specifications}
+\title{Construct an extended column specification}
 \usage{
 x_cols(..., .default = v_col_guess())
 

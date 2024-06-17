@@ -25,7 +25,9 @@ reference:
 - contents:
   - x_cols
   - x_spec
-  - has_concept("collectors")
+  - x_col
+  - v_col_guess
+  - na_col_default
 - title: The `interlaced` type
   desc:  Functions for working with the `interlaced` type
 - contents:
