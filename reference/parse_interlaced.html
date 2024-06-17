@@ -12,7 +12,7 @@ by parsing it with a readr collector type."><meta property="og:image" content="h
     
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +29,7 @@ by parsing it with a readr collector type."><meta property="og:image" content="h
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/na-column-types.html">NA Column Types</a>
+    <a class="dropdown-item" href="../articles/extended-column-types.html">Extended Column Types</a>
     <a class="dropdown-item" href="../articles/coded-data.html">Coded Data</a>
     <a class="dropdown-item" href="../articles/other-approaches.html">Other Approaches</a>
   </div>
@@ -37,7 +37,13 @@ by parsing it with a readr collector type."><meta property="og:image" content="h
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/khusmann/interlacer/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -45,7 +51,7 @@ by parsing it with a readr collector type."><meta property="og:image" content="h
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Parse a <code>character</code> vector into an <code>interlaced</code> vector type</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/HEAD/R/parse-interlaced.R" class="external-link"><code>R/parse-interlaced.R</code></a></small>
       <div class="d-none name"><code>parse_interlaced.Rd</code></div>
     </div>
 
@@ -56,7 +62,7 @@ by parsing it with a readr <code>collector</code> type.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_interlaced</span><span class="op">(</span><span class="va">x</span>, <span class="va">na</span>, .value_col <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/parse_guess.html" class="external-link">col_guess</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">parse_interlaced</span><span class="op">(</span><span class="va">x</span>, <span class="va">na</span>, .default <span class="op">=</span> <span class="fu"><a href="value_collectors.html">v_col_guess</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,12 +72,13 @@ by parsing it with a readr <code>collector</code> type.</p>
 
 
 <dt>na</dt>
-<dd><p>A vector of values to interpret as missing values</p></dd>
+<dd><p>A missing reason collector (e.g. <code><a href="na_collectors.html">na_col_integer()</a></code>), or one of
+its shortcuts (e.g. a list of missing values)</p></dd>
 
 
-<dt>.value_col</dt>
-<dd><p>A collector to parse the character values (e.g.
-<code><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">readr::col_double()</a></code>, <code><a href="https://readr.tidyverse.org/reference/parse_atomic.html" class="external-link">readr::col_integer()</a></code>, etc.)</p></dd>
+<dt>.default</dt>
+<dd><p>A value collector to parse the character values (e.g.
+<code><a href="value_collectors.html">v_col_double()</a></code>, <code><a href="value_collectors.html">v_col_integer()</a></code>, etc.)</p></dd>
 
 </dl></div>
     <div class="section level2">

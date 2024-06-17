@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/na-column-types.html">NA Column Types</a>
+    <a class="dropdown-item" href="../articles/extended-column-types.html">Extended Column Types</a>
     <a class="dropdown-item" href="../articles/coded-data.html">Coded Data</a>
     <a class="dropdown-item" href="../articles/other-approaches.html">Other Approaches</a>
   </div>
@@ -35,7 +35,13 @@
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/khusmann/interlacer/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -68,16 +74,6 @@
         <dd>Interlace a deinterlaced data frame and write it to a file</dd>
       </dl><dl><dt>
           
-          <code><a href="na_cols.html">na_cols()</a></code> <code><a href="na_cols.html">as.na_col_spec()</a></code> <code><a href="na_cols.html">is.na_col_spec()</a></code> 
-        </dt>
-        <dd>Create an NA column specification</dd>
-      </dl><dl><dt>
-          
-          <code><a href="na_spec.html">na_spec()</a></code> 
-        </dt>
-        <dd>Examine the NA spec of a data frame</dd>
-      </dl><dl><dt>
-          
           <code><a href="parse_interlaced.html">parse_interlaced()</a></code> 
         </dt>
         <dd>Parse a <code>character</code> vector into an <code>interlaced</code> vector type</dd>
@@ -86,6 +82,42 @@
           <code><a href="interlacer_example.html">interlacer_example()</a></code> 
         </dt>
         <dd>Get a path to one of interlacer's example data sets</dd>
+      </dl></div><div class="section level2">
+      <h2 id="extended-column-type-specification">Extended column type specification<a class="anchor" aria-label="anchor" href="#extended-column-type-specification"></a></h2>
+      
+      
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="x_cols.html">x_cols()</a></code> <code><a href="x_cols.html">x_cols_only()</a></code> 
+        </dt>
+        <dd>Construct an extended column specification</dd>
+      </dl><dl><dt>
+          
+          <code><a href="x_spec.html">x_spec()</a></code> 
+        </dt>
+        <dd>Examine the extended column specification for a data frame</dd>
+      </dl><dl><dt>
+          
+          <code><a href="x_col.html">x_col()</a></code> 
+        </dt>
+        <dd>Construct an extended collector for an extended column specification</dd>
+      </dl><dl><dt>
+          
+          <code><a href="value_collectors.html">v_col_guess()</a></code> <code><a href="value_collectors.html">v_col_cfactor()</a></code> <code><a href="value_collectors.html">v_col_character()</a></code> <code><a href="value_collectors.html">v_col_date()</a></code> <code><a href="value_collectors.html">v_col_datetime()</a></code> <code><a href="value_collectors.html">v_col_double()</a></code> <code><a href="value_collectors.html">v_col_factor()</a></code> <code><a href="value_collectors.html">v_col_integer()</a></code> <code><a href="value_collectors.html">v_col_big_integer()</a></code> <code><a href="value_collectors.html">v_col_logical()</a></code> <code><a href="value_collectors.html">v_col_number()</a></code> <code><a href="value_collectors.html">v_col_skip()</a></code> <code><a href="value_collectors.html">v_col_time()</a></code> 
+        </dt>
+        <dd>Value collectors</dd>
+      </dl><dl><dt>
+          
+          <code><a href="na_collectors.html">na_col_default()</a></code> <code><a href="na_collectors.html">na_col_none()</a></code> <code><a href="na_collectors.html">na_col_integer()</a></code> <code><a href="na_collectors.html">na_col_factor()</a></code> <code><a href="na_collectors.html">na_col_cfactor()</a></code> 
+        </dt>
+        <dd>Missing reason collectors</dd>
       </dl></div><div class="section level2">
       <h2 id="the-interlaced-type">The <code>interlaced</code> type<a class="anchor" aria-label="anchor" href="#the-interlaced-type"></a></h2>
       
@@ -106,7 +138,7 @@
           
           <code><a href="na.html">na()</a></code> 
         </dt>
-        <dd>Lift values to missing reasons</dd>
+        <dd>Interpret a value as a missing reason</dd>
       </dl><dl><dt>
           
           <code><a href="value_channel.html">value_channel()</a></code> <code><a href="value_channel.html">na_channel()</a></code> 
@@ -114,24 +146,76 @@
         <dd>Access the channels of an <code>interlaced</code> vector</dd>
       </dl><dl><dt>
           
-          <code><a href="is.empty.html">is.empty()</a></code> 
+          <code><a href="flatten_channels.html">flatten_channels()</a></code> 
         </dt>
-        <dd>NA missing reasons</dd>
-      </dl><dl><dt>
-          
-          <code><a href="na_levels.html">na_levels()</a></code> <code><a href="na_levels.html">`na_levels&lt;-`()</a></code> <code><a href="na_levels.html">levels(<i>&lt;interlacer_interlaced&gt;</i>)</a></code> <code><a href="na_levels.html">`levels&lt;-`(<i>&lt;interlacer_interlaced&gt;</i>)</a></code> 
-        </dt>
-        <dd>Get the factor levels of the value or missing reason channel</dd>
+        <dd>Flatten a <code>interlaced</code> vector</dd>
       </dl><dl><dt>
           
           <code><a href="map_value_channel.html">map_value_channel()</a></code> <code><a href="map_value_channel.html">map_na_channel()</a></code> 
         </dt>
-        <dd><code>interlaced</code> functional utilities</dd>
+        <dd>Apply a function to one of the channels of an <code>interlaced</code> vector</dd>
       </dl><dl><dt>
           
-          <code><a href="flatten_channels.html">flatten_channels()</a></code> 
+          <code><a href="is.empty.html">is.empty()</a></code> 
         </dt>
-        <dd>Flatten a <code>interlaced</code> vector</dd>
+        <dd>Test if a value is missing and lacks a missing reason</dd>
+      </dl><dl><dt>
+          
+          <code><a href="levels.interlacer_interlaced.html">levels(<i>&lt;interlacer_interlaced&gt;</i>)</a></code> <code><a href="levels.interlacer_interlaced.html">na_levels()</a></code> 
+        </dt>
+        <dd>Factor level attributes of <code>interlaced</code> vectors</dd>
+      </dl></div><div class="section level2">
+      <h2 id="tidy-helpers-for-interlaced-types">Tidy helpers for <code>interlaced</code> types<a class="anchor" aria-label="anchor" href="#tidy-helpers-for-interlaced-types"></a></h2>
+      
+      <div class="section-desc"><p>Wrappers for tidyselect selectors and dplyr verbs that target value or missing reason channels</p></div>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="across_value_channels.html">across_value_channels()</a></code> <code><a href="across_value_channels.html">across_na_channels()</a></code> 
+        </dt>
+        <dd>Apply a function across the value or missing reason channels of multiple columns</dd>
+      </dl><dl><dt>
+          
+          <code><a href="where_value_channel.html">where_value_channel()</a></code> <code><a href="where_value_channel.html">where_na_channel()</a></code> 
+        </dt>
+        <dd>Select variables with a function applied on value or missing reason channels</dd>
+      </dl></div><div class="section level2">
+      <h2 id="the-cfactor-type">The <code>cfactor</code> type<a class="anchor" aria-label="anchor" href="#the-cfactor-type"></a></h2>
+      
+      <div class="section-desc"><p>Functions for working with the <code>cfactor</code> type</p></div>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="cfactor.html">cfactor()</a></code> <code><a href="cfactor.html">cordered()</a></code> <code><a href="cfactor.html">is.cfactor()</a></code> <code><a href="cfactor.html">is.cordered()</a></code> 
+        </dt>
+        <dd>Coded factors</dd>
+      </dl><dl><dt>
+          
+          <code><a href="as.cfactor.html">as.cfactor()</a></code> <code><a href="as.cfactor.html">as.cordered()</a></code> 
+        </dt>
+        <dd><code>cfactor</code> coercion</dd>
+      </dl><dl><dt>
+          
+          <code><a href="codes.html">codes()</a></code> <code><a href="codes.html">levels(<i>&lt;interlacer_cfactor&gt;</i>)</a></code> 
+        </dt>
+        <dd><code>cfactor</code> attributes</dd>
+      </dl><dl><dt>
+          
+          <code><a href="as.codes.html">as.codes()</a></code> 
+        </dt>
+        <dd>Convert a <code>cfactor</code> vector into a vector of its codes</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
