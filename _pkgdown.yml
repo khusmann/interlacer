@@ -45,7 +45,7 @@ reference:
 - contents:
   - has_concept("interlaced tidy helpers")
 - title: The `cfactor` type
-  desc: Functions for working with the `cfactor` value type
+  desc: Functions for working with the `cfactor` type
 - contents:
   - cfactor
   - as.cfactor

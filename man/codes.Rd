@@ -2,32 +2,17 @@
 % Please edit documentation in R/cfactor.R
 \name{codes}
 \alias{codes}
-\alias{codes.default}
-\alias{codes<-}
-\alias{codes<-.default}
 \alias{levels.interlacer_cfactor}
-\alias{levels<-.interlacer_cfactor}
 \title{\code{cfactor} attributes}
 \usage{
 codes(x, ...)
 
-\method{codes}{default}(x, ...)
-
-codes(x) <- value
-
-\method{codes}{default}(x) <- value
-
 \method{levels}{interlacer_cfactor}(x)
-
-\method{levels}{interlacer_cfactor}(x) <- value
 }
 \arguments{
 \item{x}{a \code{cfactor}}
 
 \item{...}{additional arguments (not used)}
-
-\item{value}{A vector of new levels (in \verb{levels<-()}) or codes
-(in \verb{codes<-()}) to set for the \code{cfactor}}
 }
 \value{
 \code{levels()} returns the levels of the \code{cfactor} (as a vector of

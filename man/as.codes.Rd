@@ -4,7 +4,7 @@
 \alias{as.codes}
 \alias{as.codes.interlacer_interlaced}
 \alias{as.codes.interlacer_cfactor}
-\title{\code{cfactor} re-coding functions}
+\title{Convert a \code{cfactor} vector into a vector of its codes}
 \usage{
 as.codes(x, ...)
 

@@ -119,8 +119,6 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #'
 #' @returns An `interlaced` value
 #'
-#' @family interlaced type constructors
-#'
 #' @export
 na <- function(x = unspecified()) {
   if (is.logical(x) && all(is.na(x))) {
@@ -138,8 +136,6 @@ na <- function(x = unspecified()) {
 #' @param ... Additional arguments, not used
 #'
 #' @returns The value or missing reasons channel
-#'
-#' @family interlaced type functions
 #'
 #' @export
 value_channel <- function(x, ...) {
@@ -204,8 +200,6 @@ na_channel.data.frame <- function(x, ...) {
 #'
 #' @returns The vector, flattened
 #'
-#' @family interlaced type functions
-#'
 #' @export
 flatten_channels <- function(x, ...) {
   UseMethod("flatten_channels")
@@ -262,7 +256,7 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
 
 # Functional utilities ----------------------------------------------------
 
-#' `interlaced` functional utilities
+#' Apply a function to one of the channels of an `interlaced` vector
 #'
 #' `map_value_channel()` modifies the values of an `interlaced`
 #' vector. `map_na_channel()` modifies the missing reason channel of an
@@ -483,41 +477,39 @@ rep.interlacer_interlaced <- function(x, ...) {
   bimap_interlaced(x, \(v) `length<-`(v, value))
 }
 
-#' Get the `factor` and `cfactor` attributes of `interlaced` vectors
+#' Factor level attributes of `interlaced` vectors
 #'
 #' The base S3 `levels()` function is overloaded for `interlaced` vectors, so
 #' when the value channel is a factor type, `levels()` will return its levels.
 #' Similarly `na_levels()` will return the levels for the missing reason
-#' channel, when it is a `factor` type.
+#' channel.
 #'
 #' @param x an `interlaced` vector
-#' @param value new levels to set
 #'
 #' @returns The levels of the values or missing reason channel
 #'
-#' @export
-na_levels <- function(x) {
-  levels(na_channel(x))
-}
-
-#' @rdname na_levels
-#' @export
-`na_levels<-` <- function(x, value) {
-  map_na_channel(x, \(v) `levels<-`(v, value))
-}
-
-#' @rdname na_levels
 #' @export
 levels.interlacer_interlaced <- function(x) {
   levels(value_channel(x))
 }
 
-#' @rdname na_levels
+#' @keywords internal
 #' @export
 `levels<-.interlacer_interlaced` <- function(x, value) {
   map_value_channel(x, \(v) `levels<-`(v, value))
 }
 
+#' @rdname levels.interlacer_interlaced
+#' @export
+na_levels <- function(x) {
+  levels(na_channel(x))
+}
+
+#' @keywords internal
+#' @export
+`na_levels<-` <- function(x, value) {
+  map_na_channel(x, \(v) `levels<-`(v, value))
+}
 
 # NA functions ---------------------------------------------------------
 
@@ -531,8 +523,6 @@ levels.interlacer_interlaced <- function(x) {
 #'
 #' @returns a logical vector the same length as x, containing TRUE for all
 #' empty elements, and FALSE otherwise.
-#'
-#' @family interlaced type functions
 #'
 #' @export
 is.empty <- function(x) {
