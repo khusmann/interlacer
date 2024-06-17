@@ -22,7 +22,7 @@ Imports:
     rlang,
     tibble,
     tidyselect,
-    vctrs,
+    vctrs (>= 0.6.0),
     vroom
 Suggests: 
     knitr,
