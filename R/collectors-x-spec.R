@@ -1,4 +1,4 @@
-#' Extended column specifications
+#' Construct an extended column specification
 #'
 #' TODO: Write me
 #'

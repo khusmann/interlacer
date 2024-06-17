@@ -111,7 +111,7 @@ new_interlaced <- function(value_channel, na_channel, ...) {
   v
 }
 
-#' Lift values to missing reasons
+#' Interpret a value as a missing reason
 #'
 #' `na()` lifts a value into an `interlaced` missing reason channel.
 #'
@@ -483,7 +483,7 @@ rep.interlacer_interlaced <- function(x, ...) {
   bimap_interlaced(x, \(v) `length<-`(v, value))
 }
 
-#' Get the factor levels of the value or missing reason channel
+#' Get the `factor` and `cfactor` attributes of `interlaced` vectors
 #'
 #' The base S3 `levels()` function is overloaded for `interlaced` vectors, so
 #' when the value channel is a factor type, `levels()` will return its levels.
