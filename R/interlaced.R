@@ -832,12 +832,12 @@ as.ordered.interlacer_interlaced <- function(x, ...) {
 
 #' @export
 where_value_channel <- function(fn) {
-  where(\(x) fn(value_channel(x)))
+  tidyselect::where(\(x) fn(value_channel(x)))
 }
 
 #' @export
 where_na_channel <- function(fn) {
-  where(\(x) fn(na_channel(x)))
+  tidyselect::where(\(x) fn(na_channel(x)))
 }
 
 #' @export
@@ -872,7 +872,7 @@ across_lift <- function(
     wrapped_fns <- do_lift(.fns)
   }
 
-  across({{.cols}}, wrapped_fns, .names = .names, .unpack = .unpack)
+  dplyr::across({{.cols}}, wrapped_fns, .names = .names, .unpack = .unpack)
 }
 
 # Helpers -----------------------------------------------------------------
