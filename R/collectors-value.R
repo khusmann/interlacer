@@ -30,7 +30,12 @@ print.interlacer_value_collector <- function(x, ...) {
 
 #' Value collectors
 #'
-#' TODO: Write me
+#' Value collectors are used in extended column specifications to specify the
+#' value type of a column. They are think wrappers around readr's `col_*()`
+#' collector types.
+#'
+#' In addition to all of the column types supported by readr, interlacer
+#' additionally can load `cfactor()` types via `v_col_cfactor()`
 #'
 #' @param levels Character vector of the allowed levels. When levels = `NULL`
 #' (the default), levels are discovered from the unique values of x, in the

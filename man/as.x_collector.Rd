@@ -18,6 +18,8 @@ as.x_collector(x)
 or missing reason collector.}
 }
 \description{
-TODO: Write me
+The \verb{as.*_collector} functions are used internally to enable shortcuts and
+defaults when specifying extended collectors. See
+\code{vignette("extended-column-types")} for a full discussion.
 }
 \keyword{internal}

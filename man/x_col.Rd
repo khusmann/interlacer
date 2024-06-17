@@ -17,7 +17,9 @@ x_col(value_collector, na_collector = na_col_default())
 a new extended collector object
 }
 \description{
-TODO: Write me
+Extended collectors are used in \code{x_cols()} column specifications to indicate
+which value and missing reason channel types should be used when loading
+data with \verb{read_interlaced_*()}.
 }
 \seealso{
 Other collectors: 

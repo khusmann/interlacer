@@ -1,11 +1,22 @@
 #' Construct an extended column specification
 #'
-#' TODO: Write me
+#' Extended column specifications are used in the `read_interlaced_*()` family
+#' of functions in the `col_types` argument to specify the value and missing
+#' reason channel types.
 #'
-#' @param ... a named argument list of extended collector objects
+#' Like `readr::cols()`, `x_cols()` includes all the columns in the input data,
+#' guessing the column types as the default, and creating missing reason
+#' channels according to the `na = ` argument in the read function.
+#' `x_cols_only()` only includes the columns you specify, like
+#' `readr::cols_only()`. In general, you can substitute `list()` for `x_cols()`
+#' without changing the behavior.
+#'
+#' @param ... a named argument list of extended collectors or value collectors.
 #' @param .default a default value collector
 #
 #' @returns a new extended column specification
+#'
+#' @seealso [readr::cols()], [readr::cols_only()]
 #'
 #' @export
 x_cols <- function(..., .default = v_col_guess()) {
@@ -22,7 +33,12 @@ x_cols_only <- function(...) {
 
 #' Extended column specification coercions
 #'
-#' TODO: Write me
+#' Coerce an object into a column specification. This is used internally to
+#' parse the `col_types` argument in the `read_interlaced_*()` family of
+#' functions, so that it can accept a `readr::cols()` specification or `list()`.
+#'
+#' It is an S3 function so that other packages may use the `col_types` argument
+#' with their own custom objects.
 #'
 #' @param x a value to coerce into an extended column specification
 #'
@@ -141,11 +157,14 @@ summary.interlacer_x_col_spec <- function(object, ...) {
 
 #' Examine the extended column specification for a data frame
 #'
-#' TODO: Write me
+#' `x_spec()` extracts the full extended column specification from a tibble
+#' created with the `read_interlaced_*()` family of functions.
 #'
 #' @param x a data frame loaded by `read_interlaced_*()`
 #
 #' @returns An extended column specification object
+#'
+#' @seealso [readr::spec()]
 #'
 #' @export
 x_spec <- function(x) {

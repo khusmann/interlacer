@@ -13,6 +13,12 @@ as.x_col_spec(x)
 an extended column specification
 }
 \description{
-TODO: Write me
+Coerce an object into a column specification. This is used internally to
+parse the \code{col_types} argument in the \verb{read_interlaced_*()} family of
+functions, so that it can accept a \code{readr::cols()} specification or \code{list()}.
+}
+\details{
+It is an S3 function so that other packages may use the \code{col_types} argument
+with their own custom objects.
 }
 \keyword{internal}

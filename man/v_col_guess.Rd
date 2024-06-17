@@ -58,7 +58,13 @@ order in which they appear in x.}
 a new value collector object
 }
 \description{
-TODO: Write me
+Value collectors are used in extended column specifications to specify the
+value type of a column. They are think wrappers around readr's \verb{col_*()}
+collector types.
+}
+\details{
+In addition to all of the column types supported by readr, interlacer
+additionally can load \code{cfactor()} types via \code{v_col_cfactor()}
 }
 \seealso{
 Other collectors: 
