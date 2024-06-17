@@ -1,7 +1,7 @@
 # TODO: Make all attr calls exact = TRUE?
 # TODO: Add tests that test for construction w names
 
-#' `cfactor`: A coded factor type
+#' Coded factors
 #'
 #' TODO: Write this
 #'
@@ -214,7 +214,6 @@ as.factor.interlacer_cfactor <- function(x, ...) {
   x
 }
 
-#' @rdname as.cfactor
 #' @export
 as.cordered <- function(x, codes = NULL) {
   UseMethod("as.cordered")

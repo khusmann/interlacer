@@ -3,14 +3,11 @@
 \name{as.cfactor}
 \alias{as.cfactor}
 \alias{as.cfactor.factor}
-\alias{as.cordered}
 \title{\code{cfactor} coercion}
 \usage{
 as.cfactor(x, codes = NULL, ordered = is.ordered(x))
 
 \method{as.cfactor}{factor}(x, codes = NULL, ordered = is.ordered(x))
-
-as.cordered(x, codes = NULL)
 }
 \arguments{
 \item{x}{a vector of values representing labels for factor levels}
@@ -27,8 +24,3 @@ a new \code{cfactor}
 \description{
 Add codes to a vector of labels
 }
-\seealso{
-Other cfactor type constructors: 
-\code{\link{cfactor}()}
-}
-\concept{cfactor type constructors}
