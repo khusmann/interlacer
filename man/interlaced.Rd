@@ -37,8 +37,3 @@ which can be used to distinguish different types of missingness. The
 \code{interlaced()} function constructs a new \code{interlaced} vector from a vector
 or list of values.
 }
-\seealso{
-Other interlaced type constructors: 
-\code{\link{na}()}
-}
-\concept{interlaced type constructors}

@@ -22,7 +22,6 @@ file, for example.
 \seealso{
 Other interlaced type functions: 
 \code{\link{is.empty}()},
-\code{\link{map_value_channel}()},
 \code{\link{value_channel}()}
 }
 \concept{interlaced type functions}

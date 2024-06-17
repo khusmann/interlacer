@@ -42,7 +42,7 @@ print.interlacer_value_collector <- function(x, ...) {
 #
 #' @returns a new value collector object
 #'
-#' @family value collector constructors
+#' @family collectors
 #'
 #' @export
 v_col_guess <- function() {
@@ -186,16 +186,9 @@ v_col_time <- function(format = "") {
   value_collector("time", vroom::col_time(format), list(format = format))
 }
 
-#' Value collector shortcuts
-#'
-#' TODO: Write me
-#'
-#' @param x a value to convert into an `v_col_*()` object
-#
-#' @returns a new value collector object
-#'
-#' @family value collector shortcuts
-#'
+### Coercions
+
+#' @rdname as.x_collector
 #' @export
 as.value_collector <- function(x) {
   UseMethod("as.value_collector")
@@ -206,14 +199,12 @@ as.value_collector.default <- function(x) {
   cli_abort("Cannot convert {class(x)[[1]]} to x collector")
 }
 
-#' @rdname as.value_collector
 #' @export
 as.value_collector.collector <- function(x) {
   type <- gsub("collector_", "", class(x)[[1]])
   value_collector(type, x, unclass(x), color = readr_col_color(type))
 }
 
-#' @rdname as.value_collector
 #' @export
 as.value_collector.collector_factor <- function(x) {
   args <- unclass(x)
@@ -225,13 +216,11 @@ as.value_collector.collector_factor <- function(x) {
   value_collector("factor", x, args, color = readr_col_color("factor"))
 }
 
-#' @rdname as.value_collector
 #' @export
 as.value_collector.interlacer_value_collector <- function(x) {
   x
 }
 
-#' @rdname as.value_collector
 #' @export
 as.value_collector.character <- function(x) {
   as.value_collector(col_concise(x))

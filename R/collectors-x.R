@@ -1,4 +1,4 @@
-#' Extended collectors
+#' Construct an extended collector from a value and missing reason collector
 #'
 #' TODO: Write me
 #'
@@ -8,7 +8,7 @@
 #
 #' @returns a new extended collector object
 #'
-#' @family extended collector constructors
+#' @family collectors
 #'
 #' @export
 x_col <- function(value_collector, na_collector = na_col_default()) {
@@ -51,7 +51,15 @@ print.interlacer_x_collector <- function(x, ...) {
   cat(paste0("<interlacer_x_collector>\n", format(x)))
 }
 
-#' @rdname x_col
+#' Collector shortcuts
+#'
+#' TODO: Write me
+#'
+#' @param x a value to convert into an extended collector, value collector,
+#' or missing reason collector.
+#'
+#' @keywords internal
+#'
 #' @export
 as.x_collector <- function(x) {
   UseMethod("as.x_collector")
@@ -62,25 +70,21 @@ as.x_collector.default <- function(x) {
   cli_abort("Cannot convert {class(x)[[1]]} to x collector")
 }
 
-#' @rdname x_col
 #' @export
 as.x_collector.character <- function(x) {
   as.x_collector(col_concise(x))
 }
 
-#' @rdname x_col
 #' @export
 as.x_collector.interlacer_x_collector <- function(x) {
   x
 }
 
-#' @rdname x_col
 #' @export
 as.x_collector.collector <- function(x) {
   x_col(x)
 }
 
-#' @rdname x_col
 #' @export
 as.x_collector.interlacer_value_collector <- function(x) {
   x_col(x)
