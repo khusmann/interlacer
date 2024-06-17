@@ -200,7 +200,8 @@ function:
 ))
 ```
 
-`cfactor` vectors can be used as if it was a regular base R `factor`: 
+`cfactor` vectors can be used wherever regular base R `factor` types are used,
+because they are fully-compatible `factor` types: 
 
 ```{r}
 is.factor(example_cfactor)
@@ -236,16 +237,22 @@ When the levels are changed, the `cfactor` will drop its codes and degrade
 into a regular R factor:
 
 ```{r}
-library(forcats)
+cfactor_copy <- example_cfactor
 
-(example_collapsed <- fct_collapse(
-  example_cfactor,
-  SOMETHING = "LEVEL_A",
-  OTHER = c("LEVEL_B", "LEVEL_C")
-))
+# cfactory_copy is a cfactor and a factor
+is.cfactor(cfactor_copy)
+is.factor(cfactor_copy)
+levels(cfactor_copy)
+codes(cfactor_copy)
 
-levels(example_collapsed)
-codes(example_collapsed)
+# modify the levels of the cfactor as if it was a regular factor
+levels(cfactor_copy) <- c("C", "B", "A")
+
+# now cfactor_copy is just a regular factor
+is.cfactor(cfactor_copy)
+is.factor(cfactor_copy)
+levels(cfactor_copy)
+codes(cfactor_copy)
 ```
 
 Finally, if you have a base R `factor` or character vector of labels, you
@@ -253,7 +260,8 @@ can add codes to them via `as.cfactor()`:
 
 ```{r}
 as.cfactor(
-  example_collapsed, codes = c(SOMETHING = -999, OTHER = -998)
+  c("LEVEL_A", "LEVEL_B", "LEVEL_C", "LEVEL_A", "LEVEL_B", "LEVEL_C"),
+  codes = c(LEVEL_A = 10, LEVEL_B = 20, LEVEL_C = 30)
 )
 ```
 
