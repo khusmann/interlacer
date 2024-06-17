@@ -13,8 +13,6 @@
 #'
 #' @return A [tibble()], with interlaced columns.
 #'
-#' @family read functions
-#'
 #' @export
 #' @examples
 #' # Beep boop

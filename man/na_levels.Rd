@@ -5,7 +5,7 @@
 \alias{na_levels<-}
 \alias{levels.interlacer_interlaced}
 \alias{levels<-.interlacer_interlaced}
-\title{Get the factor levels of the value or missing reason channel}
+\title{Get the \code{factor} and \code{cfactor} attributes of \code{interlaced} vectors}
 \usage{
 na_levels(x)
 

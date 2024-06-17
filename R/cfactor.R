@@ -13,8 +13,6 @@
 #'
 #' @returns a new `cfactor`
 #'
-#' @family cfactor type constructors
-#'
 #' @export
 cfactor <- function(x=unspecified(), codes, ordered = FALSE) {
   obj_check_vector(x)
@@ -111,8 +109,6 @@ is.latent.cfactor <- function(x) {
 #' character labels); `codes()` returns a named vector representing the codes
 #' for the `cfactor`
 #'
-#' @family cfactor attribute functions
-#'
 #' @export
 codes <- function(x, ...) {
   UseMethod("codes")
@@ -165,8 +161,6 @@ levels.interlacer_cfactor <- function(x) {
 #' ordered (in the order given).
 #
 #' @returns a new `cfactor`
-#'
-#' @family cfactor type constructors
 #'
 #' @export
 as.cfactor <- function(x, codes = NULL, ordered = is.ordered(x)) {
@@ -235,6 +229,8 @@ as.cordered.default <- function(x, codes = NULL) {
 ## messages with functions like fct_drop() because it uses table() under the
 ## hood which calls as.integer(). ggplot's geom_histogram() also converts to
 ## integer
+## as.integer.interlacer_cfactor <- ...
+## as.double.interlacer_cfactor <- ...
 
 #' `cfactor` re-coding functions
 #'
@@ -244,8 +240,6 @@ as.cordered.default <- function(x, codes = NULL) {
 #' @param ... additional arguments (not used)
 #'
 #' @returns a vector of coded values
-#'
-#' @family cfactor type functions
 #'
 #' @export
 as.codes <- function(x, ...) {

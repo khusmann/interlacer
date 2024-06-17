@@ -17,8 +17,8 @@ articles:
 reference:
 - title: Reading and writing interlaced data
 - contents:
-  - has_concept("read functions")
-  - has_concept("write functions")
+  - read_interlaced_delim
+  - write_interlaced_delim
   - parse_interlaced
   - interlacer_example
 - title: Extended column type specification
@@ -47,6 +47,7 @@ reference:
 - title: The `cfactor` type
   desc: Functions for working with the `cfactor` value type
 - contents:
-  - has_concept("cfactor type constructors")
-  - has_concept("cfactor attribute functions")
-  - has_concept("cfactor type functions")
+  - cfactor
+  - as.cfactor
+  - codes
+  - as.codes
