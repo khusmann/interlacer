@@ -122,7 +122,7 @@ passed form the levels of the factor.
 the values to be interpreted as missing values. (e.g.
 `na_col_integer(-99, -98, -97))`)
 
-5. `na_col_cfactor()`: Use a `cfactor()` na channel. (`cfactor()` types will
+5. `na_col_cfactor()`: Use a `cfactor` na channel. (`cfactor` types will
 be covered in the next vignette,`vignette("coded-data")`)
 
 The following example shows some of these collectors in action. In this example
@@ -208,5 +208,5 @@ specifications using `x_cols()`.
 In the final examples, we used an example data set with coded values and missing
 reasons. Coded values are especially common in data sets produced by SPSS, SAS,
 and Stata. interlacer provides a special column type to make working with this
-sort of data easier: the `cfactor()` type. This will be covered in next
+sort of data easier: the `cfactor` type. This will be covered in next
 vignette, `vignette("coded-data")`.
