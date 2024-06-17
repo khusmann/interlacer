@@ -26,7 +26,13 @@ na_col_cfactor(...)
 a new missing reason collector object
 }
 \description{
-TODO: Write me
+Missing reason collectors are used in extended column specifications to
+specify the type of a column's missing reason channel.
+}
+\details{
+\code{na_col_default()} is used to signal that the missing reason type should
+inherit the specification provided in the \verb{na = } argument of the
+calling \verb{read_interlaced_*()} function
 }
 \seealso{
 Other collectors: 

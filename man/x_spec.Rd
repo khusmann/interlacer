@@ -2,7 +2,7 @@
 % Please edit documentation in R/collectors-x-spec.R
 \name{x_spec}
 \alias{x_spec}
-\title{Examine the extended column specifications for a data frame}
+\title{Examine the extended column specification for a data frame}
 \usage{
 x_spec(x)
 }
@@ -13,5 +13,9 @@ x_spec(x)
 An extended column specification object
 }
 \description{
-TODO: Write me
+\code{x_spec()} extracts the full extended column specification from a tibble
+created with the \verb{read_interlaced_*()} family of functions.
+}
+\seealso{
+\code{\link[readr:spec]{readr::spec()}}
 }

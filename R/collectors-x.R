@@ -1,6 +1,8 @@
 #' Construct an extended collector for an extended column specification
 #'
-#' TODO: Write me
+#' Extended collectors are used in `x_cols()` column specifications to indicate
+#' which value and missing reason channel types should be used when loading
+#' data with `read_interlaced_*()`.
 #'
 #' @param value_collector a value collector
 #' @param na_collector a missing reason collector
@@ -53,7 +55,9 @@ print.interlacer_x_collector <- function(x, ...) {
 
 #' Collector shortcuts
 #'
-#' TODO: Write me
+#' The `as.*_collector` functions are used internally to enable shortcuts and
+#' defaults when specifying extended collectors. See
+#' `vignette("extended-column-types")` for a full discussion.
 #'
 #' @param x a value to convert into an extended collector, value collector,
 #' or missing reason collector.

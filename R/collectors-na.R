@@ -17,7 +17,12 @@ is.na_collector <- function(x) {
 
 #' Missing reason collectors
 #'
-#' TODO: Write me
+#' Missing reason collectors are used in extended column specifications to
+#' specify the type of a column's missing reason channel.
+#'
+#' `na_col_default()` is used to signal that the missing reason type should
+#' inherit the specification provided in the `na = ` argument of the
+#' calling `read_interlaced_*()` function
 #'
 #' @param ... values to interpret as missing values. In the case of
 #' `na_col_cfactor()`, arguments must be named.
@@ -122,6 +127,8 @@ format.interlacer_na_collector <- function(x, ...) {
 print.interlacer_na_collector <- function(x, ...) {
   cat(paste0("<interlacer_na_collector>\n", format(x)))
 }
+
+### Coercions
 
 #' @rdname as.x_collector
 #' @export

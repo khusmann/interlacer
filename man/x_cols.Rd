@@ -10,7 +10,7 @@ x_cols(..., .default = v_col_guess())
 x_cols_only(...)
 }
 \arguments{
-\item{...}{a named argument list of extended collector objects}
+\item{...}{a named argument list of extended collectors or value collectors.}
 
 \item{.default}{a default value collector}
 }
@@ -18,5 +18,18 @@ x_cols_only(...)
 a new extended column specification
 }
 \description{
-TODO: Write me
+Extended column specifications are used in the \verb{read_interlaced_*()} family
+of functions in the \code{col_types} argument to specify the value and missing
+reason channel types.
+}
+\details{
+Like \code{readr::cols()}, \code{x_cols()} includes all the columns in the input data,
+guessing the column types as the default, and creating missing reason
+channels according to the \verb{na = } argument in the read function.
+\code{x_cols_only()} only includes the columns you specify, like
+\code{readr::cols_only()}. In general, you can substitute \code{list()} for \code{x_cols()}
+without changing the behavior.
+}
+\seealso{
+\code{\link[readr:cols]{readr::cols()}}, \code{\link[readr:cols]{readr::cols_only()}}
 }
