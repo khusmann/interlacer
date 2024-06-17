@@ -493,6 +493,9 @@ levels.interlacer_interlaced <- function(x) {
   levels(value_channel(x))
 }
 
+#' Set the factor level attributes of `interlaced` vectors
+#' @keywords internal
+#' @param value A vector of new levels to set
 #' @export
 `levels<-.interlacer_interlaced` <- function(x, value) {
   map_value_channel(x, \(v) `levels<-`(v, value))
@@ -504,8 +507,7 @@ na_levels <- function(x) {
   levels(na_channel(x))
 }
 
-#' @rdname levels.interlacer_interlaced
-#' @keywords internal
+#' @rdname levels-set-.interlacer_interlaced
 #' @export
 `na_levels<-` <- function(x, value) {
   map_na_channel(x, \(v) `levels<-`(v, value))

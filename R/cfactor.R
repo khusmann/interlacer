@@ -117,8 +117,13 @@ codes.default <- function(x, ...) {
   attr(attr(x, "levels"), "codes")
 }
 
-#' @rdname codes
+#' Set the codes for a `cfactor``
+#'
+#' Set the codes for a `cfactor`, similar to `levels<-()`
+#'
 #' @keywords internal
+#' @param value a named vector of codes for the `cfactor`
+#'
 #' @export
 `codes<-` <- function(x, value) {
   UseMethod("codes")

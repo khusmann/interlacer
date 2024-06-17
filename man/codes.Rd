@@ -2,13 +2,10 @@
 % Please edit documentation in R/cfactor.R
 \name{codes}
 \alias{codes}
-\alias{codes<-}
 \alias{levels.interlacer_cfactor}
 \title{\code{cfactor} attributes}
 \usage{
 codes(x, ...)
-
-codes(x) <- value
 
 \method{levels}{interlacer_cfactor}(x)
 }
@@ -25,4 +22,3 @@ for the \code{cfactor}
 \description{
 Return the levels or codes of a \code{cfactor}
 }
-\keyword{internal}
