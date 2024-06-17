@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+options(readr.show_col_types = FALSE)
 ```
 
 Like the `readr::read_*()` family of functions, `read_interlaced_*()` will
@@ -22,8 +23,7 @@ library(interlacer, warn.conflicts = FALSE)
 
 (read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE
+  na = c("REFUSED", "OMITTED", "N/A")
 ))
 ```
 

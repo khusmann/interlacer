@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-"
 )
 options(warn=-1)
+options(readr.show_col_types = FALSE)
 ```
 
 # interlacer <img src="man/figures/logo.svg" align="right" height="140" />
@@ -110,8 +111,7 @@ reasons are replaced with `NA`:
 ```{r}
 read_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE,
+  na = c("REFUSED", "OMITTED", "N/A")
 )
 ```
 
@@ -120,8 +120,7 @@ With interlacer, missing reasons are preserved:
 ```{r}
 (ex <- read_interlaced_csv(
   interlacer_example("colors.csv"),
-  na = c("REFUSED", "OMITTED", "N/A"),
-  show_col_types = FALSE,
+  na = c("REFUSED", "OMITTED", "N/A")
 ))
 ```
 
