@@ -23,7 +23,7 @@ data with \verb{read_interlaced_*()}.
 }
 \seealso{
 Other collectors: 
-\code{\link{na_col_default}()},
-\code{\link{v_col_guess}()}
+\code{\link{na_collectors}},
+\code{\link{value_collectors}}
 }
 \concept{collectors}
