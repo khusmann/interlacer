@@ -10,8 +10,6 @@ x_col(value_collector, na_collector = na_col_default())
 \item{value_collector}{a value collector}
 
 \item{na_collector}{a missing reason collector}
-
-\item{x}{a value to convert into an \code{x_col()} object}
 }
 \value{
 a new extended collector object
