@@ -24,7 +24,7 @@ that obfuscate the meaning of your syntax and results.
 To facilitate working
 with such data, interlacer provides a new `cfactor` type. The `cfactor`
 allows you to attached labels to coded data and work with it as a regular
-R `factor`. Unlike a regular R `factor` however, a `cfactor` can be
+R `factor`. Unlike a regular R `factor`, however, a `cfactor` can be
 converted back into its coded representation at any time (whereas R `factor`
 values lose their original codes).
 
@@ -124,17 +124,22 @@ df_decoded |>
 ```
 
 But you can still convert the labels of values or missing reasons back to codes
-if you wish, using `as.codes()`:
+if you wish, using `as.codes()`. The following will convert the missing reason
+channel of `age` and the value channel of the `favorite_color` into their
+coded representation:
 
 ```{r}
-# Selectively re-code value or missing reason channels
 df_decoded |>
   mutate(
     age = map_na_channel(age, as.codes),
     favorite_color = map_value_channel(favorite_color, as.codes)
   )
+```
 
-# Or, re-code the entire data frame:
+To recode all `cfactor` channels in a data frame into their coded representation
+you can do the following:
+
+```{r}
 df_decoded |>
   mutate(
     across_value_channels(where_value_channel(is.cfactor), as.codes),
