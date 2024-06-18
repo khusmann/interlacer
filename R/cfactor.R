@@ -208,10 +208,8 @@ as.cfactor.factor <- function(x, codes = NULL, ordered = is.ordered(x)) {
 #' @importFrom generics as.factor
 #' @export
 as.factor.interlacer_cfactor <- function(x, ...) {
-  if (is.cfactor(x)) {
-    attr(attr(x, "levels"), "codes") <- NULL
-    class(x) <- class(x)[-1]
-  }
+  attr(attr(x, "levels"), "codes") <- NULL
+  class(x) <- discard(class(x), \(v) v == "interlacer_cfactor")
   x
 }
 
@@ -272,7 +270,7 @@ as.codes.interlacer_cfactor <- function(x, ...) {
 #' @export
 print.interlacer_cfactor <- function(x, ...) {
   if (is.latent.cfactor(x)) {
-    NextMethod()
+    obj_print(as.factor(x), ...)
   } else {
     obj_print(x, ...)
   }
