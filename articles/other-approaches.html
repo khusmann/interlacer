@@ -33,7 +33,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,6 +130,16 @@ into a single interlaced numeric vector:</p>
 <span><span class="op">(</span><span class="va">df_spss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">read_spss</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/interlacer_example.html">interlacer_example</a></span><span class="op">(</span><span class="st">"colors.sav"</span><span class="op">)</span>, user_na <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Registered S3 methods overwritten by 'readr':</span></span>
+<span><span class="co">#&gt;   method                    from </span></span>
+<span><span class="co">#&gt;   as.data.frame.spec_tbl_df vroom</span></span>
+<span><span class="co">#&gt;   as_tibble.spec_tbl_df     vroom</span></span>
+<span><span class="co">#&gt;   format.col_spec           vroom</span></span>
+<span><span class="co">#&gt;   print.col_spec            vroom</span></span>
+<span><span class="co">#&gt;   print.collector           vroom</span></span>
+<span><span class="co">#&gt;   print.date_names          vroom</span></span>
+<span><span class="co">#&gt;   print.locale              vroom</span></span>
+<span><span class="co">#&gt;   str.col_spec              vroom</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">#&gt;    person_id age                favorite_color    </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl+lbl&gt;</span>         </span></span>
