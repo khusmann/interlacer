@@ -270,7 +270,7 @@ as.codes.interlacer_cfactor <- function(x, ...) {
 #' @export
 print.interlacer_cfactor <- function(x, ...) {
   if (is.latent.cfactor(x)) {
-    obj_print(as.factor(x), ...)
+    print(as.factor(x), ...)
   } else {
     obj_print(x, ...)
   }
