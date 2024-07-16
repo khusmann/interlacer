@@ -320,15 +320,16 @@ vec_ptype_abbr.interlacer_interlaced <- function(x, ...) {
 
 #' @export
 format.interlacer_interlaced <- function(x, ...) {
-  map_chr(x, function(i) {
-    if (is.empty(i)) {
-      return(paste0("<<", format(na_channel(i)), ">>"))
-    }
-    if (is.na(i)) {
-      return(paste0("<", format(na_channel(i)), ">"))
-    }
-    format(value_channel(i))
-  })
+  v = format(value_channel(x))
+  m = format(na_channel(x))
+
+  if_else(
+    is.empty(x), paste0("<<", m, ">>"),
+    if_else(
+      is.na(x), paste0("<", m, ">"),
+      v
+    )
+  )
 }
 
 #' @export
