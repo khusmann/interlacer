@@ -401,13 +401,7 @@ vec_restore.interlacer_interlaced <- function(x, to, ...) {
 
 #' @export
 vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
-  map(x, function(i) {
-    if (is.empty(i)) {
-      return(NULL)
-    } else {
-      as.list(i)
-    }
-  })
+  if_else(is.empty(x), list(NULL), vec_chop(x))
 }
 
 #' @export
