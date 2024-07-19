@@ -1,3 +1,9 @@
+latent_cfactor <- function(x = unspecified(), codes, ordered = FALSE) {
+  out <- cfactor(x, codes, ordered)
+  attr(out, "levels") <- levels(out)
+  out
+}
+
 coerces_to <- function(x, y, using = "strict") {
   type_max <- switch(using,
                      strict = vec_ptype2,

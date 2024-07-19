@@ -1,9 +1,3 @@
-latent_cfactor <- function(x = unspecified(), codes, ordered = FALSE) {
-  out <- cfactor(x, codes, ordered)
-  attr(out, "levels") <- levels(out)
-  out
-}
-
 CFCT_TYPES <- list2(
   logical(),
   integer(),
