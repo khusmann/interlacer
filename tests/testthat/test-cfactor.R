@@ -118,6 +118,13 @@ test_that("cfactor valid cast", {
     ),
     cfactor(c(1, 2, 1, 2), codes=c(a = 1, b = 2, c = 3)),
   )
+  expect_identical(
+    vec_cast(
+      cfactor(c(1, 2, 1, 2), codes=c(a = 1, b = 2)),
+      cfactor(codes=c(b = 2, a = 1)),
+    ),
+    cfactor(c(1, 2, 1, 2), codes=c(b = 2, a = 1)),
+  )
 })
 
 test_that("cfactor cast identical", {
@@ -179,6 +186,78 @@ test_that("cfactor cast will error if ordered doesn't match", {
   )
 })
 
+test_that("cfactor detects lossy cast", {
+  expect_identical(
+    vec_cast(
+      cfactor(codes=c(a = 1, b = 2)),
+      cfactor(codes=c(a = 1)),
+    ),
+    cfactor(codes=c(a = 1)),
+  )
+  expect_error(
+    vec_cast(
+      cfactor(c(1, 2), codes=c(a = 1, b = 2)),
+      cfactor(codes=c(a = 1)),
+    )
+  )
+  expect_identical(
+    allow_lossy_cast(
+      vec_cast(
+        cfactor(c(1, 2), codes=c(a = 1, b = 2)),
+        cfactor(codes=c(a = 1)),
+      )
+    ),
+    cfactor(c(1, NA), codes = c(a = 1))
+  )
+})
+
+test_that("cfactor detects lossy cast to factor", {
+  expect_identical(
+    vec_cast(
+      cfactor(codes=c(a = 1, b = 2)),
+      factor(levels=c("a")),
+    ),
+    factor(levels=c("a")),
+  )
+  expect_error(
+    vec_cast(
+      cfactor(c(1, 2), codes=c(a = 1, b = 2)),
+      factor(levels=c("a")),
+    )
+  )
+  expect_identical(
+    allow_lossy_cast(
+      vec_cast(
+        cfactor(c(1, 2), codes=c(a = 1, b = 2)),
+        factor(levels=c("a")),
+      )
+    ),
+    factor(c("a", NA), levels = c("a"))
+  )
+  expect_identical(
+    vec_cast(
+      factor(levels=c("a", "b")),
+      cfactor(codes=c(a = 1)),
+    ),
+    cfactor(codes=c(a = 1)),
+  )
+  expect_error(
+    vec_cast(
+      factor(c("a", "b"), levels=c("a", "b")),
+      cfactor(codes=c(a = 1)),
+    )
+  )
+  expect_identical(
+    allow_lossy_cast(
+      vec_cast(
+        factor(c("a", "b"), levels=c("a", "b")),
+        cfactor(codes=c(a = 1)),
+      )
+    ),
+    cfactor(c(1, NA), codes = c(a = 1))
+  )
+})
+
 test_that("latent cfactor cast will act like factor", {
   expect_identical(
     vec_cast(
@@ -194,10 +273,11 @@ test_that("latent cfactor cast will act like factor", {
     ),
     factor(levels=c("a", "b"))
   )
-  expect_error(
+  expect_identical(
     vec_cast(
       latent_cfactor(codes=c(a = 1, b = 2)),
       cfactor(codes=c(a = 1, b = 2)),
-    )
+    ),
+    cfactor(codes=c(a = 1, b = 2)),
   )
 })
