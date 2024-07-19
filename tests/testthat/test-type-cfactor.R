@@ -1,3 +1,9 @@
+latent_cfactor <- function(x = unspecified(), codes, ordered = FALSE) {
+  out <- cfactor(x, codes, ordered)
+  attr(out, "levels") <- levels(out)
+  out
+}
+
 CFCT_TYPES <- list2(
   logical(),
   integer(),
@@ -7,6 +13,10 @@ CFCT_TYPES <- list2(
   factor(levels=c("a", "b")),
   factor(levels=c("a", "b", "c")),
   factor(levels=c("d", "e", "f")),
+  latent_cfactor(codes=c(a = 10)),
+  latent_cfactor(codes=c(a = 10, b = 20)),
+  latent_cfactor(codes=c(a = 10, b = 20, c = 30)),
+  latent_cfactor(codes=c(d = 10, e = 20, f = 30)),
   cfactor(codes=c(a = 10)),
   cfactor(codes=c(a = 10, b = 20)),
   cfactor(codes=c(a = 10, b = 20, c = 30)),
