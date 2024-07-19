@@ -269,8 +269,12 @@ flatten_channels.interlacer_interlaced <- function(x, ...) {
 #'
 #' @export
 map_value_channel <- function(x, fn) {
+  out <- fn(value_channel(x))
+  if (length(out) == 1) {
+    out <- if_else(is.na(x), NA, out)
+  }
   new_interlaced(
-    fn(value_channel(x)),
+    out,
     na_channel(x)
   )
 }
@@ -279,9 +283,13 @@ map_value_channel <- function(x, fn) {
 #' @rdname map_value_channel
 #' @export
 map_na_channel <- function(x, fn) {
+  out <- fn(na_channel(x))
+  if (length(out) == 1) {
+    out <- if_else(is.na(x), out, NA)
+  }
   new_interlaced(
     value_channel(x),
-    fn(na_channel(x))
+    out
   )
 }
 

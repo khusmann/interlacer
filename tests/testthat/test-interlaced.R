@@ -38,8 +38,35 @@ test_that("map_value_channel works", {
     vec_c("z", "b", "c", na("reason"))
   )
 
+  # Cannot nest interlaced values into the value channel
   expect_error(
     map_value_channel(foo, \(x) if_else(x == "a", na("z"), x))
+  )
+
+  # Singleton fns will be broadcasted
+  expect_equal(
+    map_value_channel(foo, \(x) "bar"),
+    vec_c("bar", "bar", "bar", na("reason"))
+  )
+})
+
+test_that("map_na_channel works", {
+  foo <- vec_c("a", "b", "c", na("reason"), na("reason2"))
+
+  expect_equal(
+    map_na_channel(foo, \(x) if_else(x == "reason", "z", x)),
+    vec_c("a", "b", "c", na("z"), na("reason2"))
+  )
+
+  # Cannot nest interlaced values into the value channel
+  expect_error(
+    map_na_channel(foo, \(x) if_else(x == "reason", na("z"), x))
+  )
+
+  # Singleton fns will be broadcasted
+  expect_equal(
+    map_na_channel(foo, \(x) "bar"),
+    vec_c("a", "b", "c", na("bar"), na("bar"))
   )
 })
 
