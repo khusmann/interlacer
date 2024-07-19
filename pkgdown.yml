@@ -1,13 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   coded-data: coded-data.html
   extended-column-types: extended-column-types.html
   interlacer: interlacer.html
   other-approaches: other-approaches.html
-last_built: 2024-07-04T02:17Z
+last_built: 2024-07-19T23:44Z
 urls:
   reference: http://kylehusmann.com/interlacer/reference
   article: http://kylehusmann.com/interlacer/articles
-
