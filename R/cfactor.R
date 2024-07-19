@@ -447,12 +447,14 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
   x, to, ..., x_arg = "", to_arg = ""
 ) {
   if (is.latent.cfactor(x)) {
-    stop_incompatible_cast(as.factor(x), to, x_arg = x_arg, to_arg = to_arg)
+    return(
+      vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg)
+    )
   }
 
   if (is.latent.cfactor(to)) {
     return(
-      vec_cast(x, as.factor(to), x_arg = x_arg, to_arg = to_arg)
+      vec_cast(x, as.factor(to), ..., x_arg = x_arg, to_arg = to_arg)
     )
   }
 
