@@ -466,6 +466,10 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
     stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
   }
 
+  if (is.ordered(x) != is.ordered(to)) {
+    stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
+  }
+
   cfactor(as.codes(x), to_codes, is.ordered(to))
 }
 

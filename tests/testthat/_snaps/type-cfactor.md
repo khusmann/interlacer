@@ -1477,8 +1477,8 @@
       ordered<38051>      NA              NA                   NA                  
       ordered<af15a>      NA              NA                   NA                  
       ordered<dc80e>      NA              NA                   NA                  
-      cordered<int+22f9f> NA              "cfactor<int+22f9f>" "cfactor<int+d3b05>"
-      cordered<int+d3b05> NA              NA                   "cfactor<int+d3b05>"
+      cordered<int+22f9f> NA              NA                   NA                  
+      cordered<int+d3b05> NA              NA                   NA                  
       cordered<int+14e2f> NA              NA                   NA                  
       cordered<int+c6214> NA              NA                   NA                  
       cordered<int+7aea3> NA              NA                   NA                  
@@ -1530,10 +1530,10 @@
       ordered<38051>      NA                   NA                  
       ordered<af15a>      NA                   NA                  
       ordered<dc80e>      NA                   NA                  
-      cordered<int+22f9f> "cfactor<int+14e2f>" NA                  
-      cordered<int+d3b05> "cfactor<int+14e2f>" NA                  
-      cordered<int+14e2f> "cfactor<int+14e2f>" NA                  
-      cordered<int+c6214> NA                   "cfactor<int+c6214>"
+      cordered<int+22f9f> NA                   NA                  
+      cordered<int+d3b05> NA                   NA                  
+      cordered<int+14e2f> NA                   NA                  
+      cordered<int+c6214> NA                   NA                  
       cordered<int+7aea3> NA                   NA                  
       cordered<int+cb0a5> NA                   NA                  
       cordered<int+ac835> NA                   NA                  
@@ -1587,8 +1587,8 @@
       cordered<int+d3b05> NA                   NA                  
       cordered<int+14e2f> NA                   NA                  
       cordered<int+c6214> NA                   NA                  
-      cordered<int+7aea3> "cfactor<int+7aea3>" "cfactor<int+cb0a5>"
-      cordered<int+cb0a5> NA                   "cfactor<int+cb0a5>"
+      cordered<int+7aea3> NA                   NA                  
+      cordered<int+cb0a5> NA                   NA                  
       cordered<int+ac835> NA                   NA                  
       cordered<int+471fa> NA                   NA                  
       cordered<chr+94e2a> NA                   NA                  
@@ -1640,10 +1640,10 @@
       cordered<int+d3b05> NA                   NA                  
       cordered<int+14e2f> NA                   NA                  
       cordered<int+c6214> NA                   NA                  
-      cordered<int+7aea3> "cfactor<int+ac835>" NA                  
-      cordered<int+cb0a5> "cfactor<int+ac835>" NA                  
-      cordered<int+ac835> "cfactor<int+ac835>" NA                  
-      cordered<int+471fa> NA                   "cfactor<int+471fa>"
+      cordered<int+7aea3> NA                   NA                  
+      cordered<int+cb0a5> NA                   NA                  
+      cordered<int+ac835> NA                   NA                  
+      cordered<int+471fa> NA                   NA                  
       cordered<chr+94e2a> NA                   NA                  
       cordered<chr+f84d5> NA                   NA                  
       cordered<chr+f4edf> NA                   NA                  
@@ -1697,8 +1697,8 @@
       cordered<int+cb0a5> NA                   NA                  
       cordered<int+ac835> NA                   NA                  
       cordered<int+471fa> NA                   NA                  
-      cordered<chr+94e2a> "cfactor<chr+94e2a>" "cfactor<chr+f84d5>"
-      cordered<chr+f84d5> NA                   "cfactor<chr+f84d5>"
+      cordered<chr+94e2a> NA                   NA                  
+      cordered<chr+f84d5> NA                   NA                  
       cordered<chr+f4edf> NA                   NA                  
       cordered<chr+5b271> NA                   NA                  
       cordered<chr+a1722> NA                   NA                  
@@ -1750,10 +1750,10 @@
       cordered<int+cb0a5> NA                   NA                  
       cordered<int+ac835> NA                   NA                  
       cordered<int+471fa> NA                   NA                  
-      cordered<chr+94e2a> "cfactor<chr+f4edf>" NA                  
-      cordered<chr+f84d5> "cfactor<chr+f4edf>" NA                  
-      cordered<chr+f4edf> "cfactor<chr+f4edf>" NA                  
-      cordered<chr+5b271> NA                   "cfactor<chr+5b271>"
+      cordered<chr+94e2a> NA                   NA                  
+      cordered<chr+f84d5> NA                   NA                  
+      cordered<chr+f4edf> NA                   NA                  
+      cordered<chr+5b271> NA                   NA                  
       cordered<chr+a1722> NA                   NA                  
       cordered<chr+23595> NA                   NA                  
       cordered<chr+1e0d5> NA                   NA                  
@@ -1807,8 +1807,8 @@
       cordered<chr+f84d5> NA                   NA                  
       cordered<chr+f4edf> NA                   NA                  
       cordered<chr+5b271> NA                   NA                  
-      cordered<chr+a1722> "cfactor<chr+a1722>" "cfactor<chr+23595>"
-      cordered<chr+23595> NA                   "cfactor<chr+23595>"
+      cordered<chr+a1722> NA                   NA                  
+      cordered<chr+23595> NA                   NA                  
       cordered<chr+1e0d5> NA                   NA                  
       cordered<chr+1b2ef> NA                   NA                  
                           cfactor<chr+1e0d5>   cfactor<chr+1b2ef>   ordered<4d52a>  
@@ -1860,10 +1860,10 @@
       cordered<chr+f84d5> NA                   NA                   NA              
       cordered<chr+f4edf> NA                   NA                   NA              
       cordered<chr+5b271> NA                   NA                   NA              
-      cordered<chr+a1722> "cfactor<chr+1e0d5>" NA                   "ordered<4d52a>"
-      cordered<chr+23595> "cfactor<chr+1e0d5>" NA                   NA              
-      cordered<chr+1e0d5> "cfactor<chr+1e0d5>" NA                   NA              
-      cordered<chr+1b2ef> NA                   "cfactor<chr+1b2ef>" NA              
+      cordered<chr+a1722> NA                   NA                   "ordered<4d52a>"
+      cordered<chr+23595> NA                   NA                   NA              
+      cordered<chr+1e0d5> NA                   NA                   NA              
+      cordered<chr+1b2ef> NA                   NA                   NA              
                           ordered<38051>   ordered<af15a>   ordered<dc80e>  
       logical             NA               NA               NA              
       integer             NA               NA               NA              
@@ -1983,7 +1983,7 @@
       factor<38051>       NA               NA                   
       factor<af15a>       NA               NA                   
       factor<dc80e>       NA               NA                   
-      cfactor<int+22f9f>  NA               "cordered<int+22f9f>"
+      cfactor<int+22f9f>  NA               NA                   
       cfactor<int+d3b05>  NA               NA                   
       cfactor<int+14e2f>  NA               NA                   
       cfactor<int+c6214>  NA               NA                   
@@ -2036,9 +2036,9 @@
       factor<38051>       NA                    NA                   
       factor<af15a>       NA                    NA                   
       factor<dc80e>       NA                    NA                   
-      cfactor<int+22f9f>  "cordered<int+d3b05>" "cordered<int+14e2f>"
-      cfactor<int+d3b05>  "cordered<int+d3b05>" "cordered<int+14e2f>"
-      cfactor<int+14e2f>  NA                    "cordered<int+14e2f>"
+      cfactor<int+22f9f>  NA                    NA                   
+      cfactor<int+d3b05>  NA                    NA                   
+      cfactor<int+14e2f>  NA                    NA                   
       cfactor<int+c6214>  NA                    NA                   
       cfactor<int+7aea3>  NA                    NA                   
       cfactor<int+cb0a5>  NA                    NA                   
@@ -2092,8 +2092,8 @@
       cfactor<int+22f9f>  NA                    NA                   
       cfactor<int+d3b05>  NA                    NA                   
       cfactor<int+14e2f>  NA                    NA                   
-      cfactor<int+c6214>  "cordered<int+c6214>" NA                   
-      cfactor<int+7aea3>  NA                    "cordered<int+7aea3>"
+      cfactor<int+c6214>  NA                    NA                   
+      cfactor<int+7aea3>  NA                    NA                   
       cfactor<int+cb0a5>  NA                    NA                   
       cfactor<int+ac835>  NA                    NA                   
       cfactor<int+471fa>  NA                    NA                   
@@ -2146,9 +2146,9 @@
       cfactor<int+d3b05>  NA                    NA                   
       cfactor<int+14e2f>  NA                    NA                   
       cfactor<int+c6214>  NA                    NA                   
-      cfactor<int+7aea3>  "cordered<int+cb0a5>" "cordered<int+ac835>"
-      cfactor<int+cb0a5>  "cordered<int+cb0a5>" "cordered<int+ac835>"
-      cfactor<int+ac835>  NA                    "cordered<int+ac835>"
+      cfactor<int+7aea3>  NA                    NA                   
+      cfactor<int+cb0a5>  NA                    NA                   
+      cfactor<int+ac835>  NA                    NA                   
       cfactor<int+471fa>  NA                    NA                   
       cfactor<chr+94e2a>  NA                    NA                   
       cfactor<chr+f84d5>  NA                    NA                   
@@ -2202,8 +2202,8 @@
       cfactor<int+7aea3>  NA                    NA                   
       cfactor<int+cb0a5>  NA                    NA                   
       cfactor<int+ac835>  NA                    NA                   
-      cfactor<int+471fa>  "cordered<int+471fa>" NA                   
-      cfactor<chr+94e2a>  NA                    "cordered<chr+94e2a>"
+      cfactor<int+471fa>  NA                    NA                   
+      cfactor<chr+94e2a>  NA                    NA                   
       cfactor<chr+f84d5>  NA                    NA                   
       cfactor<chr+f4edf>  NA                    NA                   
       cfactor<chr+5b271>  NA                    NA                   
@@ -2256,9 +2256,9 @@
       cfactor<int+cb0a5>  NA                    NA                   
       cfactor<int+ac835>  NA                    NA                   
       cfactor<int+471fa>  NA                    NA                   
-      cfactor<chr+94e2a>  "cordered<chr+f84d5>" "cordered<chr+f4edf>"
-      cfactor<chr+f84d5>  "cordered<chr+f84d5>" "cordered<chr+f4edf>"
-      cfactor<chr+f4edf>  NA                    "cordered<chr+f4edf>"
+      cfactor<chr+94e2a>  NA                    NA                   
+      cfactor<chr+f84d5>  NA                    NA                   
+      cfactor<chr+f4edf>  NA                    NA                   
       cfactor<chr+5b271>  NA                    NA                   
       cfactor<chr+a1722>  NA                    NA                   
       cfactor<chr+23595>  NA                    NA                   
@@ -2312,8 +2312,8 @@
       cfactor<chr+94e2a>  NA                    NA                   
       cfactor<chr+f84d5>  NA                    NA                   
       cfactor<chr+f4edf>  NA                    NA                   
-      cfactor<chr+5b271>  "cordered<chr+5b271>" NA                   
-      cfactor<chr+a1722>  NA                    "cordered<chr+a1722>"
+      cfactor<chr+5b271>  NA                    NA                   
+      cfactor<chr+a1722>  NA                    NA                   
       cfactor<chr+23595>  NA                    NA                   
       cfactor<chr+1e0d5>  NA                    NA                   
       cfactor<chr+1b2ef>  NA                    NA                   
@@ -2366,9 +2366,9 @@
       cfactor<chr+f84d5>  NA                    NA                   
       cfactor<chr+f4edf>  NA                    NA                   
       cfactor<chr+5b271>  NA                    NA                   
-      cfactor<chr+a1722>  "cordered<chr+23595>" "cordered<chr+1e0d5>"
-      cfactor<chr+23595>  "cordered<chr+23595>" "cordered<chr+1e0d5>"
-      cfactor<chr+1e0d5>  NA                    "cordered<chr+1e0d5>"
+      cfactor<chr+a1722>  NA                    NA                   
+      cfactor<chr+23595>  NA                    NA                   
+      cfactor<chr+1e0d5>  NA                    NA                   
       cfactor<chr+1b2ef>  NA                    NA                   
       ordered<4d52a>      NA                    NA                   
       ordered<38051>      "cordered<chr+23595>" NA                   
@@ -2422,7 +2422,7 @@
       cfactor<chr+a1722>  NA                   
       cfactor<chr+23595>  NA                   
       cfactor<chr+1e0d5>  NA                   
-      cfactor<chr+1b2ef>  "cordered<chr+1b2ef>"
+      cfactor<chr+1b2ef>  NA                   
       ordered<4d52a>      NA                   
       ordered<38051>      NA                   
       ordered<af15a>      NA                   
