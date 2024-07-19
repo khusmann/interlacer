@@ -1,3 +1,44 @@
+EXAMPLE_FCT <- factor(c(), levels=c("a", "b", "c"))
+
+INTERLACED_TYPES <- list2(
+#  new_interlaced(logical(), logical()),
+  new_interlaced(logical(), integer()),
+  new_interlaced(logical(), double()),
+  new_interlaced(logical(), EXAMPLE_FCT),
+  new_interlaced(logical(), character()),
+
+#  new_interlaced(integer(), logical()),
+  new_interlaced(integer(), integer()),
+  new_interlaced(integer(), double()),
+  new_interlaced(integer(), EXAMPLE_FCT),
+  new_interlaced(integer(), character()),
+
+#  new_interlaced(double(), logical()),
+  new_interlaced(double(), integer()),
+  new_interlaced(double(), double()),
+  new_interlaced(double(), EXAMPLE_FCT),
+  new_interlaced(double(), character()),
+
+#  new_interlaced(EXAMPLE_FCT, logical()),
+  new_interlaced(EXAMPLE_FCT, integer()),
+  new_interlaced(EXAMPLE_FCT, double()),
+  new_interlaced(EXAMPLE_FCT, EXAMPLE_FCT),
+  new_interlaced(EXAMPLE_FCT, character()),
+
+#  new_interlaced(character(), logical()),
+  new_interlaced(character(), integer()),
+  new_interlaced(character(), double()),
+  new_interlaced(character(), EXAMPLE_FCT),
+  new_interlaced(character(), character()),
+)
+
+BASE_TYPES = list2(
+  logical(),
+  integer(),
+  double(),
+  EXAMPLE_FCT,
+  character(),
+)
 
 test_that("interlaced type coercion is symmetric and unchanging", {
   mat <- maxtype_mat(INTERLACED_TYPES, INTERLACED_TYPES)
