@@ -2060,8 +2060,8 @@
       ordered<38051>      NA                    NA                   
       ordered<af15a>      NA                    NA                   
       ordered<dc80e>      NA                    NA                   
-      cordered<int+22f9f> "cordered<int+d3b05>" "cordered<int+14e2f>"
-      cordered<int+d3b05> "cordered<int+d3b05>" "cordered<int+14e2f>"
+      cordered<int+22f9f> NA                    NA                   
+      cordered<int+d3b05> "cordered<int+d3b05>" NA                   
       cordered<int+14e2f> NA                    "cordered<int+14e2f>"
       cordered<int+c6214> NA                    NA                   
       cordered<int+7aea3> NA                    NA                   
@@ -2170,8 +2170,8 @@
       cordered<int+d3b05> NA                    NA                   
       cordered<int+14e2f> NA                    NA                   
       cordered<int+c6214> NA                    NA                   
-      cordered<int+7aea3> "cordered<int+cb0a5>" "cordered<int+ac835>"
-      cordered<int+cb0a5> "cordered<int+cb0a5>" "cordered<int+ac835>"
+      cordered<int+7aea3> NA                    NA                   
+      cordered<int+cb0a5> "cordered<int+cb0a5>" NA                   
       cordered<int+ac835> NA                    "cordered<int+ac835>"
       cordered<int+471fa> NA                    NA                   
       cordered<chr+94e2a> NA                    NA                   
@@ -2280,8 +2280,8 @@
       cordered<int+cb0a5> NA                    NA                   
       cordered<int+ac835> NA                    NA                   
       cordered<int+471fa> NA                    NA                   
-      cordered<chr+94e2a> "cordered<chr+f84d5>" "cordered<chr+f4edf>"
-      cordered<chr+f84d5> "cordered<chr+f84d5>" "cordered<chr+f4edf>"
+      cordered<chr+94e2a> NA                    NA                   
+      cordered<chr+f84d5> "cordered<chr+f84d5>" NA                   
       cordered<chr+f4edf> NA                    "cordered<chr+f4edf>"
       cordered<chr+5b271> NA                    NA                   
       cordered<chr+a1722> NA                    NA                   
@@ -2390,8 +2390,8 @@
       cordered<chr+f84d5> NA                    NA                   
       cordered<chr+f4edf> NA                    NA                   
       cordered<chr+5b271> NA                    NA                   
-      cordered<chr+a1722> "cordered<chr+23595>" "cordered<chr+1e0d5>"
-      cordered<chr+23595> "cordered<chr+23595>" "cordered<chr+1e0d5>"
+      cordered<chr+a1722> NA                    NA                   
+      cordered<chr+23595> "cordered<chr+23595>" NA                   
       cordered<chr+1e0d5> NA                    "cordered<chr+1e0d5>"
       cordered<chr+1b2ef> NA                    NA                   
                           cordered<chr+1b2ef>  

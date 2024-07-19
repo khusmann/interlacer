@@ -459,18 +459,20 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
   x_codes <- codes(x)
   to_codes <- codes(to)
 
-  x_pairs <- code_label_pairs(x_codes)
-  to_pairs <- code_label_pairs(to_codes)
+  if (identical(x_codes, to_codes) && is.ordered(x) == is.ordered(to)) {
+    x
+  } else if (!is.ordered(x) && !is.ordered(to)) {
+    x_pairs <- code_label_pairs(x_codes)
+    to_pairs <- code_label_pairs(to_codes)
 
-  if (length(setdiff(x_pairs, to_pairs)) != 0) {
+    if (length(setdiff(x_pairs, to_pairs)) != 0) {
+      stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
+    }
+
+    cfactor(as.codes(x), to_codes, ordered = FALSE)
+  } else {
     stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
   }
-
-  if (is.ordered(x) != is.ordered(to)) {
-    stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
-  }
-
-  cfactor(as.codes(x), to_codes, is.ordered(to))
 }
 
 #' @export
