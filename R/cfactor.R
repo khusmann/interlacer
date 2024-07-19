@@ -467,11 +467,27 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
     x_pairs <- code_label_pairs(x_codes)
     to_pairs <- code_label_pairs(to_codes)
 
-    if (length(setdiff(x_pairs, to_pairs)) != 0) {
+    if (all(x_pairs %in% to_pairs)) {
+      cfactor(as.codes(x), to_codes, ordered = FALSE)
+    } else if (all(to_pairs %in% x_pairs)) {
+      lossy <- !(x %in% levels(to))
+      if (all(!lossy)) {
+        cfactor(as.codes(x), to_codes, ordered = FALSE)
+      } else {
+        out <- if_else(lossy, NA, x)
+        maybe_lossy_cast(
+          as.cfactor(as.character(out), codes = codes(to), ordered = FALSE),
+          x,
+          to,
+          lossy = lossy,
+          loss_type = "generality",
+          x_arg = x_arg,
+          to_arg = to_arg
+        )
+      }
+    } else {
       stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
     }
-
-    cfactor(as.codes(x), to_codes, ordered = FALSE)
   } else {
     stop_incompatible_cast(x, to, x_arg = x_arg, to_arg = to_arg)
   }
@@ -481,9 +497,8 @@ vec_cast.interlacer_cfactor.interlacer_cfactor <- function(
 vec_cast.factor.interlacer_cfactor <- function(
   x, to, ..., x_arg = "", to_arg = ""
 ) {
-  if (is.latent.cfactor(x)) {
-    return(vec_cast(as.factor(x), to, ..., x_arg = x_arg, to_arg = to_arg))
-  }
+  # No need to check for is.latent.cfactor(x) here because
+  # we as.factor(x) right away
 
   # On the one hand, stripping codes is technically a lossy cast because
   # we lose the codes, but on the other hand, vctrs allows casting from
@@ -510,6 +525,30 @@ vec_cast.interlacer_cfactor.factor <- function(
 ) {
   if (is.latent.cfactor(to)) {
     return(vec_cast(x, as.factor(to), ..., x_arg = x_arg, to_arg = to_arg))
+  }
+
+  # Special case for unordered factors, when casting
+  # to an unordered cfactor with a fewer number of levels
+  if (!is.ordered(x) && !is.ordered(to) && all(levels(to) %in% levels(x))) {
+    lossy <- !(x %in% levels(to))
+    if (all(!lossy)) {
+      return(
+        as.cfactor(as.character(x), codes = codes(to), ordered = FALSE)
+      )
+    } else {
+      out <- if_else(lossy, NA, x)
+      return(
+        maybe_lossy_cast(
+          as.cfactor(as.character(out), codes = codes(to), ordered = FALSE),
+          x,
+          to,
+          lossy = lossy,
+          loss_type = "generality",
+          x_arg = x_arg,
+          to_arg = to_arg
+        )
+      )
+    }
   }
 
   if (
