@@ -411,7 +411,7 @@ vec_restore.interlacer_interlaced <- function(x, to, ...) {
 
 #' @export
 vec_proxy_equal.interlacer_interlaced <- function(x, ...) {
-  if_else(is.empty(x), list(NULL), vec_chop(x))
+  value_channel(x)
 }
 
 #' @export
