@@ -398,9 +398,11 @@ format.interlacer_interlaced_pillar <- function(x, width, ...) {
 
 #' @export
 vec_proxy.interlacer_interlaced <- function(x, ...) {
-  data_frame(
-    v = value_channel(x),
-    m = na_channel(x),
+  duplicate(
+    data_frame(
+      v = value_channel(x),
+      m = na_channel(x),
+    )
   )
 }
 
