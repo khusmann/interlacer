@@ -134,7 +134,6 @@ new_interlaced <- function(value_channel, na_channel, ...) {
   UseMethod("%==%")
 }
 
-#' @rdname grapes-equals-grapes
 #' @export
 `%==%.default` <- function(x, y) {
   m_x <- na_channel(x)

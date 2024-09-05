@@ -2,13 +2,10 @@
 % Please edit documentation in R/interlaced.R
 \name{\%==\%}
 \alias{\%==\%}
-\alias{\%==\%.default}
 \alias{\%!=\%}
 \title{Multichannel comparison}
 \usage{
 x \%==\% y
-
-\method{\%==\%}{default}(x, y)
 
 x \%!=\% y
 }
