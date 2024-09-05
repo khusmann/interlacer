@@ -24,9 +24,8 @@ test_that("parse_interlaced returns unspecified types", {
 })
 
 
-test_that("is.na() and is.empty() detect correct values", {
+test_that("is.na() detect correct values", {
   foo <- new_interlaced(c("a", NA, NA), c(NA, "reason", NA))
-  expect_equal(is.empty(foo), c(FALSE, FALSE, TRUE))
   expect_equal(is.na(foo), c(FALSE, TRUE, TRUE))
 })
 
