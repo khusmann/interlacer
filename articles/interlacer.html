@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Introduction to interlacer</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/v0.3.5/vignettes/interlacer.Rmd" class="external-link"><code>vignettes/interlacer.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/main/vignettes/interlacer.Rmd" class="external-link"><code>vignettes/interlacer.Rmd</code></a></small>
       <div class="d-none name"><code>interlacer.Rmd</code></div>
     </div>
 
@@ -283,15 +283,13 @@ single <code>NA</code>:</p>
 <span>    .by <span class="op">=</span> <span class="va">favorite_color</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 3</span></span></span>
 <span><span class="co">#&gt;   favorite_color mean_age     n</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr,fct&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> BLUE               20       2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> RED                41       2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> YELLOW             30       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">&lt;REFUSED&gt;</span>          15.5     3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> <span style="color: #BB0000;">&lt;OMITTED&gt;</span>          40       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> <span style="color: #BB0000;">&lt;N/A&gt;</span>               1       1</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> <span style="color: #BB0000;">&lt;REFUSED&gt;</span>          22.4     6</span></span></code></pre></div>
 <p>As you can see, we can generate the same report as we did before, but
 without needing to do any type gymnastics! Also, the values are neatly
 distinguished from the missing reasons.</p>
@@ -309,11 +307,8 @@ that a value should be interpreted as a missing reason, you can use the
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"REFUSED"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">#&gt;   person_id       age favorite_color</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr,fct&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         2 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> BLUE          </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         9 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 variables: person_id &lt;dbl,fct&gt;, age &lt;dbl,fct&gt;, favorite_color &lt;chr,fct&gt;</span></span></span>
 <span></span>
 <span><span class="co"># na_channel() can also be used to get an equivalent result:</span></span>
 <span><span class="va">df</span> <span class="op">|&gt;</span></span>
@@ -328,10 +323,8 @@ favorite color?</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"REFUSED"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">favorite_color</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"REFUSED"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
-<span><span class="co">#&gt;   person_id       age favorite_color</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr,fct&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         9 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 variables: person_id &lt;dbl,fct&gt;, age &lt;dbl,fct&gt;, favorite_color &lt;chr,fct&gt;</span></span></span></code></pre></div>
 <p>It’s also possible to combine value conditions with missing reason
 conditions. For example, this will select everyone who
 <code>REFUSED</code> to give their favorite color, and was over 20 years
@@ -339,10 +332,8 @@ old:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;</span> <span class="fl">20</span> <span class="op">&amp;</span> <span class="va">favorite_color</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"REFUSED"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 3</span></span></span>
-<span><span class="co">#&gt;   person_id       age favorite_color</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr,fct&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         3        21 <span style="color: #BB0000;">&lt;REFUSED&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 variables: person_id &lt;dbl,fct&gt;, age &lt;dbl,fct&gt;, favorite_color &lt;chr,fct&gt;</span></span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="mutations">Mutations<a class="anchor" aria-label="anchor" href="#mutations"></a>
@@ -434,14 +425,62 @@ out the missing reason channel due to a <a href="https://vctrs.r-lib.org/#motiva
 base R</a>.</p>
 </div>
 <div class="section level2">
-<h2 id="empty-cells-na-missing-reasons">Empty cells (<code>NA</code> missing reasons)<a class="anchor" aria-label="anchor" href="#empty-cells-na-missing-reasons"></a>
+<h2 id="multichannel-comparison">Multichannel comparison<a class="anchor" aria-label="anchor" href="#multichannel-comparison"></a>
 </h2>
-<p>When a cell in a column is missing both a value and a missing reason,
-the cell is considered “empty”. Such values can occur when missing
-reasons are not specified. For example, if we did not include a
-<code>missing =</code> argument in the second example in the previous
-section, we would get the following result:</p>
+<p>Comparison operators (e.g. <code>==</code> and <code>!=</code>)
+compare value channels, and return <code>NA</code> whenever missing
+values are involved:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">5</span> <span class="op">==</span> <span class="cn">NA</span></span>
+<span><span class="co">#&gt; [1] NA</span></span>
+<span><span class="fl">5</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"reason"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<p>This means that missing reasons cannot be directly compared:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"reason1"</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"reason2"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<p>To simultaneously compare values and missing reason channels,
+interlacer provides the multichannel comparison operators
+<code>%==%</code> and <code>%!=%</code>. These operators always return
+boolean vectors, and never return missing values. With multichannel
+comparison, two values are considered equal iff:</p>
+<ul>
+<li>they are both values, and the values are equal OR</li>
+<li>they are both missing values, and their reasons are the same OR</li>
+<li>they are both missing values, and both lack missing reasons</li>
+</ul>
+<p>This way, if we convert the previous example to use multichannel
+comparison, we get:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"reason1"</span><span class="op">)</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"reason2"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>Similarly, comparisons with values return booleans rather than
+<code>NA</code>,</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fl">5</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="cn">NA</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span>
+<span><span class="fl">5</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"reason"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] FALSE</span></span></code></pre></div>
+<p>And, as a consequence, regular <code>NA</code> values are equivalent
+to interlaced values that do not have a missing reason:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="cn">NA</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span></span>
+<span><span class="co"># Alternatively this can be considered an `NA` missing reason:</span></span>
+<span><span class="cn">NA</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>Missing values that are missing their missing reasons are called
+“empty values”, and discussed in the next section.</p>
+</div>
+<div class="section level2">
+<h2 id="empty-values">Empty values<a class="anchor" aria-label="anchor" href="#empty-values"></a>
+</h2>
+<p>Empty values are missing values that lack missing reasons. These
+values can arise when missing actions are not specified. For example, in
+the example, empty values are created because the <code>missing =</code>
+argument in the <code><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else()</a></code> statement is not specified:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
@@ -464,9 +503,11 @@ section, we would get the following result:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>         9 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> <span style="color: #0000BB;">&lt;&lt;NA&gt;&gt;</span>             </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>        10 <span style="color: #BB0000;">&lt;OMITTED&gt;</span> <span style="color: #0000BB;">&lt;&lt;NA&gt;&gt;</span>             </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11        10 <span style="color: #BB0000;">&lt;REDACTED_UNDERAGE&gt;</span></span></span></code></pre></div>
-<p>Empty values can be detected by using the <code><a href="../reference/is.empty.html">is.empty()</a></code>
-function:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p>As you can see, empty values are displayed as
+<code>&lt;&lt;NA&gt;&gt;</code>.</p>
+<p>Empty values can be detected by using the multichannel comparsion
+operator:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    favorite_color <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span></span>
@@ -475,44 +516,21 @@ function:</p>
 <span>      <span class="va">favorite_color</span>,</span>
 <span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="../reference/is.empty.html">is.empty</a></span><span class="op">(</span><span class="va">favorite_color</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">favorite_color</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   person_id       age favorite_color</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr,fct&gt;</span>     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         2 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> <span style="color: #0000BB;">&lt;&lt;NA&gt;&gt;</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         9 <span style="color: #BB0000;">&lt;REFUSED&gt;</span> <span style="color: #0000BB;">&lt;&lt;NA&gt;&gt;</span>        </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>        10 <span style="color: #BB0000;">&lt;OMITTED&gt;</span> <span style="color: #0000BB;">&lt;&lt;NA&gt;&gt;</span></span></span></code></pre></div>
-<p>Raw <code>NA</code> values are also considered “empty”:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># regular values are neither missing nor empty</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] FALSE</span></span>
-<span><span class="fu"><a href="../reference/is.empty.html">is.empty</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] FALSE</span></span>
-<span></span>
-<span><span class="co"># na("REASON") is a missing value, but is not an empty value</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"REASON"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="../reference/is.empty.html">is.empty</a></span><span class="op">(</span><span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"REASON"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] FALSE</span></span>
-<span></span>
-<span><span class="co"># na(NA) values are considered missing and empty</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="../reference/is.empty.html">is.empty</a></span><span class="op">(</span><span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span></span>
-<span><span class="co"># regular NA values are also missing and empty</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="../reference/is.empty.html">is.empty</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>(Note that regular equality does not work, because it would return
+<code>NA</code> for all the comparisons!)</p>
 <p>Empty values often occur as the result of joins, because the
 <code>dplyr::*_join()</code> family of functions do not have a
 <code>missing =</code> parameter, like <code><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">dplyr::if_else()</a></code>
 does. For example, say we had the following data frame we wanted to join
 to our sample:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">conditions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">person_id</span>, <span class="op">~</span><span class="va">condition</span>,</span>
 <span>  <span class="fl">1</span>, <span class="st">"TREATMENT"</span>,</span>
@@ -524,7 +542,7 @@ to our sample:</p>
 <p>Because we’re missing condition information for some of the
 respondents, these show up as empty values when we join the data frame
 to our sample:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">conditions</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">person_id</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
@@ -543,11 +561,11 @@ to our sample:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span>        11        10 <span style="color: #BB0000;">&lt;REFUSED&gt;</span>      <span style="color: #0000BB;">&lt;&lt;NA&gt;&gt;</span></span></span></code></pre></div>
 <p>We can remedy this by replacing these empty values after the
 join:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">conditions</span>, by <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/join_by.html" class="external-link">join_by</a></span><span class="op">(</span><span class="va">person_id</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    condition <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="fu"><a href="../reference/is.empty.html">is.empty</a></span><span class="op">(</span><span class="va">condition</span><span class="op">)</span>, <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"LEFT_STUDY"</span><span class="op">)</span>, <span class="va">condition</span><span class="op">)</span>,</span>
+<span>    condition <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/if_else.html" class="external-link">if_else</a></span><span class="op">(</span><span class="va">condition</span> <span class="op"><a href="../reference/grapes-equals-grapes.html">%==%</a></span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"LEFT_STUDY"</span><span class="op">)</span>, <span class="va">condition</span><span class="op">)</span>,</span>
 <span>  <span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
 <span><span class="co">#&gt;    person_id       age favorite_color condition        </span></span>
@@ -570,14 +588,14 @@ join:</p>
 <p>After you’ve made made changes to your data, you probably want to
 save them. interlacer provides the <code>write_interlaced_*</code>
 family of functions for this:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_interlaced_delim.html">write_interlaced_csv</a></span><span class="op">(</span><span class="va">df</span>, <span class="st">"interlaced_output.csv"</span><span class="op">)</span></span></code></pre></div>
 <p>This will combine the value and missing reasons into interlaced
 character columns, and write the result as a csv. Alternatively, if you
 want to re-interlace the columns without writing to a file for more
 control in the writing process, you can use
 <code><a href="../reference/flatten_channels.html">flatten_channels()</a></code>:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/flatten_channels.html">flatten_channels</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">#&gt;    person_id age     favorite_color</span></span>
@@ -602,7 +620,7 @@ control in the writing process, you can use
 <code>interlaced</code> vectors can similarly be accessed using the
 <code><a href="../reference/value_channel.html">value_channel()</a></code> and <code><a href="../reference/value_channel.html">na_channel()</a></code> helper
 functions:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/value_channel.html">value_channel</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 3</span></span></span>
 <span><span class="co">#&gt;    person_id   age favorite_color</span></span>

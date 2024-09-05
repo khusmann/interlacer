@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Coded Data</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/v0.3.5/vignettes/coded-data.Rmd" class="external-link"><code>vignettes/coded-data.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/main/vignettes/coded-data.Rmd" class="external-link"><code>vignettes/coded-data.Rmd</code></a></small>
       <div class="d-none name"><code>coded-data.Rmd</code></div>
     </div>
 
@@ -171,11 +171,8 @@ colors, you would write:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_coded</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">favorite_color</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="op">-</span><span class="fl">97</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
-<span><span class="co">#&gt;   person_id       age favorite_color</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl,int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,int&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl,int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         4        30          <span style="color: #BB0000;">&lt;-97&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         7        50          <span style="color: #BB0000;">&lt;-97&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 variables: person_id &lt;dbl,int&gt;, age &lt;dbl,int&gt;, favorite_color &lt;dbl,int&gt;</span></span></span></code></pre></div>
 <p>To make these data more ergnomic to work with, you can use
 interlacer’s <code><a href="../reference/value_collectors.html">v_col_cfactor()</a></code> and
 <code><a href="../reference/na_collectors.html">na_col_cfactor()</a></code> collector types to load these values as a
@@ -216,12 +213,9 @@ when working with the data:</p>
 <span></span>
 <span><span class="va">df_decoded</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">favorite_color</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="st">"OMITTED"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
-<span><span class="co">#&gt;    person_id        age favorite_color</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;dbl,cfct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl,cfct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;cfct,cfct&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>          3         21 <span style="color: #BB0000;">&lt;OMITTED&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>          9  <span style="color: #BB0000;">&lt;OMITTED&gt;</span> <span style="color: #BB0000;">&lt;OMITTED&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         11         10 <span style="color: #BB0000;">&lt;OMITTED&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 3</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 variables: person_id &lt;dbl,cfct&gt;, age &lt;dbl,cfct&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   favorite_color &lt;cfct,cfct&gt;</span></span></span></code></pre></div>
 <p>But you can still convert the labels of values or missing reasons
 back to codes if you wish, using <code><a href="../reference/as.codes.html">as.codes()</a></code>. The following
 will convert the missing reason channel of <code>age</code> and the

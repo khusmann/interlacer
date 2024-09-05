@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">interlacer</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +67,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Other Approaches</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/v0.3.5/vignettes/other-approaches.Rmd" class="external-link"><code>vignettes/other-approaches.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/khusmann/interlacer/blob/main/vignettes/other-approaches.Rmd" class="external-link"><code>vignettes/other-approaches.Rmd</code></a></small>
       <div class="d-none name"><code>other-approaches.Rmd</code></div>
     </div>
 
@@ -329,11 +329,6 @@ package uses the function<code><a href="https://rdrr.io/pkg/declared/man/declare
 constructing interlaced vectors:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dusadrian/declared" class="external-link">declared</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'declared'</span></span>
-<span><span class="co">#&gt; The following object is masked from 'package:interlacer':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     is.empty</span></span>
 <span></span>
 <span><span class="op">(</span><span class="va">dcl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/declared/man/declared.html" class="external-link">declared</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="op">-</span><span class="fl">99</span>, <span class="op">-</span><span class="fl">98</span><span class="op">)</span>, na_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">99</span>, <span class="op">-</span><span class="fl">98</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;declared&lt;numeric&gt;[5]&gt;</span></span>
@@ -465,9 +460,9 @@ comparisons on.</p>
 <span></span>
 <span><span class="co"># interlacer </span></span>
 <span><span class="fu"><a href="../reference/interlaced.html">interlaced</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">99</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, na <span class="op">=</span> <span class="op">-</span><span class="fl">99</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span> <span class="co"># value channel comparison</span></span>
-<span><span class="co">#&gt; [1] FALSE  TRUE FALSE</span></span>
+<span><span class="co">#&gt; [1]    NA  TRUE FALSE</span></span>
 <span><span class="fu"><a href="../reference/interlaced.html">interlaced</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">99</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, na <span class="op">=</span> <span class="op">-</span><span class="fl">99</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="../reference/na.html">na</a></span><span class="op">(</span><span class="op">-</span><span class="fl">99</span><span class="op">)</span> <span class="co"># na channel comparison</span></span>
-<span><span class="co">#&gt; [1]  TRUE FALSE FALSE</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] NA NA NA</span></span></code></pre></div>
 <p>Similarly, <code><a href="../reference/map_value_channel.html">map_value_channel()</a></code> and
 <code><a href="../reference/map_value_channel.html">map_na_channel()</a></code> allow you to safely mutate a particular
 channel, without touching the values of the other channel. This
