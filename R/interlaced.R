@@ -111,6 +111,49 @@ new_interlaced <- function(value_channel, na_channel, ...) {
   v
 }
 
+#' Multichannel comparison
+#'
+#' Regular comparison operators (i.e. `==` and `!=`) only apply to value
+#' channel; when used with missing values they always result in `NA`.
+#'
+#' The multichannel comparison operators `%==%` and `%!=%` compare BOTH the
+#' value and missing reason channels of a variable. Multichannel equality
+#' `%==%` operates identically to regular `==` when both operands are values,
+#' but will return `FALSE` instead of `NA` when one is missing. When both values
+#' being compared with `%==%` are missing values, their missing reasons are
+#' compared. Multichannel comparison operators always return boolean values,
+#' never `NA`
+#'
+#' @param x A vector
+#' @param y A vector to compare
+#'
+#' @returns A boolean vector indicating the result of the comparison
+#'
+#' @export
+`%==%` <- function(x, y, ...) {
+  UseMethod("%==%")
+}
+
+#' @rdname grapes-equals-grapes
+#' @export
+`%==%.default` <- function(x, y, ...) {
+  m_x <- na_channel(x)
+  m_y <- na_channel(y)
+  if_else(
+    !is.na(x) & !is.na(y),
+    value_channel(x) == value_channel(y),
+    is.na(x) & is.na(y) & (
+      (!is.na(m_x) & !is.na(m_y) & m_x == m_y) | (is.na(m_x) & is.na(m_y))
+    ),
+  )
+}
+
+#' @rdname grapes-equals-grapes
+#' @export
+`%!=%` <- function(x, y, ...) {
+  !(x %==% y)
+}
+
 #' Interpret a value as a missing reason
 #'
 #' `na()` lifts a value into an `interlaced` missing reason channel.
