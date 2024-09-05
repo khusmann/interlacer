@@ -72,3 +72,18 @@ test_that("interlaced type casting is unchanging", {
   expect_true(all(grepl("^interlaced", na.omit(mat))))
   expect_snapshot(mat)
 })
+
+test_that("multichannel comparisons work", {
+  expect_true(NA %==% NA)
+  expect_true(5 %==% 5)
+  expect_false(NA %==% 5)
+  expect_false(5 %==% NA)
+
+  expect_true(na("reason") %==% na("reason"))
+  expect_false(na("reason") %==% 5)
+  expect_false(5 %==% na("reason"))
+  expect_false(na("reason2") %==% na("reason"))
+  expect_false(na("reason") %==% na("reason2"))
+  expect_false(NA %==% na("reason"))
+  expect_false(na("reason") %==% NA)
+})
