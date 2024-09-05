@@ -136,15 +136,8 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 
 #' @export
 `%==%.default` <- function(x, y) {
-  m_x <- na_channel(x)
-  m_y <- na_channel(y)
-  if_else(
-    !is.na(x) & !is.na(y),
-    value_channel(x) == value_channel(y),
-    is.na(x) & is.na(y) & (
-      (!is.na(m_x) & !is.na(m_y) & m_x == m_y) | (is.na(m_x) & is.na(m_y))
-    ),
-  )
+  args <- vec_cast_common(x, y)
+  vec_equal(vec_proxy(args[[1]]), vec_proxy(args[[2]]), na_equal = TRUE)
 }
 
 #' @rdname grapes-equals-grapes
