@@ -186,3 +186,18 @@ test_that("vec_arith works", {
     c(20, 4, NA, 6, NA, 18, 2)
   )
 })
+
+test_that("multichannel comparisons work", {
+  expect_true(NA %==% NA)
+  expect_true(5 %==% 5)
+  expect_false(NA %==% 5)
+  expect_false(5 %==% NA)
+
+  expect_true(na("reason") %==% na("reason"))
+  expect_false(na("reason") %==% 5)
+  expect_false(5 %==% na("reason"))
+  expect_false(na("reason2") %==% na("reason"))
+  expect_false(na("reason") %==% na("reason2"))
+  expect_false(NA %==% na("reason"))
+  expect_false(na("reason") %==% NA)
+})
