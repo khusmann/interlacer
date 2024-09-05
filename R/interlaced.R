@@ -376,7 +376,7 @@ format.interlacer_interlaced <- function(x, ...) {
 
   format(
     if_else(
-      is.empty(x), "<<NA>>",
+      x %==% NA, "<<NA>>",
       if_else(
         is.na(x), paste0("<", as.character(m), ">"),
         format(v)
@@ -417,7 +417,7 @@ pillar_shaft.interlacer_interlaced <- function(x, ...) {
     list(
       v = v,
       m = m,
-      empty = is.empty(x),
+      empty = x %==% NA,
       na = is.na(x)
     ),
     width = width,
@@ -564,32 +564,6 @@ na_levels <- function(x) {
 }
 
 # NA functions ---------------------------------------------------------
-
-#' Test if a value is missing and lacks a missing reason
-#'
-#' When a value is missing both a value and a missing reason, it is considered
-#' "empty". `is.empty()` checks for these type of values. Regular `NA` values
-#' (with no missing reasons) are also considered "empty".
-#'
-#' @param x a vector
-#'
-#' @returns a logical vector the same length as x, containing TRUE for all
-#' empty elements, and FALSE otherwise.
-#'
-#' @export
-is.empty <- function(x) {
-  UseMethod("is.empty")
-}
-
-#' @export
-is.empty.default <- function(x) {
-  is.na(x)
-}
-
-#' @export
-is.empty.interlacer_interlaced <- function(x) {
-  is.na(value_channel(x)) & is.na(na_channel(x))
-}
 
 # TODO: Remove these if not inheriting from vctrs_vctr
 
