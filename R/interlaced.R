@@ -126,6 +126,7 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #'
 #' @param x A vector
 #' @param y A vector to compare
+#' @param ... Additional arguments, not used
 #'
 #' @returns A boolean vector indicating the result of the comparison
 #'
