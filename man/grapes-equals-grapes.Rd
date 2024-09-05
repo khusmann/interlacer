@@ -8,7 +8,7 @@
 \usage{
 x \%==\% y
 
-\method{\%==\%}{default}(x, y, ...)
+\method{\%==\%}{default}(x, y)
 
 x \%!=\% y
 }
@@ -16,8 +16,6 @@ x \%!=\% y
 \item{x}{A vector}
 
 \item{y}{A vector to compare}
-
-\item{...}{Additional arguments, not used}
 }
 \value{
 A boolean vector indicating the result of the comparison

@@ -126,18 +126,17 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #'
 #' @param x A vector
 #' @param y A vector to compare
-#' @param ... Additional arguments, not used
 #'
 #' @returns A boolean vector indicating the result of the comparison
 #'
 #' @export
-`%==%` <- function(x, y, ...) {
+`%==%` <- function(x, y) {
   UseMethod("%==%")
 }
 
 #' @rdname grapes-equals-grapes
 #' @export
-`%==%.default` <- function(x, y, ...) {
+`%==%.default` <- function(x, y) {
   m_x <- na_channel(x)
   m_y <- na_channel(y)
   if_else(
@@ -151,7 +150,7 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 
 #' @rdname grapes-equals-grapes
 #' @export
-`%!=%` <- function(x, y, ...) {
+`%!=%` <- function(x, y) {
   !(x %==% y)
 }
 
