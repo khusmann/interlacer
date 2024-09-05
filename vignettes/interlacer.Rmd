@@ -262,12 +262,64 @@ instead of R's `base::ifelse()` function, because the base function strips out
 the missing reason channel due to a
 [fundamental limitation in base R](https://vctrs.r-lib.org/#motivation).
 
-## Empty cells (`NA` missing reasons)
+## Multichannel comparison
 
-When a cell in a column is missing both a value and a missing reason, the cell
-is considered "empty". Such values can occur when missing reasons are not
-specified. For example, if we did not include a `missing = ` argument in the
-second example in the previous section, we would get the following result:
+Comparison operators (e.g. `==` and `!=`) compare value channels, and
+return `NA` whenever missing values are involved:
+
+```{r}
+5 == NA
+5 == na("reason")
+```
+
+This means that missing reasons cannot be directly compared:
+
+```{r}
+na("reason1") == na("reason2")
+```
+
+To simultaneously compare values and missing reason channels, interlacer
+provides the multichannel comparison operators `%==%` and `%!=%`. These
+operators always return boolean vectors, and never return missing values.
+With multichannel comparison, two values are considered equal iff:
+
+- they are both values, and the values are equal OR
+- they are both missing values, and their reasons are the same OR
+- they are both missing values, and both lack missing reasons
+
+This way, if we convert the previous example to use multichannel comparison,
+we get:
+
+```{r}
+na("reason1") %==% na("reason2")
+```
+
+Similarly, comparisons with values return booleans rather than `NA`,
+
+```{r}
+5 %==% NA
+5 %==% na("reason")
+```
+
+And, as a consequence, regular `NA` values are equivalent to interlaced values
+that do not have a missing reason:
+
+```{r}
+NA %==% na()
+
+# Alternatively this can be considered an `NA` missing reason:
+NA %==% na(NA)
+```
+
+Missing values that are missing their missing reasons are called "empty values",
+and discussed in the next section.
+
+## Empty values
+
+Empty values are missing values that lack missing reasons. These values can
+arise when missing actions are not
+specified. For example, in the example, empty values are created because
+the `missing = ` argument in the `if_else()` statement is not specified:
 
 ```{r}
 df |>
@@ -280,7 +332,9 @@ df |>
   )
 ```
 
-Empty values can be detected by using the `is.empty()` function:
+As you can see, empty values are displayed as `<<NA>>`.
+
+Empty values can be detected by using the multichannel comparsion operator:
 
 ```{r}
 df |>
@@ -291,28 +345,11 @@ df |>
       favorite_color,
     )
   ) |>
-  filter(is.empty(favorite_color))
+  filter(favorite_color %==% na())
 ```
 
-Raw `NA` values are also considered "empty":
-
-```{r}
-# regular values are neither missing nor empty
-is.na(42)
-is.empty(42)
-
-# na("REASON") is a missing value, but is not an empty value
-is.na(na("REASON"))
-is.empty(na("REASON"))
-
-# na(NA) values are considered missing and empty
-is.na(na(NA))
-is.empty(na(NA))
-
-# regular NA values are also missing and empty
-is.na(NA)
-is.empty(NA)
-```
+(Note that regular equality does not work, because it would return `NA` for all
+the comparisons!)
 
 Empty values often occur as the result of joins, because the `dplyr::*_join()`
 family of functions do not have a `missing = ` parameter,
@@ -344,7 +381,7 @@ We can remedy this by replacing these empty values after the join:
 df |>
   left_join(conditions, by = join_by(person_id)) |>
   mutate(
-    condition = if_else(is.empty(condition), na("LEFT_STUDY"), condition),
+    condition = if_else(condition %==% na(), na("LEFT_STUDY"), condition),
   )
 ```
 
