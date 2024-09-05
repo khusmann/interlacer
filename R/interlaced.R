@@ -163,7 +163,7 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #' @returns An `interlaced` value
 #'
 #' @export
-na <- function(x = unspecified()) {
+na <- function(x = NA) {
   if (is.logical(x) && all(is.na(x))) {
     x <- unspecified(vec_size(x))
   }

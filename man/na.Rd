@@ -4,7 +4,7 @@
 \alias{na}
 \title{Interpret a value as a missing reason}
 \usage{
-na(x = unspecified())
+na(x = NA)
 }
 \arguments{
 \item{x}{A character or numeric value}
