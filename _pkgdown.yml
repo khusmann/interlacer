@@ -36,7 +36,6 @@ reference:
   - value_channel
   - flatten_channels
   - map_value_channel
-  - is.empty
   - na_levels
 - title: Tidy helpers for `interlaced` types
   desc: |
