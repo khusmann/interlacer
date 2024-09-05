@@ -115,8 +115,8 @@ new_interlaced <- function(value_channel, na_channel, ...) {
 #'
 #' Regular comparison operators (i.e. `==` and `!=`) only apply to value
 #' channel; when used with missing values they always result in `NA`.
-#'
-#' The multichannel comparison operators `%==%` and `%!=%` compare BOTH the
+#' By contrast,
+#' the multichannel comparison operators `%==%` and `%!=%` compare BOTH the
 #' value and missing reason channels of a variable. Multichannel equality
 #' `%==%` operates identically to regular `==` when both operands are values,
 #' but will return `FALSE` instead of `NA` when one is missing. When both values

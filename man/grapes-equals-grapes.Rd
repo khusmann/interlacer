@@ -20,9 +20,8 @@ A boolean vector indicating the result of the comparison
 \description{
 Regular comparison operators (i.e. \code{==} and \code{!=}) only apply to value
 channel; when used with missing values they always result in \code{NA}.
-}
-\details{
-The multichannel comparison operators \verb{\%==\%} and \verb{\%!=\%} compare BOTH the
+By contrast,
+the multichannel comparison operators \verb{\%==\%} and \verb{\%!=\%} compare BOTH the
 value and missing reason channels of a variable. Multichannel equality
 \verb{\%==\%} operates identically to regular \code{==} when both operands are values,
 but will return \code{FALSE} instead of \code{NA} when one is missing. When both values
