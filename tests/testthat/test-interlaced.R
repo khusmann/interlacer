@@ -125,6 +125,10 @@ test_that("indexing operates on underlying channels", {
   # multidimensional indexing errors
   expect_error(foo[1, 2])
   expect_error(foo[[1, 2]])
+
+  # indexing with drop works
+  expect_equal(foo[, drop = TRUE], foo)
+  expect_equal(foo[, drop = FALSE], foo)
 })
 
 test_that("indexing assignment casts & operates on underlying channels", {
