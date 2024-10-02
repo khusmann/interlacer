@@ -465,7 +465,7 @@ vec_proxy_order.interlacer_interlaced <- function(x, ...) {
 # Subsetting --------------------------------------------------------------
 
 #' @export
-`[.interlacer_interlaced` <-  function(x, i, ...) {
+`[.interlacer_interlaced` <-  function(x, i, ..., drop) {
   if (!missing(...)) {
     cli_abort("Can't index interlaced vectors on dimensions greater than 1.")
   }
