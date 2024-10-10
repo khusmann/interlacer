@@ -1,0 +1,79 @@
+name: Build and Release R Package
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:  # Add this for manual trigger
+
+jobs:
+  build:
+    name: Build R Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        R-version: [4.0, 4.1, 4.2, 4.3]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup R environment
+      uses: r-lib/actions/setup-r@v2
+      with:
+        r-version: "latest"
+
+    - name: Install dependencies
+      uses: r-lib/actions/setup-r-dependencies@v2
+
+    - name: Build binary package
+      shell: bash
+      run: R CMD INSTALL --build .
+
+    - name: Get the name of the binary package (Windows)
+      if: runner.os == 'Windows'
+      run: mv $(ls *.zip) interlacer-${{ matrix.os }}-${{ matrix.R-version }}.zip
+
+    - name: Get the name of the binary package (macOS)
+      if: runner.os != 'Windows'
+      run: mv $(ls *.tgz) interlacer-${{ matrix.os }}-${{ matrix.R-version }}.tgz
+
+    # Temporary step for testing to upload the artifact
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: interlacer-${{ matrix.os }}-${{ matrix.R-version }}
+        path: |
+          *.tgz
+          *.zip
+
+  release:
+    if: github.event_name == 'release'  # Only run this on real releases
+    name: Attach built packages to release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download built assets
+      uses: actions/download-artifact@v3
+      with:
+        name: interlacer-${{ matrix.os }}-${{ matrix.R-version }}
+        path: ./dist/
+
+    - name: Upload assets to GitHub Release (Windows)
+      if: runner.os == 'Windows' && github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist/interlacer-${{ matrix.os }}-${{ matrix.R-version }}.zip
+        asset_name: "interlacer-${{ matrix.os }}-${{ matrix.R-version }}.zip"
+        asset_content_type: application/zip
+
+    - name: Upload assets to GitHub Release (macOS/Linux)
+      if: runner.os != 'Windows' && github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./dist/interlacer-${{ matrix.os }}-${{ matrix.R-version }}.tgz
+        asset_name: "interlacer-${{ matrix.os }}-${{ matrix.R-version }}.tgz"
+        asset_content_type: application/gzip
