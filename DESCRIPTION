@@ -1,7 +1,7 @@
 Type: Package
 Package: interlacer
 Title: Read Tabular Data With Interlaced Values And Missing Reasons
-Version: 0.4.0
+Version: 0.4.1
 Authors@R: 
     person("Kyle", "Husmann", , "kyle.husmann@gmail.com", role = c("aut", "cre"))
 Description: interlacer provides functions for handling tabular data with interlaced
