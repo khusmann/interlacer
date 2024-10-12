@@ -96,7 +96,7 @@ new_interlaced <- function(value_channel, na_channel, ...) {
   )
 
   for (i in names(attributes(value_channel))) {
-    if (i != "class") {
+    if (i != "class" && i != "names") {
       if (!is.null(attr(v, i))) {
         cli_abort("attribute {i} in value vector conflicts with interlaced")
       }

@@ -222,3 +222,10 @@ test_that("model.frame drops na_channel", {
   expect_equal(value_channel(mod$b), c(1, 3))
   expect_equal(na_channel(mod$b), unspecified(2))
 })
+
+test_that("vector names are preserved", {
+  foo <- interlaced(c(a=1, b=2, c=-99), c(-99))
+
+  expect_equal(names(foo), c("a", "b", "c"))
+  expect_equal(value_channel(foo), c(a=1, b=2, c=NA))
+})
