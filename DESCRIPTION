@@ -3,13 +3,13 @@ Package: interlacer
 Title: Read Tabular Data With Interlaced Values And Missing Reasons
 Version: 0.4.0
 Authors@R: 
-    person("Kyle", "Husmann", , "kdh38@psu.edu", role = c("aut", "cre"))
-Description: Textual tabular data sources often encode values and missing
-    reasons into the same texkual column. This packages loads such data
-    and deinterlaces the tabular source into a dataframe with two columns
-    per variable: one for values, and one for missing reasons. This
-    representation provides a tidy and typesafe interface for working with
-    values and missing reasons in R.
+    person("Kyle", "Husmann", , "kyle.husmann@gmail.com", role = c("aut", "cre"))
+Description: interlacer provides functions for handling tabular data with interlaced
+    missing reasons (e.g., N/A, REFUSED, -99). It introduces a special "interlaced"
+    vector type that enables you to keep the values and missing reasons as separate
+    "channels" of the same column. This allows you to easily work with a variable's
+    values while still preserving its missing reasons for filtering or summary
+    statistics.
 License: Apache License (>= 2)
 Depends:
     R (>= 4.1.0)
