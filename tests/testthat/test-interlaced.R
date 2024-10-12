@@ -206,6 +206,11 @@ test_that("multichannel comparisons work", {
   expect_false(na("reason") %==% NA)
 })
 
+test_that("unique applies to value_channel", {
+  foo <- interlaced(c(1,-99,3,-98), na=c(-99, -98))
+  expect_equal(unique(foo), c(1, NA, 3))
+})
+
 test_that("model.frame drops na_channel", {
   df <- data.frame(
     a = c(1,2,3),

@@ -595,6 +595,11 @@ na.fail.interlacer_interlaced <- function(object, ...) {
 # causes it to sometimes return na(Reason)s instead of a base NA when na.rm=F
 
 #' @export
+unique.interlacer_interlaced <- function(x, ...) {
+  unique(value_channel(x), ...)
+}
+
+#' @export
 min.interlacer_interlaced <- function(x, ...) {
   min(value_channel(x), ...)
 }
