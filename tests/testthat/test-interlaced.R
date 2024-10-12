@@ -205,3 +205,15 @@ test_that("multichannel comparisons work", {
   expect_false(NA %==% na("reason"))
   expect_false(na("reason") %==% NA)
 })
+
+test_that("model.frame drops na_channel", {
+  df <- data.frame(
+    a = c(1,2,3),
+    b = interlaced(c(1,-99,3), na=-99)
+  )
+
+  mod <- model.frame(a ~ b, df)
+
+  expect_equal(value_channel(mod$b), c(1, 3))
+  expect_equal(na_channel(mod$b), unspecified(2))
+})

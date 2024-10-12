@@ -215,7 +215,12 @@ na_channel.default <- function(x, ...) {
 
 #' @export
 na_channel.interlacer_interlaced <- function(x, ...) {
-  attr(x, "na_channel_values")
+  m <- attr(x, "na_channel_values")
+  if (length(m) != length(x)) {
+    unspecified(length(x))
+  } else {
+    m
+  }
 }
 
 #' @export
